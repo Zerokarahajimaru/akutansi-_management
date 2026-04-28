@@ -3,19 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Joki Super - @yield('title')</title>
+    <title>Financial management - @yield('title')</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="bg-gray-100">
-    <div class="flex h-screen">
-        <div class="w-64 bg-white shadow-md">
-            <div class="p-6 text-xl font-bold text-blue-600">Dashboard</div>
+    <div class="flex h-screen overflow-hidden">
+        <div class="w-64 bg-white shadow-md flex-shrink-0">
+            <div class="p-6 text-xl font-bold text-blue-600 flex items-center">
+                <i class="fas fa-desktop mr-3"></i> Dashboard
+            </div>
             <nav class="mt-4">
                 <a href="/" class="flex items-center py-3 px-6 {{ Request::is('/') ? 'bg-blue-50 text-blue-600 border-r-4 border-blue-600' : 'text-gray-600 hover:bg-gray-50' }}">
                     <i class="fas fa-th-large mr-3"></i> Dashboard
                 </a>
-                <a href="/stock" class="flex items-center py-3 px-6 {{ Request::is('stock') ? 'bg-blue-50 text-blue-600 border-r-4 border-blue-600' : 'text-gray-600 hover:bg-gray-50' }}">
+                <a href="/data-barang" class="flex items-center py-3 px-6 {{ Request::is('data-barang') ? 'bg-blue-50 text-blue-600 border-r-4 border-blue-600' : 'text-gray-600 hover:bg-gray-50' }}">
                     <i class="fas fa-box mr-3"></i> Data Barang
                 </a>
                 <a href="#" class="flex items-center py-3 px-6 text-gray-600 hover:bg-gray-50">

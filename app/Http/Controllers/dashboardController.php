@@ -26,10 +26,10 @@ class dashboardController extends Controller
 
         // Data Dummy untuk Stok Kritis
         $critical_stocks = [
-            ['name' => 'Item ko 1', 'level' => 5],
-            ['name' => 'Item ko 2', 'level' => 5],
-            ['name' => 'Item ko 3', 'level' => 5],
-            ['name' => 'Item ko 4', 'level' => 5],
+            ['name' => 'Item ke 1', 'level' => 5],
+            ['name' => 'Item ke 2', 'level' => 5],
+            ['name' => 'Item ke 3', 'level' => 5],
+            ['name' => 'Item ke 4', 'level' => 5],
         ];
 
         return view('dashboard', compact('stats', 'activities', 'critical_stocks'));
