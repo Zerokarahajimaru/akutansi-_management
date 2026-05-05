@@ -23,8 +23,8 @@
                 <tr>
                     <td class="py-4 px-6 text-xs text-slate-400 font-mono">{{ $p->ID_Pemasok }}</td>
                     <td class="py-4 px-6 text-sm font-bold">{{ $p->Nama_Pemasok }}</td>
-                    <td class="py-4 px-6 text-sm text-slate-600">{{ $p->Alamat }}</td>
-                    <td class="py-4 px-6 text-sm text-slate-600">{{ $p->No_HP }}</td>
+                    <td class="py-4 px-6 text-sm text-slate-600">{{ $p->Alamat_Pemasok }}</td>
+                    <td class="py-4 px-6 text-sm text-slate-600">{{ $p->NoTelp_Pemasok }}</td>
                 </tr>
                 @endforeach
             </tbody>

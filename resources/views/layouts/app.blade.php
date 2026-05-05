@@ -39,7 +39,7 @@
                     <div x-show="open" x-cloak x-transition class="mt-1 space-y-1 ml-4 border-l border-slate-800 pl-4">
                         @php
                             $dataLinks = [
-                                ['route' => 'data.admin', 'label' => 'Admin', 'adminOnly' => true],
+                                ['route' => 'data.admin', 'label' => 'Admin'],
                                 ['route' => 'data.pelanggan', 'label' => 'Pelanggan'],
                                 ['route' => 'data.pemasok', 'label' => 'Pemasok'],
                                 ['route' => 'data.barang.list', 'label' => 'Barang'],
@@ -48,11 +48,9 @@
                             ];
                         @endphp
                         @foreach($dataLinks as $link)
-                            @if(!isset($link['adminOnly']) || Auth::user()->role === 'admin')
-                                <a href="{{ route($link['route']) }}" class="block py-2 px-4 text-xs font-medium rounded-md {{ Request::is('data/'.str_replace('data.', '', $link['route'])) ? 'text-indigo-400' : 'text-slate-500 hover:text-white hover:bg-slate-800' }}">
-                                    {{ $link['label'] }}
-                                </a>
-                            @endif
+                            <a href="{{ route($link['route']) }}" class="block py-2 px-4 text-xs font-medium rounded-md {{ Request::is('data/'.str_replace('data.', '', $link['route'])) ? 'text-indigo-400' : 'text-slate-500 hover:text-white hover:bg-slate-800' }}">
+                                {{ $link['label'] }}
+                            </a>
                         @endforeach
                     </div>
                 </div>

@@ -30,8 +30,8 @@ class PelangganController extends Controller
         Pelanggan::create([
             'ID_Pelanggan' => 'PLG-' . strtoupper(Str::random(8)),
             'Nama_Pelanggan' => $request->Nama_Pelanggan,
-            'Alamat' => $request->Alamat,
-            'No_HP' => $request->No_HP,
+            'Alamat_Pelanggan' => $request->Alamat,
+            'NoTelp_Pelanggan' => $request->No_HP,
         ]);
 
         return redirect()->route('data.pelanggan')->with('success', 'Pelanggan berhasil ditambahkan.');

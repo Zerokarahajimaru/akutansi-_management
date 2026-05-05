@@ -30,8 +30,8 @@ class PemasokController extends Controller
         Pemasok::create([
             'ID_Pemasok' => 'PMS-' . strtoupper(Str::random(8)),
             'Nama_Pemasok' => $request->Nama_Pemasok,
-            'Alamat' => $request->Alamat,
-            'No_HP' => $request->No_HP,
+            'Alamat_Pemasok' => $request->Alamat,
+            'NoTelp_Pemasok' => $request->No_HP,
         ]);
 
         return redirect()->route('data.pemasok')->with('success', 'Pemasok berhasil ditambahkan.');

@@ -20,6 +20,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Data Management (View Only / List)
     Route::prefix('data')->group(function () {
+        Route::get('/admin', function () { return 'Data Admin'; })->name('data.admin');
         Route::get('/pelanggan', [PelangganController::class, 'index'])->name('data.pelanggan');
         Route::get('/pemasok', [PemasokController::class, 'index'])->name('data.pemasok');
         Route::get('/barang', [StockController::class, 'index'])->name('data.barang.list');
@@ -55,7 +56,6 @@ Route::middleware(['auth'])->group(function () {
 
 // Admin Only Routes
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/data/admin', function () { return 'Data Admin'; })->name('data.admin');
     Route::get('/input/admin', function () { return 'Input Admin'; })->name('input.admin');
     Route::post('/input/admin', function () { return 'Store Admin'; });
 });

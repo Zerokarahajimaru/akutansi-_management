@@ -10,48 +10,60 @@
 <body class="bg-slate-50 flex items-center justify-center min-h-screen">
     <div class="flex w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
         <!-- Left Column: Aesthetic Image -->
-        <div class="w-1/2 bg-indigo-600 flex items-center justify-center p-8">
-            <img src="{{ asset('Resource/cloth_shop_bg.jpg') }}" alt="Clothing Shop" class="w-full h-full object-cover rounded-lg">
+        <div class="w-1/2 hidden md:block">
+            <img src="{{ asset('Resource/cloth_shop_bg.jpg') }}" alt="Clothing Shop" class="w-full h-full object-cover">
         </div>
 
         <!-- Right Column: Login Form -->
-        <div class="w-1/2 p-8">
-            <h2 class="text-3xl font-bold text-slate-900 mb-6 text-center">Login to Cloth Management</h2>
+        <div class="w-full md:w-1/2 p-12 flex flex-col justify-center bg-white">
+            <div class="mb-10 text-center">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-indigo-50 text-indigo-600 rounded-2xl mb-4">
+                    <i class="fas fa-vest-patches text-3xl"></i>
+                </div>
+                <h2 class="text-3xl font-black text-slate-800 tracking-tight">Selamat Datang</h2>
+                <p class="text-slate-500 mt-2 text-sm">Silakan masuk ke dalam aplikasi cloth management</p>
+            </div>
 
-            <form method="POST" action="{{ route('login') }}">
+            <form method="POST" action="{{ route('login') }}" class="space-y-6">
                 @csrf
 
-                <div class="mb-4">
-                    <label for="username" class="block text-slate-700 text-sm font-bold mb-2">Username:</label>
-                    <input type="text" name="username" id="username" class="shadow appearance-none border rounded w-full py-2 px-3 text-slate-700 leading-tight focus:outline-none focus:shadow-outline @error('username') border-red-500 @enderror" value="{{ old('username') }}" required autofocus>
+                <div>
+                    <label for="username" class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Username</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400">
+                            <i class="fas fa-user text-sm"></i>
+                        </span>
+                        <input type="text" name="username" id="username" class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all @error('username') border-rose-500 @enderror" placeholder="Masukkan username" required autofocus>
+                    </div>
                     @error('username')
-                        <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                        <p class="text-rose-500 text-[10px] font-bold mt-1 uppercase tracking-wider">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <div class="mb-6">
-                    <label for="password" class="block text-slate-700 text-sm font-bold mb-2">Password:</label>
-                    <input type="password" name="password" id="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-slate-700 mb-3 leading-tight focus:outline-none focus:shadow-outline @error('password') border-red-500 @enderror" required>
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <label for="password" class="block text-xs font-bold text-slate-500 uppercase tracking-widest">Password</label>
+                        <a href="#" class="text-[10px] font-bold text-indigo-600 hover:text-indigo-700 uppercase tracking-wider">Lupa Password?</a>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400">
+                            <i class="fas fa-lock text-sm"></i>
+                        </span>
+                        <input type="password" name="password" id="password" class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all @error('password') border-rose-500 @enderror" placeholder="••••••••" required>
+                    </div>
                     @error('password')
-                        <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                        <p class="text-rose-500 text-[10px] font-bold mt-1 uppercase tracking-wider">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <div class="mb-6 flex items-center justify-between">
-                    <label class="flex items-center text-slate-700">
-                        <input type="checkbox" name="remember" id="remember" class="mr-2">
-                        Remember Me
-                    </label>
-                    <a href="#" class="inline-block align-baseline font-bold text-sm text-indigo-600 hover:text-indigo-800">
-                        Forgot Password?
-                    </a>
+                <div class="flex items-center">
+                    <input type="checkbox" name="remember" id="remember" class="w-4 h-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500 bg-slate-50">
+                    <label for="remember" class="ml-2 block text-sm text-slate-600 font-medium">Tetap masuk (Remember Me)</label>
                 </div>
 
-                <div class="flex items-center justify-center">
-                    <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">
-                        Login
-                    </button>
-                </div>
+                <button type="submit" class="w-full bg-indigo-600 text-white font-black py-4 rounded-xl hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-100 transition-all shadow-lg shadow-indigo-200 text-sm">
+                    MASUK SEKARANG
+                </button>
             </form>
         </div>
     </div>
