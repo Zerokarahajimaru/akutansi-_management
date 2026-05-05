@@ -2,17 +2,69 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DataBarang;
+use App\Models\StokBarang;
+use App\Models\Pemasok;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class StockController extends Controller
 {
-public function index() {
-    $stocks = [
-        ['nama' => 'Gamis Chino Premium', 'jenis' => 'Celana', 'warna' => 'Kuning', 'ukuran' => 'XL', 'stok' => 90],
-        ['nama' => 'Gamis Chino Premium', 'jenis' => 'Celana', 'warna' => 'Kuning', 'ukuran' => 'XL', 'stok' => 30],
-    ];
-    return view('stock', compact('stocks'));
-}
+    public function index()
+    {
+        $stocks = DataBarang::with('stokBarangs')->get();
+        return view('stock', compact('stocks'));
+    }
 
+    public function create()
+    {
+        $pemasoks = Pemasok::all();
+        return view('barang.create', compact('pemasoks'));
+    }
 
+    public function store(Request $request)
+    {
+        $request->validate([
+            'Nama_Barang' => 'required|string|max:255',
+            'Jenis_Barang' => 'required|string',
+            'Warna_Barang' => 'required|string',
+            'Ukuran_Barang' => 'required|string',
+            'Harga_Beli' => 'required|numeric|min:0',
+            'Harga_Jual' => 'required|numeric|min:0',
+            'ID_Pemasok' => 'required',
+            'Stok_Awal' => 'required|integer|min:0',
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $id_barang = 'BRG-' . strtoupper(Str::random(8));
+            
+            $barang = DataBarang::create([
+                'ID_Barang' => $id_barang,
+                'ID_Pemasok' => $request->ID_Pemasok,
+                'Nama_Barang' => $request->Nama_Barang,
+                'Jenis_Barang' => $request->Jenis_Barang,
+                'Warna_Barang' => $request->Warna_Barang,
+                'Ukuran_Barang' => $request->Ukuran_Barang,
+                'Harga_Beli' => $request->Harga_Beli,
+                'Harga_Jual' => $request->Harga_Jual,
+            ]);
+
+            StokBarang::create([
+                'ID_Stok' => 'ST-' . strtoupper(Str::random(8)),
+                'ID_Admin' => auth()->user()->ID_Admin ?? 'ADM001',
+                'ID_Pemasok' => $request->ID_Pemasok,
+                'ID_Barang' => $id_barang,
+                'Stok_Awal' => $request->Stok_Awal,
+                'Stok_Akhir' => $request->Stok_Awal,
+            ]);
+
+            DB::commit();
+            return redirect()->route('data.barang.list')->with('success', 'Barang berhasil ditambahkan.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Gagal menambahkan barang: ' . $e->getMessage());
+        }
+    }
 }

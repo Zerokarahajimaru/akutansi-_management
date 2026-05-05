@@ -19,10 +19,27 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
+        'username',
         'password',
+        'role',
+        'ID_Admin',
     ];
+
+    /**
+     * Get the admin that owns the user.
+     */
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class, 'ID_Admin', 'ID_Admin');
+    }
+
+    /**
+     * Get the column name for the "remember me" token.
+     */
+    public function getAuthIdentifierName(): string
+    {
+        return 'username';
+    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -42,7 +59,6 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
     }
