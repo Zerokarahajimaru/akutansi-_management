@@ -42,4 +42,50 @@ class ReportController extends Controller
         $stoks = StokBarang::with('dataBarang')->get();
         return view('laporan.stok', compact('stoks'));
     }
+
+    public function riwayat()
+    {
+        $limit = 50;
+
+        $pembelians = Pembelian::with(['dataBarang', 'pemasok'])
+            ->orderBy('Tgl_Pembelian', 'desc')
+            ->take($limit)
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'tanggal' => $item->Tgl_Pembelian,
+                    'tipe' => 'Pembelian',
+                    'produk' => $item->dataBarang->Nama_Barang ?? 'Produk Dihapus',
+                    'entitas' => $item->pemasok->Nama_Pemasok ?? 'Pemasok Dihapus',
+                    'qty' => $item->Kuantitas,
+                    'nominal' => $item->Total_Harga,
+                    'icon' => 'fa-cart-shopping',
+                    'color' => 'indigo'
+                ];
+            });
+
+        $penjualans = Penjualan::with(['dataBarang', 'pelanggan'])
+            ->orderBy('Tanggal_Penjualan', 'desc')
+            ->take($limit)
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'tanggal' => $item->Tanggal_Penjualan,
+                    'tipe' => 'Penjualan',
+                    'produk' => $item->dataBarang->Nama_Barang ?? 'Produk Dihapus',
+                    'entitas' => $item->pelanggan->Nama_Pelanggan ?? 'Pelanggan Dihapus',
+                    'qty' => $item->Kuantitas,
+                    'nominal' => $item->Total_Harga,
+                    'icon' => 'fa-hand-holding-dollar',
+                    'color' => 'emerald'
+                ];
+            });
+
+        $activities = $pembelians->concat($penjualans)
+            ->sortByDesc('tanggal')
+            ->take($limit)
+            ->values();
+
+        return view('laporan.riwayat', compact('activities'));
+    }
 }

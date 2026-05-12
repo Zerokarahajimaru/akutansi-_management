@@ -28,7 +28,7 @@
                 <i class="fas fa-file-import mr-2"></i> Import Data
             </button>
             <a href="{{ route('input.pelanggan') }}" class="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs font-bold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200">
-                <i class="fas fa-plus mr-2"></i> Tambah Pelanggan
+                <i class="fas fa-user-plus mr-2"></i> Tambah Pelanggan
             </a>
         </div>
     </div>

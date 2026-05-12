@@ -140,28 +140,34 @@ class ExportImportController extends Controller
 
         DB::beginTransaction();
         try {
+            $rowCount = 0;
             while (($row = fgetcsv($file, 0, ';')) !== FALSE) {
+                $rowCount++;
                 if (empty($row[0])) continue;
 
-                match($type) {
-                    'pelanggan' => Pelanggan::create([
-                        'ID_Pelanggan' => 'PLG-' . strtoupper(Str::random(8)),
-                        'Nama_Pelanggan' => $row[0],
-                        'Alamat_Pelanggan' => $row[1],
-                        'NoTelp_Pelanggan' => $row[2],
-                    ]),
-                    'pemasok' => Pemasok::create([
-                        'ID_Pemasok' => 'PMS-' . strtoupper(Str::random(8)),
-                        'Nama_Pemasok' => $row[0],
-                        'Alamat_Pemasok' => $row[1],
-                        'NoTelp_Pemasok' => $row[2],
-                    ]),
-                    'barang' => $this->importBarang($row),
-                    'admin' => $this->importAdmin($row),
-                    'pembelian' => $this->importPembelian($row),
-                    'penjualan' => $this->importPenjualan($row),
-                    default => null
-                };
+                try {
+                    match($type) {
+                        'pelanggan' => Pelanggan::create([
+                            'ID_Pelanggan' => 'PLG-' . strtoupper(Str::random(8)),
+                            'Nama_Pelanggan' => $row[0],
+                            'Alamat_Pelanggan' => $row[1],
+                            'NoTelp_Pelanggan' => $row[2],
+                        ]),
+                        'pemasok' => Pemasok::create([
+                            'ID_Pemasok' => 'PMS-' . strtoupper(Str::random(8)),
+                            'Nama_Pemasok' => $row[0],
+                            'Alamat_Pemasok' => $row[1],
+                            'NoTelp_Pemasok' => $row[2],
+                        ]),
+                        'barang' => $this->importBarang($row),
+                        'admin' => $this->importAdmin($row),
+                        'pembelian' => $this->importPembelian($row),
+                        'penjualan' => $this->importPenjualan($row),
+                        default => null
+                    };
+                } catch (\Exception $e) {
+                    throw new \Exception("Error pada baris {$rowCount}: " . $e->getMessage());
+                }
             }
             DB::commit();
             fclose($file);
@@ -176,15 +182,20 @@ class ExportImportController extends Controller
     private function importBarang($row)
     {
         $id_barang = 'BRG-' . strtoupper(Str::random(8));
-        $pemasok = Pemasok::where('Nama_Pemasok', $row[4])->first();
+        // Use LIKE for fuzzy matching to handle small typos
+        $pemasok = Pemasok::where('Nama_Pemasok', 'LIKE', '%' . $row[4] . '%')->first();
         
+        if (!$pemasok) {
+            throw new \Exception("Pemasok '{$row[4]}' tidak ditemukan. Pastikan nama pemasok benar atau sudah terdaftar.");
+        }
+
         DataBarang::create([
             'ID_Barang' => $id_barang,
             'Nama_Barang' => $row[0],
             'Jenis_Barang' => $row[1],
             'Warna_Barang' => $row[2],
             'Ukuran_Barang' => $row[3],
-            'ID_Pemasok' => $pemasok->ID_Pemasok ?? 'PMS-UNKNOWN',
+            'ID_Pemasok' => $pemasok->ID_Pemasok,
             'Harga_Beli' => $row[5],
             'Harga_Jual' => $row[6],
         ]);
@@ -192,7 +203,7 @@ class ExportImportController extends Controller
         StokBarang::create([
             'ID_Stok' => 'ST-' . strtoupper(Str::random(8)),
             'ID_Admin' => auth()->user()->ID_Admin ?? 'ADM001',
-            'ID_Pemasok' => $pemasok->ID_Pemasok ?? 'PMS-UNKNOWN',
+            'ID_Pemasok' => $pemasok->ID_Pemasok,
             'ID_Barang' => $id_barang,
             'Stok_Awal' => $row[7] ?? 0,
             'Stok_Akhir' => $row[7] ?? 0,
@@ -220,17 +231,18 @@ class ExportImportController extends Controller
     private function importPembelian($row)
     {
         $id_pembelian = 'PB-' . strtoupper(Str::random(8));
-        $pemasok = Pemasok::where('Nama_Pemasok', $row[4])->first();
-        $barang = DataBarang::where('Nama_Barang', $row[5])->first();
+        $pemasok = Pemasok::where('Nama_Pemasok', 'LIKE', '%' . $row[4] . '%')->first();
+        $barang = DataBarang::where('Nama_Barang', 'LIKE', '%' . $row[5] . '%')->first();
 
-        if (!$barang) return;
+        if (!$pemasok) throw new \Exception("Pemasok '{$row[4]}' tidak ditemukan.");
+        if (!$barang) throw new \Exception("Barang '{$row[5]}' tidak ditemukan.");
 
         $total_harga_barang = $barang->Harga_Beli * $row[1];
         $total_harga = $total_harga_barang + ($row[3] ?? 0);
 
         Pembelian::create([
             'ID_Pembelian' => $id_pembelian,
-            'ID_Pemasok' => $pemasok->ID_Pemasok ?? 'PMS-UNKNOWN',
+            'ID_Pemasok' => $pemasok->ID_Pemasok,
             'ID_Barang' => $barang->ID_Barang,
             'Tgl_Pembelian' => $row[0],
             'Kuantitas' => $row[1],
@@ -249,10 +261,11 @@ class ExportImportController extends Controller
     private function importPenjualan($row)
     {
         $id_penjualan = 'PJ-' . strtoupper(Str::random(8));
-        $pelanggan = Pelanggan::where('Nama_Pelanggan', $row[4])->first();
-        $barang = DataBarang::where('Nama_Barang', $row[5])->first();
+        $pelanggan = Pelanggan::where('Nama_Pelanggan', 'LIKE', '%' . $row[4] . '%')->first();
+        $barang = DataBarang::where('Nama_Barang', 'LIKE', '%' . $row[5] . '%')->first();
 
-        if (!$barang) return;
+        if (!$pelanggan) throw new \Exception("Pelanggan '{$row[4]}' tidak ditemukan.");
+        if (!$barang) throw new \Exception("Barang '{$row[5]}' tidak ditemukan.");
 
         $total_harga_barang = $barang->Harga_Jual * $row[1];
         $total_harga = $total_harga_barang + ($row[3] ?? 0);
@@ -260,7 +273,7 @@ class ExportImportController extends Controller
         Penjualan::create([
             'ID_Penjualan' => $id_penjualan,
             'ID_Admin' => auth()->user()->ID_Admin ?? 'ADM001',
-            'ID_Pelanggan' => $pelanggan->ID_Pelanggan ?? 'PLG-UNKNOWN',
+            'ID_Pelanggan' => $pelanggan->ID_Pelanggan,
             'ID_Barang' => $barang->ID_Barang,
             'Tanggal_Penjualan' => $row[0],
             'Kuantitas' => $row[1],

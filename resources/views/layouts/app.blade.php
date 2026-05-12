@@ -42,8 +42,8 @@
                     <i class="fas fa-vest-patches text-white text-xl"></i>
                 </div>
                 <div>
-                    <h2 class="text-white font-black text-lg leading-tight tracking-tight">Joki Super</h2>
-                    <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Management</p>
+                    <h2 class="text-white font-black text-lg leading-tight tracking-tight">cloth management</h2>
+                    <!-- <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Management</p> -->
                 </div>
             </div>
             
@@ -71,16 +71,16 @@
                     <div x-show="open" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-1 ml-4 border-l border-slate-800/50 pl-4">
                         @php
                             $dataLinks = [
-                                ['route' => 'data.admin', 'label' => 'Admin'],
-                                ['route' => 'data.pelanggan', 'label' => 'Pelanggan'],
-                                ['route' => 'data.pemasok', 'label' => 'Pemasok'],
-                                ['route' => 'data.barang.list', 'label' => 'Barang'],
-                                ['route' => 'data.pembelian', 'label' => 'Pembelian'],
-                                ['route' => 'data.penjualan', 'label' => 'Penjualan'],
+                                ['route' => 'data.pelanggan', 'label' => 'Pelanggan', 'icon' => 'fa-users'],
+                                ['route' => 'data.pemasok', 'label' => 'Pemasok', 'icon' => 'fa-truck'],
+                                ['route' => 'data.barang.list', 'label' => 'Barang', 'icon' => 'fa-box'],
+                                ['route' => 'data.pembelian', 'label' => 'Pembelian', 'icon' => 'fa-cart-arrow-down'],
+                                ['route' => 'data.penjualan', 'label' => 'Penjualan', 'icon' => 'fa-cash-register'],
                             ];
                         @endphp
                         @foreach($dataLinks as $link)
-                            <a href="{{ route($link['route']) }}" class="block py-2 px-4 text-[13px] font-semibold rounded-lg {{ Request::is('data/'.str_replace('data.', '', $link['route'])) ? 'text-indigo-400 bg-indigo-500/5' : 'text-slate-500 hover:text-white' }}">
+                            <a href="{{ route($link['route']) }}" class="flex items-center py-2 px-4 text-[13px] font-semibold rounded-lg {{ Request::is('data/'.str_replace('data.', '', str_replace('.list', '', $link['route']))) ? 'text-indigo-400 bg-indigo-500/5' : 'text-slate-500 hover:text-white' }}">
+                                <i class="fas {{ $link['icon'] }} mr-2 w-4 text-center opacity-70"></i>
                                 {{ $link['label'] }}
                             </a>
                         @endforeach
@@ -91,40 +91,41 @@
                 <div x-data="{ open: {{ Request::is('input/*') ? 'true' : 'false' }} }" class="space-y-1">
                     <button @click="open = !open" class="flex items-center justify-between w-full py-3 px-4 rounded-xl text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all group">
                         <div class="flex items-center">
-                            <i class="fas fa-file-circle-plus mr-3 w-5 text-center group-hover:text-indigo-400 transition-colors"></i>
-                            <span class="font-bold text-sm">Tambah Data</span>
+                            <!-- Ikon cuma satu: Plus saja -->
+                            <i class="fas fa-plus mr-3 w-5 text-center group-hover:text-indigo-400 transition-colors"></i>
+                            <span class="font-bold text-sm">Tambah Barang</span>
                         </div>
                         <i class="fas fa-chevron-down text-[10px] transition-transform duration-300" :class="open ? 'rotate-180' : ''"></i>
                     </button>
                     <div x-show="open" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-1 ml-4 border-l border-slate-800/50 pl-4">
                         @php
                             $inputLinks = [
-                                ['route' => 'input.admin', 'label' => 'Admin', 'adminOnly' => true],
-                                ['route' => 'input.pelanggan', 'label' => 'Pelanggan'],
-                                ['route' => 'input.pemasok', 'label' => 'Pemasok'],
-                                ['route' => 'input.barang', 'label' => 'Barang'],
-                                ['route' => 'input.pembelian', 'label' => 'Pembelian'],
-                                ['route' => 'input.penjualan', 'label' => 'Penjualan'],
+                                ['route' => 'input.pelanggan', 'label' => 'Pelanggan', 'icon' => 'fa-user-plus'],
+                                ['route' => 'input.pemasok', 'label' => 'Pemasok', 'icon' => 'fa-truck-ramp-box'],
+                                ['route' => 'input.barang', 'label' => 'Barang', 'icon' => 'fa-box-open'],
+                                ['route' => 'input.pembelian', 'label' => 'Pembelian', 'icon' => 'fa-basket-shopping'],
+                                ['route' => 'input.penjualan', 'label' => 'Penjualan', 'icon' => 'fa-wallet'],
                             ];
                         @endphp
                         @foreach($inputLinks as $link)
-                            @if(isset($link['adminOnly']) && Auth::user()->role !== 'admin')
-                                <span class="block py-2 px-4 text-[13px] font-semibold text-slate-700 opacity-40 cursor-not-allowed">
-                                    {{ $link['label'] }}
-                                </span>
-                            @else
-                                <a href="{{ route($link['route']) }}" class="block py-2 px-4 text-[13px] font-semibold rounded-lg {{ Request::is('input/'.str_replace('input.', '', $link['route'])) ? 'text-indigo-400 bg-indigo-500/5' : 'text-slate-500 hover:text-white' }}">
-                                    {{ $link['label'] }}
-                                </a>
-                            @endif
+                            <a href="{{ route($link['route']) }}" class="flex items-center py-2 px-4 text-[13px] font-semibold rounded-lg {{ Request::is('input/'.str_replace('input.', '', $link['route'])) ? 'text-indigo-400 bg-indigo-500/5' : 'text-slate-500 hover:text-white' }}">
+                                <i class="fas {{ $link['icon'] }} mr-2 w-4 text-center opacity-70"></i>
+                                {{ $link['label'] }}
+                            </a>
                         @endforeach
                     </div>
                 </div>
 
                 <p class="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] px-4 mb-2 mt-6">Analisa & Laporan</p>
 
+                <!-- Riwayat Link -->
+                <a href="{{ route('laporan.riwayat') }}" class="flex items-center py-3 px-4 rounded-xl nav-item-transition group {{ Request::is('laporan/riwayat') ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-900/40' : 'text-slate-400 hover:bg-slate-800/50 hover:text-white' }}">
+                    <i class="fas fa-history mr-3 w-5 text-center transition-transform group-hover:scale-110 {{ Request::is('laporan/riwayat') ? 'text-white' : 'text-slate-500 group-hover:text-indigo-400' }}"></i> 
+                    <span class="font-bold text-sm">Riwayat</span>
+                </a>
+
                 <!-- Laporan Dropdown -->
-                <div x-data="{ open: {{ Request::is('laporan/*') ? 'true' : 'false' }} }" class="space-y-1">
+                <div x-data="{ open: {{ Request::is('laporan/*') && !Request::is('laporan/riwayat') ? 'true' : 'false' }} }" class="space-y-1">
                     <button @click="open = !open" class="flex items-center justify-between w-full py-3 px-4 rounded-xl text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all group">
                         <div class="flex items-center">
                             <i class="fas fa-chart-pie mr-3 w-5 text-center group-hover:text-indigo-400 transition-colors"></i>
@@ -168,20 +169,18 @@
                     <span class="text-slate-800">@yield('title', 'Dashboard')</span>
                 </div>
                 
-                <div class="flex items-center space-x-6">
-                    <button class="relative text-slate-400 hover:text-indigo-600 transition-colors">
-                        <i class="fas fa-bell text-lg"></i>
-                        <span class="absolute -top-1 -right-1 w-2 h-2 bg-rose-500 rounded-full border-2 border-white"></span>
-                    </button>
-                    <div class="h-8 w-px bg-slate-100"></div>
-                    <div class="flex items-center group cursor-pointer">
-                        <div class="text-right mr-3 hidden sm:block">
-                            <p class="text-xs font-black text-slate-900 uppercase">{{ Auth::user()->name }}</p>
-                            <p class="text-[9px] text-indigo-500 font-bold uppercase tracking-widest">Sistem Aktif</p>
+                    <!-- <div class="flex items-center space-x-6">
+                        <a href="{{ route('laporan.riwayat') }}" class="relative text-slate-400 hover:text-indigo-600 transition-colors">
+                            <i class="fas fa-history text-lg"></i>
+                        </a>
+                        <div class="h-8 w-px bg-slate-100"></div>
+                        <div class="flex items-center group">
+                            <div class="text-right mr-3 hidden sm:block">
+                                <p class="text-xs font-black text-slate-900 uppercase">{{ Auth::user()->name }}</p>
+                            </div>
+                            <img class="h-8 w-8 rounded-lg bg-indigo-50 border border-slate-100" src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&color=6366f1&background=e0e7ff&bold=true" alt="">
                         </div>
-                        <i class="fas fa-chevron-down text-[10px] text-slate-400 group-hover:text-indigo-600 transition-colors"></i>
-                    </div>
-                </div>
+                    </div> -->
             </header>
 
             <main class="flex-1 p-8 overflow-y-auto bg-slate-50 custom-scrollbar">

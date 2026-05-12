@@ -82,6 +82,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/pembelian', [ReportController::class, 'pembelian'])->name('laporan.pembelian');
         Route::get('/penjualan', [ReportController::class, 'penjualan'])->name('laporan.penjualan');
         Route::get('/stok', [ReportController::class, 'stok'])->name('laporan.stok');
+        Route::get('/riwayat', [ReportController::class, 'riwayat'])->name('laporan.riwayat');
     });
 });
 
