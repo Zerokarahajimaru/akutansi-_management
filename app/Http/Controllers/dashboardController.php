@@ -15,7 +15,7 @@ class dashboardController extends Controller
         $today = Carbon::today();
 
         // 1. Penjualan Hari Ini
-        $penjualan_hari_ini = Penjualan::whereDate('Tanggal_Penjualan', $today)->sum('Total_Harga_Barang');
+        $penjualan_hari_ini = Penjualan::whereDate('Tanggal_Penjualan', $today)->sum('Total_Harga');
         
         // 2. Pembelian Hari Ini
         $pembelian_hari_ini = Pembelian::whereDate('Tgl_Pembelian', $today)->sum('Total_Harga');
@@ -39,7 +39,7 @@ class dashboardController extends Controller
                     'date' => Carbon::parse($item->Tanggal_Penjualan)->format('d-m-Y'),
                     'tipe' => 'Penjualan',
                     'produk' => $item->dataBarang->Nama_Barang ?? 'Unknown',
-                    'nominal' => 'Rp ' . number_format($item->Total_Harga_Barang, 0, ',', '.')
+                    'nominal' => 'Rp ' . number_format($item->Total_Harga, 0, ',', '.')
                 ];
             });
 

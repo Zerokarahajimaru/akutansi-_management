@@ -23,17 +23,46 @@ class PemasokController extends Controller
     {
         $request->validate([
             'Nama_Pemasok' => 'required|string|max:255',
-            'Alamat' => 'required|string',
-            'No_HP' => 'required|string|max:20',
+            'Alamat_Pemasok' => 'required|string',
+            'NoTelp_Pemasok' => 'required|string|max:20',
         ]);
 
         Pemasok::create([
             'ID_Pemasok' => 'PMS-' . strtoupper(Str::random(8)),
             'Nama_Pemasok' => $request->Nama_Pemasok,
-            'Alamat_Pemasok' => $request->Alamat,
-            'NoTelp_Pemasok' => $request->No_HP,
+            'Alamat_Pemasok' => $request->Alamat_Pemasok,
+            'NoTelp_Pemasok' => $request->NoTelp_Pemasok,
         ]);
 
         return redirect()->route('data.pemasok')->with('success', 'Pemasok berhasil ditambahkan.');
+    }
+
+    public function edit($id)
+    {
+        $pemasok = Pemasok::findOrFail($id);
+        return view('pemasok.edit', compact('pemasok'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $pemasok = Pemasok::findOrFail($id);
+
+        $request->validate([
+            'Nama_Pemasok' => 'required|string|max:255',
+            'Alamat_Pemasok' => 'required|string',
+            'NoTelp_Pemasok' => 'required|string|max:20',
+        ]);
+
+        $pemasok->update($request->all());
+
+        return redirect()->route('data.pemasok')->with('success', 'Pemasok berhasil diperbarui.');
+    }
+
+    public function destroy($id)
+    {
+        $pemasok = Pemasok::findOrFail($id);
+        $pemasok->delete();
+
+        return redirect()->route('data.pemasok')->with('success', 'Pemasok berhasil dihapus.');
     }
 }

@@ -67,4 +67,61 @@ class StockController extends Controller
             return back()->with('error', 'Gagal menambahkan barang: ' . $e->getMessage());
         }
     }
+
+    public function edit($id)
+    {
+        $barang = DataBarang::findOrFail($id);
+        $pemasoks = Pemasok::all();
+        $stok = StokBarang::where('ID_Barang', $id)->first();
+        return view('barang.edit', compact('barang', 'pemasoks', 'stok'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $barang = DataBarang::findOrFail($id);
+
+        $request->validate([
+            'Nama_Barang' => 'required|string|max:255',
+            'Jenis_Barang' => 'required|string',
+            'Warna_Barang' => 'required|string',
+            'Ukuran_Barang' => 'required|string',
+            'Harga_Beli' => 'required|numeric|min:0',
+            'Harga_Jual' => 'required|numeric|min:0',
+            'ID_Pemasok' => 'required',
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $barang->update($request->all());
+
+            // Update StokBarang ID_Pemasok if changed
+            StokBarang::where('ID_Barang', $id)->update([
+                'ID_Pemasok' => $request->ID_Pemasok
+            ]);
+
+            DB::commit();
+            return redirect()->route('data.barang.list')->with('success', 'Barang berhasil diperbarui.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Gagal memperbarui barang: ' . $e->getMessage());
+        }
+    }
+
+    public function destroy($id)
+    {
+        $barang = DataBarang::findOrFail($id);
+        
+        DB::beginTransaction();
+        try {
+            // Delete associated stock record first
+            StokBarang::where('ID_Barang', $id)->delete();
+            $barang->delete();
+
+            DB::commit();
+            return redirect()->route('data.barang.list')->with('success', 'Barang berhasil dihapus.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Gagal menghapus barang: ' . $e->getMessage());
+        }
+    }
 }

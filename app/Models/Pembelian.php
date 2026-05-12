@@ -19,6 +19,8 @@ class Pembelian extends Model
         'ID_Barang',
         'Tgl_Pembelian',
         'Kuantitas',
+        'Total_Harga_Barang',
+        'Ongkir',
         'Jenis_Pembayaran',
         'Total_Harga',
     ];

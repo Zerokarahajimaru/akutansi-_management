@@ -19,11 +19,21 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
+        'name',
         'username',
         'password',
         'role',
         'ID_Admin',
     ];
+
+    /**
+     * Get the user's name.
+     */
+    public function getNameAttribute($value)
+    {
+        if ($value) return $value;
+        return $this->admin ? $this->admin->Nama_Admin : $this->username;
+    }
 
     /**
      * Get the admin that owns the user.

@@ -16,11 +16,11 @@
             </div>
             <div>
                 <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">No. HP</label>
-                <input type="text" name="No_HP" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 mt-1" required>
+                <input type="text" name="NoTelp_Pelanggan" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 mt-1" required>
             </div>
             <div>
                 <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Alamat</label>
-                <textarea name="Alamat" rows="3" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 mt-1" required></textarea>
+                <textarea name="Alamat_Pelanggan" rows="3" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 mt-1" required></textarea>
             </div>
             <div class="pt-4 flex justify-end space-x-3">
                 <a href="{{ route('data.pelanggan') }}" class="px-6 py-2 bg-slate-100 text-slate-600 rounded-xl text-sm font-bold">Batal</a>

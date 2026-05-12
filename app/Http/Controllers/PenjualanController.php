@@ -71,4 +71,89 @@ class PenjualanController extends Controller
             return back()->with('error', 'Gagal mencatat penjualan: ' . $e->getMessage());
         }
     }
+
+    public function edit($id)
+    {
+        $penjualan = Penjualan::findOrFail($id);
+        $barangs = DataBarang::all();
+        $pelanggans = Pelanggan::all();
+        return view('penjualan.edit', compact('penjualan', 'barangs', 'pelanggans'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $penjualan = Penjualan::findOrFail($id);
+
+        $request->validate([
+            'ID_Barang' => 'required',
+            'ID_Pelanggan' => 'required',
+            'Tanggal_Penjualan' => 'required|date',
+            'Kuantitas' => 'required|integer|min:1',
+            'Jenis_Pembayaran' => 'required',
+            'Ongkir' => 'required|numeric|min:0',
+        ]);
+
+        $barang = DataBarang::findOrFail($request->ID_Barang);
+        $total_harga_barang = $barang->Harga_Jual * $request->Kuantitas;
+        $total_harga = $total_harga_barang + $request->Ongkir;
+
+        DB::beginTransaction();
+        try {
+            // Revert old stock adjustment
+            $oldStok = StokBarang::where('ID_Barang', $penjualan->ID_Barang)->first();
+            if ($oldStok) {
+                $oldStok->increment('Stok_Akhir', $penjualan->Kuantitas);
+            }
+
+            // Check if new stock is sufficient
+            $newStok = StokBarang::where('ID_Barang', $request->ID_Barang)->first();
+            if (!$newStok || $newStok->Stok_Akhir < $request->Kuantitas) {
+                DB::rollBack();
+                return back()->with('error', 'Stok tidak mencukupi untuk pembaruan ini.');
+            }
+
+            // Update record
+            $penjualan->update([
+                'ID_Barang' => $request->ID_Barang,
+                'ID_Pelanggan' => $request->ID_Pelanggan,
+                'Tanggal_Penjualan' => $request->Tanggal_Penjualan,
+                'Kuantitas' => $request->Kuantitas,
+                'Jenis_Pembayaran' => $request->Jenis_Pembayaran,
+                'Total_Harga_Barang' => $total_harga_barang,
+                'Ongkir' => $request->Ongkir,
+                'Total_Harga' => $total_harga,
+            ]);
+
+            // Apply new stock adjustment
+            $newStok->decrement('Stok_Akhir', $request->Kuantitas);
+
+            DB::commit();
+            return redirect()->route('data.penjualan')->with('success', 'Penjualan berhasil diperbarui.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Gagal memperbarui penjualan: ' . $e->getMessage());
+        }
+    }
+
+    public function destroy($id)
+    {
+        $penjualan = Penjualan::findOrFail($id);
+
+        DB::beginTransaction();
+        try {
+            // Revert stock adjustment
+            $stok = StokBarang::where('ID_Barang', $penjualan->ID_Barang)->first();
+            if ($stok) {
+                $stok->increment('Stok_Akhir', $penjualan->Kuantitas);
+            }
+
+            $penjualan->delete();
+
+            DB::commit();
+            return redirect()->route('data.penjualan')->with('success', 'Penjualan berhasil dihapus.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Gagal menghapus penjualan: ' . $e->getMessage());
+        }
+    }
 }

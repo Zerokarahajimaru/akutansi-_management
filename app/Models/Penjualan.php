@@ -22,6 +22,7 @@ class Penjualan extends Model
         'Jenis_Pembayaran',
         'Total_Harga_Barang',
         'Ongkir',
+        'Total_Harga',
         'Kuantitas',
     ];
 

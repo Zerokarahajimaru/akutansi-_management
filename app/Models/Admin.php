@@ -21,6 +21,14 @@ class Admin extends Model
     ];
 
     /**
+     * Get the user associated with the admin.
+     */
+    public function user()
+    {
+        return $this->hasOne(User::class, 'ID_Admin', 'ID_Admin');
+    }
+
+    /**
      * Get the users for the admin.
      */
     public function users()

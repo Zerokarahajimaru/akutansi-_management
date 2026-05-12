@@ -10,14 +10,22 @@
             <h2 class="font-bold text-slate-800 text-lg">Master Data Barang</h2>
             <p class="text-slate-500 text-xs">Kelola informasi produk dan pantau ketersediaan stok</p>
         </div>
-        <div class="flex flex-wrap gap-2">
-            <button class="flex items-center px-4 py-2 bg-emerald-50 text-emerald-600 rounded-xl text-xs font-bold hover:bg-emerald-100 transition-colors">
+        <div class="flex flex-wrap gap-2" x-data="{ 
+            triggerImport() { document.getElementById('import-file').click() },
+            submitImport() { document.getElementById('import-form').submit() }
+        }">
+            <form id="import-form" action="{{ route('util.import', 'barang') }}" method="POST" enctype="multipart/form-data" class="hidden">
+                @csrf
+                <input type="file" id="import-file" name="file" @change="submitImport()">
+            </form>
+
+            <a href="{{ route('util.export', 'barang') }}" class="flex items-center px-4 py-2 bg-emerald-50 text-emerald-600 rounded-xl text-xs font-bold hover:bg-emerald-100 transition-colors">
                 <i class="fas fa-file-export mr-2"></i> Export
-            </button>
-            <button class="flex items-center px-4 py-2 bg-indigo-50 text-indigo-600 rounded-xl text-xs font-bold hover:bg-indigo-100 transition-colors">
+            </a>
+            <a href="{{ route('util.template', 'barang') }}" class="flex items-center px-4 py-2 bg-indigo-50 text-indigo-600 rounded-xl text-xs font-bold hover:bg-indigo-100 transition-colors">
                 <i class="fas fa-download mr-2"></i> Unduh Template
-            </button>
-            <button class="flex items-center px-4 py-2 bg-amber-50 text-amber-600 rounded-xl text-xs font-bold hover:bg-amber-100 transition-colors">
+            </a>
+            <button @click="triggerImport()" class="flex items-center px-4 py-2 bg-amber-50 text-amber-600 rounded-xl text-xs font-bold hover:bg-amber-100 transition-colors">
                 <i class="fas fa-file-import mr-2"></i> Import Data
             </button>
             <a href="{{ route('input.barang') }}" class="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs font-bold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200">
@@ -31,7 +39,6 @@
         <table class="w-full text-left">
             <thead>
                 <tr class="bg-slate-50/50 text-slate-400 text-[10px] uppercase tracking-widest font-black">
-                    <th class="py-4 px-6">ID Barang</th>
                     <th class="py-4 px-6">Nama Produk</th>
                     <th class="py-4 px-6">Jenis</th>
                     <th class="py-4 px-6">Warna</th>
@@ -45,7 +52,6 @@
             <tbody class="divide-y divide-slate-50">
                 @forelse($stocks as $barang)
                 <tr class="hover:bg-slate-50/50 transition-colors">
-                    <td class="py-4 px-6 text-xs font-mono text-slate-400">{{ $barang->ID_Barang }}</td>
                     <td class="py-4 px-6 text-sm font-bold text-slate-800">{{ $barang->Nama_Barang }}</td>
                     <td class="py-4 px-6 text-sm text-slate-600">{{ $barang->Jenis_Barang }}</td>
                     <td class="py-4 px-6 text-sm text-slate-600">{{ $barang->Warna_Barang }}</td>
@@ -64,12 +70,16 @@
                     </td>
                     <td class="py-4 px-6 text-center">
                         <div class="flex justify-center space-x-2">
-                            <button class="w-8 h-8 rounded-lg bg-orange-50 text-orange-500 hover:bg-orange-500 hover:text-white transition-colors">
+                            <a href="{{ route('data.barang.edit', $barang->ID_Barang) }}" class="flex items-center justify-center w-8 h-8 rounded-lg bg-orange-50 text-orange-500 hover:bg-orange-500 hover:text-white transition-colors">
                                 <i class="fas fa-edit text-xs"></i>
-                            </button>
-                            <button class="w-8 h-8 rounded-lg bg-rose-50 text-rose-500 hover:bg-rose-500 hover:text-white transition-colors">
-                                <i class="fas fa-trash text-xs"></i>
-                            </button>
+                            </a>
+                            <form action="{{ route('data.barang.destroy', $barang->ID_Barang) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus barang ini?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="w-8 h-8 rounded-lg bg-rose-50 text-rose-500 hover:bg-rose-500 hover:text-white transition-colors">
+                                    <i class="fas fa-trash text-xs"></i>
+                                </button>
+                            </form>
                         </div>
                     </td>
                 </tr>

@@ -10,14 +10,22 @@
             <h2 class="font-bold text-slate-800 text-lg">Riwayat Penjualan Barang</h2>
             <p class="text-slate-500 text-xs">Daftar semua transaksi stok keluar (Sales)</p>
         </div>
-        <div class="flex flex-wrap gap-2">
-            <button class="flex items-center px-4 py-2 bg-emerald-50 text-emerald-600 rounded-xl text-xs font-bold hover:bg-emerald-100 transition-colors">
+        <div class="flex flex-wrap gap-2" x-data="{ 
+            triggerImport() { document.getElementById('import-file').click() },
+            submitImport() { document.getElementById('import-form').submit() }
+        }">
+            <form id="import-form" action="{{ route('util.import', 'penjualan') }}" method="POST" enctype="multipart/form-data" class="hidden">
+                @csrf
+                <input type="file" id="import-file" name="file" @change="submitImport()">
+            </form>
+
+            <a href="{{ route('util.export', 'penjualan') }}" class="flex items-center px-4 py-2 bg-emerald-50 text-emerald-600 rounded-xl text-xs font-bold hover:bg-emerald-100 transition-colors">
                 <i class="fas fa-file-export mr-2"></i> Export
-            </button>
-            <button class="flex items-center px-4 py-2 bg-indigo-50 text-indigo-600 rounded-xl text-xs font-bold hover:bg-indigo-100 transition-colors">
+            </a>
+            <a href="{{ route('util.template', 'penjualan') }}" class="flex items-center px-4 py-2 bg-indigo-50 text-indigo-600 rounded-xl text-xs font-bold hover:bg-indigo-100 transition-colors">
                 <i class="fas fa-download mr-2"></i> Unduh Template
-            </button>
-            <button class="flex items-center px-4 py-2 bg-amber-50 text-amber-600 rounded-xl text-xs font-bold hover:bg-amber-100 transition-colors">
+            </a>
+            <button @click="triggerImport()" class="flex items-center px-4 py-2 bg-amber-50 text-amber-600 rounded-xl text-xs font-bold hover:bg-amber-100 transition-colors">
                 <i class="fas fa-file-import mr-2"></i> Import Data
             </button>
             <a href="{{ route('input.penjualan') }}" class="flex items-center px-4 py-2 bg-rose-600 text-white rounded-xl text-xs font-bold hover:bg-rose-700 transition-colors shadow-lg shadow-rose-200">
@@ -69,12 +77,16 @@
                     @if(Auth::user()->role === 'admin')
                     <td class="py-4 px-6 text-center">
                         <div class="flex justify-center space-x-2">
-                            <button class="w-8 h-8 rounded-lg bg-orange-50 text-orange-500 hover:bg-orange-500 hover:text-white transition-colors">
+                            <a href="{{ route('data.penjualan.edit', $item->ID_Penjualan) }}" class="flex items-center justify-center w-8 h-8 rounded-lg bg-orange-50 text-orange-500 hover:bg-orange-500 hover:text-white transition-colors">
                                 <i class="fas fa-edit text-xs"></i>
-                            </button>
-                            <button class="w-8 h-8 rounded-lg bg-rose-50 text-rose-500 hover:bg-rose-500 hover:text-white transition-colors">
-                                <i class="fas fa-trash text-xs"></i>
-                            </button>
+                            </a>
+                            <form action="{{ route('data.penjualan.destroy', $item->ID_Penjualan) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus transaksi ini?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="w-8 h-8 rounded-lg bg-rose-50 text-rose-500 hover:bg-rose-500 hover:text-white transition-colors">
+                                    <i class="fas fa-trash text-xs"></i>
+                                </button>
+                            </form>
                         </div>
                     </td>
                     @endif
