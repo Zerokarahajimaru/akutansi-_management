@@ -21,25 +21,75 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Barang -->
-                <div class="space-y-2">
-                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Pilih Barang</label>
-                    <select name="ID_Barang" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" required>
-                        <option value="">-- Pilih Produk --</option>
+                <div class="space-y-2" x-data="{ 
+                    open: false, 
+                    selected: '', 
+                    selectedLabel: '-- Pilih Produk --',
+                    options: [
                         @foreach($barangs as $barang)
-                        <option value="{{ $barang->ID_Barang }}">{{ $barang->Nama_Barang }} ({{ $barang->Ukuran_Barang }})</option>
+                        {val: '{{ $barang->ID_Barang }}', label: '{{ $barang->Nama_Barang }} ({{ $barang->Ukuran_Barang }})'},
                         @endforeach
-                    </select>
+                    ]
+                }">
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Pilih Barang</label>
+                    <div class="relative">
+                        <input type="hidden" name="ID_Barang" :value="selected" required>
+                        <button @click="open = !open" type="button" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm flex items-center justify-between focus:ring-2 focus:ring-indigo-500 transition-all">
+                            <span x-text="selectedLabel" :class="selected === '' ? 'text-slate-400' : 'text-slate-700 font-medium'"></span>
+                            <i class="fas fa-chevron-down text-slate-400 text-xs transition-transform" :class="open ? 'rotate-180' : ''"></i>
+                        </button>
+                        
+                        <div x-show="open" @click.away="open = false" x-cloak 
+                            x-transition:enter="transition ease-out duration-100"
+                            x-transition:enter-start="opacity-0 scale-95"
+                            x-transition:enter-end="opacity-100 scale-100"
+                            class="absolute z-50 w-full mt-2 bg-white border border-slate-100 rounded-2xl shadow-xl py-2 max-h-60 overflow-y-auto select-scrollbar">
+                            <template x-for="option in options" :key="option.val">
+                                <div @click="selected = option.val; selectedLabel = option.label; open = false" 
+                                    class="px-4 py-2.5 text-sm cursor-pointer transition-colors flex items-center justify-between group"
+                                    :class="selected === option.val ? 'bg-indigo-50 text-indigo-600 font-bold' : 'text-slate-600 hover:bg-slate-50'">
+                                    <span x-text="option.label"></span>
+                                    <i x-show="selected === option.val" class="fas fa-check text-xs"></i>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Pemasok -->
-                <div class="space-y-2">
-                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Pemasok</label>
-                    <select name="ID_Pemasok" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" required>
-                        <option value="">-- Pilih Pemasok --</option>
+                <div class="space-y-2" x-data="{ 
+                    open: false, 
+                    selected: '', 
+                    selectedLabel: '-- Pilih Pemasok --',
+                    options: [
                         @foreach($pemasoks as $pemasok)
-                        <option value="{{ $pemasok->ID_Pemasok }}">{{ $pemasok->Nama_Pemasok }}</option>
+                        {val: '{{ $pemasok->ID_Pemasok }}', label: '{{ $pemasok->Nama_Pemasok }}'},
                         @endforeach
-                    </select>
+                    ]
+                }">
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Pemasok</label>
+                    <div class="relative">
+                        <input type="hidden" name="ID_Pemasok" :value="selected" required>
+                        <button @click="open = !open" type="button" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm flex items-center justify-between focus:ring-2 focus:ring-indigo-500 transition-all">
+                            <span x-text="selectedLabel" :class="selected === '' ? 'text-slate-400' : 'text-slate-700 font-medium'"></span>
+                            <i class="fas fa-chevron-down text-slate-400 text-xs transition-transform" :class="open ? 'rotate-180' : ''"></i>
+                        </button>
+                        
+                        <div x-show="open" @click.away="open = false" x-cloak 
+                            x-transition:enter="transition ease-out duration-100"
+                            x-transition:enter-start="opacity-0 scale-95"
+                            x-transition:enter-end="opacity-100 scale-100"
+                            class="absolute z-50 w-full mt-2 bg-white border border-slate-100 rounded-2xl shadow-xl py-2 max-h-60 overflow-y-auto select-scrollbar">
+                            <template x-for="option in options" :key="option.val">
+                                <div @click="selected = option.val; selectedLabel = option.label; open = false" 
+                                    class="px-4 py-2.5 text-sm cursor-pointer transition-colors flex items-center justify-between group"
+                                    :class="selected === option.val ? 'bg-indigo-50 text-indigo-600 font-bold' : 'text-slate-600 hover:bg-slate-50'">
+                                    <span x-text="option.label"></span>
+                                    <i x-show="selected === option.val" class="fas fa-check text-xs"></i>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Tanggal -->
@@ -55,13 +105,34 @@
                 </div>
 
                 <!-- Jenis Pembayaran -->
-                <div class="space-y-2">
+                <div class="space-y-2" x-data="{ 
+                    open: false, 
+                    selected: 'Tunai',
+                    options: ['Tunai', 'Transfer', 'Kredit']
+                }">
                     <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Jenis Pembayaran</label>
-                    <select name="Jenis_Pembayaran" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" required>
-                        <option value="Tunai">Tunai</option>
-                        <option value="Transfer">Transfer</option>
-                        <option value="Kredit">Kredit</option>
-                    </select>
+                    <div class="relative">
+                        <input type="hidden" name="Jenis_Pembayaran" :value="selected">
+                        <button @click="open = !open" type="button" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm flex items-center justify-between focus:ring-2 focus:ring-indigo-500 transition-all">
+                            <span x-text="selected" class="text-slate-700 font-medium"></span>
+                            <i class="fas fa-chevron-down text-slate-400 text-xs transition-transform" :class="open ? 'rotate-180' : ''"></i>
+                        </button>
+                        
+                        <div x-show="open" @click.away="open = false" x-cloak 
+                            x-transition:enter="transition ease-out duration-100"
+                            x-transition:enter-start="opacity-0 scale-95"
+                            x-transition:enter-end="opacity-100 scale-100"
+                            class="absolute z-50 w-full mt-2 bg-white border border-slate-100 rounded-2xl shadow-xl py-2 max-h-60 overflow-y-auto select-scrollbar">
+                            <template x-for="option in options" :key="option">
+                                <div @click="selected = option; open = false" 
+                                    class="px-4 py-2.5 text-sm cursor-pointer transition-colors flex items-center justify-between group"
+                                    :class="selected === option ? 'bg-indigo-50 text-indigo-600 font-bold' : 'text-slate-600 hover:bg-slate-50'">
+                                    <span x-text="option"></span>
+                                    <i x-show="selected === option" class="fas fa-check text-xs"></i>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Ongkir -->

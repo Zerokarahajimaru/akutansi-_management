@@ -7,6 +7,81 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         [x-cloak] { display: none !important; }
+
+        /* Custom Scrollbar for Dropdowns */
+        .select-scrollbar::-webkit-scrollbar {
+            width: 5px;
+        }
+        .select-scrollbar::-webkit-scrollbar-track {
+            background: #f8fafc;
+        }
+        .select-scrollbar::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+        .select-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #cbd5e1;
+        }
+
+        /* Standard Select Styling (Fallback) */
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding-right: 2.5rem !important;
+        }
+    ...
+        select:focus {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236366f1' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        /* Dropdown Options Styling (Browser Support Limited, but better than nothing) */
+        select option {
+            padding: 1rem;
+            background-color: white;
+            color: #1e293b;
+        }
+
+        /* SweetAlert2 Professional Styling */
+        .swal2-popup {
+            padding: 2.5rem !important;
+            border-radius: 2rem !important;
+            border: 1px solid #f1f5f9 !important;
+        }
+        .swal2-title {
+            color: #0f172a !important; /* slate-900 */
+            font-weight: 800 !important;
+            letter-spacing: -0.025em;
+        }
+        .swal2-html-container {
+            color: #64748b !important; /* slate-500 */
+            font-size: 0.95rem !important;
+            line-height: 1.5 !important;
+        }
+        .swal2-confirm {
+            background-color: #4f46e5 !important; /* indigo-600 */
+            border-radius: 1rem !important;
+            padding: 0.8rem 2.5rem !important;
+            font-weight: 800 !important;
+            font-size: 0.875rem !important;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3) !important;
+        }
+        .swal2-cancel {
+            background-color: #f8fafc !important; /* slate-50 */
+            color: #64748b !important; /* slate-500 */
+            border-radius: 1rem !important;
+            padding: 0.8rem 2.5rem !important;
+            font-weight: 800 !important;
+            font-size: 0.875rem !important;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
         
         /* Professional Thin Scrollbar */
         .custom-scrollbar::-webkit-scrollbar {
@@ -31,6 +106,33 @@
 </head>
 <body class="bg-slate-50 text-slate-900 antialiased" x-data="{ sidebarOpen: true }">
     <div class="flex h-screen overflow-hidden">
+        <!-- Global SweetAlert Handler -->
+        @if(session('success') || session('error'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const type = "{{ session('success') ? 'success' : 'error' }}";
+                const message = "{{ session('success') ?? session('error') }}";
+                
+                window.Swal.fire({
+                    icon: type,
+                    title: type === 'success' ? 'BERHASIL' : 'OOPS...',
+                    text: message,
+                    confirmButtonText: 'Tutup',
+                    buttonsStyling: false,
+                    customClass: {
+                        confirmButton: 'swal2-confirm',
+                        cancelButton: 'swal2-cancel'
+                    },
+                    showClass: {
+                        popup: 'animate__animated animate__fadeInDown'
+                    },
+                    hideClass: {
+                        popup: 'animate__animated animate__fadeOutUp'
+                    }
+                });
+            });
+        </script>
+        @endif
         <!-- Sidebar -->
         <aside 
             :class="sidebarOpen ? 'w-64' : 'w-20'"
