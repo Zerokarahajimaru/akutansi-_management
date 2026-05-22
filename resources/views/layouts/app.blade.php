@@ -59,7 +59,7 @@
                 
                 <!-- Dashboard -->
                 <a href="{{ route('dashboard') }}" class="flex items-center py-3 px-4 rounded-xl nav-item-transition group {{ Request::is('/') ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-900/40' : 'text-slate-400 hover:bg-slate-800/50 hover:text-white' }}">
-                    <i class="fas fa-chart-line w-5 text-center transition-transform group-hover:scale-110 {{ Request::is('/') ? 'text-white' : 'text-slate-500 group-hover:text-indigo-400' }}"></i> 
+                    <i class="fas fa-chart-line w-5 text-center transition-transform group-hover:scale-110 {{ Request::is('/') ? 'text-white' : 'text-slate-500 group-hover:text-indigo-400' }}"></i>
                     <span x-show="sidebarOpen" class="font-bold text-sm ml-3 whitespace-nowrap">Dashboard</span>
                 </a>
 
@@ -69,7 +69,7 @@
                 <div x-data="{ open: {{ Request::is('data/*') ? 'true' : 'false' }} }" class="space-y-1">
                     <button @click="sidebarOpen ? open = !open : sidebarOpen = true" class="flex items-center justify-between w-full py-3 px-4 rounded-xl text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all group">
                         <div class="flex items-center">
-                            <i class="fas fa-database w-5 text-center group-hover:text-indigo-400 transition-colors"></i>
+                            <i class="fas fa-layer-group w-5 text-center group-hover:text-indigo-400 transition-colors"></i>
                             <span x-show="sidebarOpen" class="font-bold text-sm ml-3 whitespace-nowrap">Lihat Data</span>
                         </div>
                         <i x-show="sidebarOpen" class="fas fa-chevron-down text-[10px] transition-transform duration-300" :class="open ? 'rotate-180' : ''"></i>
@@ -77,12 +77,12 @@
                     <div x-show="open && sidebarOpen" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-1 ml-4 border-l border-slate-800/50 pl-4">
                         @php
                             $dataLinks = [
-                                ['route' => 'data.user', 'label' => 'Data User', 'icon' => 'fa-user-shield'],
-                                ['route' => 'data.pelanggan', 'label' => 'Pelanggan', 'icon' => 'fa-users'],
-                                ['route' => 'data.pemasok', 'label' => 'Pemasok', 'icon' => 'fa-truck'],
-                                ['route' => 'data.barang.list', 'label' => 'Barang', 'icon' => 'fa-box'],
-                                ['route' => 'data.pembelian', 'label' => 'Pembelian', 'icon' => 'fa-cart-arrow-down'],
-                                ['route' => 'data.penjualan', 'label' => 'Penjualan', 'icon' => 'fa-cash-register'],
+                                ['route' => 'data.user', 'label' => 'Data User', 'icon' => 'fa-users-gear'],
+                                ['route' => 'data.pelanggan', 'label' => 'Pelanggan', 'icon' => 'fa-address-book'],
+                                ['route' => 'data.pemasok', 'label' => 'Pemasok', 'icon' => 'fa-truck-field'],
+                                ['route' => 'data.barang.list', 'label' => 'Barang', 'icon' => 'fa-tags'],
+                                ['route' => 'data.pembelian', 'label' => 'Pembelian', 'icon' => 'fa-file-invoice'],
+                                ['route' => 'data.penjualan', 'label' => 'Penjualan', 'icon' => 'fa-file-signature'],
                             ];
                         @endphp
                         @foreach($dataLinks as $link)
@@ -98,7 +98,7 @@
                 <div x-data="{ open: {{ Request::is('input/*') ? 'true' : 'false' }} }" class="space-y-1">
                     <button @click="sidebarOpen ? open = !open : sidebarOpen = true" class="flex items-center justify-between w-full py-3 px-4 rounded-xl text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all group">
                         <div class="flex items-center">
-                            <i class="fas fa-plus-circle w-5 text-center group-hover:text-indigo-400 transition-colors"></i>
+                            <i class="fas fa-circle-plus w-5 text-center group-hover:text-indigo-400 transition-colors"></i>
                             <span x-show="sidebarOpen" class="font-bold text-sm ml-3 whitespace-nowrap">Tambah Data</span>
                         </div>
                         <i x-show="sidebarOpen" class="fas fa-chevron-down text-[10px] transition-transform duration-300" :class="open ? 'rotate-180' : ''"></i>
@@ -109,15 +109,15 @@
                             
                             // Only admin can add new user (Admin/Pegawai)
                             if (auth()->user()->role === 'admin') {
-                                $inputLinks[] = ['route' => 'input.user', 'label' => 'Tambah User', 'icon' => 'fa-user-shield'];
+                                $inputLinks[] = ['route' => 'input.user', 'label' => 'Tambah User', 'icon' => 'fa-user-plus'];
                             }
 
                             $inputLinks = array_merge($inputLinks, [
-                                ['route' => 'input.pelanggan', 'label' => 'Pelanggan', 'icon' => 'fa-user-plus'],
-                                ['route' => 'input.pemasok', 'label' => 'Pemasok', 'icon' => 'fa-truck-ramp-box'],
-                                ['route' => 'input.barang', 'label' => 'Barang', 'icon' => 'fa-box-open'],
-                                ['route' => 'input.pembelian', 'label' => 'Pembelian', 'icon' => 'fa-basket-shopping'],
-                                ['route' => 'input.penjualan', 'label' => 'Penjualan', 'icon' => 'fa-wallet'],
+                                ['route' => 'input.pelanggan', 'label' => 'Pelanggan', 'icon' => 'fa-user-tag'],
+                                ['route' => 'input.pemasok', 'label' => 'Pemasok', 'icon' => 'fa-truck-moving'],
+                                ['route' => 'input.barang', 'label' => 'Barang', 'icon' => 'fa-boxes-packing'],
+                                ['route' => 'input.pembelian', 'label' => 'Pembelian', 'icon' => 'fa-cart-plus'],
+                                ['route' => 'input.penjualan', 'label' => 'Penjualan', 'icon' => 'fa-bag-shopping'],
                             ]);
                         @endphp
                         @foreach($inputLinks as $link)
@@ -135,7 +135,7 @@
                 <div x-data="{ open: {{ Request::is('laporan/*') ? 'true' : 'false' }} }" class="space-y-1">
                     <button @click="sidebarOpen ? open = !open : sidebarOpen = true" class="flex items-center justify-between w-full py-3 px-4 rounded-xl text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all group">
                         <div class="flex items-center">
-                            <i class="fas fa-chart-pie w-5 text-center group-hover:text-indigo-400 transition-colors"></i>
+                            <i class="fas fa-chart-simple w-5 text-center group-hover:text-indigo-400 transition-colors"></i>
                             <span x-show="sidebarOpen" class="font-bold text-sm ml-3 whitespace-nowrap">Laporan</span>
                         </div>
                         <i x-show="sidebarOpen" class="fas fa-chevron-down text-[10px] transition-transform duration-300" :class="open ? 'rotate-180' : ''"></i>
@@ -150,7 +150,7 @@
                             Penjualan
                         </a>
                         <a href="{{ route('laporan.stok') }}" class="flex items-center py-2 px-4 text-[13px] font-semibold rounded-lg {{ Request::is('laporan/stok') ? 'text-indigo-400 bg-indigo-500/5' : 'text-slate-500 hover:text-white' }}">
-                            <i class="fas fa-boxes-stacked mr-2 w-4 text-center opacity-70"></i>
+                            <i class="fas fa-cubes-stacked mr-2 w-4 text-center opacity-70"></i>
                             Stok Barang
                         </a>
                     </div>
@@ -159,12 +159,16 @@
 
             <!-- User Info & Logout -->
             <div class="p-4 bg-slate-800/30 border-t border-slate-800/50 overflow-hidden">
-                <div class="flex items-center px-2 mb-4">
-                    <img class="h-9 w-9 flex-shrink-0 rounded-xl bg-indigo-100 border-2 border-slate-700" src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&color=6366f1&background=e0e7ff&bold=true" alt="">
-                    <div x-show="sidebarOpen" class="ml-3 overflow-hidden">
+                <div class="flex items-center justify-between px-2 mb-4">
+                    <div x-show="sidebarOpen" class="flex flex-col overflow-hidden">
                         <p class="text-xs font-black text-white truncate uppercase tracking-tighter">{{ Auth::user()->name }}</p>
                         <p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest">{{ Auth::user()->role }}</p>
                     </div>
+                    <!-- Settings Gear Icon -->
+                    <a x-show="sidebarOpen" href="{{ route('data.user.edit', Auth::user()->id) }}" 
+                        class="transition-all duration-300 p-2 rounded-xl flex items-center justify-center group/settings {{ Request::is('data/user/'.Auth::user()->id.'/edit') ? 'bg-indigo-600 text-white shadow-[0_0_15px_rgba(79,70,229,0.4)]' : 'text-slate-500 hover:text-white hover:bg-slate-700/50' }}">
+                        <i class="fas fa-gear text-sm {{ Request::is('data/user/'.Auth::user()->id.'/edit') ? 'fa-spin' : 'group-hover/settings:rotate-90 transition-transform duration-500' }}"></i>
+                    </a>
                 </div>
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
