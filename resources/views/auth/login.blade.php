@@ -20,8 +20,7 @@
                 <div class="inline-flex items-center justify-center w-16 h-16 bg-indigo-50 text-indigo-600 rounded-2xl mb-4">
                     <i class="fas fa-vest-patches text-3xl"></i>
                 </div>
-                <h2 class="text-3xl font-black text-slate-800 tracking-tight">Selamat Datang</h2>
-                <p class="text-slate-500 mt-2 text-sm">Silakan masuk ke dalam aplikasi cloth management</p>
+                <h2 class="text-3xl font-black text-slate-800 tracking-tight">Login xyraid</h2>
             </div>
 
             <form method="POST" action="{{ route('login') }}" class="space-y-6">

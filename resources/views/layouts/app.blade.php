@@ -32,43 +32,52 @@
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 antialiased">
+<body class="bg-slate-50 text-slate-900 antialiased" x-data="{ sidebarOpen: true }">
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
-        <aside class="w-64 bg-slate-900 shadow-2xl flex-shrink-0 flex flex-col z-20">
+        <aside 
+            :class="sidebarOpen ? 'w-64' : 'w-20'"
+            class="bg-slate-900 shadow-2xl flex-shrink-0 flex flex-col z-20 transition-all duration-300 ease-in-out relative">
+            
+            <!-- Toggle Button Inside Sidebar -->
+            <button @click="sidebarOpen = !sidebarOpen" 
+                class="absolute -right-3 top-20 bg-indigo-600 text-white w-6 h-6 rounded-full flex items-center justify-center shadow-lg z-30 hover:bg-indigo-700 transition-colors focus:outline-none">
+                <i class="fas text-[10px] transition-transform duration-300" :class="sidebarOpen ? 'fa-chevron-left' : 'fa-chevron-right'"></i>
+            </button>
+
             <!-- Brand Logo -->
-            <div class="p-6 flex items-center border-b border-slate-800/50">
-                <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-900/20 mr-3">
+            <div class="p-6 flex items-center border-b border-slate-800/50 overflow-hidden">
+                <div class="w-10 h-10 bg-indigo-600 rounded-xl flex-shrink-0 flex items-center justify-center shadow-lg shadow-indigo-900/20 mr-3">
                     <i class="fas fa-vest-patches text-white text-xl"></i>
                 </div>
-                <div>
-                    <h2 class="text-white font-black text-lg leading-tight tracking-tight">cloth management</h2>
-                    <!-- <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Management</p> -->
+                <div x-show="sidebarOpen" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+                    <h2 class="text-white font-black text-lg leading-tight tracking-tight whitespace-nowrap">xyraid.id</h2>
                 </div>
             </div>
             
             <!-- Navigation -->
-            <nav class="mt-4 flex-1 overflow-y-auto custom-scrollbar px-4 space-y-1.5 pb-10">
-                <p class="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] px-4 mb-2 mt-4">Menu Utama</p>
+            <nav class="mt-4 flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar px-4 space-y-1.5 pb-10">
+                <p x-show="sidebarOpen" class="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] px-4 mb-2 mt-4 whitespace-nowrap">Menu Utama</p>
+                <div x-show="!sidebarOpen" class="h-8"></div>
                 
                 <!-- Dashboard -->
                 <a href="{{ route('dashboard') }}" class="flex items-center py-3 px-4 rounded-xl nav-item-transition group {{ Request::is('/') ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-900/40' : 'text-slate-400 hover:bg-slate-800/50 hover:text-white' }}">
-                    <i class="fas fa-chart-line mr-3 w-5 text-center transition-transform group-hover:scale-110 {{ Request::is('/') ? 'text-white' : 'text-slate-500 group-hover:text-indigo-400' }}"></i> 
-                    <span class="font-bold text-sm">Dashboard</span>
+                    <i class="fas fa-chart-line w-5 text-center transition-transform group-hover:scale-110 {{ Request::is('/') ? 'text-white' : 'text-slate-500 group-hover:text-indigo-400' }}"></i> 
+                    <span x-show="sidebarOpen" class="font-bold text-sm ml-3 whitespace-nowrap">Dashboard</span>
                 </a>
 
-                <p class="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] px-4 mb-2 mt-6">Manajemen</p>
+                <p x-show="sidebarOpen" class="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] px-4 mb-2 mt-6 whitespace-nowrap">Manajemen</p>
 
                 <!-- Data Dropdown -->
                 <div x-data="{ open: {{ Request::is('data/*') ? 'true' : 'false' }} }" class="space-y-1">
-                    <button @click="open = !open" class="flex items-center justify-between w-full py-3 px-4 rounded-xl text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all group">
+                    <button @click="sidebarOpen ? open = !open : sidebarOpen = true" class="flex items-center justify-between w-full py-3 px-4 rounded-xl text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all group">
                         <div class="flex items-center">
-                            <i class="fas fa-database mr-3 w-5 text-center group-hover:text-indigo-400 transition-colors"></i>
-                            <span class="font-bold text-sm">Lihat Data</span>
+                            <i class="fas fa-database w-5 text-center group-hover:text-indigo-400 transition-colors"></i>
+                            <span x-show="sidebarOpen" class="font-bold text-sm ml-3 whitespace-nowrap">Lihat Data</span>
                         </div>
-                        <i class="fas fa-chevron-down text-[10px] transition-transform duration-300" :class="open ? 'rotate-180' : ''"></i>
+                        <i x-show="sidebarOpen" class="fas fa-chevron-down text-[10px] transition-transform duration-300" :class="open ? 'rotate-180' : ''"></i>
                     </button>
-                    <div x-show="open" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-1 ml-4 border-l border-slate-800/50 pl-4">
+                    <div x-show="open && sidebarOpen" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-1 ml-4 border-l border-slate-800/50 pl-4">
                         @php
                             $dataLinks = [
                                 ['route' => 'data.pelanggan', 'label' => 'Pelanggan', 'icon' => 'fa-users'],
@@ -89,15 +98,14 @@
 
                 <!-- Input Dropdown -->
                 <div x-data="{ open: {{ Request::is('input/*') ? 'true' : 'false' }} }" class="space-y-1">
-                    <button @click="open = !open" class="flex items-center justify-between w-full py-3 px-4 rounded-xl text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all group">
+                    <button @click="sidebarOpen ? open = !open : sidebarOpen = true" class="flex items-center justify-between w-full py-3 px-4 rounded-xl text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all group">
                         <div class="flex items-center">
-                            <!-- Ikon cuma satu: Plus saja -->
-                            <i class="fas fa-plus mr-3 w-5 text-center group-hover:text-indigo-400 transition-colors"></i>
-                            <span class="font-bold text-sm">Tambah Barang</span>
+                            <i class="fas fa-plus-circle w-5 text-center group-hover:text-indigo-400 transition-colors"></i>
+                            <span x-show="sidebarOpen" class="font-bold text-sm ml-3 whitespace-nowrap">Tambah Barang</span>
                         </div>
-                        <i class="fas fa-chevron-down text-[10px] transition-transform duration-300" :class="open ? 'rotate-180' : ''"></i>
+                        <i x-show="sidebarOpen" class="fas fa-chevron-down text-[10px] transition-transform duration-300" :class="open ? 'rotate-180' : ''"></i>
                     </button>
-                    <div x-show="open" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-1 ml-4 border-l border-slate-800/50 pl-4">
+                    <div x-show="open && sidebarOpen" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-1 ml-4 border-l border-slate-800/50 pl-4">
                         @php
                             $inputLinks = [
                                 ['route' => 'input.pelanggan', 'label' => 'Pelanggan', 'icon' => 'fa-user-plus'],
@@ -116,36 +124,39 @@
                     </div>
                 </div>
 
-                <p class="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] px-4 mb-2 mt-6">Analisa & Laporan</p>
-
-                <!-- Riwayat Link -->
-                <a href="{{ route('laporan.riwayat') }}" class="flex items-center py-3 px-4 rounded-xl nav-item-transition group {{ Request::is('laporan/riwayat') ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-900/40' : 'text-slate-400 hover:bg-slate-800/50 hover:text-white' }}">
-                    <i class="fas fa-history mr-3 w-5 text-center transition-transform group-hover:scale-110 {{ Request::is('laporan/riwayat') ? 'text-white' : 'text-slate-500 group-hover:text-indigo-400' }}"></i> 
-                    <span class="font-bold text-sm">Riwayat</span>
-                </a>
+                <p x-show="sidebarOpen" class="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] px-4 mb-2 mt-6 whitespace-nowrap">Analisa & Laporan</p>
 
                 <!-- Laporan Dropdown -->
-                <div x-data="{ open: {{ Request::is('laporan/*') && !Request::is('laporan/riwayat') ? 'true' : 'false' }} }" class="space-y-1">
-                    <button @click="open = !open" class="flex items-center justify-between w-full py-3 px-4 rounded-xl text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all group">
+                <div x-data="{ open: {{ Request::is('laporan/*') ? 'true' : 'false' }} }" class="space-y-1">
+                    <button @click="sidebarOpen ? open = !open : sidebarOpen = true" class="flex items-center justify-between w-full py-3 px-4 rounded-xl text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all group">
                         <div class="flex items-center">
-                            <i class="fas fa-chart-pie mr-3 w-5 text-center group-hover:text-indigo-400 transition-colors"></i>
-                            <span class="font-bold text-sm">Laporan</span>
+                            <i class="fas fa-chart-pie w-5 text-center group-hover:text-indigo-400 transition-colors"></i>
+                            <span x-show="sidebarOpen" class="font-bold text-sm ml-3 whitespace-nowrap">Laporan</span>
                         </div>
-                        <i class="fas fa-chevron-down text-[10px] transition-transform duration-300" :class="open ? 'rotate-180' : ''"></i>
+                        <i x-show="sidebarOpen" class="fas fa-chevron-down text-[10px] transition-transform duration-300" :class="open ? 'rotate-180' : ''"></i>
                     </button>
-                    <div x-show="open" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-1 ml-4 border-l border-slate-800/50 pl-4">
-                        <a href="{{ route('laporan.pembelian') }}" class="block py-2 px-4 text-[13px] font-semibold rounded-lg {{ Request::is('laporan/pembelian') ? 'text-indigo-400 bg-indigo-500/5' : 'text-slate-500 hover:text-white' }}">Pembelian</a>
-                        <a href="{{ route('laporan.penjualan') }}" class="block py-2 px-4 text-[13px] font-semibold rounded-lg {{ Request::is('laporan/penjualan') ? 'text-indigo-400 bg-indigo-500/5' : 'text-slate-500 hover:text-white' }}">Penjualan</a>
-                        <a href="{{ route('laporan.stok') }}" class="block py-2 px-4 text-[13px] font-semibold rounded-lg {{ Request::is('laporan/stok') ? 'text-indigo-400 bg-indigo-500/5' : 'text-slate-500 hover:text-white' }}">Stok Barang</a>
+                    <div x-show="open && sidebarOpen" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-1 ml-4 border-l border-slate-800/50 pl-4">
+                        <a href="{{ route('laporan.pembelian') }}" class="flex items-center py-2 px-4 text-[13px] font-semibold rounded-lg {{ Request::is('laporan/pembelian') ? 'text-indigo-400 bg-indigo-500/5' : 'text-slate-500 hover:text-white' }}">
+                            <i class="fas fa-file-invoice-dollar mr-2 w-4 text-center opacity-70"></i>
+                            Pembelian
+                        </a>
+                        <a href="{{ route('laporan.penjualan') }}" class="flex items-center py-2 px-4 text-[13px] font-semibold rounded-lg {{ Request::is('laporan/penjualan') ? 'text-indigo-400 bg-indigo-500/5' : 'text-slate-500 hover:text-white' }}">
+                            <i class="fas fa-receipt mr-2 w-4 text-center opacity-70"></i>
+                            Penjualan
+                        </a>
+                        <a href="{{ route('laporan.stok') }}" class="flex items-center py-2 px-4 text-[13px] font-semibold rounded-lg {{ Request::is('laporan/stok') ? 'text-indigo-400 bg-indigo-500/5' : 'text-slate-500 hover:text-white' }}">
+                            <i class="fas fa-boxes-stacked mr-2 w-4 text-center opacity-70"></i>
+                            Stok Barang
+                        </a>
                     </div>
                 </div>
             </nav>
 
             <!-- User Info & Logout -->
-            <div class="p-4 bg-slate-800/30 border-t border-slate-800/50">
+            <div class="p-4 bg-slate-800/30 border-t border-slate-800/50 overflow-hidden">
                 <div class="flex items-center px-2 mb-4">
-                    <img class="h-9 w-9 rounded-xl bg-indigo-100 border-2 border-slate-700" src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&color=6366f1&background=e0e7ff&bold=true" alt="">
-                    <div class="ml-3 overflow-hidden">
+                    <!-- <img class="h-9 w-9 flex-shrink-0 rounded-xl bg-indigo-100 border-2 border-slate-700" src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&color=6366f1&background=e0e7ff&bold=true" alt=""> -->
+                    <div x-show="sidebarOpen" class="ml-3 overflow-hidden">
                         <p class="text-xs font-black text-white truncate uppercase tracking-tighter">{{ Auth::user()->name }}</p>
                         <p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest">{{ Auth::user()->role }}</p>
                     </div>
@@ -153,7 +164,8 @@
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
                     <button type="submit" class="flex items-center justify-center w-full py-2.5 px-4 rounded-xl bg-rose-500/10 text-rose-500 text-xs font-black hover:bg-rose-500 hover:text-white transition-all shadow-lg hover:shadow-rose-900/20 group">
-                        <i class="fas fa-power-off mr-2 group-hover:rotate-12 transition-transform"></i> KELUAR SISTEM
+                        <i class="fas fa-power-off flex-shrink-0 group-hover:rotate-12 transition-transform"></i> 
+                        <span x-show="sidebarOpen" class="ml-2 whitespace-nowrap">KELUAR SISTEM</span>
                     </button>
                 </form>
             </div>
@@ -168,19 +180,6 @@
                     <i class="fas fa-chevron-right text-[10px] mx-3 opacity-50"></i>
                     <span class="text-slate-800">@yield('title', 'Dashboard')</span>
                 </div>
-                
-                    <!-- <div class="flex items-center space-x-6">
-                        <a href="{{ route('laporan.riwayat') }}" class="relative text-slate-400 hover:text-indigo-600 transition-colors">
-                            <i class="fas fa-history text-lg"></i>
-                        </a>
-                        <div class="h-8 w-px bg-slate-100"></div>
-                        <div class="flex items-center group">
-                            <div class="text-right mr-3 hidden sm:block">
-                                <p class="text-xs font-black text-slate-900 uppercase">{{ Auth::user()->name }}</p>
-                            </div>
-                            <img class="h-8 w-8 rounded-lg bg-indigo-50 border border-slate-100" src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&color=6366f1&background=e0e7ff&bold=true" alt="">
-                        </div>
-                    </div> -->
             </header>
 
             <main class="flex-1 p-8 overflow-y-auto bg-slate-50 custom-scrollbar">
