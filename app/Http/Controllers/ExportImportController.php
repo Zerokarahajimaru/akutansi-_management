@@ -29,7 +29,7 @@ class ExportImportController extends Controller
             'pelanggan' => ['Nama_Pelanggan', 'Alamat_Pelanggan', 'NoTelp_Pelanggan'],
             'pemasok' => ['Nama_Pemasok', 'Alamat_Pemasok', 'NoTelp_Pemasok'],
             'barang' => ['Nama_Barang', 'Jenis_Barang', 'Warna_Barang', 'Ukuran_Barang', 'Nama_Pemasok', 'Harga_Beli', 'Harga_Jual', 'Stok_Awal'],
-            'admin' => ['username', 'name', 'password', 'role', 'NoTelp_Admin'],
+            'user' => ['username', 'name', 'password', 'role', 'NoTelp_User'],
             'pembelian' => ['Tgl_Pembelian', 'Kuantitas', 'Jenis_Pembayaran', 'Ongkir', 'Nama_Pemasok', 'Nama_Barang'],
             'penjualan' => ['Tanggal_Penjualan', 'Kuantitas', 'Jenis_Pembayaran', 'Ongkir', 'Nama_Pelanggan', 'Nama_Barang'],
             default => []
@@ -70,12 +70,12 @@ class ExportImportController extends Controller
                     'Harga_Jual' => $b->Harga_Jual,
                 ];
             })->toArray(),
-            'admin' => Admin::with('user')->get()->map(function($a) {
+            'user' => User::with('admin')->get()->map(function($u) {
                 return [
-                    'Username' => $a->user->username ?? '-',
-                    'Nama' => $a->Nama_Admin,
-                    'No_Telp' => $a->NoTelp_Admin,
-                    'Role' => $a->user->role ?? '-',
+                    'Username' => $u->username,
+                    'Nama' => $u->name,
+                    'No_Telp' => $u->admin->NoTelp_Admin ?? '-',
+                    'Role' => $u->role,
                 ];
             })->toArray(),
             'pembelian' => Pembelian::with(['pemasok', 'dataBarang'])->get()->map(function($p) {
@@ -160,7 +160,7 @@ class ExportImportController extends Controller
                             'NoTelp_Pemasok' => $row[2],
                         ]),
                         'barang' => $this->importBarang($row),
-                        'admin' => $this->importAdmin($row),
+                        'user' => $this->importUser($row),
                         'pembelian' => $this->importPembelian($row),
                         'penjualan' => $this->importPenjualan($row),
                         default => null
@@ -210,13 +210,14 @@ class ExportImportController extends Controller
         ]);
     }
 
-    private function importAdmin($row)
+    private function importUser($row)
     {
-        $id_admin = 'ADM-' . strtoupper(Str::random(8));
+        $id_admin = 'USR-' . strtoupper(Str::random(8));
         Admin::create([
             'ID_Admin' => $id_admin,
             'Nama_Admin' => $row[1],
-            'NoTelp_Admin' => $row[4],
+            'NoTelp_Admin' => $row[4] ?? '-',
+            'Alamat_Admin' => '-',
         ]);
 
         User::create([

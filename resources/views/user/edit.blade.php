@@ -10,7 +10,7 @@
             <p class="text-slate-500 text-sm mt-1">Perbarui informasi akun untuk akses sistem.</p>
         </div>
 
-        <form action="{{ route('data.admin.update', $admin->ID_Admin) }}" method="POST" class="p-8 space-y-6">
+        <form action="{{ route('data.user.update', $user->id) }}" method="POST" class="p-8 space-y-6">
             @csrf
             @method('PUT')
             
@@ -24,14 +24,14 @@
                 <!-- Nama Lengkap -->
                 <div class="space-y-2">
                     <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Nama Lengkap</label>
-                    <input type="text" name="name" value="{{ old('name', $admin->Nama_Admin) }}" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" placeholder="Nama Lengkap" required>
+                    <input type="text" name="name" value="{{ old('name', $user->name) }}" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" placeholder="Nama Lengkap" required>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Username (Read-only maybe? AdminController allows updating it but typically username stays same) -->
+                    <!-- Username -->
                     <div class="space-y-2">
                         <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Username</label>
-                        <input type="text" value="{{ $user->username }}" class="w-full bg-slate-200 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none mt-1 cursor-not-allowed" disabled>
+                        <input type="text" name="username" value="{{ old('username', $user->username) }}" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" required>
                     </div>
 
                     <!-- Role -->
@@ -53,12 +53,12 @@
                 <!-- No Telp -->
                 <div class="space-y-2">
                     <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Nomor Telepon</label>
-                    <input type="text" name="NoTelp_Admin" value="{{ old('NoTelp_Admin', $admin->NoTelp_Admin) }}" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" placeholder="08xxxx" required>
+                    <input type="text" name="NoTelp_User" value="{{ old('NoTelp_User', $user->admin->NoTelp_Admin ?? '') }}" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" placeholder="08xxxx">
                 </div>
             </div>
 
             <div class="pt-6 border-t border-slate-50 flex justify-end space-x-3">
-                <a href="{{ route('data.admin') }}" class="px-6 py-3 bg-slate-100 text-slate-600 rounded-xl text-sm font-bold hover:bg-slate-200 transition-colors">Batal</a>
+                <a href="{{ route('data.user') }}" class="px-6 py-3 bg-slate-100 text-slate-600 rounded-xl text-sm font-bold hover:bg-slate-200 transition-colors">Batal</a>
                 <button type="submit" class="px-10 py-3 bg-indigo-600 text-white rounded-xl text-sm font-black hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-200">Perbarui Akun</button>
             </div>
         </form>

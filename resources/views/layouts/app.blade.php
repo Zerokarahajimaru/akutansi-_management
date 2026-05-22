@@ -4,10 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cloth Management - @yield('title')</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         [x-cloak] { display: none !important; }
         
@@ -80,6 +77,7 @@
                     <div x-show="open && sidebarOpen" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-1 ml-4 border-l border-slate-800/50 pl-4">
                         @php
                             $dataLinks = [
+                                ['route' => 'data.user', 'label' => 'Data User', 'icon' => 'fa-user-shield'],
                                 ['route' => 'data.pelanggan', 'label' => 'Pelanggan', 'icon' => 'fa-users'],
                                 ['route' => 'data.pemasok', 'label' => 'Pemasok', 'icon' => 'fa-truck'],
                                 ['route' => 'data.barang.list', 'label' => 'Barang', 'icon' => 'fa-box'],
@@ -101,19 +99,26 @@
                     <button @click="sidebarOpen ? open = !open : sidebarOpen = true" class="flex items-center justify-between w-full py-3 px-4 rounded-xl text-slate-400 hover:bg-slate-800/50 hover:text-white transition-all group">
                         <div class="flex items-center">
                             <i class="fas fa-plus-circle w-5 text-center group-hover:text-indigo-400 transition-colors"></i>
-                            <span x-show="sidebarOpen" class="font-bold text-sm ml-3 whitespace-nowrap">Tambah Barang</span>
+                            <span x-show="sidebarOpen" class="font-bold text-sm ml-3 whitespace-nowrap">Tambah Data</span>
                         </div>
                         <i x-show="sidebarOpen" class="fas fa-chevron-down text-[10px] transition-transform duration-300" :class="open ? 'rotate-180' : ''"></i>
                     </button>
                     <div x-show="open && sidebarOpen" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-1 ml-4 border-l border-slate-800/50 pl-4">
                         @php
-                            $inputLinks = [
+                            $inputLinks = [];
+                            
+                            // Only admin can add new user (Admin/Pegawai)
+                            if (auth()->user()->role === 'admin') {
+                                $inputLinks[] = ['route' => 'input.user', 'label' => 'Tambah User', 'icon' => 'fa-user-shield'];
+                            }
+
+                            $inputLinks = array_merge($inputLinks, [
                                 ['route' => 'input.pelanggan', 'label' => 'Pelanggan', 'icon' => 'fa-user-plus'],
                                 ['route' => 'input.pemasok', 'label' => 'Pemasok', 'icon' => 'fa-truck-ramp-box'],
                                 ['route' => 'input.barang', 'label' => 'Barang', 'icon' => 'fa-box-open'],
                                 ['route' => 'input.pembelian', 'label' => 'Pembelian', 'icon' => 'fa-basket-shopping'],
                                 ['route' => 'input.penjualan', 'label' => 'Penjualan', 'icon' => 'fa-wallet'],
-                            ];
+                            ]);
                         @endphp
                         @foreach($inputLinks as $link)
                             <a href="{{ route($link['route']) }}" class="flex items-center py-2 px-4 text-[13px] font-semibold rounded-lg {{ Request::is('input/'.str_replace('input.', '', $link['route'])) ? 'text-indigo-400 bg-indigo-500/5' : 'text-slate-500 hover:text-white' }}">
@@ -155,7 +160,7 @@
             <!-- User Info & Logout -->
             <div class="p-4 bg-slate-800/30 border-t border-slate-800/50 overflow-hidden">
                 <div class="flex items-center px-2 mb-4">
-                    <!-- <img class="h-9 w-9 flex-shrink-0 rounded-xl bg-indigo-100 border-2 border-slate-700" src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&color=6366f1&background=e0e7ff&bold=true" alt=""> -->
+                    <img class="h-9 w-9 flex-shrink-0 rounded-xl bg-indigo-100 border-2 border-slate-700" src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&color=6366f1&background=e0e7ff&bold=true" alt="">
                     <div x-show="sidebarOpen" class="ml-3 overflow-hidden">
                         <p class="text-xs font-black text-white truncate uppercase tracking-tighter">{{ Auth::user()->name }}</p>
                         <p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest">{{ Auth::user()->role }}</p>

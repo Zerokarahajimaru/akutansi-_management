@@ -2,24 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Admin;
 use App\Models\User;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
-class AdminController extends Controller
+class UserController extends Controller
 {
     public function index()
     {
-        $admins = Admin::with('user')->get();
-        return view('admin.index', compact('admins'));
+        $users = User::with('admin')->get();
+        return view('user.index', compact('users'));
     }
 
     public function create()
     {
-        return view('admin.create');
+        return view('user.create');
     }
 
     public function store(Request $request)
@@ -29,21 +28,24 @@ class AdminController extends Controller
             'name' => 'required|string|max:255',
             'password' => 'required|string|min:8',
             'role' => 'required|in:admin,pegawai',
-            'NoTelp_Admin' => 'required|string|max:20',
+            // NoTelp is usually associated with the person, if we still want it, we use Admin profile
+            'NoTelp_User' => 'nullable|string|max:20',
         ]);
 
         DB::beginTransaction();
         try {
-            $id_admin = 'ADM-' . strtoupper(Str::random(8));
+            // We still create an Admin profile if we want to store phone numbers
+            // or we could just add phone number to the users table.
+            // But based on current migrations, let's keep the link if we want to keep the data.
+            $id_admin = 'USR-' . strtoupper(bin2hex(random_bytes(4)));
             
-            // Create in admins table
             Admin::create([
                 'ID_Admin' => $id_admin,
                 'Nama_Admin' => $request->name,
-                'NoTelp_Admin' => $request->NoTelp_Admin,
+                'NoTelp_Admin' => $request->NoTelp_User ?? '-',
+                'Alamat_Admin' => '-',
             ]);
 
-            // Create in users table for auth
             User::create([
                 'username' => $request->username,
                 'name' => $request->name,
@@ -53,52 +55,53 @@ class AdminController extends Controller
             ]);
 
             DB::commit();
-            return redirect()->route('data.admin')->with('success', 'User berhasil didaftarkan.');
+            return redirect()->route('data.user')->with('success', 'User berhasil ditambahkan.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Gagal mendaftarkan user: ' . $e->getMessage());
+            return back()->with('error', 'Gagal menambahkan user: ' . $e->getMessage());
         }
     }
 
     public function edit($id)
     {
-        $admin = Admin::findOrFail($id);
-        $user = User::where('ID_Admin', $id)->first();
-        return view('admin.edit', compact('admin', 'user'));
+        // $id here is User ID (primary key id)
+        $user = User::with('admin')->findOrFail($id);
+        return view('user.edit', compact('user'));
     }
 
     public function update(Request $request, $id)
     {
-        $admin = Admin::findOrFail($id);
-        $user = User::where('ID_Admin', $id)->first();
+        $user = User::findOrFail($id);
 
         $request->validate([
+            'username' => 'required|string|max:255|unique:users,username,' . $id,
             'name' => 'required|string|max:255',
             'role' => 'required|in:admin,pegawai',
-            'NoTelp_Admin' => 'required|string|max:20',
+            'NoTelp_User' => 'nullable|string|max:20',
             'password' => 'nullable|string|min:8',
         ]);
 
         DB::beginTransaction();
         try {
-            $admin->update([
-                'Nama_Admin' => $request->name,
-                'NoTelp_Admin' => $request->NoTelp_Admin,
-            ]);
-
-            $userData = [
+            $user->update([
+                'username' => $request->username,
                 'name' => $request->name,
                 'role' => $request->role,
-            ];
+            ]);
 
             if ($request->password) {
-                $userData['password'] = Hash::make($request->password);
+                $user->update(['password' => Hash::make($request->password)]);
             }
 
-            $user->update($userData);
+            if ($user->admin) {
+                $user->admin->update([
+                    'Nama_Admin' => $request->name,
+                    'NoTelp_Admin' => $request->NoTelp_User ?? $user->admin->NoTelp_Admin,
+                ]);
+            }
 
             DB::commit();
-            return redirect()->route('data.admin')->with('success', 'User berhasil diperbarui.');
+            return redirect()->route('data.user')->with('success', 'User berhasil diperbarui.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Gagal memperbarui user: ' . $e->getMessage());
@@ -107,22 +110,22 @@ class AdminController extends Controller
 
     public function destroy($id)
     {
-        $admin = Admin::findOrFail($id);
+        $user = User::findOrFail($id);
         
-        // Prevent self-deletion
-        if ($admin->ID_Admin === auth()->user()->ID_Admin) {
+        if ($user->id === auth()->id()) {
             return back()->with('error', 'Anda tidak dapat menghapus akun Anda sendiri.');
         }
 
         DB::beginTransaction();
         try {
-            // User will be deleted automatically if foreign key cascade is set, 
-            // but let's be explicit if needed or let DB handle it.
-            // The migration for users table uses cascade.
-            $admin->delete();
+            // Delete admin profile first if it exists
+            if ($user->admin) {
+                $user->admin->delete();
+            }
+            $user->delete();
 
             DB::commit();
-            return redirect()->route('data.admin')->with('success', 'User berhasil dihapus.');
+            return redirect()->route('data.user')->with('success', 'User berhasil dihapus.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Gagal menghapus user: ' . $e->getMessage());

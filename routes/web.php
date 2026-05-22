@@ -7,7 +7,7 @@ use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PemasokController;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ExportImportController;
 use Illuminate\Support\Facades\Route;
@@ -23,7 +23,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Data Management (View Only / List)
     Route::prefix('data')->group(function () {
-        Route::get('/admin', [AdminController::class, 'index'])->name('data.admin');
+        Route::get('/user', [UserController::class, 'index'])->name('data.user');
         Route::get('/pelanggan', [PelangganController::class, 'index'])->name('data.pelanggan');
         Route::get('/pemasok', [PemasokController::class, 'index'])->name('data.pemasok');
         Route::get('/barang', [StockController::class, 'index'])->name('data.barang.list');
@@ -87,9 +87,9 @@ Route::middleware(['auth'])->group(function () {
 
 // Admin Only Routes
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/input/admin', [AdminController::class, 'create'])->name('input.admin');
-    Route::post('/input/admin', [AdminController::class, 'store']);
-    Route::get('/data/admin/{id}/edit', [AdminController::class, 'edit'])->name('data.admin.edit');
-    Route::put('/data/admin/{id}', [AdminController::class, 'update'])->name('data.admin.update');
-    Route::delete('/data/admin/{id}', [AdminController::class, 'destroy'])->name('data.admin.destroy');
+    Route::get('/input/user', [UserController::class, 'create'])->name('input.user');
+    Route::post('/input/user', [UserController::class, 'store']);
+    Route::get('/data/user/{id}/edit', [UserController::class, 'edit'])->name('data.user.edit');
+    Route::put('/data/user/{id}', [UserController::class, 'update'])->name('data.user.update');
+    Route::delete('/data/user/{id}', [UserController::class, 'destroy'])->name('data.user.destroy');
 });
