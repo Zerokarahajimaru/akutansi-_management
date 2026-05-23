@@ -98,8 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
 @endif
 
 <script>
-document.addEventListener('submit', function(e) {
-    const form = e.target;
+document.addEventListener('submit', function(e) {    const form = e.target;
     const methodInput = form.querySelector('input[name="_method"]');
 
     // Check if it's a DELETE form

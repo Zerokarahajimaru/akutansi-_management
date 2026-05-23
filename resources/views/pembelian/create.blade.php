@@ -31,7 +31,7 @@
  @endforeach
  ]
  }">
- <label class="block text-xs font-semibold text-gray-500 mb-2">Pilih Barang</label>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Pilih Barang <span class="text-red-500">*</span></label>
  <div class="relative">
  <input type="hidden" name="ID_Barang" :value="selected" required>
  <button @click="open = !open" type="button" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300 flex items-center justify-between">
@@ -67,7 +67,7 @@
  @endforeach
  ]
  }">
- <label class="block text-xs font-semibold text-gray-500 mb-2">Pemasok</label>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Pemasok <span class="text-red-500">*</span></label>
  <div class="relative">
  <input type="hidden" name="ID_Pemasok" :value="selected" required>
  <button @click="open = !open" type="button" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300 flex items-center justify-between">
@@ -94,13 +94,13 @@
 
  <!-- Tanggal -->
  <div class="space-y-2">
- <label class="block text-xs font-semibold text-gray-500 mb-2">Tanggal Pembelian</label>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Tanggal Pembelian <span class="text-red-500">*</span></label>
  <input type="date" name="Tgl_Pembelian" value="{{ date('Y-m-d') }}" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" required>
  </div>
 
  <!-- Kuantitas -->
  <div class="space-y-2">
- <label class="block text-xs font-semibold text-gray-500 mb-2">Kuantitas</label>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Kuantitas <span class="text-red-500">*</span></label>
  <input type="number" name="Kuantitas" placeholder="0" min="1" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" required>
  </div>
 
@@ -137,7 +137,7 @@
 
  <!-- Ongkir -->
  <div class="space-y-2">
- <label class="block text-xs font-semibold text-gray-500 mb-2">Ongkir (Rp)</label>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Ongkir (Rp) <span class="text-red-500">*</span></label>
  <input type="number" name="Ongkir" value="0" min="0" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" required>
  </div>
  </div>

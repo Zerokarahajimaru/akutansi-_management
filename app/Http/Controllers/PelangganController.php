@@ -8,9 +8,19 @@ use Illuminate\Support\Str;
 
 class PelangganController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $pelanggans = Pelanggan::all();
+        $sortBy = $request->input('sort_by', 'Nama_Pelanggan');
+        $sortDir = $request->input('sort_dir', 'asc');
+        $perPage = $request->input('per_page', 50);
+        if ($perPage === 'all') {
+            $perPage = 9999;
+        }
+
+        $pelanggans = Pelanggan::orderBy($sortBy, $sortDir)
+            ->paginate($perPage)
+            ->withQueryString();
+
         return view('pelanggan.index', compact('pelanggans'));
     }
 

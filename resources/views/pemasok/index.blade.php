@@ -9,10 +9,53 @@
  <h2 class="font-bold text-gray-800 text-lg">Daftar Pemasok</h2>
  <p class="text-gray-500 text-xs">Kelola data mitra penyuplai barang</p>
  </div>
- <div class="flex flex-wrap gap-2" x-data="{ 
+ <div class="flex flex-wrap items-center gap-2" x-data="{ 
  triggerImport() { document.getElementById('import-file').click() },
  submitImport() { document.getElementById('import-form').submit() }
  }">
+ <div class="flex items-center gap-2 text-xs text-gray-500 bg-gray-50/50 px-3 py-2 rounded-xl border border-gray-100">
+    <span class="font-medium">Show:</span>
+    <div x-data="{ 
+        open: false, 
+        selected: '{{ request('per_page', 50) }}',
+        options: [
+            {val: '5', label: '5'},
+            {val: '10', label: '10'},
+            {val: '25', label: '25'},
+            {val: '50', label: '50'},
+            {val: 'all', label: 'All'}
+        ],
+        init() {
+            // Ensure selected matches request exactly
+            this.selected = '{{ request('per_page', 50) }}';
+        },
+        changePerPage(val) {
+            this.selected = val;
+            const url = new URL(window.location.href);
+            url.searchParams.set('per_page', val);
+            url.searchParams.set('page', 1);
+            window.location.href = url.toString();
+        }
+    }" class="relative">
+        <button @click="open = !open" type="button" class="flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-2.5 py-1 hover:border-teal-500 transition-all shadow-sm">
+            <span x-text="selected === 'all' ? 'All' : selected" class="font-bold text-teal-600"></span>
+            <i class="fas fa-chevron-down text-[9px] text-gray-400 transition-transform" :class="open ? 'rotate-180' : ''"></i>
+        </button>
+        <div x-show="open" @click.away="open = false" x-cloak 
+             x-transition:enter="transition ease-out duration-100"
+             x-transition:enter-start="opacity-0 scale-95"
+             x-transition:enter-end="opacity-100 scale-100"
+             class="absolute right-0 mt-1 w-20 bg-white border border-gray-100 rounded-xl shadow-xl z-50 py-1">
+            <template x-for="opt in options" :key="opt.val">
+                <div @click="changePerPage(opt.val)" 
+                     class="px-3 py-1.5 hover:bg-teal-50 hover:text-teal-700 cursor-pointer transition-colors text-center" 
+                     :class="selected == opt.val ? 'text-teal-600 font-bold bg-teal-50/50' : 'text-gray-600'">
+                    <span x-text="opt.label"></span>
+                </div>
+            </template>
+        </div>
+    </div>
+</div>
  <form id="import-form" action="{{ route('util.import', 'pemasok') }}" method="POST" enctype="multipart/form-data" class="hidden">
  @csrf
  <input type="file" id="import-file" name="file" @change="submitImport()">
@@ -33,12 +76,34 @@
  </div>
  </div>
  <div class="overflow-x-auto">
- <table class="w-full text-left">
+ <table id="pemasok-table" class="w-full text-left">
  <thead>
+ @php
+    $currentSortBy = request('sort_by', 'Nama_Pemasok');
+    $currentSortDir = request('sort_dir', 'asc');
+ @endphp
  <tr class="bg-gray-50/50 text-gray-500 text-sm border-b border-gray-100">
- <th class="py-4 px-6">Nama</th>
- <th class="py-4 px-6">Alamat</th>
- <th class="py-4 px-6">No. HP</th>
+ @php $newDir = ($currentSortBy === 'Nama_Pemasok' && $currentSortDir === 'asc') ? 'desc' : 'asc'; @endphp
+ <th class="py-4 px-6 cursor-pointer group" onclick="window.location.href='{{ request()->fullUrlWithQuery(['sort_by' => 'Nama_Pemasok', 'sort_dir' => $newDir, 'page' => 1]) }}'">
+    <div class="flex items-center">
+        Nama
+        <i class="fas {{ $currentSortBy === 'Nama_Pemasok' ? ($currentSortDir === 'asc' ? 'fa-sort-up text-teal-600' : 'fa-sort-down text-teal-600') : 'fa-sort text-gray-300' }} text-[10px] ml-auto group-hover:text-teal-500 transition-colors"></i>
+    </div>
+ </th>
+ @php $newDir = ($currentSortBy === 'Alamat_Pemasok' && $currentSortDir === 'asc') ? 'desc' : 'asc'; @endphp
+ <th class="py-4 px-6 cursor-pointer group" onclick="window.location.href='{{ request()->fullUrlWithQuery(['sort_by' => 'Alamat_Pemasok', 'sort_dir' => $newDir, 'page' => 1]) }}'">
+    <div class="flex items-center">
+        Alamat
+        <i class="fas {{ $currentSortBy === 'Alamat_Pemasok' ? ($currentSortDir === 'asc' ? 'fa-sort-up text-teal-600' : 'fa-sort-down text-teal-600') : 'fa-sort text-gray-300' }} text-[10px] ml-auto group-hover:text-teal-500 transition-colors"></i>
+    </div>
+ </th>
+ @php $newDir = ($currentSortBy === 'NoTelp_Pemasok' && $currentSortDir === 'asc') ? 'desc' : 'asc'; @endphp
+ <th class="py-4 px-6 cursor-pointer group" onclick="window.location.href='{{ request()->fullUrlWithQuery(['sort_by' => 'NoTelp_Pemasok', 'sort_dir' => $newDir, 'page' => 1]) }}'">
+    <div class="flex items-center">
+        No. HP
+        <i class="fas {{ $currentSortBy === 'NoTelp_Pemasok' ? ($currentSortDir === 'asc' ? 'fa-sort-up text-teal-600' : 'fa-sort-down text-teal-600') : 'fa-sort text-gray-300' }} text-[10px] ml-auto group-hover:text-teal-500 transition-colors"></i>
+    </div>
+ </th>
  <th class="py-4 px-6 text-center">Aksi</th>
  </tr>
  </thead>
@@ -64,7 +129,7 @@
  </td>
  </tr>
  @empty
- <tr>
+ <tr class="empty-state">
  <td colspan="4" class="py-16 text-center">
  <div class="flex flex-col items-center justify-center">
  <div class="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mb-4">
@@ -79,6 +144,9 @@
  @endforelse
  </tbody>
  </table>
+ </div>
+ <div class="px-6 py-4 border-t border-gray-50">
+ {{ $pemasoks->links() }}
  </div>
 </div>
 @endsection

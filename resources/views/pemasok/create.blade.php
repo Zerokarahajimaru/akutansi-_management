@@ -11,15 +11,15 @@
  <form action="{{ route('input.pemasok') }}" method="POST" class="p-8 space-y-4">
  @csrf
  <div>
- <label class="block text-xs font-semibold text-gray-500 mb-2">Nama Pemasok</label>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Nama Pemasok <span class="text-red-500">*</span></label>
  <input type="text" name="Nama_Pemasok" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" required>
  </div>
  <div>
- <label class="block text-xs font-semibold text-gray-500 mb-2">No. HP</label>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">No. HP <span class="text-red-500">*</span></label>
  <input type="text" name="NoTelp_Pemasok" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" required>
  </div>
  <div>
- <label class="block text-xs font-semibold text-gray-500 mb-2">Alamat</label>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Alamat <span class="text-red-500">*</span></label>
  <textarea name="Alamat_Pemasok" rows="3" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" required></textarea>
  </div>
  <div class="pt-4 flex justify-end space-x-3">

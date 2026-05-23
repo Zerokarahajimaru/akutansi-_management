@@ -22,7 +22,7 @@
  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
  <!-- Nama Barang -->
  <div class="md:col-span-2 space-y-2">
- <label class="block text-xs font-semibold text-gray-500 mb-2">Nama Lengkap Produk</label>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Nama Lengkap Produk <span class="text-red-500">*</span></label>
  <input type="text" name="Nama_Barang" placeholder="Contoh: Gamis Chino Premium" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" required>
  </div>
 
@@ -59,7 +59,7 @@
 
  <!-- Warna -->
  <div class="space-y-2">
- <label class="block text-xs font-semibold text-gray-500 mb-2">Warna</label>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Warna <span class="text-red-500">*</span></label>
  <input type="text" name="Warna_Barang" placeholder="Contoh: Kuning, Navy, Hitam" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" required>
  </div>
 
@@ -112,7 +112,7 @@
  @endforeach
  ]
  }">
- <label class="block text-xs font-semibold text-gray-500 mb-2">Pemasok Utama</label>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Pemasok Utama <span class="text-red-500">*</span></label>
  <div class="relative">
  <input type="hidden" name="ID_Pemasok" :value="selected" required>
  <button @click="open = !open" type="button" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300 flex items-center justify-between">
@@ -139,19 +139,19 @@
 
  <!-- Harga Beli -->
  <div class="space-y-2">
- <label class="block text-xs font-semibold text-gray-500 mb-2">Harga Beli (Rp)</label>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Harga Beli (Rp) <span class="text-red-500">*</span></label>
  <input type="number" name="Harga_Beli" placeholder="0" min="0" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" required>
  </div>
 
  <!-- Harga Jual -->
  <div class="space-y-2">
- <label class="block text-xs font-semibold text-gray-500 mb-2">Harga Jual (Rp)</label>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Harga Jual (Rp) <span class="text-red-500">*</span></label>
  <input type="number" name="Harga_Jual" placeholder="0" min="0" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" required>
  </div>
 
  <!-- Stok Awal -->
  <div class="md:col-span-2 space-y-2">
- <label class="block text-xs font-semibold text-gray-500 mb-2">Stok Awal Inventaris</label>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Stok Awal Inventaris <span class="text-red-500">*</span></label>
  <input type="number" name="Stok_Awal" value="0" min="0" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" required>
  <p class="text-xs text-gray-400">Stok ini akan dicatat sebagai saldo awal di tabel stok.</p>
  </div>

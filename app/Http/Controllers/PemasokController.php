@@ -8,9 +8,19 @@ use Illuminate\Support\Str;
 
 class PemasokController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $pemasoks = Pemasok::all();
+        $sortBy = $request->input('sort_by', 'Nama_Pemasok');
+        $sortDir = $request->input('sort_dir', 'asc');
+        $perPage = $request->input('per_page', 50);
+        if ($perPage === 'all') {
+            $perPage = 9999;
+        }
+
+        $pemasoks = Pemasok::orderBy($sortBy, $sortDir)
+            ->paginate($perPage)
+            ->withQueryString();
+
         return view('pemasok.index', compact('pemasoks'));
     }
 

@@ -10,9 +10,20 @@ use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::with('admin')->get();
+        $sortBy = $request->input('sort_by', 'name');
+        $sortDir = $request->input('sort_dir', 'asc');
+        $perPage = $request->input('per_page', 50);
+        if ($perPage === 'all') {
+            $perPage = 9999;
+        }
+
+        $users = User::with('admin')
+            ->orderBy($sortBy, $sortDir)
+            ->paginate($perPage)
+            ->withQueryString();
+
         return view('user.index', compact('users'));
     }
 

@@ -12,9 +12,20 @@ use Illuminate\Support\Str;
 
 class PembelianController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $pembelians = Pembelian::with(['dataBarang', 'pemasok'])->orderBy('Tgl_Pembelian', 'desc')->get();
+        $sortBy = $request->input('sort_by', 'Tgl_Pembelian');
+        $sortDir = $request->input('sort_dir', 'desc');
+        $perPage = $request->input('per_page', 50);
+        if ($perPage === 'all') {
+            $perPage = 9999;
+        }
+
+        $pembelians = Pembelian::with(['dataBarang', 'pemasok'])
+            ->orderBy($sortBy, $sortDir)
+            ->paginate($perPage)
+            ->withQueryString();
+
         return view('pembelian.index', compact('pembelians'));
     }
 

@@ -12,9 +12,20 @@ use Illuminate\Support\Str;
 
 class PenjualanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $penjualans = Penjualan::with(['dataBarang', 'pelanggan'])->orderBy('Tanggal_Penjualan', 'desc')->get();
+        $sortBy = $request->input('sort_by', 'Tanggal_Penjualan');
+        $sortDir = $request->input('sort_dir', 'desc');
+        $perPage = $request->input('per_page', 50);
+        if ($perPage === 'all') {
+            $perPage = 9999;
+        }
+
+        $penjualans = Penjualan::with(['dataBarang', 'pelanggan'])
+            ->orderBy($sortBy, $sortDir)
+            ->paginate($perPage)
+            ->withQueryString();
+
         return view('penjualan.index', compact('penjualans'));
     }
 

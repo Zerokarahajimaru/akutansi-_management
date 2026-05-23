@@ -22,14 +22,14 @@
  <div class="space-y-4">
  <!-- Nama Lengkap -->
  <div class="space-y-2">
- <label class="block text-xs font-semibold text-gray-500 mb-2">Nama Lengkap</label>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Nama Lengkap <span class="text-red-500">*</span></label>
  <input type="text" name="name" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" placeholder="Nama Lengkap" required autocomplete="off">
  </div>
 
  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
  <!-- Username -->
  <div class="space-y-2">
- <label class="block text-xs font-semibold text-gray-500 mb-2">Username</label>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Username <span class="text-red-500">*</span></label>
  <input type="text" name="username" value="" autocomplete="off" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" placeholder="username_login" required>
  </div>
 
@@ -42,7 +42,7 @@
  {val: 'admin', label: 'Admin'}
  ]
  }">
- <label class="block text-xs font-semibold text-gray-500 mb-2">Hak Akses (Role)</label>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Hak Akses (Role) <span class="text-red-500">*</span></label>
  <div class="relative">
  <input type="hidden" name="role" :value="selected">
  <button @click="open = !open" type="button" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300 flex items-center justify-between">
@@ -70,7 +70,7 @@
 
  <!-- Password -->
  <div x-data="{ showPassword: false }" class="space-y-2">
-    <label class="text-xs font-semibold text-gray-500 mb-2 block">Password Akses</label>
+    <label class="text-xs font-semibold text-gray-500 mb-2 block">Password Akses <span class="text-red-500">*</span></label>
     <div class="relative">
         <input :type="showPassword ? 'text' : 'password'" name="password" autocomplete="new-password" value="" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 pr-12" placeholder="Masukkan password baru" required>
         <button type="button" @click="showPassword = !showPassword" class="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-teal-600 focus:outline-none transition-colors">
@@ -81,7 +81,7 @@
 
  <!-- No Telp -->
  <div class="space-y-2">
- <label class="block text-xs font-semibold text-gray-500 mb-2">Nomor Telepon</label>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Nomor Telepon <span class="text-red-500">*</span></label>
  <input type="text" name="NoTelp_User" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" placeholder="08xxxx" required>
  </div>
  </div>

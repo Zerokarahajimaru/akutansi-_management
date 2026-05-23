@@ -11,9 +11,20 @@ use Illuminate\Support\Facades\DB;
 
 class StockController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $stocks = DataBarang::with('stokBarangs')->get();
+        $sortBy = $request->input('sort_by', 'Nama_Barang');
+        $sortDir = $request->input('sort_dir', 'asc');
+        $perPage = $request->input('per_page', 50);
+        if ($perPage === 'all') {
+            $perPage = 9999;
+        }
+
+        $stocks = DataBarang::with('stokBarangs')
+            ->orderBy($sortBy, $sortDir)
+            ->paginate($perPage)
+            ->withQueryString();
+
         return view('stock', compact('stocks'));
     }
 
