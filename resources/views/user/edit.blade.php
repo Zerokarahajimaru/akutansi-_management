@@ -35,19 +35,49 @@
  </div>
 
  <!-- Role -->
- <div class="space-y-2">
+ <div class="space-y-2" x-data="{ 
+ open: false, 
+ selected: '{{ $user->role }}',
+ options: [
+ {val: 'pegawai', label: 'Pegawai'},
+ {val: 'admin', label: 'Admin'}
+ ]
+ }">
  <label class="block text-xs font-semibold text-gray-500 mb-2">Hak Akses (Role)</label>
- <select name="role" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" required>
- <option value="pegawai" {{ $user->role === 'pegawai' ? 'selected' : '' }}>Pegawai</option>
- <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>Admin</option>
- </select>
+ <div class="relative">
+ <input type="hidden" name="role" :value="selected">
+ <button @click="open = !open" type="button" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300 flex items-center justify-between">
+ <span x-text="options.find(o => o.val === selected).label" class="text-gray-700 font-medium"></span>
+ <i class="fas fa-chevron-down text-gray-400 text-xs transition-transform" :class="open ? 'rotate-180' : ''"></i>
+ </button>
+ 
+ <div x-show="open" @click.away="open = false" x-cloak 
+ x-transition:enter="transition ease-out duration-100"
+ x-transition:enter-start="opacity-0 scale-95"
+ x-transition:enter-end="opacity-100 scale-100"
+ class="absolute z-50 w-full mt-2 bg-white border border-gray-100 rounded-2xl shadow-xl py-2 max-h-60 overflow-y-auto select-scrollbar">
+ <template x-for="option in options" :key="option.val">
+ <div @click="selected = option.val; open = false" 
+ class="px-4 py-2.5 text-sm cursor-pointer transition-colors flex items-center justify-between group hover:bg-teal-50 hover:text-teal-700 text-gray-600"
+ :class="selected === option.val ? 'text-teal-600 font-bold' : ''">
+ <span x-text="option.label"></span>
+ <i x-show="selected === option.val" class="fas fa-check text-xs"></i>
+ </div>
+ </template>
+ </div>
+ </div>
  </div>
  </div>
 
  <!-- Password -->
- <div class="space-y-2">
+ <div x-data="{ showPassword: false }" class="space-y-2">
  <label class="block text-xs font-semibold text-gray-500 mb-2">Password Baru (Kosongkan jika tidak ingin mengubah)</label>
- <input type="password" name="password" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" placeholder="••••••••">
+ <div class="relative">
+ <input :type="showPassword ? 'text' : 'password'" name="password" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300 pr-12" placeholder="••••••••">
+ <button type="button" @click="showPassword = !showPassword" class="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-teal-600 focus:outline-none transition-colors">
+ <i class="fas" :class="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+ </button>
+ </div>
  </div>
 
  <!-- No Telp -->
