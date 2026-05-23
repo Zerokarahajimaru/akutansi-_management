@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreign('ID_Pemasok')->references('ID_Pemasok')->on('pemasoks')->onDelete('cascade');
             $table->string('ID_Barang');
             $table->foreign('ID_Barang')->references('ID_Barang')->on('data_barangs')->onDelete('cascade');
+            $table->string('ID_Admin')->nullable();
+            $table->foreign('ID_Admin')->references('ID_Admin')->on('admins')->onDelete('set null');
             $table->date('Tgl_Pembelian');
             $table->integer('Kuantitas');
             $table->string('Jenis_Pembayaran');

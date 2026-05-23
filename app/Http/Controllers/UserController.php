@@ -64,14 +64,24 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        // $id here is User ID (primary key id)
         $user = User::with('admin')->findOrFail($id);
+        
+        // Security: Non-admin can only edit their own profile
+        if (auth()->user()->role !== 'admin' && auth()->id() !== $user->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
         return view('user.edit', compact('user'));
     }
 
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
+
+        // Security: Non-admin can only update their own profile
+        if (auth()->user()->role !== 'admin' && auth()->id() !== $user->id) {
+            abort(403, 'Unauthorized action.');
+        }
 
         $request->validate([
             'username' => 'required|string|max:255|unique:users,username,' . $id,
@@ -81,15 +91,23 @@ class UserController extends Controller
             'password' => 'nullable|string|min:8',
         ]);
 
+        // Security: Non-admin cannot change their own role or other's role
+        $role = $request->role;
+        if (auth()->user()->role !== 'admin') {
+            $role = $user->role; // Force keep original role
+        }
+
         DB::beginTransaction();
         try {
             $user->update([
                 'username' => $request->username,
                 'name' => $request->name,
-                'role' => $request->role,
+                'role' => $role,
             ]);
 
             if ($request->password) {
+                // If it's a non-admin, they are allowed to change their own password
+                // but they already passed the check above that they can only edit their OWN id.
                 $user->update(['password' => Hash::make($request->password)]);
             }
 

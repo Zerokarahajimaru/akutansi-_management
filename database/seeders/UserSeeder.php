@@ -2,36 +2,68 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Database\Seeder;
-use App\Models\User; // Import the User model
-use App\Models\Admin; // Import the Admin model
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        // Get the first Admin record to link the admin user
-        $admin = Admin::first();
+        // 1. Create Admins first
+        $admins = [
+            ['ID_Admin' => 'ADM-001', 'Nama_Admin' => 'Ezara Aristo', 'Alamat_Admin' => 'Kantor Xyra.id', 'NoTelp_Admin' => '081234567890'],
+            ['ID_Admin' => 'ADM-002', 'Nama_Admin' => 'Super Admin', 'Alamat_Admin' => 'Kantor Xyra.id', 'NoTelp_Admin' => '081111111111'],
+            ['ID_Admin' => 'ADM-003', 'Nama_Admin' => 'Budi Santoso', 'Alamat_Admin' => 'Gudang Xyra.id', 'NoTelp_Admin' => '082222222222'],
+        ];
 
-        // Create an Admin user
+        foreach ($admins as $admin) {
+            Admin::updateOrCreate(['ID_Admin' => $admin['ID_Admin']], $admin);
+        }
+
+        // 2. Create Users (Linked to Admins for 'admin' role)
+        
+        // Main Admin (You)
         User::create([
             'username' => 'admin',
-            'password' => Hash::make('password'), // You should change this in production
+            'name' => 'Ezara Aristo',
+            'password' => 'admin', // Will be hashed by model cast
             'role' => 'admin',
-            'ID_Admin' => $admin ? $admin->ID_Admin : null, // Link to an existing admin
+            'ID_Admin' => 'ADM-001'
         ]);
 
-        // Create a Pegawai user
+        // Second Admin
         User::create([
-            'username' => 'pegawai',
-            'password' => Hash::make('password'), // You should change this in production
-            'role' => 'pegawai',
-            'ID_Admin' => null, // Pegawai users are not linked to a specific admin record
+            'username' => 'superadmin',
+            'name' => 'Super Admin',
+            'password' => 'password',
+            'role' => 'admin',
+            'ID_Admin' => 'ADM-002'
         ]);
+
+        // Pegawai (Employees) - High volume realistic data
+        $employees = [
+            ['name' => 'Siti Aminah', 'username' => 'siti'],
+            ['name' => 'Andi Wijaya', 'username' => 'andi'],
+            ['name' => 'Rina Pratama', 'username' => 'rina'],
+            ['name' => 'Fajar Hidayat', 'username' => 'fajar'],
+            ['name' => 'Dewi Lestari', 'username' => 'dewi'],
+            ['name' => 'Bambang Kusuma', 'username' => 'bambang'],
+            ['name' => 'Maya Saputri', 'username' => 'maya'],
+            ['name' => 'Rizky Ramadhan', 'username' => 'rizky'],
+            ['name' => 'Eka Wahyuni', 'username' => 'eka'],
+            ['name' => 'Hendra Putra', 'username' => 'hendra'],
+        ];
+
+        foreach ($employees as $emp) {
+            User::create([
+                'name' => $emp['name'],
+                'username' => $emp['username'],
+                'password' => 'pegawai123',
+                'role' => 'pegawai',
+            ]);
+        }
     }
 }

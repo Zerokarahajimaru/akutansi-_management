@@ -55,12 +55,13 @@
  </span>
  </td>
  <td class="py-4 px-6 text-sm text-gray-600 font-medium">{{ $user->admin->NoTelp_Admin ?? '-' }}</td>
- @if(Auth::user()->role === 'admin')
+ @if(Auth::user()->role === 'admin' || Auth::user()->id === $user->id)
  <td class="py-4 px-6 text-center">
  <div class="flex justify-center space-x-2">
  <a href="{{ route('data.user.edit', $user->id) }}" class="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-colors">
  <i class="fas fa-edit text-xs"></i>
  </a>
+ @if(Auth::user()->role === 'admin' && Auth::user()->id !== $user->id)
  <form action="{{ route('data.user.destroy', $user->id) }}" method="POST">
  @csrf
  @method('DELETE')
@@ -68,8 +69,11 @@
  <i class="fas fa-trash text-xs"></i>
  </button>
  </form>
+ @endif
  </div>
  </td>
+ @else
+ <td class="py-4 px-6 text-center text-gray-300 italic text-xs">Locked</td>
  @endif
  </tr>
  @empty

@@ -2,49 +2,54 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\DataBarang;
+use App\Models\Penjualan;
+use App\Models\StokBarang;
 use Illuminate\Database\Seeder;
-use App\Models\Penjualan; // Import the Penjualan model
-use App\Models\Admin; // Import the Admin model
-use App\Models\DataBarang; // Import the DataBarang model
-use App\Models\Pelanggan; // Import the Pelanggan model
-use Illuminate\Support\Str; // Import Str for UUID
-use Carbon\Carbon; // Import Carbon for dates
+use Carbon\Carbon;
 
 class PenjualanSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        $admin = Admin::first();
-        $barang1 = DataBarang::first(); // Kaos Polos
-        $barang2 = DataBarang::skip(1)->first(); // Celana Jeans
-        $pelanggan1 = Pelanggan::first();
+        $data = [
+            ['ID_Barang' => 'BRG-0001', 'ID_Pelanggan' => 'PLG-0001', 'Qty' => 2, 'DaysAgo' => 10],
+            ['ID_Barang' => 'BRG-0001', 'ID_Pelanggan' => 'PLG-0005', 'Qty' => 1, 'DaysAgo' => 8],
+            ['ID_Barang' => 'BRG-0003', 'ID_Pelanggan' => 'PLG-0002', 'Qty' => 3, 'DaysAgo' => 7],
+            ['ID_Barang' => 'BRG-0005', 'ID_Pelanggan' => 'PLG-0003', 'Qty' => 1, 'DaysAgo' => 5],
+            ['ID_Barang' => 'BRG-0006', 'ID_Pelanggan' => 'PLG-0010', 'Qty' => 2, 'DaysAgo' => 3],
+            ['ID_Barang' => 'BRG-0002', 'ID_Pelanggan' => 'PLG-0008', 'Qty' => 5, 'DaysAgo' => 1],
+            ['ID_Barang' => 'BRG-0008', 'ID_Pelanggan' => 'PLG-0013', 'Qty' => 1, 'DaysAgo' => 0],
+        ];
 
-        Penjualan::create([
-            'ID_Penjualan' => (string) Str::uuid(),
-            'ID_Admin' => $admin->ID_Admin,
-            'ID_Barang' => $barang1->ID_Barang,
-            'ID_Pelanggan' => $pelanggan1->ID_Pelanggan,
-            'Tanggal_Penjualan' => Carbon::now()->subDays(7),
-            'Jenis_Pembayaran' => 'Cash',
-            'Total_Harga_Barang' => $barang1->Harga_Jual * 2,
-            'Ongkir' => 10000.00,
-            'Kuantitas' => 2,
-        ]);
+        foreach ($data as $i => $item) {
+            $id = 'PJ-' . str_pad($i + 1, 4, '0', STR_PAD_LEFT);
+            $tgl = Carbon::now()->subDays($item['DaysAgo']);
+            $barang = DataBarang::find($item['ID_Barang']);
+            
+            $totalHargaBarang = $barang->Harga_Jual * $item['Qty'];
+            $ongkir = 0;
+            $totalHarga = $totalHargaBarang + $ongkir;
 
-        Penjualan::create([
-            'ID_Penjualan' => (string) Str::uuid(),
-            'ID_Admin' => $admin->ID_Admin,
-            'ID_Barang' => $barang2->ID_Barang,
-            'ID_Pelanggan' => $pelanggan1->ID_Pelanggan,
-            'Tanggal_Penjualan' => Carbon::now()->subDays(3),
-            'Jenis_Pembayaran' => 'Debit Card',
-            'Total_Harga_Barang' => $barang2->Harga_Jual * 1,
-            'Ongkir' => 15000.00,
-            'Kuantitas' => 1,
-        ]);
+            Penjualan::create([
+                'ID_Penjualan' => $id,
+                'ID_Barang' => $item['ID_Barang'],
+                'ID_Pelanggan' => $item['ID_Pelanggan'],
+                'Tanggal_Penjualan' => $tgl,
+                'Kuantitas' => $item['Qty'],
+                'Jenis_Pembayaran' => 'Tunai',
+                'Total_Harga_Barang' => $totalHargaBarang,
+                'Ongkir' => $ongkir,
+                'Total_Harga' => $totalHarga,
+                'ID_Admin' => 'ADM-001'
+            ]);
+
+            // Update Stock
+            $stok = StokBarang::where('ID_Barang', $item['ID_Barang'])->first();
+            if ($stok) {
+                $stok->Stok_Akhir -= $item['Qty'];
+                $stok->save();
+            }
+        }
     }
 }
