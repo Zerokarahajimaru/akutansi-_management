@@ -6,6 +6,7 @@
  <title>@yield('title') | Xyra.id</title>
  <link rel="icon" type="image/png" href="{{ asset('Resource/xyra_logo.png') }}">
  @vite(['resources/css/app.css', 'resources/js/app.js'])
+ @livewireStyles
  <style>
  [x-cloak] { display: none !important; }
 
@@ -365,5 +366,6 @@ document.addEventListener('submit', function(e) {
  </main>
  </div>
  </div>
+ @livewireScripts
 </body>
 </html>
