@@ -297,8 +297,8 @@ document.addEventListener('submit', function(e) {
  </div>
  <form action="{{ route('logout') }}" method="POST">
  @csrf
- <button type="submit" class="flex items-center justify-center w-full py-2.5 px-4 rounded-xl bg-gray-50 border border-gray-100 text-gray-600 text-sm font-medium hover:bg-red-50 hover:text-red-600 hover:border-red-100 transition-all duration-300 group">
- <i class="fas fa-arrow-right-from-bracket flex-shrink-0 group-hover:-trangray-x-0.5 transition-transform"></i> 
+ <button type="submit" class="flex items-center justify-center w-full py-2.5 px-4 rounded-xl bg-red-50 border border-red-100 text-red-600 text-sm font-bold hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 group shadow-sm shadow-red-100/50">
+ <i class="fas fa-arrow-right-from-bracket flex-shrink-0 group-hover:translate-x-0.5 transition-transform"></i> 
  <span x-show="sidebarOpen" class="ml-2 whitespace-nowrap">Sign Out</span>
  </button>
  </form>
