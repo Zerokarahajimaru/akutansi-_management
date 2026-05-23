@@ -88,42 +88,46 @@
  <!-- Global SweetAlert Handler -->
  @if(session('success') || session('error'))
  <script>
-document.addEventListener('livewire:navigated', function() {
-    const isSuccess = "{{ session('success') ? 'true' : 'false' }}" === 'true';
-    const message = "{{ session('success') ?? session('error') }}";
-    
-    if (!message) return;
+    function triggerFlashMessage() {
+        const isSuccess = "{{ session('success') ? 'true' : 'false' }}" === 'true';
+        const message = "{{ session('success') ?? session('error') }}";
+        
+        if (!message) return;
 
-    const titleText = isSuccess ? 'Berhasil' : 'Gagal';
-    const iconClass = isSuccess ? 'fa-check text-teal-600' : 'fa-triangle-exclamation text-rose-500';
-    const bgClass = isSuccess ? 'bg-teal-50' : 'bg-rose-50';
+        const titleText = isSuccess ? 'Berhasil' : 'Gagal';
+        const iconClass = isSuccess ? 'fa-check text-teal-600' : 'fa-triangle-exclamation text-rose-500';
+        const bgClass = isSuccess ? 'bg-teal-50' : 'bg-rose-50';
 
-    window.Swal.fire({
-        html: `
-            <div class="text-left">
-                <div class="flex items-center gap-3 mb-2">
-                    <div class="w-8 h-8 rounded-full ${bgClass} flex items-center justify-center flex-shrink-0">
-                        <i class="fas ${iconClass} text-sm"></i>
+        window.Swal.fire({
+            html: `
+                <div class="text-left">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-8 h-8 rounded-full ${bgClass} flex items-center justify-center flex-shrink-0">
+                            <i class="fas ${iconClass} text-sm"></i>
+                        </div>
+                        <h3 class="text-base font-bold text-gray-900 m-0">${titleText}</h3>
                     </div>
-                    <h3 class="text-base font-bold text-gray-900 m-0">${titleText}</h3>
+                    <p class="text-sm text-gray-500 m-0 pl-11">${message}</p>
                 </div>
-                <p class="text-sm text-gray-500 m-0 pl-11">${message}</p>
-            </div>
-        `,
-        width: '24rem',
-        padding: '1.25rem',
-        showCloseButton: false,
-        showConfirmButton: true,
-        confirmButtonText: 'Tutup',
-        buttonsStyling: false,
-        customClass: {
-            popup: '!rounded-2xl !border !border-gray-100 !shadow-xl !bg-white !m-0',
-            htmlContainer: '!m-0 !p-0 !text-left',
-            actions: '!mt-5 !w-full !flex !justify-end !p-0',
-            confirmButton: '!px-5 !py-2 !bg-gray-100 hover:!bg-gray-200 !text-gray-700 !text-sm !font-semibold !rounded-xl !transition-colors !m-0'
-        }
-    });
-});
+            `,
+            width: '24rem',
+            padding: '1.25rem',
+            showCloseButton: false,
+            showConfirmButton: true,
+            confirmButtonText: 'Tutup',
+            buttonsStyling: false,
+            customClass: {
+                popup: '!rounded-2xl !border !border-gray-100 !shadow-xl !bg-white !m-0',
+                htmlContainer: '!m-0 !p-0 !text-left',
+                actions: '!mt-5 !w-full !flex !justify-end !p-0',
+                confirmButton: '!px-5 !py-2 !bg-gray-100 hover:!bg-gray-200 !text-gray-700 !text-sm !font-semibold !rounded-xl !transition-colors !m-0'
+            }
+        });
+    }
+
+    // Attach to both events to ensure it fires on hard reloads (form submits) AND SPA transitions
+    document.addEventListener('DOMContentLoaded', triggerFlashMessage);
+    document.addEventListener('livewire:navigated', triggerFlashMessage);
 </script>
 @endif
 
@@ -215,7 +219,7 @@ document.addEventListener('submit', function(e) {
  <div x-show="!sidebarOpen" class="h-8"></div>
  
  <!-- Dashboard -->
- <a wire:navigate.hover href="{{ route('dashboard') }}" class="flex items-center py-2.5 px-4 rounded-xl transition-all duration-200 group {{ Request::is('/') ? 'bg-teal-50 text-teal-700 font-bold shadow-sm ring-1 ring-teal-100' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+ <a href="{{ route('dashboard') }}" wire:navigate.hover class="flex items-center py-2.5 px-4 rounded-xl transition-all duration-200 group {{ Request::is('/') ? 'bg-teal-50 text-teal-700 font-bold shadow-sm ring-1 ring-teal-100' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
  <i class="fas fa-chart-line w-5 text-center transition-transform group-hover:scale-110 {{ Request::is('/') ? 'text-teal-600' : 'text-gray-400 group-hover:text-teal-500' }}"></i>
  <span x-show="sidebarOpen" class="text-sm ml-3 whitespace-nowrap">Dashboard</span>
  </a>
@@ -245,7 +249,7 @@ document.addEventListener('submit', function(e) {
     ];
     @endphp
     @foreach($dataLinks as $link)
-    <a wire:navigate.hover href="{{ route($link['route']) }}" class="flex items-center py-2 px-3 text-sm rounded-lg transition-colors {{ Request::is('data/'.str_replace('data.', '', str_replace('.list', '', $link['route']))) ? 'text-teal-700 bg-teal-50/50 font-medium' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50' }}">
+    <a href="{{ route($link['route']) }}" wire:navigate.hover class="flex items-center py-2 px-3 text-sm rounded-lg transition-colors {{ Request::is('data/'.str_replace('data.', '', str_replace('.list', '', $link['route']))) ? 'text-teal-700 bg-teal-50/50 font-medium' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50' }}">
     <i class="fas {{ $link['icon'] }} mr-2.5 w-4 text-center {{ Request::is('data/'.str_replace('data.', '', str_replace('.list', '', $link['route']))) ? 'text-teal-600' : 'text-gray-400' }}"></i>
     {{ $link['label'] }}
     </a>
@@ -280,7 +284,7 @@ document.addEventListener('submit', function(e) {
     ]);
     @endphp
     @foreach($inputLinks as $link)
-    <a wire:navigate.hover href="{{ route($link['route']) }}" class="flex items-center py-2 px-3 text-sm rounded-lg transition-colors {{ Request::is('input/'.str_replace('input.', '', $link['route'])) ? 'text-teal-700 bg-teal-50/50 font-medium' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50' }}">
+    <a href="{{ route($link['route']) }}" wire:navigate.hover class="flex items-center py-2 px-3 text-sm rounded-lg transition-colors {{ Request::is('input/'.str_replace('input.', '', $link['route'])) ? 'text-teal-700 bg-teal-50/50 font-medium' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50' }}">
     <i class="fas {{ $link['icon'] }} mr-2.5 w-4 text-center {{ Request::is('input/'.str_replace('input.', '', $link['route'])) ? 'text-teal-600' : 'text-gray-400' }}"></i>
     {{ $link['label'] }}
     </a>
@@ -303,15 +307,15 @@ document.addEventListener('submit', function(e) {
  
  <template x-if="open && sidebarOpen">
     <div x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-0.5 ml-4 border-l border-gray-100 pl-3">
-    <a wire:navigate.hover href="{{ route('laporan.pembelian') }}" class="flex items-center py-2 px-3 text-sm rounded-lg transition-colors {{ Request::is('laporan/pembelian') ? 'text-teal-700 bg-teal-50/50 font-medium' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50' }}">
+    <a href="{{ route('laporan.pembelian') }}" wire:navigate.hover class="flex items-center py-2 px-3 text-sm rounded-lg transition-colors {{ Request::is('laporan/pembelian') ? 'text-teal-700 bg-teal-50/50 font-medium' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50' }}">
     <i class="fas fa-file-invoice-dollar mr-2.5 w-4 text-center {{ Request::is('laporan/pembelian') ? 'text-teal-600' : 'text-gray-400' }}"></i>
     Purchases
     </a>
-    <a wire:navigate.hover href="{{ route('laporan.penjualan') }}" class="flex items-center py-2 px-3 text-sm rounded-lg transition-colors {{ Request::is('laporan/penjualan') ? 'text-teal-700 bg-teal-50/50 font-medium' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50' }}">
+    <a href="{{ route('laporan.penjualan') }}" wire:navigate.hover class="flex items-center py-2 px-3 text-sm rounded-lg transition-colors {{ Request::is('laporan/penjualan') ? 'text-teal-700 bg-teal-50/50 font-medium' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50' }}">
     <i class="fas fa-receipt mr-2.5 w-4 text-center {{ Request::is('laporan/penjualan') ? 'text-teal-600' : 'text-gray-400' }}"></i>
     Sales
     </a>
-    <a wire:navigate.hover href="{{ route('laporan.stok') }}" class="flex items-center py-2 px-3 text-sm rounded-lg transition-colors {{ Request::is('laporan/stok') ? 'text-teal-700 bg-teal-50/50 font-medium' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50' }}">
+    <a href="{{ route('laporan.stok') }}" wire:navigate.hover class="flex items-center py-2 px-3 text-sm rounded-lg transition-colors {{ Request::is('laporan/stok') ? 'text-teal-700 bg-teal-50/50 font-medium' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50' }}">
     <i class="fas fa-cubes-stacked mr-2.5 w-4 text-center {{ Request::is('laporan/stok') ? 'text-teal-600' : 'text-gray-400' }}"></i>
     Stock
     </a>
