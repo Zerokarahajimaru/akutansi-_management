@@ -41,19 +41,26 @@
             <span x-text="selected === 'all' ? 'All' : selected" class="font-bold text-teal-600"></span>
             <i class="fas fa-chevron-down text-[9px] text-gray-400 transition-transform" :class="open ? 'rotate-180' : ''"></i>
         </button>
-        <div x-show="open" @click.away="open = false" x-cloak 
-             x-transition:enter="transition ease-out duration-100"
-             x-transition:enter-start="opacity-0 scale-95"
-             x-transition:enter-end="opacity-100 scale-100"
-             class="absolute right-0 mt-1 w-20 bg-white border border-gray-100 rounded-xl shadow-xl z-50 py-1">
-            <template x-for="opt in options" :key="opt.val">
-                <div @click="changePerPage(opt.val)" 
-                     class="px-3 py-1.5 hover:bg-teal-50 hover:text-teal-700 cursor-pointer transition-colors text-center" 
-                     :class="selected == opt.val ? 'text-teal-600 font-bold bg-teal-50/50' : 'text-gray-600'">
-                    <span x-text="opt.label"></span>
+        <template x-if="open">
+            <div x-transition:enter="transition ease-out duration-100"
+                 x-transition:enter-start="opacity-0 scale-95"
+                 x-transition:enter-end="opacity-100 scale-100"
+                 x-transition:leave="transition ease-in duration-75"
+                 x-transition:leave-start="opacity-100 scale-100"
+                 x-transition:leave-end="opacity-0 scale-95"
+                 class="absolute right-0 mt-1 z-50">
+                <div @click.away="open = false" x-cloak 
+                     class="w-20 bg-white border border-gray-100 rounded-xl shadow-xl py-1">
+                    <template x-for="opt in options" :key="opt.val">
+                        <div @click="changePerPage(opt.val)" 
+                             class="px-3 py-1.5 hover:bg-teal-50 hover:text-teal-700 cursor-pointer transition-colors text-center" 
+                             :class="selected == opt.val ? 'text-teal-600 font-bold bg-teal-50/50' : 'text-gray-600'">
+                            <span x-text="opt.label"></span>
+                        </div>
+                    </template>
                 </div>
-            </template>
-        </div>
+            </div>
+        </template>
     </div>
 </div>
  <form id="import-form" action="{{ route('util.import', 'pemasok') }}" method="POST" enctype="multipart/form-data" class="hidden">
@@ -70,7 +77,7 @@
  <button @click="triggerImport()" class="flex items-center px-4 py-2 bg-orange-50 text-orange-600 rounded-xl text-xs font-bold hover:bg-orange-100 transition-colors">
  <i class="fas fa-file-import mr-2"></i> Import Data
  </button>
- <a href="{{ route('input.pemasok') }}" class="flex items-center px-4 py-2 bg-teal-600 text-white rounded-xl text-xs font-bold hover:bg-teal-700 transition-colors shadow-lg shadow-teal-200">
+ <a href="{{ route('input.pemasok') }}" wire:navigate.hover class="flex items-center px-4 py-2 bg-teal-600 text-white rounded-xl text-xs font-bold hover:bg-teal-700 transition-colors shadow-lg shadow-teal-200">
  <i class="fas fa-truck-field mr-2"></i> Tambah Pemasok
  </a>
  </div>
@@ -115,7 +122,7 @@
  <td class="py-4 px-6 text-sm text-gray-600">{{ $p->NoTelp_Pemasok }}</td>
  <td class="py-4 px-6 text-center">
  <div class="flex justify-center space-x-2">
- <a href="{{ route('data.pemasok.edit', $p->ID_Pemasok) }}" class="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-colors">
+ <a href="{{ route('data.pemasok.edit', $p->ID_Pemasok) }}" wire:navigate.hover class="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-colors">
  <i class="fas fa-edit text-xs"></i>
  </a>
  <form action="{{ route('data.pemasok.destroy', $p->ID_Pemasok) }}" method="POST">
@@ -137,7 +144,7 @@
  </div>
  <h3 class="text-gray-800 font-bold text-base">Belum Ada Pemasok</h3>
  <p class="text-gray-400 text-xs mt-1 max-w-[200px] mx-auto">Daftar mitra pemasok Anda akan muncul di sini.</p>
- <a href="{{ route('input.pemasok') }}" class="mt-4 text-teal-600 text-xs font-bold hover:underline">Tambah Pemasok Baru</a>
+ <a href="{{ route('input.pemasok') }}" wire:navigate.hover class="mt-4 text-teal-600 text-xs font-bold hover:underline">Tambah Pemasok Baru</a>
  </div>
  </td>
  </tr>
