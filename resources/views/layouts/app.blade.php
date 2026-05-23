@@ -128,18 +128,35 @@
             :class="sidebarOpen ? 'w-64' : 'w-20'"
             class="bg-white border-r border-gray-100 flex-shrink-0 flex flex-col z-20 transition-all duration-300 ease-in-out relative shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
             
-            <!-- Toggle Button Inside Sidebar -->
-            <button @click="sidebarOpen = !sidebarOpen" 
-                class="absolute -right-3 top-20 bg-white border border-gray-200 text-gray-500 w-7 h-7 rounded-full flex items-center justify-center shadow-sm z-30 hover:text-teal-600 hover:border-teal-100 transition-colors focus:outline-none">
-                <i class="fas text-[10px] transition-transform duration-300" :class="sidebarOpen ? 'fa-chevron-left' : 'fa-chevron-right'"></i>
-            </button>
+            <!-- Brand Logo & Toggle Header -->
+            <div class="h-20 relative flex items-center border-b border-gray-50 overflow-hidden w-full flex-shrink-0">
+                <!-- Expanded State -->
+                <div x-show="sidebarOpen" 
+                    x-transition:enter="transition opacity-100 duration-300 delay-100" 
+                    x-transition:enter-start="opacity-0" 
+                    x-transition:enter-end="opacity-100" 
+                    x-transition:leave="transition opacity-0 duration-100" 
+                    x-transition:leave-start="opacity-100" 
+                    x-transition:leave-end="opacity-0" 
+                    class="absolute inset-0 flex items-center justify-between px-6 w-64">
+                    <img src="{{ asset('Resource/xyra_logo.png') }}" alt="Xyra.id Logo" class="w-auto h-10 drop-shadow-sm">
+                    <button @click="sidebarOpen = false" title="Collapse Sidebar" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-teal-600 hover:bg-teal-50 rounded-lg transition-colors focus:outline-none">
+                        <i class="fas fa-chevron-left text-sm"></i>
+                    </button>
+                </div>
 
-            <!-- Brand Logo -->
-            <div class="px-6 h-20 flex items-center justify-center border-b border-gray-50 overflow-hidden">
-                <img x-show="sidebarOpen" x-transition.opacity duration.300ms src="{{ asset('Resource/xyra_logo.png') }}" alt="Xyra.id Logo" class="w-auto h-7">
-                <div x-show="!sidebarOpen" class="w-10 h-10 bg-teal-50 text-teal-600 rounded-xl flex items-center justify-center font-bold text-lg">X</div>
-            </div>
-            
+                <!-- Collapsed State -->
+                <div x-show="!sidebarOpen" x-cloak 
+                    x-transition:enter="transition opacity-100 duration-300 delay-100" 
+                    x-transition:enter-start="opacity-0" 
+                    x-transition:enter-end="opacity-100" 
+                    x-transition:leave="transition opacity-0 duration-100" 
+                    x-transition:leave-start="opacity-100" 
+                    x-transition:leave-end="opacity-0" 
+                    class="absolute inset-0 flex items-center justify-center w-20">
+                    <img @click="sidebarOpen = true" title="Expand Sidebar" src="{{ asset('Resource/xyra_logo.png') }}" alt="Xyra.id Logo" class="w-12 h-12 object-contain cursor-pointer hover:scale-110 hover:opacity-80 transition-all duration-300 drop-shadow-sm">
+                </div>
+            </div>            
             <!-- Navigation -->
             <nav class="mt-2 flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar px-4 space-y-1 pb-10">
                 <p x-show="sidebarOpen" class="text-gray-400 text-xs font-semibold px-4 mb-2 mt-6">Main Menu</p>
