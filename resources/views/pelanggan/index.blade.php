@@ -53,7 +53,7 @@
  <a href="{{ route('data.pelanggan.edit', $p->ID_Pelanggan) }}" class="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-colors">
  <i class="fas fa-edit text-xs"></i>
  </a>
- <form action="{{ route('data.pelanggan.destroy', $p->ID_Pelanggan) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus pelanggan ini?')">
+ <form action="{{ route('data.pelanggan.destroy', $p->ID_Pelanggan) }}" method="POST">
  @csrf
  @method('DELETE')
  <button type="submit" class="w-8 h-8 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-colors">

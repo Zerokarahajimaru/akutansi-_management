@@ -61,7 +61,7 @@
  <a href="{{ route('data.user.edit', $user->id) }}" class="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-colors">
  <i class="fas fa-edit text-xs"></i>
  </a>
- <form action="{{ route('data.user.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">
+ <form action="{{ route('data.user.destroy', $user->id) }}" method="POST">
  @csrf
  @method('DELETE')
  <button type="submit" class="w-8 h-8 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-colors">

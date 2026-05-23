@@ -44,39 +44,6 @@
  color: #1f2937;
  }
 
- /* SweetAlert2 Professional Styling */
- .swal2-popup {
- padding: 2.5rem !important;
- border-radius: 1.5rem !important;
- border: 1px solid #f3f4f6 !important;
- box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.05), 0 8px 10px -6px rgb(0 0 0 / 0.05) !important;
- }
- .swal2-title {
- color: #111827 !important;
- font-weight: 700 !important;
- }
- .swal2-html-container {
- color: #4b5563 !important;
- font-size: 0.95rem !important;
- line-height: 1.5 !important;
- }
- .swal2-confirm {
- background-color: #0d9488 !important; /* teal-600 */
- border-radius: 0.75rem !important;
- padding: 0.75rem 2rem !important;
- font-weight: 600 !important;
- font-size: 0.875rem !important;
- box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.2) !important;
- }
- .swal2-cancel {
- background-color: #f9fafb !important;
- color: #4b5563 !important;
- border-radius: 0.75rem !important;
- padding: 0.75rem 2rem !important;
- font-weight: 600 !important;
- font-size: 0.875rem !important;
- }
- 
  /* Professional Thin Scrollbar */
  .custom-scrollbar::-webkit-scrollbar {
  width: 4px;
@@ -98,32 +65,86 @@
  <!-- Global SweetAlert Handler -->
  @if(session('success') || session('error'))
  <script>
- document.addEventListener('DOMContentLoaded', function() {
- const type = "{{ session('success') ? 'success' : 'error' }}";
- const message = "{{ session('success') ?? session('error') }}";
- 
- window.Swal.fire({
- icon: type,
- title: type === 'success' ? 'Success' : 'Oops...',
- text: message,
- confirmButtonText: 'Close',
- buttonsStyling: false,
- customClass: {
- confirmButton: 'swal2-confirm',
- cancelButton: 'swal2-cancel'
- },
- showClass: {
- popup: 'animate__animated animate__fadeInDown'
- },
- hideClass: {
- popup: 'animate__animated animate__fadeOutUp'
- }
- });
- });
- </script>
- @endif
+document.addEventListener('DOMContentLoaded', function() {
+    const isSuccess = "{{ session('success') ? 'true' : 'false' }}" === 'true';
+    const message = "{{ session('success') ?? session('error') }}";
+    const titleText = isSuccess ? 'Berhasil' : 'Gagal';
+    const iconClass = isSuccess ? 'fa-check text-teal-600' : 'fa-triangle-exclamation text-rose-500';
+    const bgClass = isSuccess ? 'bg-teal-50' : 'bg-rose-50';
 
- <!-- Sidebar -->
+    window.Swal.fire({
+        html: `
+            <div class="text-left">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-8 h-8 rounded-full ${bgClass} flex items-center justify-center flex-shrink-0">
+                        <i class="fas ${iconClass} text-sm"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-gray-900 m-0">${titleText}</h3>
+                </div>
+                <p class="text-sm text-gray-500 m-0 pl-11">${message}</p>
+            </div>
+        `,
+        width: '24rem',
+        padding: '1.25rem',
+        showCloseButton: false,
+        showConfirmButton: true,
+        confirmButtonText: 'Tutup',
+        buttonsStyling: false,
+        customClass: {
+            popup: '!rounded-2xl !border !border-gray-100 !shadow-xl !bg-white !m-0',
+            htmlContainer: '!m-0 !p-0 !text-left',
+            actions: '!mt-5 !w-full !flex !justify-end !p-0',
+            confirmButton: '!px-5 !py-2 !bg-gray-100 hover:!bg-gray-200 !text-gray-700 !text-sm !font-semibold !rounded-xl !transition-colors !m-0'
+        }
+    });
+});
+</script>
+@endif
+
+<script>
+document.addEventListener('submit', function(e) {
+    const form = e.target;
+    const methodInput = form.querySelector('input[name="_method"]');
+
+    // Check if it's a DELETE form
+    if (methodInput && methodInput.value.toUpperCase() === 'DELETE') {
+        e.preventDefault();
+
+        window.Swal.fire({
+            html: `
+                <div class="text-left">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-8 h-8 rounded-full bg-rose-50 flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-triangle-exclamation text-rose-500 text-sm"></i>
+                        </div>
+                        <h3 class="text-base font-bold text-gray-900 m-0">Konfirmasi Hapus</h3>
+                    </div>
+                    <p class="text-sm text-gray-500 m-0 pl-11">Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.</p>
+                </div>
+            `,
+            width: '24rem',
+            padding: '1.25rem',
+            showCancelButton: true,
+            showConfirmButton: true,
+            confirmButtonText: 'Ya, Hapus',
+            cancelButtonText: 'Batal',
+            buttonsStyling: false,
+            customClass: {
+                popup: '!rounded-2xl !border !border-gray-100 !shadow-xl !bg-white !m-0',
+                htmlContainer: '!m-0 !p-0 !text-left',
+                actions: '!mt-6 !w-full !flex !justify-end !gap-3 !p-0',
+                confirmButton: '!px-4 !py-2 !bg-rose-600 hover:!bg-rose-700 !text-white !text-sm !font-semibold !rounded-xl !transition-colors !m-0 !shadow-sm',
+                cancelButton: '!px-4 !py-2 !bg-gray-100 hover:!bg-gray-200 !text-gray-700 !text-sm !font-semibold !rounded-xl !transition-colors !m-0'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+        return false;
+    }
+});
+</script> <!-- Sidebar -->
  <aside 
  :class="sidebarOpen ? 'w-64' : 'w-20'"
  class="bg-white border-r border-gray-100 flex-shrink-0 flex flex-col z-20 transition-all duration-300 ease-in-out relative shadow-[4px_0_24px_rgba(0,0,0,0.02)]">

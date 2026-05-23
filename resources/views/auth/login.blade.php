@@ -33,10 +33,7 @@
  </div>
 
  <div>
- <div class="flex items-center justify-between mb-1.5">
  <label for="password" class="block text-sm font-semibold text-gray-700">Password</label>
- <a href="#" class="text-xs font-medium text-teal-600 hover:text-teal-700 hover:underline transition-all">Forgot password?</a>
- </div>
  <div class="relative group">
  <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400 group-focus-within:text-teal-500 transition-colors">
  <i class="fas fa-lock text-sm"></i>
