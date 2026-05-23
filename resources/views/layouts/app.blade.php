@@ -4,23 +4,31 @@
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <title>Cloth Management - @yield('title')</title>
+ <link rel="icon" type="image/png" href="{{ asset('Resource/xyra_logo.png') }}">
  @vite(['resources/css/app.css', 'resources/js/app.js'])
  <style>
  [x-cloak] { display: none !important; }
 
- /* Custom Scrollbar for Dropdowns */
- .select-scrollbar::-webkit-scrollbar {
- width: 5px;
+ /* Global Custom Scrollbar */
+ ::-webkit-scrollbar {
+ width: 6px;
+ height: 6px;
  }
- .select-scrollbar::-webkit-scrollbar-track {
+ ::-webkit-scrollbar-track {
  background: #f9fafb;
  }
- .select-scrollbar::-webkit-scrollbar-thumb {
- background: #e5e7eb;
+ ::-webkit-scrollbar-thumb {
+ background: #0d9488; /* teal-600 */
  border-radius: 10px;
  }
- .select-scrollbar::-webkit-scrollbar-thumb:hover {
- background: #d1d5db;
+ ::-webkit-scrollbar-thumb:hover {
+ background: #0f766e; /* teal-700 */
+ }
+
+ /* Firefox scrollbar support */
+ * {
+ scrollbar-width: thin;
+ scrollbar-color: #0d9488 #f9fafb;
  }
 
  /* Standard Select Styling (Fallback) */
@@ -42,21 +50,6 @@
  padding: 1rem;
  background-color: white;
  color: #1f2937;
- }
-
- /* Professional Thin Scrollbar */
- .custom-scrollbar::-webkit-scrollbar {
- width: 4px;
- }
- .custom-scrollbar::-webkit-scrollbar-track {
- background: transparent;
- }
- .custom-scrollbar::-webkit-scrollbar-thumb {
- background: #e5e7eb;
- border-radius: 10px;
- }
- .custom-scrollbar::-webkit-scrollbar-thumb:hover {
- background: #d1d5db;
  }
  </style>
 </head>
@@ -160,7 +153,7 @@ document.addEventListener('submit', function(e) {
  x-transition:leave-start="opacity-100" 
  x-transition:leave-end="opacity-0" 
  class="absolute inset-0 flex items-center justify-between px-6 w-64">
- <img src="{{ asset('Resource/xyra_logo.png') }}" alt="Xyra.id Logo" class="w-auto h-10 drop-shadow-sm">
+ <img src="{{ asset('Resource/xyra_logo.png') }}" alt="Xyra.id Logo" class="w-auto h-12 drop-shadow-sm">
  <button @click="sidebarOpen = false" title="Collapse Sidebar" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-teal-600 hover:bg-teal-50 rounded-lg transition-colors focus:outline-none">
  <i class="fas fa-chevron-left text-sm"></i>
  </button>
@@ -179,12 +172,12 @@ document.addEventListener('submit', function(e) {
  </div>
  </div> 
  <!-- Navigation -->
- <nav class="mt-2 flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar px-4 space-y-1 pb-10">
+ <nav class="mt-2 flex-1 overflow-y-auto overflow-x-hidden px-4 space-y-1 pb-10">
  <p x-show="sidebarOpen" class="text-gray-400 text-xs font-semibold px-4 mb-2 mt-6">Main Menu</p>
  <div x-show="!sidebarOpen" class="h-8"></div>
  
  <!-- Dashboard -->
- <a href="{{ route('dashboard') }}" class="flex items-center py-2.5 px-4 rounded-xl transition-all duration-200 group {{ Request::is('/') ? 'bg-teal-50 text-teal-700 font-semibold' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+ <a href="{{ route('dashboard') }}" class="flex items-center py-2.5 px-4 rounded-xl transition-all duration-200 group {{ Request::is('/') ? 'bg-teal-50 text-teal-700 font-semibold shadow-sm' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
  <i class="fas fa-chart-line w-5 text-center transition-transform group-hover:scale-110 {{ Request::is('/') ? 'text-teal-600' : 'text-gray-400 group-hover:text-teal-500' }}"></i>
  <span x-show="sidebarOpen" class="text-sm ml-3 whitespace-nowrap">Dashboard</span>
  </a>
@@ -193,14 +186,14 @@ document.addEventListener('submit', function(e) {
 
  <!-- Data Dropdown -->
  <div x-data="{ open: {{ Request::is('data/*') ? 'true' : 'false' }} }" class="space-y-1">
- <button @click="sidebarOpen ? open = !open : sidebarOpen = true" class="flex items-center justify-between w-full py-2.5 px-4 rounded-xl text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 group">
+ <button @click="sidebarOpen ? open = !open : sidebarOpen = true" class="flex items-center justify-between w-full py-2.5 px-4 rounded-xl transition-all duration-200 group {{ Request::is('data/*') ? 'bg-teal-50/30 text-teal-700 font-medium' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
  <div class="flex items-center">
- <i class="fas fa-layer-group w-5 text-center text-gray-400 group-hover:text-teal-500 transition-colors"></i>
+ <i class="fas fa-layer-group w-5 text-center transition-colors {{ Request::is('data/*') ? 'text-teal-600' : 'text-gray-400 group-hover:text-teal-500' }}"></i>
  <span x-show="sidebarOpen" class="text-sm ml-3 whitespace-nowrap">View Data</span>
  </div>
- <i x-show="sidebarOpen" class="fas fa-chevron-down text-xs text-gray-400 transition-transform duration-300" :class="open ? 'rotate-180' : ''"></i>
+ <i x-show="sidebarOpen" class="fas fa-chevron-down text-xs transition-transform duration-300 {{ Request::is('data/*') ? 'text-teal-500' : 'text-gray-400' }}" :class="open ? 'rotate-180' : ''"></i>
  </button>
- <div x-show="open && sidebarOpen" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -trangray-y-2" x-transition:enter-end="opacity-100 trangray-y-0" class="space-y-0.5 ml-4 border-l border-gray-100 pl-3">
+ <div x-show="open && sidebarOpen" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-0.5 ml-4 border-l border-gray-100 pl-3">
  @php
  $dataLinks = [
  ['route' => 'data.user', 'label' => 'Users', 'icon' => 'fa-users-gear'],
@@ -222,14 +215,14 @@ document.addEventListener('submit', function(e) {
 
  <!-- Input Dropdown -->
  <div x-data="{ open: {{ Request::is('input/*') ? 'true' : 'false' }} }" class="space-y-1">
- <button @click="sidebarOpen ? open = !open : sidebarOpen = true" class="flex items-center justify-between w-full py-2.5 px-4 rounded-xl text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 group">
+ <button @click="sidebarOpen ? open = !open : sidebarOpen = true" class="flex items-center justify-between w-full py-2.5 px-4 rounded-xl transition-all duration-200 group {{ Request::is('input/*') ? 'bg-teal-50/30 text-teal-700 font-medium' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
  <div class="flex items-center">
- <i class="fas fa-circle-plus w-5 text-center text-gray-400 group-hover:text-teal-500 transition-colors"></i>
+ <i class="fas fa-circle-plus w-5 text-center transition-colors {{ Request::is('input/*') ? 'text-teal-600' : 'text-gray-400 group-hover:text-teal-500' }}"></i>
  <span x-show="sidebarOpen" class="text-sm ml-3 whitespace-nowrap">Add Data</span>
  </div>
- <i x-show="sidebarOpen" class="fas fa-chevron-down text-xs text-gray-400 transition-transform duration-300" :class="open ? 'rotate-180' : ''"></i>
+ <i x-show="sidebarOpen" class="fas fa-chevron-down text-xs transition-transform duration-300 {{ Request::is('input/*') ? 'text-teal-500' : 'text-gray-400' }}" :class="open ? 'rotate-180' : ''"></i>
  </button>
- <div x-show="open && sidebarOpen" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -trangray-y-2" x-transition:enter-end="opacity-100 trangray-y-0" class="space-y-0.5 ml-4 border-l border-gray-100 pl-3">
+ <div x-show="open && sidebarOpen" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-0.5 ml-4 border-l border-gray-100 pl-3">
  @php
  $inputLinks = [];
  
@@ -259,14 +252,14 @@ document.addEventListener('submit', function(e) {
 
  <!-- Laporan Dropdown -->
  <div x-data="{ open: {{ Request::is('laporan/*') ? 'true' : 'false' }} }" class="space-y-1">
- <button @click="sidebarOpen ? open = !open : sidebarOpen = true" class="flex items-center justify-between w-full py-2.5 px-4 rounded-xl text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 group">
+ <button @click="sidebarOpen ? open = !open : sidebarOpen = true" class="flex items-center justify-between w-full py-2.5 px-4 rounded-xl transition-all duration-200 group {{ Request::is('laporan/*') ? 'bg-teal-50/30 text-teal-700 font-medium' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
  <div class="flex items-center">
- <i class="fas fa-chart-simple w-5 text-center text-gray-400 group-hover:text-teal-500 transition-colors"></i>
+ <i class="fas fa-chart-simple w-5 text-center transition-colors {{ Request::is('laporan/*') ? 'text-teal-600' : 'text-gray-400 group-hover:text-teal-500' }}"></i>
  <span x-show="sidebarOpen" class="text-sm ml-3 whitespace-nowrap">Reports</span>
  </div>
- <i x-show="sidebarOpen" class="fas fa-chevron-down text-xs text-gray-400 transition-transform duration-300" :class="open ? 'rotate-180' : ''"></i>
+ <i x-show="sidebarOpen" class="fas fa-chevron-down text-xs transition-transform duration-300 {{ Request::is('laporan/*') ? 'text-teal-500' : 'text-gray-400' }}" :class="open ? 'rotate-180' : ''"></i>
  </button>
- <div x-show="open && sidebarOpen" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -trangray-y-2" x-transition:enter-end="opacity-100 trangray-y-0" class="space-y-0.5 ml-4 border-l border-gray-100 pl-3">
+ <div x-show="open && sidebarOpen" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-0.5 ml-4 border-l border-gray-100 pl-3">
  <a href="{{ route('laporan.pembelian') }}" class="flex items-center py-2 px-3 text-sm rounded-lg transition-colors {{ Request::is('laporan/pembelian') ? 'text-teal-700 bg-teal-50/50 font-medium' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50' }}">
  <i class="fas fa-file-invoice-dollar mr-2.5 w-4 text-center {{ Request::is('laporan/pembelian') ? 'text-teal-600' : 'text-gray-400' }}"></i>
  Purchases
