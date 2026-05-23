@@ -202,12 +202,12 @@ document.addEventListener('submit', function(e) {
  <div x-show="open && sidebarOpen" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-0.5 ml-4 border-l border-gray-100 pl-3">
  @php
  $dataLinks = [
- ['route' => 'data.user', 'label' => 'Users', 'icon' => 'fa-users-gear'],
+ ['route' => 'data.user', 'label' => 'Users', 'icon' => 'fa-users'],
  ['route' => 'data.pelanggan', 'label' => 'Customers', 'icon' => 'fa-address-book'],
- ['route' => 'data.pemasok', 'label' => 'Suppliers', 'icon' => 'fa-truck-field'],
- ['route' => 'data.barang.list', 'label' => 'Products', 'icon' => 'fa-tags'],
- ['route' => 'data.pembelian', 'label' => 'Purchases', 'icon' => 'fa-file-invoice'],
- ['route' => 'data.penjualan', 'label' => 'Sales', 'icon' => 'fa-file-signature'],
+ ['route' => 'data.pemasok', 'label' => 'Suppliers', 'icon' => 'fa-truck'],
+ ['route' => 'data.barang.list', 'label' => 'Products', 'icon' => 'fa-boxes-stacked'],
+ ['route' => 'data.pembelian', 'label' => 'Purchases', 'icon' => 'fa-cart-shopping'],
+ ['route' => 'data.penjualan', 'label' => 'Sales', 'icon' => 'fa-file-invoice-dollar'],
  ];
  @endphp
  @foreach($dataLinks as $link)
@@ -238,11 +238,11 @@ document.addEventListener('submit', function(e) {
  }
 
  $inputLinks = array_merge($inputLinks, [
- ['route' => 'input.pelanggan', 'label' => 'Customer', 'icon' => 'fa-user-tag'],
- ['route' => 'input.pemasok', 'label' => 'Supplier', 'icon' => 'fa-truck-moving'],
- ['route' => 'input.barang', 'label' => 'Product', 'icon' => 'fa-boxes-packing'],
+ ['route' => 'input.pelanggan', 'label' => 'Customer', 'icon' => 'fa-address-card'],
+ ['route' => 'input.pemasok', 'label' => 'Supplier', 'icon' => 'fa-truck-fast'],
+ ['route' => 'input.barang', 'label' => 'Product', 'icon' => 'fa-box-open'],
  ['route' => 'input.pembelian', 'label' => 'Purchase', 'icon' => 'fa-cart-plus'],
- ['route' => 'input.penjualan', 'label' => 'Sale', 'icon' => 'fa-bag-shopping'],
+ ['route' => 'input.penjualan', 'label' => 'Sale', 'icon' => 'fa-file-circle-plus'],
  ]);
  @endphp
  @foreach($inputLinks as $link)
