@@ -23,21 +23,21 @@
  <div class="space-y-4">
  <!-- Nama Lengkap -->
  <div class="space-y-2">
- <label class="text-sm font-semibold text-gray-700 mb-1.5">Nama Lengkap</label>
- <input type="text" name="name" value="{{ old('name', $user->name) }}" class="w-full bg-gray-50/50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all duration-300 transition-all" placeholder="Nama Lengkap" required>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Nama Lengkap</label>
+ <input type="text" name="name" value="{{ old('name', $user->name) }}" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" placeholder="Nama Lengkap" required>
  </div>
 
  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
  <!-- Username -->
  <div class="space-y-2">
- <label class="text-sm font-semibold text-gray-700 mb-1.5">Username</label>
- <input type="text" name="username" value="{{ old('username', $user->username) }}" class="w-full bg-gray-50/50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all duration-300 transition-all" required>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Username</label>
+ <input type="text" name="username" value="{{ old('username', $user->username) }}" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" required>
  </div>
 
  <!-- Role -->
  <div class="space-y-2">
- <label class="text-sm font-semibold text-gray-700 mb-1.5">Hak Akses (Role)</label>
- <select name="role" class="w-full bg-gray-50/50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all duration-300 transition-all" required>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Hak Akses (Role)</label>
+ <select name="role" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" required>
  <option value="pegawai" {{ $user->role === 'pegawai' ? 'selected' : '' }}>Pegawai</option>
  <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>Admin</option>
  </select>
@@ -46,20 +46,20 @@
 
  <!-- Password -->
  <div class="space-y-2">
- <label class="text-sm font-semibold text-gray-700 mb-1.5">Password Baru (Kosongkan jika tidak ingin mengubah)</label>
- <input type="password" name="password" class="w-full bg-gray-50/50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all duration-300 transition-all" placeholder="••••••••">
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Password Baru (Kosongkan jika tidak ingin mengubah)</label>
+ <input type="password" name="password" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" placeholder="••••••••">
  </div>
 
  <!-- No Telp -->
  <div class="space-y-2">
- <label class="text-sm font-semibold text-gray-700 mb-1.5">Nomor Telepon</label>
- <input type="text" name="NoTelp_User" value="{{ old('NoTelp_User', $user->admin->NoTelp_Admin ?? '') }}" class="w-full bg-gray-50/50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all duration-300 transition-all" placeholder="08xxxx">
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Nomor Telepon</label>
+ <input type="text" name="NoTelp_User" value="{{ old('NoTelp_User', $user->admin->NoTelp_Admin ?? '') }}" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" placeholder="08xxxx">
  </div>
  </div>
 
  <div class="pt-6 border-t border-gray-50 flex justify-end space-x-3">
- <a href="{{ route('data.user') }}" class="px-6 py-3 bg-white border border-gray-200 text-gray-700 rounded-xl text-sm font-semibold hover:bg-gray-50 transition-colors shadow-sm hover:bg-gray-200 transition-colors">Batal</a>
- <button type="submit" class="px-10 py-3 bg-teal-600 text-white rounded-xl text-sm font-bold hover:bg-teal-700 transition-all shadow-lg shadow-teal-200">Perbarui Akun</button>
+ <a href="{{ route('data.user') }}" class="px-6 py-3 bg-gray-100 text-gray-600 font-semibold rounded-xl hover:bg-gray-200 transition-colors">Batal</a>
+ <button type="submit" class="px-10 py-3 bg-teal-600 text-white font-bold rounded-xl shadow-sm hover:bg-teal-700 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">Perbarui Akun</button>
  </div>
  </form>
  </div>
