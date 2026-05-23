@@ -158,7 +158,7 @@ document.addEventListener('submit', function(e) {
  class="absolute inset-0 flex items-center justify-between px-6 w-64">
  <div class="flex items-center gap-3">
  <img src="{{ asset('Resource/xyra_logo.png') }}" alt="Xyra.id Logo" class="w-auto h-11 drop-shadow-sm">
- <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-teal-600 to-emerald-500 bg-clip-text text-transparent">Xyra<span class="text-gray-800">.id</span></span>
+ <span class="text-xl font-black tracking-tighter text-gray-900">Xyra.id</span>
  </div>
  <button @click="sidebarOpen = false" title="Collapse Sidebar" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-teal-600 hover:bg-teal-50 rounded-lg transition-colors focus:outline-none">
  <i class="fas fa-chevron-left text-sm"></i>
