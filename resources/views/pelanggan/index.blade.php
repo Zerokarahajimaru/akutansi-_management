@@ -65,7 +65,16 @@
  </tr>
  @empty
  <tr>
- <td colspan="4" class="py-10 text-center text-gray-400 italic text-sm">Belum ada data pelanggan</td>
+ <td colspan="4" class="py-16 text-center">
+ <div class="flex flex-col items-center justify-center">
+ <div class="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mb-4">
+ <i class="fas fa-address-book text-gray-300 text-2xl"></i>
+ </div>
+ <h3 class="text-gray-800 font-bold text-base">Belum Ada Pelanggan</h3>
+ <p class="text-gray-400 text-xs mt-1 max-w-[200px] mx-auto">Daftar pelanggan Anda akan muncul di sini setelah ditambahkan.</p>
+ <a href="{{ route('input.pelanggan') }}" class="mt-4 text-teal-600 text-xs font-bold hover:underline">Tambah Pelanggan Sekarang</a>
+ </div>
+ </td>
  </tr>
  @endforelse
  </tbody>

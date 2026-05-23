@@ -74,7 +74,18 @@
  </tr>
  @empty
  <tr>
- <td colspan="5" class="py-10 text-center text-gray-400 italic text-sm">Belum ada data pengguna</td>
+ <td colspan="5" class="py-16 text-center">
+ <div class="flex flex-col items-center justify-center">
+ <div class="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mb-4">
+ <i class="fas fa-users-gear text-gray-300 text-2xl"></i>
+ </div>
+ <h3 class="text-gray-800 font-bold text-base">Pengguna Tidak Ditemukan</h3>
+ <p class="text-gray-400 text-xs mt-1 max-w-[200px] mx-auto">Belum ada akun pengguna lain yang terdaftar di sistem.</p>
+ @if(Auth::user()->role === 'admin')
+ <a href="{{ route('input.user') }}" class="mt-4 text-teal-600 text-xs font-bold hover:underline">Buat Akun Baru</a>
+ @endif
+ </div>
+ </td>
  </tr>
  @endforelse
  </tbody>
