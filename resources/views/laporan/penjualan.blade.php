@@ -72,7 +72,15 @@
  </tr>
  @empty
  <tr>
- <td colspan="5" class="py-12 text-center text-gray-400 italic text-sm font-medium">Tidak ada data penjualan pada periode ini</td>
+    <td colspan="100%" class="py-16 text-center">
+        <div class="flex flex-col items-center justify-center">
+            <div class="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mb-4 border border-gray-100 shadow-sm">
+                <i class="fas fa-receipt text-gray-300 text-3xl"></i>
+            </div>
+            <h3 class="text-gray-800 font-bold text-base">Data Laporan Kosong</h3>
+            <p class="text-gray-400 text-sm mt-1">Belum ada catatan penjualan untuk ditampilkan pada periode ini.</p>
+        </div>
+    </td>
  </tr>
  @endforelse
  </tbody>
