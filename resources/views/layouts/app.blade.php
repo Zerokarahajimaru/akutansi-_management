@@ -9,26 +9,29 @@
  <style>
  [x-cloak] { display: none !important; }
 
- /* Global Custom Scrollbar */
+ /* Global Professional UI Scrollbar (Modern Standard) */
  ::-webkit-scrollbar {
- width: 6px;
- height: 6px;
+    width: 6px;
+    height: 6px;
  }
  ::-webkit-scrollbar-track {
- background: #f9fafb;
+    background: transparent; 
  }
  ::-webkit-scrollbar-thumb {
- background: #0d9488; /* teal-600 */
- border-radius: 10px;
+    background: #d1d5db; /* Tailwind gray-300 */
+    border-radius: 10px;
  }
  ::-webkit-scrollbar-thumb:hover {
- background: #0f766e; /* teal-700 */
+    background: #9ca3af; /* Tailwind gray-400 */
+ }
+ ::-webkit-scrollbar-button {
+    display: none !important; /* Strictly force hide up/down arrows */
  }
 
  /* Firefox scrollbar support */
  * {
- scrollbar-width: thin;
- scrollbar-color: #0d9488 #f9fafb;
+    scrollbar-width: thin;
+    scrollbar-color: #d1d5db transparent;
  }
 
  /* Standard Select Styling (Fallback) */
