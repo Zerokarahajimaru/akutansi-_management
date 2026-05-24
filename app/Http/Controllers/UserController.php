@@ -46,7 +46,7 @@ class UserController extends Controller
             User::create([
                 'username' => $request->username,
                 'name' => $request->name,
-                'password' => Hash::make($request->password),
+                'password' => $request->password, // Model has 'hashed' cast
                 'role' => $request->role,
                 'NoTelp_User' => $request->NoTelp_User,
                 'Alamat_User' => $request->Alamat_User,
@@ -92,7 +92,7 @@ class UserController extends Controller
         }
 
         try {
-            $user->update([
+            $user->fill([
                 'username' => $request->username,
                 'name' => $request->name,
                 'role' => $role,
@@ -101,11 +101,18 @@ class UserController extends Controller
             ]);
 
             if ($request->filled('password')) {
-                $user->password = Hash::make($request->password);
-                $user->save();
+                // We pass the plain string because the User model has the 'hashed' cast
+                $user->password = $request->password;
             }
 
+            $user->save();
+
             Cache::forget('user_auth_id_' . $user->id);
+
+            // Logic redirect: If editing own profile, stay here to show success
+            if (auth()->id() === $user->id) {
+                return back()->with('success', 'Profil Anda berhasil diperbarui.');
+            }
 
             return redirect()->route('data.user')->with('success', 'User berhasil diperbarui.');
         } catch (\Exception $e) {
