@@ -8,7 +8,7 @@ use App\Models\StokBarang;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
-class dashboardController extends Controller
+class DashboardController extends Controller
 {
     public function index()
     {
