@@ -30,7 +30,7 @@
             @foreach([5, 10, 25, 50, 'all'] as $size)
                 <a href="{{ request()->fullUrlWithQuery(['per_page' => $size, 'page' => 1]) }}" 
                    wire:navigate 
-                   class="block px-4 py-2 text-sm transition-all duration-200 {{ request('per_page', 50) == $size ? 'bg-teal-50 text-teal-700 font-bold' : 'text-gray-600 hover:bg-teal-50 hover:text-teal-700 border-l-2 border-transparent' }}">
+                   class="block px-4 py-2 text-sm transition-all duration-200 {{ request('per_page', 50) == $size ? 'bg-teal-50 text-teal-700 font-bold border-l-2 border-teal-500' : 'text-gray-600 hover:bg-teal-50 hover:text-teal-700 border-l-2 border-transparent' }}">
                     {{ $size === 'all' ? 'Semua Data' : $size . ' Baris' }}
                 </a>
             @endforeach
@@ -41,7 +41,7 @@
  <i class="fas fa-file-export mr-2"></i> Export
  </a>
  @if(Auth::user()->role === 'admin')
- <a href="{{ route('input.user') }}" wire:navigate.hover class="flex items-center px-4 py-2 bg-teal-600 text-white rounded-xl text-xs font-bold hover:bg-teal-700 transition-colors shadow-lg shadow-teal-200">
+ <a href="{{ route('input.user') }}" wire:navigate class="flex items-center px-4 py-2 bg-teal-600 text-white rounded-xl text-xs font-bold hover:bg-teal-700 transition-colors shadow-lg shadow-teal-200">
  <i class="fas fa-user-plus mr-2"></i> Tambah Pengguna
  </a>
  @endif
@@ -78,11 +78,8 @@
         <i class="fas {{ $currentSortBy === 'role' ? ($currentSortDir === 'asc' ? 'fa-sort-up text-teal-600' : 'fa-sort-down text-teal-600') : 'fa-sort text-gray-300' }} text-[10px] ml-auto group-hover:text-teal-500 transition-colors"></i>
     </div>
  </th>
- <th class="py-4 px-6">
-    <div class="flex items-center text-gray-400">
-        No. Telepon
-    </div>
- </th>
+ <th class="py-4 px-6 text-gray-400">No. Telepon</th>
+ <th class="py-4 px-6 text-gray-400">Alamat</th>
  @if(Auth::user()->role === 'admin')
  <th class="py-4 px-6 text-center">Aksi</th>
  @endif
@@ -91,26 +88,19 @@
  <tbody class="divide-y divide-gray-50">
  @forelse($users as $user)
  <tr class="hover:bg-gray-50/50 transition-colors">
- <td class="py-4 px-6">
- <div class="flex items-center">
- <img class="h-8 w-8 rounded-lg mr-3" src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&color=6366f1&background=e0e7ff&bold=true" alt="">
- <div>
- <p class="text-sm font-bold text-gray-800">{{ $user->name }}</p>
- <p class="text-xs text-gray-400 font-medium italic">Role: {{ ucfirst($user->role) }}</p>
- </div>
- </div>
- </td>
+ <td class="py-4 px-6 text-sm text-gray-800 font-bold">{{ $user->name }}</td>
  <td class="py-4 px-6 text-sm text-gray-600 font-medium">{{ $user->username }}</td>
  <td class="py-4 px-6">
  <span class="px-2.5 py-1 rounded-full text-xs font-bold {{ $user->role === 'admin' ? 'bg-teal-50 text-teal-600 border border-teal-100' : 'bg-gray-50 text-gray-600 border border-gray-100' }}">
  {{ $user->role }}
  </span>
  </td>
- <td class="py-4 px-6 text-sm text-gray-600 font-medium">{{ $user->admin->NoTelp_Admin ?? '-' }}</td>
+ <td class="py-4 px-6 text-sm text-gray-600">{{ $user->NoTelp_User ?? '-' }}</td>
+ <td class="py-4 px-6 text-sm text-gray-600">{{ $user->Alamat_User ?? '-' }}</td>
  @if(Auth::user()->role === 'admin' || Auth::user()->id === $user->id)
  <td class="py-4 px-6 text-center">
  <div class="flex justify-center space-x-2">
- <a href="{{ route('data.user.edit', $user->id) }}" wire:navigate.hover class="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-colors">
+ <a href="{{ route('data.user.edit', $user->id) }}" wire:navigate class="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-colors">
  <i class="fas fa-edit text-xs"></i>
  </a>
  @if(Auth::user()->role === 'admin' && Auth::user()->id !== $user->id)
@@ -124,13 +114,11 @@
  @endif
  </div>
  </td>
- @else
- <td class="py-4 px-6 text-center text-gray-300 italic text-xs">Locked</td>
  @endif
  </tr>
  @empty
  <tr class="empty-state">
- <td colspan="5" class="py-16 text-center">
+ <td colspan="6" class="py-16 text-center">
  <div class="flex flex-col items-center justify-center">
  <div class="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mb-4">
  <i class="fas fa-users-gear text-gray-300 text-2xl"></i>
@@ -138,7 +126,7 @@
  <h3 class="text-gray-800 font-bold text-base">Pengguna Tidak Ditemukan</h3>
  <p class="text-gray-400 text-xs mt-1 max-w-[200px] mx-auto">Belum ada akun pengguna lain yang terdaftar di sistem.</p>
  @if(Auth::user()->role === 'admin')
- <a href="{{ route('input.user') }}" wire:navigate.hover class="mt-4 text-teal-600 text-xs font-bold hover:underline">Buat Akun Baru</a>
+ <a href="{{ route('input.user') }}" wire:navigate class="mt-4 text-teal-600 text-xs font-bold hover:underline">Buat Akun Baru</a>
  @endif
  </div>
  </td>
