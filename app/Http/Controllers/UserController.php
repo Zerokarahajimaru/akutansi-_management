@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -15,9 +14,7 @@ class UserController extends Controller
         $sortBy = $request->input('sort_by', 'name');
         $sortDir = $request->input('sort_dir', 'asc');
         $perPage = $request->input('per_page', 50);
-        if ($perPage === 'all') {
-            $perPage = 9999;
-        }
+        if ($perPage === 'all') $perPage = 9999;
 
         $users = User::orderBy($sortBy, $sortDir)
             ->paginate($perPage)
@@ -34,109 +31,76 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'username' => 'required|string|max:255|unique:users,username',
             'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:8',
-            'role' => 'required|in:admin,pegawai',
             'NoTelp_User' => 'nullable|string|max:20',
             'Alamat_User' => 'nullable|string',
+        ], [
+            'username.unique' => 'Username ini sudah digunakan.',
+            'password.min' => 'Password minimal 8 karakter.',
         ]);
 
         try {
             User::create([
-                'username' => $request->username,
+                'id' => User::generateId('usr-xyra'),
                 'name' => $request->name,
-                'password' => $request->password, // Model has 'hashed' cast
-                'role' => $request->role,
+                'username' => $request->username,
+                'password' => Hash::make($request->password),
+                'role' => 'admin',
                 'NoTelp_User' => $request->NoTelp_User,
                 'Alamat_User' => $request->Alamat_User,
             ]);
 
-            return redirect()->route('data.user')->with('success', 'User berhasil ditambahkan.');
+            return redirect()->route('data.user')->with('success', 'Pengguna baru berhasil ditambahkan.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Gagal menambahkan user: ' . $e->getMessage());
+            return back()->with('error', 'Gagal menambahkan pengguna: ' . $e->getMessage())->withInput();
         }
     }
 
     public function edit($id)
     {
-        $user = User::findOrFail($id);
-        
-        if (auth()->user()->role !== 'admin' && auth()->id() !== $user->id) {
-            abort(403, 'Unauthorized action.');
+        if (auth()->id() !== $id) {
+            return redirect()->route('data.user')->with('error', 'Anda hanya diizinkan untuk mengubah profil Anda sendiri.');
         }
 
+        $user = User::findOrFail($id);
         return view('user.edit', compact('user'));
     }
 
     public function update(Request $request, $id)
     {
+        if (auth()->id() !== $id) {
+            return abort(403, 'Aksi tidak diizinkan.');
+        }
+
         $user = User::findOrFail($id);
 
-        if (auth()->user()->role !== 'admin' && auth()->id() !== $user->id) {
-            abort(403, 'Unauthorized action.');
-        }
-
         $request->validate([
-            'username' => 'required|string|max:255|unique:users,username,' . $id,
             'name' => 'required|string|max:255',
-            'role' => 'nullable|in:admin,pegawai',
+            'username' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'password' => 'nullable|string|min:8',
             'NoTelp_User' => 'nullable|string|max:20',
             'Alamat_User' => 'nullable|string',
-            'password' => 'nullable|string|min:8',
         ]);
 
-        $role = $user->role;
-        if (auth()->user()->role === 'admin' && $request->filled('role')) {
-            $role = $request->role;
-        }
-
         try {
-            $user->fill([
-                'username' => $request->username,
-                'name' => $request->name,
-                'role' => $role,
-                'NoTelp_User' => $request->NoTelp_User,
-                'Alamat_User' => $request->Alamat_User,
-            ]);
-
+            $data = $request->only(['name', 'username', 'NoTelp_User', 'Alamat_User']);
+            
             if ($request->filled('password')) {
-                // We pass the plain string because the User model has the 'hashed' cast
-                $user->password = $request->password;
+                $data['password'] = Hash::make($request->password);
             }
 
-            $user->save();
+            $user->update($data);
 
-            Cache::forget('user_auth_id_' . $user->id);
-
-            // Logic redirect: If editing own profile, stay here to show success
-            if (auth()->id() === $user->id) {
-                return back()->with('success', 'Profil Anda berhasil diperbarui.');
-            }
-
-            return redirect()->route('data.user')->with('success', 'User berhasil diperbarui.');
+            return redirect()->route('data.user')->with('success', 'Informasi pengguna berhasil diperbarui.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Gagal memperbarui user: ' . $e->getMessage());
+            return back()->with('error', 'Gagal memperbarui pengguna: ' . $e->getMessage())->withInput();
         }
     }
 
     public function destroy($id)
     {
-        if (auth()->user()->role !== 'admin') {
-            abort(403);
-        }
-
-        $user = User::findOrFail($id);
-        
-        if ($user->id === auth()->id()) {
-            return back()->with('error', 'Anda tidak dapat menghapus akun Anda sendiri.');
-        }
-
-        try {
-            $user->delete();
-            return redirect()->route('data.user')->with('success', 'User berhasil dihapus.');
-        } catch (\Exception $e) {
-            return back()->with('error', 'Gagal menghapus user: ' . $e->getMessage());
-        }
+        return back()->with('error', 'Penghapusan akun tidak diizinkan dalam sistem ini demi keamanan data.');
     }
 }

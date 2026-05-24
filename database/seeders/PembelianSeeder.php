@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Pembelian;
-use App\Models\StokBarang;
-use App\Models\User;
 use App\Models\DataBarang;
+use App\Models\Pemasok;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 
@@ -13,49 +13,26 @@ class PembelianSeeder extends Seeder
 {
     public function run(): void
     {
-        $admin = User::where('username', 'admin')->first();
+        $admin = User::first();
+        $barangs = DataBarang::all();
         
-        $data = [
-            ['ID_Barang' => 'BRG-0001', 'ID_Pemasok' => 'PMS-0007', 'Qty' => 50, 'DaysAgo' => 30],
-            ['ID_Barang' => 'BRG-0002', 'ID_Pemasok' => 'PMS-0007', 'Qty' => 40, 'DaysAgo' => 28],
-            ['ID_Barang' => 'BRG-0003', 'ID_Pemasok' => 'PMS-0001', 'Qty' => 20, 'DaysAgo' => 25],
-            ['ID_Barang' => 'BRG-0004', 'ID_Pemasok' => 'PMS-0002', 'Qty' => 15, 'DaysAgo' => 20],
-            ['ID_Barang' => 'BRG-0005', 'ID_Pemasok' => 'PMS-0003', 'Qty' => 30, 'DaysAgo' => 15],
-        ];
-
-        foreach ($data as $i => $item) {
-            $id = 'PB-' . str_pad($i + 1, 4, '0', STR_PAD_LEFT);
-            $tgl = Carbon::now()->subDays($item['DaysAgo']);
-            $barang = DataBarang::find($item['ID_Barang']);
-            
-            $totalHargaBarang = $barang->Harga_Beli * $item['Qty'];
+        foreach ($barangs as $i => $barang) {
+            $qty = 20;
+            $total_harga_barang = $barang->Harga_Beli * $qty;
             $ongkir = 15000;
-            $totalHarga = $totalHargaBarang + $ongkir;
 
             Pembelian::create([
-                'ID_Pembelian' => $id,
-                'ID_Barang' => $item['ID_Barang'],
-                'ID_Pemasok' => $item['ID_Pemasok'],
-                'Tgl_Pembelian' => $tgl,
-                'Kuantitas' => $item['Qty'],
-                'Jenis_Pembayaran' => 'Transfer',
-                'Total_Harga_Barang' => $totalHargaBarang,
+                'ID_Pembelian' => Pembelian::generateId('PB'),
+                'ID_Pemasok' => $barang->ID_Pemasok,
+                'ID_Barang' => $barang->ID_Barang,
+                'user_id' => $admin->id,
+                'Tgl_Pembelian' => Carbon::now()->subDays(rand(1, 30)),
+                'Kuantitas' => $qty,
+                'jenis_pembayaran' => 'Transfer',
+                'Total_Harga_Barang' => $total_harga_barang,
                 'Ongkir' => $ongkir,
-                'Total_Harga' => $totalHarga,
-                'user_id' => $admin->id
+                'Total_Harga' => $total_harga_barang + $ongkir,
             ]);
-
-            // Update Stock
-            StokBarang::updateOrCreate(
-                ['ID_Barang' => $item['ID_Barang']],
-                [
-                    'ID_Stok' => 'STK-' . $item['ID_Barang'],
-                    'ID_Pemasok' => $item['ID_Pemasok'],
-                    'Stok_Awal' => 0,
-                    'Stok_Akhir' => $item['Qty'],
-                    'user_id' => $admin->id
-                ]
-            );
         }
     }
 }

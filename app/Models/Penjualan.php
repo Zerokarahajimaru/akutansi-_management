@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\GeneratesSequentialId;
 
 class Penjualan extends Model
 {
-    use HasFactory;
+    use HasFactory, GeneratesSequentialId;
 
     protected $primaryKey = 'ID_Penjualan';
     public $incrementing = false;
@@ -20,7 +21,7 @@ class Penjualan extends Model
         'ID_Pelanggan',
         'Tanggal_Penjualan',
         'Kuantitas',
-        'Jenis_Pembayaran',
+        'jenis_pembayaran',
         'Total_Harga_Barang',
         'Ongkir',
         'Total_Harga',

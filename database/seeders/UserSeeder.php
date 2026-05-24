@@ -5,50 +5,34 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     */
     public function run(): void
     {
-        // Main Admin (You)
+        // Primary Admin
         User::create([
+            'id' => User::generateId('usr-xyra'),
+            'name' => 'Administrator',
             'username' => 'admin',
-            'name' => 'Ezara Aristo',
-            'password' => 'admin',
+            'password' => Hash::make('password'),
             'role' => 'admin',
-            'NoTelp_User' => '081234567890',
-            'Alamat_User' => 'Kantor Pusat Xyra.id, Jakarta',
+            'NoTelp_User' => '081122334455',
+            'Alamat_User' => 'Kantor Utama Xyra.id, Jakarta',
         ]);
 
-        // Second Admin
+        // Secondary Admin
         User::create([
-            'username' => 'superadmin',
-            'name' => 'Super Admin',
-            'password' => 'password',
+            'id' => User::generateId('usr-xyra'),
+            'name' => 'Owner Xyra',
+            'username' => 'owner',
+            'password' => Hash::make('password'),
             'role' => 'admin',
-            'NoTelp_User' => '081111111111',
-            'Alamat_User' => 'Kantor Cabang Xyra.id, Bandung',
+            'NoTelp_User' => '089988776655',
+            'Alamat_User' => 'Surabaya, Jawa Timur',
         ]);
-
-        // Pegawai (Employees)
-        $employees = [
-            ['name' => 'Siti Aminah', 'username' => 'siti', 'telp' => '081234567001'],
-            ['name' => 'Andi Wijaya', 'username' => 'andi', 'telp' => '081234567002'],
-            ['name' => 'Rina Pratama', 'username' => 'rina', 'telp' => '081234567003'],
-            ['name' => 'Fajar Hidayat', 'username' => 'fajar', 'telp' => '081234567004'],
-            ['name' => 'Dewi Lestari', 'username' => 'dewi', 'telp' => '081234567005'],
-        ];
-
-        foreach ($employees as $emp) {
-            User::create([
-                'name' => $emp['name'],
-                'username' => $emp['username'],
-                'password' => 'pegawai123',
-                'role' => 'pegawai',
-                'NoTelp_User' => $emp['telp'],
-                'Alamat_User' => 'Gudang Xyra.id, Jakarta Timur',
-            ]);
-        }
     }
 }

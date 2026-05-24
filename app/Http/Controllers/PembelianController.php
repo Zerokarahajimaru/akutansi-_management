@@ -8,7 +8,6 @@ use App\Models\Pemasok;
 use App\Models\StokBarang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
 
 class PembelianController extends Controller
@@ -20,7 +19,7 @@ class PembelianController extends Controller
         $perPage = $request->input('per_page', 50);
         if ($perPage === 'all') $perPage = 9999;
 
-        $pembelians = Pembelian::with(['dataBarang', 'pemasok'])
+        $pembelians = Pembelian::with(['dataBarang', 'pemasok', 'user'])
             ->orderBy($sortBy, $sortDir)
             ->paginate($perPage)
             ->withQueryString();
@@ -46,8 +45,12 @@ class PembelianController extends Controller
             'ID_Barang' => 'required|string',
             'Tgl_Pembelian' => 'required|date',
             'Kuantitas' => 'required|integer|min:1',
-            'Jenis_Pembayaran' => 'required|string',
+            'jenis_pembayaran' => 'required|string',
             'Ongkir' => 'required|numeric|min:0',
+        ], [
+            'ID_Pemasok.required' => 'Silakan pilih pemasok.',
+            'ID_Barang.required' => 'Silakan pilih produk.',
+            'jenis_pembayaran.required' => 'Pilih metode pembayaran.',
         ]);
 
         $barang = DataBarang::findOrFail($request->ID_Barang);
@@ -57,13 +60,13 @@ class PembelianController extends Controller
         DB::beginTransaction();
         try {
             Pembelian::create([
-                'ID_Pembelian' => 'PB-' . strtoupper(Str::random(8)),
+                'ID_Pembelian' => Pembelian::generateId('PB'),
                 'ID_Pemasok' => $request->ID_Pemasok,
                 'ID_Barang' => $request->ID_Barang,
                 'user_id' => auth()->id(),
                 'Tgl_Pembelian' => $request->Tgl_Pembelian,
                 'Kuantitas' => $request->Kuantitas,
-                'Jenis_Pembayaran' => $request->Jenis_Pembayaran,
+                'jenis_pembayaran' => $request->jenis_pembayaran,
                 'Total_Harga_Barang' => $total_harga_barang,
                 'Ongkir' => $request->Ongkir,
                 'Total_Harga' => $total_harga,
@@ -75,7 +78,7 @@ class PembelianController extends Controller
                 $stok->increment('Stok_Akhir', $request->Kuantitas);
             } else {
                 StokBarang::create([
-                    'ID_Stok' => 'ST-' . strtoupper(Str::random(8)),
+                    'ID_Stok' => 'STK-' . substr($request->ID_Barang, 4),
                     'user_id' => auth()->id(),
                     'ID_Pemasok' => $request->ID_Pemasok,
                     'ID_Barang' => $request->ID_Barang,
@@ -85,10 +88,10 @@ class PembelianController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('data.pembelian')->with('success', 'Pembelian berhasil dicatat.');
+            return redirect()->route('data.pembelian')->with('success', 'Transaksi pembelian berhasil dicatat.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Gagal mencatat pembelian: ' . $e->getMessage());
+            return back()->with('error', 'Gagal mencatat transaksi: ' . $e->getMessage())->withInput();
         }
     }
 
@@ -104,7 +107,7 @@ class PembelianController extends Controller
     {
         $request->validate([
             'Kuantitas' => 'required|integer|min:1',
-            'Jenis_Pembayaran' => 'required|string',
+            'jenis_pembayaran' => 'required|string',
             'Ongkir' => 'required|numeric|min:0',
         ]);
 
@@ -117,7 +120,6 @@ class PembelianController extends Controller
 
         DB::beginTransaction();
         try {
-            // Update Stock
             $stok = StokBarang::where('ID_Barang', $pembelian->ID_Barang)->first();
             if ($stok) {
                 $stok->increment('Stok_Akhir', $diff);
@@ -125,17 +127,17 @@ class PembelianController extends Controller
 
             $pembelian->update([
                 'Kuantitas' => $request->Kuantitas,
-                'Jenis_Pembayaran' => $request->Jenis_Pembayaran,
+                'jenis_pembayaran' => $request->jenis_pembayaran,
                 'Ongkir' => $request->Ongkir,
                 'Total_Harga_Barang' => $total_harga_barang,
                 'Total_Harga' => $total_harga,
             ]);
 
             DB::commit();
-            return redirect()->route('data.pembelian')->with('success', 'Pembelian berhasil diperbarui.');
+            return redirect()->route('data.pembelian')->with('success', 'Transaksi pembelian berhasil diperbarui.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Gagal memperbarui pembelian: ' . $e->getMessage());
+            return back()->with('error', 'Gagal memperbarui transaksi: ' . $e->getMessage())->withInput();
         }
     }
 
@@ -145,7 +147,6 @@ class PembelianController extends Controller
 
         DB::beginTransaction();
         try {
-            // Revert Stock
             $stok = StokBarang::where('ID_Barang', $pembelian->ID_Barang)->first();
             if ($stok) {
                 $stok->decrement('Stok_Akhir', $pembelian->Kuantitas);
@@ -154,10 +155,10 @@ class PembelianController extends Controller
             $pembelian->delete();
 
             DB::commit();
-            return redirect()->route('data.pembelian')->with('success', 'Pembelian berhasil dihapus.');
+            return redirect()->route('data.pembelian')->with('success', 'Data transaksi pembelian berhasil dihapus.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Gagal menghapus pembelian: ' . $e->getMessage());
+            return back()->with('error', 'Gagal menghapus transaksi: ' . $e->getMessage());
         }
     }
 }

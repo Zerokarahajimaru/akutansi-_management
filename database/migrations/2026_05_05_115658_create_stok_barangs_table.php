@@ -13,16 +13,17 @@ return new class extends Migration
     {
         Schema::create('stok_barangs', function (Blueprint $table) {
             $table->string('ID_Stok')->primary();
-            $table->uuid('user_id')->nullable()->index();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
-            $table->string('ID_Pemasok')->index();
-            $table->foreign('ID_Pemasok')->references('ID_Pemasok')->on('pemasoks')->onDelete('cascade');
-            $table->string('ID_Barang')->index();
-            $table->foreign('ID_Barang')->references('ID_Barang')->on('data_barangs')->onDelete('cascade');
-            $table->integer('Stok_Awal');
-            $table->integer('Stok_Akhir')->index();
+            $table->string('user_id')->nullable(); // Changed to string for usr-xyra-00x format
+            $table->string('ID_Pemasok')->nullable();
+            $table->string('ID_Barang');
+            $table->integer('Stok_Awal')->default(0);
+            $table->integer('Stok_Akhir')->default(0);
             $table->text('Keterangan')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('ID_Pemasok')->references('ID_Pemasok')->on('pemasoks')->onDelete('set null');
+            $table->foreign('ID_Barang')->references('ID_Barang')->on('data_barangs')->onDelete('cascade');
         });
     }
 

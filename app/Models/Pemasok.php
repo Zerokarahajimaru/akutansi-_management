@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\GeneratesSequentialId;
 
 class Pemasok extends Model
 {
-    use HasFactory;
+    use HasFactory, GeneratesSequentialId;
 
     protected $primaryKey = 'ID_Pemasok';
     public $incrementing = false;
@@ -20,25 +21,16 @@ class Pemasok extends Model
         'NoTelp_Pemasok',
     ];
 
-    /**
-     * Get the data barangs for the pemasok.
-     */
     public function dataBarangs()
     {
         return $this->hasMany(DataBarang::class, 'ID_Pemasok', 'ID_Pemasok');
     }
 
-    /**
-     * Get the pembelians for the pemasok.
-     */
     public function pembelians()
     {
         return $this->hasMany(Pembelian::class, 'ID_Pemasok', 'ID_Pemasok');
     }
 
-    /**
-     * Get the stok barangs for the pemasok.
-     */
     public function stokBarangs()
     {
         return $this->hasMany(StokBarang::class, 'ID_Pemasok', 'ID_Pemasok');

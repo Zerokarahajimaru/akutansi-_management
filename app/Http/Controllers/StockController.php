@@ -6,7 +6,6 @@ use App\Models\DataBarang;
 use App\Models\StokBarang;
 use App\Models\Pemasok;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 
@@ -19,7 +18,7 @@ class StockController extends Controller
         $perPage = $request->input('per_page', 50);
         if ($perPage === 'all') $perPage = 9999;
 
-        $stocks = DataBarang::with('stokBarangs')
+        $stocks = DataBarang::with(['stokBarangs', 'pemasok'])
             ->orderBy($sortBy, $sortDir)
             ->paginate($perPage)
             ->withQueryString();
@@ -46,12 +45,17 @@ class StockController extends Controller
             'Harga_Jual' => 'required|numeric|min:0',
             'ID_Pemasok' => 'required|string',
             'Stok_Awal' => 'required|integer|min:0',
+        ], [
+            'Nama_Barang.required' => 'Nama produk wajib diisi.',
+            'Harga_Beli.required' => 'Harga beli wajib diisi.',
+            'Harga_Jual.required' => 'Harga jual wajib diisi.',
+            'ID_Pemasok.required' => 'Pemasok wajib dipilih.',
         ]);
-
-        $id_barang = 'BRG-' . strtoupper(Str::random(8));
 
         DB::beginTransaction();
         try {
+            $id_barang = DataBarang::generateId('BRG');
+            
             DataBarang::create([
                 'ID_Barang' => $id_barang,
                 'ID_Pemasok' => $request->ID_Pemasok,
@@ -64,7 +68,7 @@ class StockController extends Controller
             ]);
 
             StokBarang::create([
-                'ID_Stok' => 'ST-' . strtoupper(Str::random(8)),
+                'ID_Stok' => 'STK-' . substr($id_barang, 4),
                 'user_id' => auth()->id(),
                 'ID_Pemasok' => $request->ID_Pemasok,
                 'ID_Barang' => $id_barang,
@@ -73,10 +77,10 @@ class StockController extends Controller
             ]);
 
             DB::commit();
-            return redirect()->route('data.barang.list')->with('success', 'Barang berhasil didaftarkan.');
+            return redirect()->route('data.barang.list')->with('success', 'Produk baru telah berhasil didaftarkan.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Gagal menambahkan barang: ' . $e->getMessage());
+            return back()->with('error', 'Gagal mendaftarkan produk: ' . $e->getMessage())->withInput();
         }
     }
 
@@ -105,17 +109,16 @@ class StockController extends Controller
         try {
             $barang->update($request->all());
             
-            // Also update supplier in stock table if it exists
             $stok = StokBarang::where('ID_Barang', $id)->first();
             if ($stok) {
                 $stok->update(['ID_Pemasok' => $request->ID_Pemasok]);
             }
 
             DB::commit();
-            return redirect()->route('data.barang.list')->with('success', 'Data barang berhasil diperbarui.');
+            return redirect()->route('data.barang.list')->with('success', 'Data produk berhasil diperbarui.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Gagal memperbarui barang: ' . $e->getMessage());
+            return back()->with('error', 'Gagal memperbarui data produk: ' . $e->getMessage())->withInput();
         }
     }
 
@@ -125,14 +128,12 @@ class StockController extends Controller
 
         DB::beginTransaction();
         try {
-            // StokBarang will be deleted automatically due to cascade on ID_Barang
             $barang->delete();
-
             DB::commit();
-            return redirect()->route('data.barang.list')->with('success', 'Barang berhasil dihapus.');
+            return redirect()->route('data.barang.list')->with('success', 'Produk telah dihapus dari sistem.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Gagal menghapus barang: ' . $e->getMessage());
+            return back()->with('error', 'Gagal menghapus produk: ' . $e->getMessage());
         }
     }
 }

@@ -4,60 +4,73 @@
 
 @section('content')
 <div class="bg-white rounded-2xl shadow-sm border border-gray-100">
+ <!-- Action Bar -->
  <div class="p-6 border-b border-gray-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
  <div>
- <h2 class="font-bold text-gray-800 text-lg">Daftar Pemasok</h2>
- <p class="text-gray-500 text-xs">Kelola data mitra penyuplai barang</p>
+ <h2 class="font-bold text-gray-800 text-lg">Kelola Data Pemasok</h2>
+ <p class="text-gray-500 text-xs">Daftar mitra pemasok barang untuk Xyra.id</p>
  </div>
- <div class="flex flex-wrap items-center gap-2" x-data="{ 
- triggerImport() { document.getElementById('import-file').click() },
- submitImport() { document.getElementById('import-form').submit() }
- }">
- <div x-data="{ open: false }" class="relative inline-block text-left z-[100]" x-cloak>
-    <button @click="open = !open" @click.outside="open = false" type="button" class="inline-flex items-center justify-between min-w-[140px] px-4 py-2.5 text-sm font-semibold text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-teal-50 hover:text-teal-700 hover:border-teal-200 focus:outline-none focus:ring-2 focus:ring-teal-500/30 transition-all shadow-sm group">
-        <span class="truncate">Tampilkan: <span class="text-teal-600">{{ request('per_page', 50) === 'all' ? 'Semua' : request('per_page', 50) }}</span></span>
-        <i class="fas fa-chevron-down ml-2 text-xs transition-transform duration-300" :class="open ? 'rotate-180 text-teal-600' : 'text-gray-400 group-hover:text-teal-500'"></i>
-    </button>
-    
-    <div x-show="open" 
-         x-transition:enter="transition ease-out duration-150" 
-         x-transition:enter-start="opacity-0 scale-95 translate-y-1" 
-         x-transition:enter-end="opacity-100 scale-100 translate-y-0" 
-         x-transition:leave="transition ease-in duration-100"
-         x-transition:leave-start="opacity-100 scale-100 translate-y-0"
-         x-transition:leave-end="opacity-0 scale-95 translate-y-1"
-         class="absolute left-0 mt-2 w-full min-w-[140px] bg-white border border-gray-100 rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden"
-         style="display: none; top: 100%;">
-        <div class="py-1">
+ <div class="flex flex-wrap items-center gap-2">
+    <!-- Per Page Selector -->
+    <div x-data="{ open: false }" class="relative inline-block text-left z-[100]" x-cloak>
+        <button @click="open = !open" @click.outside="open = false" type="button" class="inline-flex items-center justify-between min-w-[140px] px-4 py-2.5 text-sm font-semibold text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-teal-50 hover:text-teal-700 hover:border-teal-200 focus:outline-none focus:ring-2 focus:ring-teal-500/30 transition-all shadow-sm group">
+            <span class="truncate">Tampilkan: <span class="text-teal-600">{{ request('per_page', 50) === 'all' ? 'Semua' : request('per_page', 50) }}</span></span>
+            <i class="fas fa-chevron-down ml-2 text-xs transition-transform duration-300" :class="open ? 'rotate-180 text-teal-600' : 'text-gray-400 group-hover:text-teal-500'"></i>
+        </button>
+        <div x-show="open" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 scale-95 translate-y-1" x-transition:enter-end="opacity-100 scale-100 translate-y-0" class="absolute left-0 mt-2 w-full min-w-[140px] bg-white border border-gray-100 rounded-xl shadow-xl z-50 py-1 overflow-hidden" style="display: none; top: 100%;">
             @foreach([5, 10, 25, 50, 'all'] as $size)
-                <a href="{{ request()->fullUrlWithQuery(['per_page' => $size, 'page' => 1]) }}" 
-                   wire:navigate 
-                   class="block px-4 py-2 text-sm transition-all duration-200 {{ request('per_page', 50) == $size ? 'bg-teal-50 text-teal-700 font-bold' : 'text-gray-600 hover:bg-teal-50 hover:text-teal-700 border-l-2 border-transparent' }}">
+                <a href="{{ request()->fullUrlWithQuery(['per_page' => $size, 'page' => 1]) }}" wire:navigate class="block px-4 py-2 text-sm transition-all duration-200 {{ request('per_page', 50) == $size ? 'bg-teal-50 text-teal-700 font-bold border-l-2 border-teal-500' : 'text-gray-600 hover:bg-teal-50 hover:text-teal-700 border-l-2 border-transparent' }}">
                     {{ $size === 'all' ? 'Semua Data' : $size . ' Baris' }}
                 </a>
             @endforeach
         </div>
     </div>
-</div>
- <form id="import-form" action="{{ route('util.import', 'pemasok') }}" method="POST" enctype="multipart/form-data" class="hidden">
- @csrf
- <input type="file" id="import-file" name="file" @change="submitImport()">
- </form>
+
+ <a href="{{ route('util.template', 'pemasok') }}" class="flex items-center px-4 py-2 bg-gray-50 text-gray-600 rounded-xl text-xs font-bold hover:bg-gray-100 transition-colors border border-gray-200">
+    <i class="fas fa-file-arrow-down mr-2"></i> Unduh Template
+ </a>
+
+ <div x-data="{ openImport: false }" class="relative z-[100]">
+     <button @click="openImport = true" class="flex items-center px-4 py-2 bg-amber-50 text-amber-600 rounded-xl text-xs font-bold hover:bg-amber-100 transition-colors border border-amber-200">
+         <i class="fas fa-file-import mr-2"></i> Impor Data
+     </button>
+     
+     <div x-show="openImport" x-cloak class="fixed inset-0 z-[150] flex items-center justify-center bg-gray-900/50 backdrop-blur-sm" x-transition.opacity>
+         <div @click.outside="openImport = false" class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 transform transition-all" x-transition.scale.95>
+             <div class="flex justify-between items-center mb-5">
+                 <h3 class="text-lg font-bold text-gray-800">Impor Data Pemasok</h3>
+                 <button @click="openImport = false" class="text-gray-400 hover:text-red-500 transition-colors">
+                     <i class="fas fa-xmark text-lg"></i>
+                 </button>
+             </div>
+             <form action="{{ route('util.import', 'pemasok') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+                 @csrf
+                 <div class="border-2 border-dashed border-gray-200 rounded-xl p-6 text-center hover:border-teal-500 hover:bg-teal-50/50 transition-colors cursor-pointer relative">
+                     <input type="file" name="csv_file" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" accept=".xlsx,.xls,.csv" required onchange="document.getElementById('fileNamePemasok').textContent = this.files[0].name">
+                     <i class="fas fa-cloud-arrow-up text-3xl text-teal-500 mb-3"></i>
+                     <p class="text-sm font-semibold text-gray-700">Silakan klik atau seret file Excel ke area ini</p>
+                     <p class="text-xs text-gray-500 mt-1">Format yang didukung: .xlsx, .xls, .csv</p>
+                     <p id="fileNamePemasok" class="text-xs font-bold text-teal-600 mt-3 truncate"></p>
+                 </div>
+                 <div class="flex justify-end space-x-3 pt-2">
+                     <button type="button" @click="openImport = false" class="px-5 py-2.5 bg-gray-100 text-gray-600 font-bold rounded-xl text-sm hover:bg-gray-200 transition-colors">Batal</button>
+                     <button type="submit" class="px-5 py-2.5 bg-teal-600 text-white font-bold rounded-xl text-sm hover:bg-teal-700 shadow-lg shadow-teal-200 transition-colors">Mulai Impor</button>
+                 </div>
+             </form>
+         </div>
+     </div>
+ </div>
 
  <a href="{{ route('util.export', 'pemasok') }}" class="flex items-center px-4 py-2 bg-teal-50 text-teal-600 rounded-xl text-xs font-bold hover:bg-teal-100 transition-colors">
- <i class="fas fa-file-export mr-2"></i> Export
+ <i class="fas fa-file-export mr-2"></i> Ekspor Excel
  </a>
- <a href="{{ route('util.template', 'pemasok') }}" class="flex items-center px-4 py-2 bg-teal-50 text-teal-600 rounded-xl text-xs font-bold hover:bg-teal-100 transition-colors">
- <i class="fas fa-download mr-2"></i> Unduh Template
- </a>
- <button @click="triggerImport()" class="flex items-center px-4 py-2 bg-orange-50 text-orange-600 rounded-xl text-xs font-bold hover:bg-orange-100 transition-colors">
- <i class="fas fa-file-import mr-2"></i> Import Data
- </button>
  <a href="{{ route('input.pemasok') }}" wire:navigate.hover class="flex items-center px-4 py-2 bg-teal-600 text-white rounded-xl text-xs font-bold hover:bg-teal-700 transition-colors shadow-lg shadow-teal-200">
- <i class="fas fa-truck-field mr-2"></i> Tambah Pemasok
+ <i class="fas fa-truck-fast mr-2"></i> Tambah Pemasok
  </a>
  </div>
  </div>
+
+ <!-- Table -->
  <div class="overflow-x-auto">
  <table id="pemasok-table" class="w-full text-left">
  <thead>
@@ -65,46 +78,36 @@
     $currentSortBy = request('sort_by', 'Nama_Pemasok');
     $currentSortDir = request('sort_dir', 'asc');
  @endphp
- <tr class="bg-gray-50/50 text-gray-500 text-sm border-b border-gray-100">
+ <tr class="bg-gray-50/50 text-gray-400 text-xs font-bold uppercase tracking-wider">
+ <th class="py-4 px-6">ID Pemasok</th>
  @php $newDir = ($currentSortBy === 'Nama_Pemasok' && $currentSortDir === 'asc') ? 'desc' : 'asc'; @endphp
  <th class="py-4 px-6 cursor-pointer group" onclick="window.location.href='{{ request()->fullUrlWithQuery(['sort_by' => 'Nama_Pemasok', 'sort_dir' => $newDir, 'page' => 1]) }}'">
     <div class="flex items-center">
-        Nama
+        Nama Pemasok
         <i class="fas {{ $currentSortBy === 'Nama_Pemasok' ? ($currentSortDir === 'asc' ? 'fa-sort-up text-teal-600' : 'fa-sort-down text-teal-600') : 'fa-sort text-gray-300' }} text-[10px] ml-auto group-hover:text-teal-500 transition-colors"></i>
     </div>
  </th>
- @php $newDir = ($currentSortBy === 'Alamat_Pemasok' && $currentSortDir === 'asc') ? 'desc' : 'asc'; @endphp
- <th class="py-4 px-6 cursor-pointer group" onclick="window.location.href='{{ request()->fullUrlWithQuery(['sort_by' => 'Alamat_Pemasok', 'sort_dir' => $newDir, 'page' => 1]) }}'">
-    <div class="flex items-center">
-        Alamat
-        <i class="fas {{ $currentSortBy === 'Alamat_Pemasok' ? ($currentSortDir === 'asc' ? 'fa-sort-up text-teal-600' : 'fa-sort-down text-teal-600') : 'fa-sort text-gray-300' }} text-[10px] ml-auto group-hover:text-teal-500 transition-colors"></i>
-    </div>
- </th>
- @php $newDir = ($currentSortBy === 'NoTelp_Pemasok' && $currentSortDir === 'asc') ? 'desc' : 'asc'; @endphp
- <th class="py-4 px-6 cursor-pointer group" onclick="window.location.href='{{ request()->fullUrlWithQuery(['sort_by' => 'NoTelp_Pemasok', 'sort_dir' => $newDir, 'page' => 1]) }}'">
-    <div class="flex items-center">
-        No. HP
-        <i class="fas {{ $currentSortBy === 'NoTelp_Pemasok' ? ($currentSortDir === 'asc' ? 'fa-sort-up text-teal-600' : 'fa-sort-down text-teal-600') : 'fa-sort text-gray-300' }} text-[10px] ml-auto group-hover:text-teal-500 transition-colors"></i>
-    </div>
- </th>
+ <th class="py-4 px-6">Alamat</th>
+ <th class="py-4 px-6 text-center">Nomor Telepon</th>
  <th class="py-4 px-6 text-center">Aksi</th>
  </tr>
  </thead>
  <tbody class="divide-y divide-gray-50">
  @forelse($pemasoks as $p)
  <tr class="hover:bg-gray-50/50 transition-colors">
- <td class="py-4 px-6 text-sm font-bold">{{ $p->Nama_Pemasok }}</td>
- <td class="py-4 px-6 text-sm text-gray-600">{{ $p->Alamat_Pemasok }}</td>
- <td class="py-4 px-6 text-sm text-gray-600">{{ $p->NoTelp_Pemasok }}</td>
+ <td class="py-4 px-6 text-sm text-teal-600 font-bold uppercase">{{ $p->ID_Pemasok }}</td>
+ <td class="py-4 px-6 text-sm font-bold text-gray-800">{{ $p->Nama_Pemasok }}</td>
+ <td class="py-4 px-6 text-sm text-gray-600 leading-relaxed">{{ $p->Alamat_Pemasok }}</td>
+ <td class="py-4 px-6 text-sm text-gray-600 text-center italic">{{ $p->NoTelp_Pemasok }}</td>
  <td class="py-4 px-6 text-center">
  <div class="flex justify-center space-x-2">
- <a href="{{ route('data.pemasok.edit', $p->ID_Pemasok) }}" wire:navigate.hover class="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-colors">
+ <a href="{{ route('data.pemasok.edit', $p->ID_Pemasok) }}" wire:navigate.hover class="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-colors" title="Ubah Data">
  <i class="fas fa-edit text-xs"></i>
  </a>
  <form action="{{ route('data.pemasok.destroy', $p->ID_Pemasok) }}" method="POST">
  @csrf
  @method('DELETE')
- <button type="submit" class="w-8 h-8 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-colors">
+ <button type="submit" class="w-8 h-8 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-colors" title="Hapus Data">
  <i class="fas fa-trash text-xs"></i>
  </button>
  </form>
@@ -113,14 +116,13 @@
  </tr>
  @empty
  <tr class="empty-state">
- <td colspan="4" class="py-16 text-center">
+ <td colspan="5" class="py-16 text-center">
  <div class="flex flex-col items-center justify-center">
- <div class="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mb-4">
- <i class="fas fa-truck-field text-gray-300 text-2xl"></i>
+ <div class="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mb-4 border border-gray-100 shadow-sm">
+ <i class="fas fa-truck-field text-gray-300 text-3xl"></i>
  </div>
- <h3 class="text-gray-800 font-bold text-base">Belum Ada Pemasok</h3>
- <p class="text-gray-400 text-xs mt-1 max-w-[200px] mx-auto">Daftar mitra pemasok Anda akan muncul di sini.</p>
- <a href="{{ route('input.pemasok') }}" wire:navigate.hover class="mt-4 text-teal-600 text-xs font-bold hover:underline">Tambah Pemasok Baru</a>
+ <h3 class="text-gray-800 font-bold text-base">Data Pemasok Kosong</h3>
+ <p class="text-gray-400 text-sm mt-1">Daftar mitra pemasok Anda akan muncul di sini.</p>
  </div>
  </td>
  </tr>

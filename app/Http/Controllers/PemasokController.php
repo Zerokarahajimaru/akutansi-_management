@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Pemasok;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class PemasokController extends Controller
 {
@@ -13,9 +12,7 @@ class PemasokController extends Controller
         $sortBy = $request->input('sort_by', 'Nama_Pemasok');
         $sortDir = $request->input('sort_dir', 'asc');
         $perPage = $request->input('per_page', 50);
-        if ($perPage === 'all') {
-            $perPage = 9999;
-        }
+        if ($perPage === 'all') $perPage = 9999;
 
         $pemasoks = Pemasok::orderBy($sortBy, $sortDir)
             ->paginate($perPage)
@@ -35,16 +32,24 @@ class PemasokController extends Controller
             'Nama_Pemasok' => 'required|string|max:255',
             'Alamat_Pemasok' => 'required|string',
             'NoTelp_Pemasok' => 'required|string|max:20',
+        ], [
+            'Nama_Pemasok.required' => 'Nama pemasok wajib diisi.',
+            'Alamat_Pemasok.required' => 'Alamat pemasok wajib diisi.',
+            'NoTelp_Pemasok.required' => 'Nomor telepon wajib diisi.',
         ]);
 
-        Pemasok::create([
-            'ID_Pemasok' => 'PMS-' . strtoupper(Str::random(8)),
-            'Nama_Pemasok' => $request->Nama_Pemasok,
-            'Alamat_Pemasok' => $request->Alamat_Pemasok,
-            'NoTelp_Pemasok' => $request->NoTelp_Pemasok,
-        ]);
+        try {
+            Pemasok::create([
+                'ID_Pemasok' => Pemasok::generateId('PMS'),
+                'Nama_Pemasok' => $request->Nama_Pemasok,
+                'Alamat_Pemasok' => $request->Alamat_Pemasok,
+                'NoTelp_Pemasok' => $request->NoTelp_Pemasok,
+            ]);
 
-        return redirect()->route('data.pemasok')->with('success', 'Pemasok berhasil ditambahkan.');
+            return redirect()->route('data.pemasok')->with('success', 'Data pemasok berhasil ditambahkan ke sistem.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menambahkan pemasok: ' . $e->getMessage())->withInput();
+        }
     }
 
     public function edit($id)
@@ -55,24 +60,31 @@ class PemasokController extends Controller
 
     public function update(Request $request, $id)
     {
-        $pemasok = Pemasok::findOrFail($id);
-
         $request->validate([
             'Nama_Pemasok' => 'required|string|max:255',
             'Alamat_Pemasok' => 'required|string',
             'NoTelp_Pemasok' => 'required|string|max:20',
         ]);
 
-        $pemasok->update($request->all());
+        $pemasok = Pemasok::findOrFail($id);
 
-        return redirect()->route('data.pemasok')->with('success', 'Pemasok berhasil diperbarui.');
+        try {
+            $pemasok->update($request->all());
+            return redirect()->route('data.pemasok')->with('success', 'Informasi pemasok berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal memperbarui data pemasok: ' . $e->getMessage())->withInput();
+        }
     }
 
     public function destroy($id)
     {
         $pemasok = Pemasok::findOrFail($id);
-        $pemasok->delete();
 
-        return redirect()->route('data.pemasok')->with('success', 'Pemasok berhasil dihapus.');
+        try {
+            $pemasok->delete();
+            return redirect()->route('data.pemasok')->with('success', 'Data pemasok telah dihapus dari sistem.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menghapus data pemasok: ' . $e->getMessage());
+        }
     }
 }

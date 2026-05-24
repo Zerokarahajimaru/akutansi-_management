@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\GeneratesSequentialId;
 
 class Pembelian extends Model
 {
-    use HasFactory;
+    use HasFactory, GeneratesSequentialId;
 
     protected $primaryKey = 'ID_Pembelian';
     public $incrementing = false;
@@ -20,7 +21,7 @@ class Pembelian extends Model
         'user_id',
         'Tgl_Pembelian',
         'Kuantitas',
-        'Jenis_Pembayaran',
+        'jenis_pembayaran',
         'Total_Harga_Barang',
         'Ongkir',
         'Total_Harga',

@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Input Barang Baru')
+@section('title', 'Katalog Produk & Stok')
 
 @section('content')
 <div class="max-w-4xl mx-auto">
  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
  <div class="p-8 border-b border-gray-50">
  <h2 class="font-bold text-gray-800 text-xl">Tambah Produk Ke Katalog</h2>
- <p class="text-gray-500 text-sm mt-1">Lengkapi informasi detail produk untuk ditambahkan ke sistem inventaris.</p>
+ <p class="text-gray-500 text-sm mt-1">Lengkapi informasi detail produk untuk ditambahkan ke sistem inventaris Xyra.id.</p>
  </div>
 
  <form action="{{ route('input.barang') }}" method="POST" class="p-8 space-y-6">
@@ -20,10 +20,10 @@
  @endif
 
  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
- <!-- Nama Barang -->
+ <!-- Nama Produk -->
  <div class="md:col-span-2 space-y-2">
- <label class="block text-xs font-semibold text-gray-500 mb-2">Nama Lengkap Produk <span class="text-red-500">*</span></label>
- <input type="text" name="Nama_Barang" placeholder="Contoh: Gamis Chino Premium" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" required>
+    <label class="block text-xs font-semibold text-gray-500">Nama Lengkap Produk <span class="text-red-500">*</span></label>
+    <input type="text" name="Nama_Barang" placeholder="Contoh: Gamis Chino Premium" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" required>
  </div>
 
  <!-- Jenis -->
@@ -32,7 +32,7 @@
  selected: 'Baju',
  options: ['Baju', 'Celana', 'Gamis', 'Aksesoris']
  }">
- <label class="block text-xs font-semibold text-gray-500 mb-2">Jenis / Kategori</label>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Jenis / Kategori <span class="text-red-500">*</span></label>
  <div class="relative">
  <input type="hidden" name="Jenis_Barang" :value="selected">
  <button @click="open = !open" type="button" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300 flex items-center justify-between">
@@ -57,12 +57,6 @@
  </div>
  </div>
 
- <!-- Warna -->
- <div class="space-y-2">
- <label class="block text-xs font-semibold text-gray-500 mb-2">Warna <span class="text-red-500">*</span></label>
- <input type="text" name="Warna_Barang" placeholder="Contoh: Kuning, Navy, Hitam" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" required>
- </div>
-
  <!-- Ukuran -->
  <div class="space-y-2" x-data="{ 
  open: false, 
@@ -76,7 +70,7 @@
  {val: 'All Size', label: 'All Size'}
  ]
  }">
- <label class="block text-xs font-semibold text-gray-500 mb-2">Ukuran</label>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Ukuran Produk <span class="text-red-500">*</span></label>
  <div class="relative">
  <input type="hidden" name="Ukuran_Barang" :value="selected">
  <button @click="open = !open" type="button" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300 flex items-center justify-between">
@@ -101,7 +95,7 @@
  </div>
  </div>
 
- <!-- Pemasok -->
+ <!-- Pemasok Utama -->
  <div class="space-y-2" x-data="{ 
  open: false, 
  selected: '', 
@@ -137,29 +131,35 @@
  </div>
  </div>
 
+ <!-- Warna -->
+ <div class="space-y-2">
+    <label class="block text-xs font-semibold text-gray-500 mb-2">Varian Warna <span class="text-red-500">*</span></label>
+    <input type="text" name="Warna_Barang" placeholder="Contoh: Kuning, Navy, Hitam" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" required>
+ </div>
+
  <!-- Harga Beli -->
  <div class="space-y-2">
- <label class="block text-xs font-semibold text-gray-500 mb-2">Harga Beli (Rp) <span class="text-red-500">*</span></label>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Harga Beli Dasar (Rp) <span class="text-red-500">*</span></label>
  <input type="number" name="Harga_Beli" placeholder="0" min="0" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" required>
  </div>
 
  <!-- Harga Jual -->
  <div class="space-y-2">
- <label class="block text-xs font-semibold text-gray-500 mb-2">Harga Jual (Rp) <span class="text-red-500">*</span></label>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Harga Jual Konsumen (Rp) <span class="text-red-500">*</span></label>
  <input type="number" name="Harga_Jual" placeholder="0" min="0" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" required>
  </div>
 
  <!-- Stok Awal -->
  <div class="md:col-span-2 space-y-2">
- <label class="block text-xs font-semibold text-gray-500 mb-2">Stok Awal Inventaris <span class="text-red-500">*</span></label>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Saldo Awal Stok <span class="text-red-500">*</span></label>
  <input type="number" name="Stok_Awal" value="0" min="0" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" required>
- <p class="text-xs text-gray-400">Stok ini akan dicatat sebagai saldo awal di tabel stok.</p>
+ <p class="text-xs text-gray-400 mt-1 italic">Kuantitas ini akan langsung tercatat sebagai stok tersedia di sistem.</p>
  </div>
  </div>
 
  <div class="pt-6 border-t border-gray-50 flex justify-end space-x-3">
  <a href="{{ route('data.barang.list') }}" class="px-6 py-3 bg-gray-100 text-gray-600 font-semibold rounded-xl hover:bg-gray-200 transition-colors">Batal</a>
- <button type="submit" class="px-10 py-3 bg-teal-600 text-white font-bold rounded-xl shadow-sm hover:bg-teal-700 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">Daftarkan Barang</button>
+ <button type="submit" class="px-10 py-3 bg-teal-600 text-white font-bold rounded-xl shadow-sm hover:bg-teal-700 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">Simpan Data</button>
  </div>
  </form>
  </div>

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('pemasoks', function (Blueprint $table) {
             $table->string('ID_Pemasok')->primary();
+            $table->string('id_pemasok')->nullable(); // Required by client
             $table->string('Nama_Pemasok');
             $table->text('Alamat_Pemasok');
             $table->string('NoTelp_Pemasok');

@@ -8,7 +8,6 @@ use App\Models\Pelanggan;
 use App\Models\StokBarang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
 
 class PenjualanController extends Controller
@@ -20,7 +19,7 @@ class PenjualanController extends Controller
         $perPage = $request->input('per_page', 50);
         if ($perPage === 'all') $perPage = 9999;
 
-        $penjualans = Penjualan::with(['dataBarang', 'pelanggan'])
+        $penjualans = Penjualan::with(['dataBarang', 'pelanggan', 'user'])
             ->orderBy($sortBy, $sortDir)
             ->paginate($perPage)
             ->withQueryString();
@@ -46,8 +45,12 @@ class PenjualanController extends Controller
             'ID_Pelanggan' => 'required|string',
             'Tanggal_Penjualan' => 'required|date',
             'Kuantitas' => 'required|integer|min:1',
-            'Jenis_Pembayaran' => 'required|string',
+            'jenis_pembayaran' => 'required|string',
             'Ongkir' => 'required|numeric|min:0',
+        ], [
+            'ID_Barang.required' => 'Pilih produk yang terjual.',
+            'ID_Pelanggan.required' => 'Pilih data pelanggan.',
+            'jenis_pembayaran.required' => 'Pilih metode pembayaran.',
         ]);
 
         $barang = DataBarang::findOrFail($request->ID_Barang);
@@ -57,19 +60,19 @@ class PenjualanController extends Controller
         // Check stock
         $stok = StokBarang::where('ID_Barang', $request->ID_Barang)->first();
         if (!$stok || $stok->Stok_Akhir < $request->Kuantitas) {
-            return back()->with('error', 'Stok tidak mencukupi.');
+            return back()->with('error', 'Gagal mencatat: Stok barang tidak mencukupi untuk transaksi ini.')->withInput();
         }
 
         DB::beginTransaction();
         try {
             $penjualan = Penjualan::create([
-                'ID_Penjualan' => 'PJ-' . strtoupper(Str::random(8)),
+                'ID_Penjualan' => Penjualan::generateId('PJ'),
                 'user_id' => auth()->id(),
                 'ID_Barang' => $request->ID_Barang,
                 'ID_Pelanggan' => $request->ID_Pelanggan,
                 'Tanggal_Penjualan' => $request->Tanggal_Penjualan,
                 'Kuantitas' => $request->Kuantitas,
-                'Jenis_Pembayaran' => $request->Jenis_Pembayaran,
+                'jenis_pembayaran' => $request->jenis_pembayaran,
                 'Total_Harga_Barang' => $total_harga_barang,
                 'Ongkir' => $request->Ongkir,
                 'Total_Harga' => $total_harga,
@@ -79,10 +82,10 @@ class PenjualanController extends Controller
             $stok->decrement('Stok_Akhir', $request->Kuantitas);
 
             DB::commit();
-            return redirect()->route('data.penjualan')->with('success', 'Penjualan berhasil dicatat.');
+            return redirect()->route('data.penjualan')->with('success', 'Transaksi penjualan berhasil dicatat.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Gagal mencatat penjualan: ' . $e->getMessage());
+            return back()->with('error', 'Gagal mencatat penjualan: ' . $e->getMessage())->withInput();
         }
     }
 
@@ -98,7 +101,7 @@ class PenjualanController extends Controller
     {
         $request->validate([
             'Kuantitas' => 'required|integer|min:1',
-            'Jenis_Pembayaran' => 'required|string',
+            'jenis_pembayaran' => 'required|string',
             'Ongkir' => 'required|numeric|min:0',
         ]);
 
@@ -109,32 +112,30 @@ class PenjualanController extends Controller
         $total_harga_barang = $barang->Harga_Jual * $request->Kuantitas;
         $total_harga = $total_harga_barang + $request->Ongkir;
 
-        // Check stock if increasing quantity
         $stok = StokBarang::where('ID_Barang', $penjualan->ID_Barang)->first();
         if ($diff > 0 && (!$stok || $stok->Stok_Akhir < $diff)) {
-            return back()->with('error', 'Stok tidak mencukupi untuk penambahan kuantitas.');
+            return back()->with('error', 'Stok tidak mencukupi untuk penambahan kuantitas.')->withInput();
         }
 
         DB::beginTransaction();
         try {
-            // Update Stock
             if ($stok) {
                 $stok->decrement('Stok_Akhir', $diff);
             }
 
             $penjualan->update([
                 'Kuantitas' => $request->Kuantitas,
-                'Jenis_Pembayaran' => $request->Jenis_Pembayaran,
+                'jenis_pembayaran' => $request->jenis_pembayaran,
                 'Ongkir' => $request->Ongkir,
                 'Total_Harga_Barang' => $total_harga_barang,
                 'Total_Harga' => $total_harga,
             ]);
 
             DB::commit();
-            return redirect()->route('data.penjualan')->with('success', 'Penjualan berhasil diperbarui.');
+            return redirect()->route('data.penjualan')->with('success', 'Data transaksi penjualan berhasil diperbarui.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Gagal memperbarui penjualan: ' . $e->getMessage());
+            return back()->with('error', 'Gagal memperbarui penjualan: ' . $e->getMessage())->withInput();
         }
     }
 
@@ -144,7 +145,6 @@ class PenjualanController extends Controller
 
         DB::beginTransaction();
         try {
-            // Revert Stock
             $stok = StokBarang::where('ID_Barang', $penjualan->ID_Barang)->first();
             if ($stok) {
                 $stok->increment('Stok_Akhir', $penjualan->Kuantitas);
@@ -153,7 +153,7 @@ class PenjualanController extends Controller
             $penjualan->delete();
 
             DB::commit();
-            return redirect()->route('data.penjualan')->with('success', 'Penjualan berhasil dihapus.');
+            return redirect()->route('data.penjualan')->with('success', 'Catatan penjualan berhasil dihapus dari sistem.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Gagal menghapus penjualan: ' . $e->getMessage());

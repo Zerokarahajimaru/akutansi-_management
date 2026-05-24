@@ -2,18 +2,15 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
+use App\Traits\GeneratesSequentialId;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, GeneratesSequentialId;
 
     protected $keyType = 'string';
     public $incrementing = false;
@@ -21,12 +18,7 @@ class User extends Authenticatable
     protected static function boot()
     {
         parent::boot();
-        static::creating(function ($model) {
-            if (empty($model->{$model->getKeyName()})) {
-                $model->{$model->getKeyName()} = (string) Str::uuid();
-            }
-        });
-
+        
         // Invalidate session cache when user updated
         static::updated(function ($user) {
             Cache::forget('user_auth_id_' . $user->id);
@@ -39,6 +31,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
+        'id',
         'name',
         'username',
         'password',

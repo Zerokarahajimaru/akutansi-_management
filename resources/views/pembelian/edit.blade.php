@@ -21,6 +21,12 @@
  @endif
 
  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+ <!-- ID Pembelian -->
+ <div class="space-y-2">
+ <label class="block text-xs font-semibold text-gray-500 mb-2">ID Pembelian</label>
+ <input type="text" value="{{ $pembelian->ID_Pembelian }}" class="w-full bg-gray-100 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-500 cursor-not-allowed" readonly>
+ </div>
+
  <!-- Barang -->
  <div class="space-y-2" x-data="{ 
  open: false, 
@@ -32,7 +38,7 @@
  @endforeach
  ]
  }">
- <label class="block text-xs font-semibold text-gray-500 mb-2">Pilih Barang</label>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Pilih Produk</label>
  <div class="relative">
  <input type="hidden" name="ID_Barang" :value="selected" required>
  <button @click="open = !open" type="button" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300 flex items-center justify-between">
@@ -101,7 +107,7 @@
 
  <!-- Kuantitas -->
  <div class="space-y-2">
- <label class="block text-xs font-semibold text-gray-500 mb-2">Kuantitas</label>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Kuantitas Pembelian</label>
  <input type="number" name="Kuantitas" value="{{ old('Kuantitas', $pembelian->Kuantitas) }}" placeholder="0" min="1" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" required>
  </div>
 
@@ -109,7 +115,7 @@
  <div class="space-y-2" x-data="{ 
  open: false, 
  selected: '{{ old('Jenis_Pembayaran', $pembelian->Jenis_Pembayaran) }}',
- options: ['Tunai', 'Transfer', 'Kredit']
+ options: ['Tunai', 'Transfer', 'Qris']
  }">
  <label class="block text-xs font-semibold text-gray-500 mb-2">Jenis Pembayaran</label>
  <div class="relative">
@@ -138,14 +144,14 @@
 
  <!-- Ongkir -->
  <div class="space-y-2">
- <label class="block text-xs font-semibold text-gray-500 mb-2">Ongkir (Rp)</label>
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Ongkos Kirim (Rp)</label>
  <input type="number" name="Ongkir" value="{{ old('Ongkir', $pembelian->Ongkir) }}" min="0" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" required>
  </div>
  </div>
 
  <div class="pt-6 border-t border-gray-50 flex justify-end space-x-3">
  <a href="{{ route('data.pembelian') }}" class="px-6 py-3 bg-gray-100 text-gray-600 font-semibold rounded-xl hover:bg-gray-200 transition-colors">Batal</a>
- <button type="submit" class="px-10 py-3 bg-teal-600 text-white font-bold rounded-xl shadow-sm hover:bg-teal-700 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">Perbarui Transaksi</button>
+ <button type="submit" class="px-10 py-3 bg-teal-600 text-white font-bold rounded-xl shadow-sm hover:bg-teal-700 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">Simpan Perubahan</button>
  </div>
  </form>
  </div>

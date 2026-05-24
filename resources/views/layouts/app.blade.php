@@ -261,10 +261,9 @@ document.addEventListener('submit', function(e) {
  <form action="{{ route('logout') }}" method="POST">
  @csrf
  <button type="submit" class="flex items-center justify-center w-full py-2.5 px-4 rounded-xl bg-red-50 border border-red-100 text-red-600 text-sm font-bold hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 group shadow-sm shadow-red-100/50">
- <i class="fas fa-arrow-right-from-bracket flex-shrink-0 group-hover:translate-x-0.5 transition-transform"></i> 
- <span x-show="sidebarOpen" class="ml-2 whitespace-nowrap">Sign Out</span>
- </button>
- </form>
+ <i class="fas fa-arrow-right-from-bracket flex-shrink-0 group-hover:translate-x-0.5 transition-transform"></i>
+ <span x-show="sidebarOpen" class="ml-2 whitespace-nowrap">Keluar Akun</span>
+ </button> </form>
  </div>
  </aside>
 
@@ -273,7 +272,7 @@ document.addEventListener('submit', function(e) {
  <!-- Top Header -->
  <header class="h-20 bg-white/80 backdrop-blur-md border-b border-gray-100 flex items-center justify-between px-8 sm:px-10 flex-shrink-0 z-10 sticky top-0">
  <div class="flex items-center text-sm">
- <a href="{{ route('dashboard') }}" wire:navigate class="text-teal-600 font-medium hover:underline">Home</a>
+ <a href="{{ route('dashboard') }}" wire:navigate class="text-teal-600 font-medium hover:underline">Beranda</a>
  <i class="fas fa-chevron-right text-xs mx-3 text-gray-400"></i>
  <span class="text-gray-800 font-medium">@yield('title', 'Dashboard')</span>
  </div>
