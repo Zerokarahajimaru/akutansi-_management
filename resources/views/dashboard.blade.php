@@ -5,7 +5,7 @@
 @section('content')
     <div class="mb-8">
         <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Welcome, {{ Auth::user()->name }}!</h1>
-        <p class="text-gray-500 text-sm mt-1">Here is a summary of your store's performance today.</p>
+        <p class="text-gray-500 text-sm mt-1">Berikut ringkasan kinerja toko Anda hari ini.</p>
     </div>
 
     <!-- Stats Cards -->

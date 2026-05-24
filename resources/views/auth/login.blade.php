@@ -15,7 +15,7 @@
  <div class="mb-8 text-center">
  <img src="{{ asset('Resource/xyra_logo.png') }}" alt="Xyra.id Logo" class="w-32 mx-auto mb-6 drop-shadow-sm hover:-translate-y-0.5 transition-transform duration-300">
  <h2 class="text-2xl font-bold text-gray-900 tracking-tight">Welcome Back</h2>
- <p class="text-sm text-gray-500 mt-2">Please enter your details to sign in.</p>
+ <p class="text-sm text-gray-500 mt-2">Silakan masukkan username dan password Anda untuk masuk.</p>
  </div>
 
  <form method="POST" action="{{ route('login') }}" class="space-y-6">
