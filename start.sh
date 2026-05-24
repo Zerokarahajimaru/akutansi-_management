@@ -1,10 +1,7 @@
 #!/bin/sh
 
-# Replace ${PORT} in nginx template and output to default site config
-envsubst '${PORT}' < /var/www/html/docker/nginx.conf.template > /etc/nginx/sites-available/default
-
-# Re-link for safety
-ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+# Replace ${PORT} in nginx template and output to Alpine's default site config
+envsubst '${PORT}' < /var/www/html/docker/nginx.conf.template > /etc/nginx/http.d/default.conf
 
 # Clear and Cache Laravel configurations for production performance
 php artisan optimize:clear
