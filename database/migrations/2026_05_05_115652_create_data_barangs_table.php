@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('data_barangs', function (Blueprint $table) {
             $table->string('ID_Barang')->primary();
-            $table->string('ID_Pemasok');
+            $table->string('ID_Pemasok')->index();
             $table->foreign('ID_Pemasok')->references('ID_Pemasok')->on('pemasoks')->onDelete('cascade');
-            $table->string('Jenis_Barang');
-            $table->string('Nama_Barang');
+            $table->string('Jenis_Barang')->index();
+            $table->string('Nama_Barang')->index();
             $table->string('Warna_Barang');
             $table->string('Ukuran_Barang');
             $table->decimal('Harga_Beli', 15, 2);

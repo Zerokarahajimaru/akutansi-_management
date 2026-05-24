@@ -1,5 +1,4 @@
 import './bootstrap';
-import Alpine from 'alpinejs';
 import Swal from 'sweetalert2';
 
 // Custom SweetAlert2 Configuration
@@ -26,14 +25,10 @@ window.Toast = Toast;
 // Input Validation for Phone Numbers
 document.addEventListener('input', (e) => {
     if (e.target.dataset.type === 'phone' || e.target.name.toLowerCase().includes('notelp')) {
-        // Only allow numbers, -, +, and space
         let value = e.target.value.replace(/[^0-9\-\+\s]/g, '');
-        
-        // Limit to 15 characters
         if (value.length > 15) {
             value = value.substring(0, 15);
         }
-        
         e.target.value = value;
     }
 });

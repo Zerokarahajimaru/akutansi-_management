@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('name')->nullable();
             $table->string('password');
-            $table->enum('role', ['admin', 'pegawai']);
-            $table->string('ID_Admin')->nullable();
-            $table->foreign('ID_Admin')->references('ID_Admin')->on('admins')->onDelete('cascade');
+            $table->enum('role', ['admin', 'pegawai'])->index();
+            $table->string('NoTelp_User')->nullable();
+            $table->text('Alamat_User')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

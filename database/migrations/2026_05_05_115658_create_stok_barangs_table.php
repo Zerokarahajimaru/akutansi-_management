@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('stok_barangs', function (Blueprint $table) {
             $table->string('ID_Stok')->primary();
-            $table->string('ID_Admin');
-            $table->foreign('ID_Admin')->references('ID_Admin')->on('admins')->onDelete('cascade');
-            $table->string('ID_Pemasok');
+            $table->uuid('user_id')->nullable()->index();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->string('ID_Pemasok')->index();
             $table->foreign('ID_Pemasok')->references('ID_Pemasok')->on('pemasoks')->onDelete('cascade');
-            $table->string('ID_Barang');
+            $table->string('ID_Barang')->index();
             $table->foreign('ID_Barang')->references('ID_Barang')->on('data_barangs')->onDelete('cascade');
             $table->integer('Stok_Awal');
-            $table->integer('Stok_Akhir');
+            $table->integer('Stok_Akhir')->index();
             $table->text('Keterangan')->nullable();
             $table->timestamps();
         });

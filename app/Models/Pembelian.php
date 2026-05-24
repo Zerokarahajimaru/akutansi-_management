@@ -17,25 +17,25 @@ class Pembelian extends Model
         'ID_Pembelian',
         'ID_Pemasok',
         'ID_Barang',
+        'user_id',
         'Tgl_Pembelian',
         'Kuantitas',
+        'Jenis_Pembayaran',
         'Total_Harga_Barang',
         'Ongkir',
-        'Jenis_Pembayaran',
         'Total_Harga',
     ];
 
-    /**
-     * Get the pemasok that owns the pembelian.
-     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function pemasok()
     {
         return $this->belongsTo(Pemasok::class, 'ID_Pemasok', 'ID_Pemasok');
     }
 
-    /**
-     * Get the data barang that owns the pembelian.
-     */
     public function dataBarang()
     {
         return $this->belongsTo(DataBarang::class, 'ID_Barang', 'ID_Barang');

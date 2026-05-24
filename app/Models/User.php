@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 class User extends Authenticatable
 {
@@ -25,6 +26,11 @@ class User extends Authenticatable
                 $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
+
+        // Invalidate session cache when user updated
+        static::updated(function ($user) {
+            Cache::forget('user_auth_id_' . $user->id);
+        });
     }
 
     /**
@@ -37,33 +43,9 @@ class User extends Authenticatable
         'username',
         'password',
         'role',
-        'ID_Admin',
+        'NoTelp_User',
+        'Alamat_User',
     ];
-
-    /**
-     * Get the user's name.
-     */
-    public function getNameAttribute($value)
-    {
-        if ($value) return $value;
-        return $this->admin ? $this->admin->Nama_Admin : $this->username;
-    }
-
-    /**
-     * Get the admin that owns the user.
-     */
-    public function admin()
-    {
-        return $this->belongsTo(Admin::class, 'ID_Admin', 'ID_Admin');
-    }
-
-    /**
-     * Get the column name for the "remember me" token.
-     */
-    public function getAuthIdentifierName(): string
-    {
-        return 'username';
-    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -85,5 +67,20 @@ class User extends Authenticatable
         return [
             'password' => 'hashed',
         ];
+    }
+
+    public function penjualans()
+    {
+        return $this->hasMany(Penjualan::class, 'user_id');
+    }
+
+    public function pembelians()
+    {
+        return $this->hasMany(Pembelian::class, 'user_id');
+    }
+
+    public function stokBarangs()
+    {
+        return $this->hasMany(StokBarang::class, 'user_id');
     }
 }

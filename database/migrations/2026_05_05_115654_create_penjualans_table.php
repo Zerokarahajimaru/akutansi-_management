@@ -13,17 +13,18 @@ return new class extends Migration
     {
         Schema::create('penjualans', function (Blueprint $table) {
             $table->string('ID_Penjualan')->primary();
-            $table->string('ID_Admin');
-            $table->foreign('ID_Admin')->references('ID_Admin')->on('admins')->onDelete('cascade');
-            $table->string('ID_Barang');
+            $table->uuid('user_id')->nullable()->index();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->string('ID_Barang')->index();
             $table->foreign('ID_Barang')->references('ID_Barang')->on('data_barangs')->onDelete('cascade');
-            $table->string('ID_Pelanggan');
+            $table->string('ID_Pelanggan')->index();
             $table->foreign('ID_Pelanggan')->references('ID_Pelanggan')->on('pelanggans')->onDelete('cascade');
-            $table->date('Tanggal_Penjualan');
+            $table->date('Tanggal_Penjualan')->index();
             $table->string('Jenis_Pembayaran');
             $table->decimal('Total_Harga_Barang', 15, 2);
             $table->decimal('Ongkir', 15, 2);
-            $table->integer('Kuantitas'); // Adding this for the requirement: "Show quantity with a red minus"
+            $table->decimal('Total_Harga', 15, 2);
+            $table->integer('Kuantitas');
             $table->timestamps();
         });
     }

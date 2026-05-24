@@ -15,7 +15,7 @@ class StokBarang extends Model
 
     protected $fillable = [
         'ID_Stok',
-        'ID_Admin',
+        'user_id',
         'ID_Pemasok',
         'ID_Barang',
         'Stok_Awal',
@@ -23,25 +23,16 @@ class StokBarang extends Model
         'Keterangan',
     ];
 
-    /**
-     * Get the admin that owns the stok barang.
-     */
-    public function admin()
+    public function user()
     {
-        return $this->belongsTo(Admin::class, 'ID_Admin', 'ID_Admin');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    /**
-     * Get the pemasok that owns the stok barang.
-     */
     public function pemasok()
     {
         return $this->belongsTo(Pemasok::class, 'ID_Pemasok', 'ID_Pemasok');
     }
 
-    /**
-     * Get the data barang that owns the stok barang.
-     */
     public function dataBarang()
     {
         return $this->belongsTo(DataBarang::class, 'ID_Barang', 'ID_Barang');

@@ -14,9 +14,9 @@
  <a href="{{ route('util.export', 'barang') }}" class="bg-teal-50 text-teal-600 px-4 py-2 rounded-xl text-xs font-bold hover:bg-teal-100 transition-all flex items-center">
  <i class="fas fa-file-excel mr-1"></i> EXPORT CSV
  </a>
- <button type="button" onclick="window.print()" class="bg-gray-100 text-gray-600 px-4 py-2 rounded-xl text-xs font-bold hover:bg-gray-200 transition-all">
+ <!-- <button type="button" onclick="window.print()" class="bg-gray-100 text-gray-600 px-4 py-2 rounded-xl text-xs font-bold hover:bg-gray-200 transition-all">
  <i class="fas fa-print mr-1"></i> CETAK
- </button>
+ </button> -->
  </div>
  </div>
 

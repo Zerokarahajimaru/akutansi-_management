@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -12,26 +11,14 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Create Admins first
-        $admins = [
-            ['ID_Admin' => 'ADM-001', 'Nama_Admin' => 'Ezara Aristo', 'Alamat_Admin' => 'Kantor Xyra.id', 'NoTelp_Admin' => '081234567890'],
-            ['ID_Admin' => 'ADM-002', 'Nama_Admin' => 'Super Admin', 'Alamat_Admin' => 'Kantor Xyra.id', 'NoTelp_Admin' => '081111111111'],
-            ['ID_Admin' => 'ADM-003', 'Nama_Admin' => 'Budi Santoso', 'Alamat_Admin' => 'Gudang Xyra.id', 'NoTelp_Admin' => '082222222222'],
-        ];
-
-        foreach ($admins as $admin) {
-            Admin::updateOrCreate(['ID_Admin' => $admin['ID_Admin']], $admin);
-        }
-
-        // 2. Create Users (Linked to Admins for 'admin' role)
-        
         // Main Admin (You)
         User::create([
             'username' => 'admin',
             'name' => 'Ezara Aristo',
-            'password' => 'admin', // Will be hashed by model cast
+            'password' => 'admin',
             'role' => 'admin',
-            'ID_Admin' => 'ADM-001'
+            'NoTelp_User' => '081234567890',
+            'Alamat_User' => 'Kantor Pusat Xyra.id, Jakarta',
         ]);
 
         // Second Admin
@@ -40,21 +27,17 @@ class UserSeeder extends Seeder
             'name' => 'Super Admin',
             'password' => 'password',
             'role' => 'admin',
-            'ID_Admin' => 'ADM-002'
+            'NoTelp_User' => '081111111111',
+            'Alamat_User' => 'Kantor Cabang Xyra.id, Bandung',
         ]);
 
-        // Pegawai (Employees) - High volume realistic data
+        // Pegawai (Employees)
         $employees = [
-            ['name' => 'Siti Aminah', 'username' => 'siti'],
-            ['name' => 'Andi Wijaya', 'username' => 'andi'],
-            ['name' => 'Rina Pratama', 'username' => 'rina'],
-            ['name' => 'Fajar Hidayat', 'username' => 'fajar'],
-            ['name' => 'Dewi Lestari', 'username' => 'dewi'],
-            ['name' => 'Bambang Kusuma', 'username' => 'bambang'],
-            ['name' => 'Maya Saputri', 'username' => 'maya'],
-            ['name' => 'Rizky Ramadhan', 'username' => 'rizky'],
-            ['name' => 'Eka Wahyuni', 'username' => 'eka'],
-            ['name' => 'Hendra Putra', 'username' => 'hendra'],
+            ['name' => 'Siti Aminah', 'username' => 'siti', 'telp' => '081234567001'],
+            ['name' => 'Andi Wijaya', 'username' => 'andi', 'telp' => '081234567002'],
+            ['name' => 'Rina Pratama', 'username' => 'rina', 'telp' => '081234567003'],
+            ['name' => 'Fajar Hidayat', 'username' => 'fajar', 'telp' => '081234567004'],
+            ['name' => 'Dewi Lestari', 'username' => 'dewi', 'telp' => '081234567005'],
         ];
 
         foreach ($employees as $emp) {
@@ -63,6 +46,8 @@ class UserSeeder extends Seeder
                 'username' => $emp['username'],
                 'password' => 'pegawai123',
                 'role' => 'pegawai',
+                'NoTelp_User' => $emp['telp'],
+                'Alamat_User' => 'Gudang Xyra.id, Jakarta Timur',
             ]);
         }
     }

@@ -13,15 +13,17 @@ return new class extends Migration
     {
         Schema::create('pembelians', function (Blueprint $table) {
             $table->string('ID_Pembelian')->primary();
-            $table->string('ID_Pemasok');
+            $table->string('ID_Pemasok')->index();
             $table->foreign('ID_Pemasok')->references('ID_Pemasok')->on('pemasoks')->onDelete('cascade');
-            $table->string('ID_Barang');
+            $table->string('ID_Barang')->index();
             $table->foreign('ID_Barang')->references('ID_Barang')->on('data_barangs')->onDelete('cascade');
-            $table->string('ID_Admin')->nullable();
-            $table->foreign('ID_Admin')->references('ID_Admin')->on('admins')->onDelete('set null');
-            $table->date('Tgl_Pembelian');
+            $table->uuid('user_id')->nullable()->index();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->date('Tgl_Pembelian')->index();
             $table->integer('Kuantitas');
             $table->string('Jenis_Pembayaran');
+            $table->decimal('Total_Harga_Barang', 15, 2);
+            $table->decimal('Ongkir', 15, 2);
             $table->decimal('Total_Harga', 15, 2);
             $table->timestamps();
         });

@@ -51,7 +51,7 @@
                 <h2 class="font-bold text-gray-800 flex items-center">
                     <i class="fas fa-clock-rotate-left mr-2.5 text-teal-500"></i> Recent Activities
                 </h2>
-                <a href="#" class="text-sm font-medium text-teal-600 hover:text-teal-700 hover:underline">View All</a>
+                <!-- <a href="#" class="text-sm font-medium text-teal-600 hover:text-teal-700 hover:underline">View All</a> -->
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-left">

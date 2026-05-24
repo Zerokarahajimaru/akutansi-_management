@@ -34,7 +34,8 @@
  <input type="text" name="username" value="{{ old('username', $user->username) }}" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" required>
  </div>
 
- <!-- Role -->
+ <!-- Role (Only Admin can see/edit this) -->
+ @if(auth()->user()->role === 'admin')
  <div class="space-y-2" x-data="{ 
  open: false, 
  selected: '{{ $user->role }}',
@@ -67,6 +68,12 @@
  </div>
  </div>
  </div>
+ @else
+ <div class="space-y-2">
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Hak Akses (Role)</label>
+ <input type="text" value="{{ ucfirst($user->role) }}" class="w-full bg-gray-100 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-500 cursor-not-allowed" disabled>
+ </div>
+ @endif
  </div>
 
  <!-- Password -->
@@ -83,7 +90,13 @@
  <!-- No Telp -->
  <div class="space-y-2">
  <label class="block text-xs font-semibold text-gray-500 mb-2">Nomor Telepon</label>
- <input type="text" name="NoTelp_User" value="{{ old('NoTelp_User', $user->admin->NoTelp_Admin ?? '') }}" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" placeholder="08xxxx">
+ <input type="text" name="NoTelp_User" value="{{ old('NoTelp_User', $user->NoTelp_User) }}" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" placeholder="08xxxx">
+ </div>
+
+ <!-- Alamat -->
+ <div class="space-y-2">
+ <label class="block text-xs font-semibold text-gray-500 mb-2">Alamat Lengkap</label>
+ <textarea name="Alamat_User" rows="3" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-gray-300" placeholder="Alamat lengkap...">{{ old('Alamat_User', $user->Alamat_User) }}</textarea>
  </div>
  </div>
 

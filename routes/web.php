@@ -77,6 +77,10 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/penjualan', [PenjualanController::class, 'store']);
     });
 
+    // User Profile Routes (Accessed by both, controller handles security)
+    Route::get('/data/user/{id}/edit', [UserController::class, 'edit'])->name('data.user.edit');
+    Route::put('/data/user/{id}', [UserController::class, 'update'])->name('data.user.update');
+
     // Reports
     Route::prefix('laporan')->group(function () {
         Route::get('/pembelian', [ReportController::class, 'pembelian'])->name('laporan.pembelian');
@@ -89,7 +93,5 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/input/user', [UserController::class, 'create'])->name('input.user');
     Route::post('/input/user', [UserController::class, 'store']);
-    Route::get('/data/user/{id}/edit', [UserController::class, 'edit'])->name('data.user.edit');
-    Route::put('/data/user/{id}', [UserController::class, 'update'])->name('data.user.update');
     Route::delete('/data/user/{id}', [UserController::class, 'destroy'])->name('data.user.destroy');
 });

@@ -9,6 +9,7 @@ use App\Models\StokBarang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 class PembelianController extends Controller
 {
@@ -17,9 +18,7 @@ class PembelianController extends Controller
         $sortBy = $request->input('sort_by', 'Tgl_Pembelian');
         $sortDir = $request->input('sort_dir', 'desc');
         $perPage = $request->input('per_page', 50);
-        if ($perPage === 'all') {
-            $perPage = 9999;
-        }
+        if ($perPage === 'all') $perPage = 9999;
 
         $pembelians = Pembelian::with(['dataBarang', 'pemasok'])
             ->orderBy($sortBy, $sortDir)
@@ -31,19 +30,23 @@ class PembelianController extends Controller
 
     public function create()
     {
-        $barangs = DataBarang::all();
-        $pemasoks = Pemasok::all();
+        $barangs = Cache::rememberForever('active_barangs_list', function() {
+            return DataBarang::all();
+        });
+        $pemasoks = Cache::rememberForever('active_pemasoks_list', function() {
+            return Pemasok::all();
+        });
         return view('pembelian.create', compact('barangs', 'pemasoks'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'ID_Barang' => 'required',
-            'ID_Pemasok' => 'required',
+            'ID_Pemasok' => 'required|string',
+            'ID_Barang' => 'required|string',
             'Tgl_Pembelian' => 'required|date',
             'Kuantitas' => 'required|integer|min:1',
-            'Jenis_Pembayaran' => 'required',
+            'Jenis_Pembayaran' => 'required|string',
             'Ongkir' => 'required|numeric|min:0',
         ]);
 
@@ -53,10 +56,11 @@ class PembelianController extends Controller
 
         DB::beginTransaction();
         try {
-            $pembelian = Pembelian::create([
+            Pembelian::create([
                 'ID_Pembelian' => 'PB-' . strtoupper(Str::random(8)),
                 'ID_Pemasok' => $request->ID_Pemasok,
                 'ID_Barang' => $request->ID_Barang,
+                'user_id' => auth()->id(),
                 'Tgl_Pembelian' => $request->Tgl_Pembelian,
                 'Kuantitas' => $request->Kuantitas,
                 'Jenis_Pembayaran' => $request->Jenis_Pembayaran,
@@ -65,15 +69,14 @@ class PembelianController extends Controller
                 'Total_Harga' => $total_harga,
             ]);
 
-            // Update Stok_Barang
+            // Update Stock
             $stok = StokBarang::where('ID_Barang', $request->ID_Barang)->first();
             if ($stok) {
                 $stok->increment('Stok_Akhir', $request->Kuantitas);
             } else {
-                // If no stock record exists, create one
                 StokBarang::create([
                     'ID_Stok' => 'ST-' . strtoupper(Str::random(8)),
-                    'ID_Admin' => auth()->user()->ID_Admin ?? 'ADM001', // Fallback for testing
+                    'user_id' => auth()->id(),
                     'ID_Pemasok' => $request->ID_Pemasok,
                     'ID_Barang' => $request->ID_Barang,
                     'Stok_Awal' => 0,
@@ -99,55 +102,34 @@ class PembelianController extends Controller
 
     public function update(Request $request, $id)
     {
-        $pembelian = Pembelian::findOrFail($id);
-
         $request->validate([
-            'ID_Barang' => 'required',
-            'ID_Pemasok' => 'required',
-            'Tgl_Pembelian' => 'required|date',
             'Kuantitas' => 'required|integer|min:1',
-            'Jenis_Pembayaran' => 'required',
+            'Jenis_Pembayaran' => 'required|string',
             'Ongkir' => 'required|numeric|min:0',
         ]);
 
-        $barang = DataBarang::findOrFail($request->ID_Barang);
+        $pembelian = Pembelian::findOrFail($id);
+        $barang = DataBarang::findOrFail($pembelian->ID_Barang);
+        
+        $diff = $request->Kuantitas - $pembelian->Kuantitas;
         $total_harga_barang = $barang->Harga_Beli * $request->Kuantitas;
         $total_harga = $total_harga_barang + $request->Ongkir;
 
         DB::beginTransaction();
         try {
-            // Revert old stock adjustment
-            $oldStok = StokBarang::where('ID_Barang', $pembelian->ID_Barang)->first();
-            if ($oldStok) {
-                $oldStok->decrement('Stok_Akhir', $pembelian->Kuantitas);
+            // Update Stock
+            $stok = StokBarang::where('ID_Barang', $pembelian->ID_Barang)->first();
+            if ($stok) {
+                $stok->increment('Stok_Akhir', $diff);
             }
 
-            // Update record
             $pembelian->update([
-                'ID_Pemasok' => $request->ID_Pemasok,
-                'ID_Barang' => $request->ID_Barang,
-                'Tgl_Pembelian' => $request->Tgl_Pembelian,
                 'Kuantitas' => $request->Kuantitas,
                 'Jenis_Pembayaran' => $request->Jenis_Pembayaran,
-                'Total_Harga_Barang' => $total_harga_barang,
                 'Ongkir' => $request->Ongkir,
+                'Total_Harga_Barang' => $total_harga_barang,
                 'Total_Harga' => $total_harga,
             ]);
-
-            // Apply new stock adjustment
-            $newStok = StokBarang::where('ID_Barang', $request->ID_Barang)->first();
-            if ($newStok) {
-                $newStok->increment('Stok_Akhir', $request->Kuantitas);
-            } else {
-                StokBarang::create([
-                    'ID_Stok' => 'ST-' . strtoupper(Str::random(8)),
-                    'ID_Admin' => auth()->user()->ID_Admin ?? 'ADM001',
-                    'ID_Pemasok' => $request->ID_Pemasok,
-                    'ID_Barang' => $request->ID_Barang,
-                    'Stok_Awal' => 0,
-                    'Stok_Akhir' => $request->Kuantitas,
-                ]);
-            }
 
             DB::commit();
             return redirect()->route('data.pembelian')->with('success', 'Pembelian berhasil diperbarui.');
@@ -163,7 +145,7 @@ class PembelianController extends Controller
 
         DB::beginTransaction();
         try {
-            // Revert stock adjustment
+            // Revert Stock
             $stok = StokBarang::where('ID_Barang', $pembelian->ID_Barang)->first();
             if ($stok) {
                 $stok->decrement('Stok_Akhir', $pembelian->Kuantitas);

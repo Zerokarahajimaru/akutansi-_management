@@ -15,36 +15,27 @@ class Penjualan extends Model
 
     protected $fillable = [
         'ID_Penjualan',
-        'ID_Admin',
+        'user_id',
         'ID_Barang',
         'ID_Pelanggan',
         'Tanggal_Penjualan',
+        'Kuantitas',
         'Jenis_Pembayaran',
         'Total_Harga_Barang',
         'Ongkir',
         'Total_Harga',
-        'Kuantitas',
     ];
 
-    /**
-     * Get the admin that owns the penjualan.
-     */
-    public function admin()
+    public function user()
     {
-        return $this->belongsTo(Admin::class, 'ID_Admin', 'ID_Admin');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    /**
-     * Get the data barang that owns the penjualan.
-     */
     public function dataBarang()
     {
         return $this->belongsTo(DataBarang::class, 'ID_Barang', 'ID_Barang');
     }
 
-    /**
-     * Get the pelanggan that owns the penjualan.
-     */
     public function pelanggan()
     {
         return $this->belongsTo(Pelanggan::class, 'ID_Pelanggan', 'ID_Pelanggan');

@@ -3,7 +3,7 @@
 @section('title', 'Data Pemasok')
 
 @section('content')
-<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100">
  <div class="p-6 border-b border-gray-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
  <div>
  <h2 class="font-bold text-gray-800 text-lg">Daftar Pemasok</h2>
@@ -13,54 +13,30 @@
  triggerImport() { document.getElementById('import-file').click() },
  submitImport() { document.getElementById('import-form').submit() }
  }">
- <div class="flex items-center gap-2 text-xs text-gray-500 bg-gray-50/50 px-3 py-2 rounded-xl border border-gray-100">
-    <span class="font-medium">Show:</span>
-    <div x-data="{ 
-        open: false, 
-        selected: '{{ request('per_page', 50) }}',
-        options: [
-            {val: '5', label: '5'},
-            {val: '10', label: '10'},
-            {val: '25', label: '25'},
-            {val: '50', label: '50'},
-            {val: 'all', label: 'All'}
-        ],
-        init() {
-            // Ensure selected matches request exactly
-            this.selected = '{{ request('per_page', 50) }}';
-        },
-        changePerPage(val) {
-            this.selected = val;
-            const url = new URL(window.location.href);
-            url.searchParams.set('per_page', val);
-            url.searchParams.set('page', 1);
-            window.location.href = url.toString();
-        }
-    }" class="relative">
-        <button @click="open = !open" type="button" class="flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-2.5 py-1 hover:border-teal-500 transition-all shadow-sm">
-            <span x-text="selected === 'all' ? 'All' : selected" class="font-bold text-teal-600"></span>
-            <i class="fas fa-chevron-down text-[9px] text-gray-400 transition-transform" :class="open ? 'rotate-180' : ''"></i>
-        </button>
-        <template x-if="open">
-            <div x-transition:enter="transition ease-out duration-100"
-                 x-transition:enter-start="opacity-0 scale-95"
-                 x-transition:enter-end="opacity-100 scale-100"
-                 x-transition:leave="transition ease-in duration-75"
-                 x-transition:leave-start="opacity-100 scale-100"
-                 x-transition:leave-end="opacity-0 scale-95"
-                 class="absolute right-0 mt-1 z-50">
-                <div @click.away="open = false" x-cloak 
-                     class="w-20 bg-white border border-gray-100 rounded-xl shadow-xl py-1">
-                    <template x-for="opt in options" :key="opt.val">
-                        <div @click="changePerPage(opt.val)" 
-                             class="px-3 py-1.5 hover:bg-teal-50 hover:text-teal-700 cursor-pointer transition-colors text-center" 
-                             :class="selected == opt.val ? 'text-teal-600 font-bold bg-teal-50/50' : 'text-gray-600'">
-                            <span x-text="opt.label"></span>
-                        </div>
-                    </template>
-                </div>
-            </div>
-        </template>
+ <div x-data="{ open: false }" class="relative inline-block text-left z-[100]" x-cloak>
+    <button @click="open = !open" @click.outside="open = false" type="button" class="inline-flex items-center justify-between min-w-[140px] px-4 py-2.5 text-sm font-semibold text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-teal-50 hover:text-teal-700 hover:border-teal-200 focus:outline-none focus:ring-2 focus:ring-teal-500/30 transition-all shadow-sm group">
+        <span class="truncate">Tampilkan: <span class="text-teal-600">{{ request('per_page', 50) === 'all' ? 'Semua' : request('per_page', 50) }}</span></span>
+        <i class="fas fa-chevron-down ml-2 text-xs transition-transform duration-300" :class="open ? 'rotate-180 text-teal-600' : 'text-gray-400 group-hover:text-teal-500'"></i>
+    </button>
+    
+    <div x-show="open" 
+         x-transition:enter="transition ease-out duration-150" 
+         x-transition:enter-start="opacity-0 scale-95 translate-y-1" 
+         x-transition:enter-end="opacity-100 scale-100 translate-y-0" 
+         x-transition:leave="transition ease-in duration-100"
+         x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+         x-transition:leave-end="opacity-0 scale-95 translate-y-1"
+         class="absolute left-0 mt-2 w-full min-w-[140px] bg-white border border-gray-100 rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden"
+         style="display: none; top: 100%;">
+        <div class="py-1">
+            @foreach([5, 10, 25, 50, 'all'] as $size)
+                <a href="{{ request()->fullUrlWithQuery(['per_page' => $size, 'page' => 1]) }}" 
+                   wire:navigate 
+                   class="block px-4 py-2 text-sm transition-all duration-200 {{ request('per_page', 50) == $size ? 'bg-teal-50 text-teal-700 font-bold' : 'text-gray-600 hover:bg-teal-50 hover:text-teal-700 border-l-2 border-transparent' }}">
+                    {{ $size === 'all' ? 'Semua Data' : $size . ' Baris' }}
+                </a>
+            @endforeach
+        </div>
     </div>
 </div>
  <form id="import-form" action="{{ route('util.import', 'pemasok') }}" method="POST" enctype="multipart/form-data" class="hidden">
