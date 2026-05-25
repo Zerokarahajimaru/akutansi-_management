@@ -30,7 +30,7 @@
     <i class="fas fa-file-arrow-down mr-2"></i> Unduh Template
  </a>
 
- <div x-data="{ openImport: false }" class="relative z-[100]">
+ <div x-data="{ openImport: false, isDragging: false }" class="relative z-[100]">
      <button @click="openImport = true" class="flex items-center px-4 py-2 bg-amber-50 text-amber-600 rounded-xl text-xs font-bold hover:bg-amber-100 transition-colors border border-amber-200">
          <i class="fas fa-file-import mr-2"></i> Impor Data
      </button>
@@ -45,16 +45,40 @@
              </div>
              <form action="{{ route('util.import', 'penjualan') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                  @csrf
-                 <div class="border-2 border-dashed border-gray-200 rounded-xl p-6 text-center hover:border-teal-500 hover:bg-teal-50/50 transition-colors cursor-pointer relative">
-                     <input type="file" name="csv_file" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" accept=".xlsx,.xls,.csv" required onchange="document.getElementById('fileNamePenjualan').textContent = this.files[0].name">
-                     <i class="fas fa-cloud-arrow-up text-3xl text-teal-500 mb-3"></i>
-                     <p class="text-sm font-semibold text-gray-700">Silakan klik atau seret file Excel ke area ini</p>
-                     <p class="text-xs text-gray-500 mt-1">Format yang didukung: .xlsx, .xls, .csv</p>
-                     <p id="fileNamePenjualan" class="text-xs font-bold text-teal-600 mt-3 truncate"></p>
+                 <div 
+                     class="relative group rounded-[2.25rem] transition-all duration-500 p-2 bg-gray-200 border border-gray-300"
+                     :class="isDragging ? 'bg-teal-50 border-teal-200 shadow-lg scale-[1.02]' : ''"
+                     @dragover.prevent="isDragging = true"
+                     @dragleave.prevent="isDragging = false"
+                     @drop.prevent="isDragging = false; $refs.fileInput.files = $event.dataTransfer.files; document.getElementById('fileNamePenjualan').textContent = $event.dataTransfer.files[0].name"
+                 >
+                     <div 
+                         class="border-2 border-dashed rounded-[1.75rem] p-10 text-center transition-all duration-300 relative overflow-hidden"
+                         :class="isDragging ? 'bg-white/50 border-teal-400' : 'border-gray-300 group-hover:border-teal-300'"
+                     >
+                         <input 
+                             type="file" 
+                             name="csv_file" 
+                             x-ref="fileInput"
+                             class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" 
+                             accept=".xlsx,.xls,.csv" 
+                             required 
+                             @change="document.getElementById('fileNamePenjualan').textContent = $event.target.files[0].name"
+                         >
+                         <div class="relative z-0">
+                             <i class="fas fa-cloud-arrow-up text-3xl text-teal-500 mb-3 transition-transform duration-300 group-hover:-translate-y-1"></i>
+                             <p class="text-sm font-semibold text-gray-700">Silakan klik atau seret file Excel ke area ini</p>
+                             <p class="text-xs text-gray-500 mt-1">Format yang didukung: .xlsx, .xls, .csv</p>
+                             <p id="fileNamePenjualan" class="text-xs font-bold text-teal-600 mt-3 truncate"></p>
+                         </div>
+                     </div>
                  </div>
                  <div class="flex justify-end space-x-3 pt-2">
                      <button type="button" @click="openImport = false" class="px-5 py-2.5 bg-gray-100 text-gray-600 font-bold rounded-xl text-sm hover:bg-gray-200 transition-colors">Batal</button>
-                     <button type="submit" class="px-5 py-2.5 bg-teal-600 text-white font-bold rounded-xl text-sm hover:bg-teal-700 shadow-lg shadow-teal-200 transition-colors">Mulai Impor</button>
+                     <button type="submit" class="px-5 py-2.5 bg-teal-600 text-white font-bold rounded-xl text-sm hover:bg-teal-700 shadow-lg shadow-teal-200 transition-colors group">
+                        <span>Impor Saja</span>
+                        <i class="fas fa-arrow-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                     </button>
                  </div>
              </form>
          </div>

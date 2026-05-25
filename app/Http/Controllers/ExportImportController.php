@@ -107,9 +107,6 @@ class ExportImportController extends Controller
             case 'barang':
                 $headings = ['Nama_Pemasok', 'Jenis_Barang', 'Nama_Barang', 'Warna_Barang', 'Ukuran_Barang', 'Harga_Beli', 'Harga_Jual', 'Stok_Awal'];
                 break;
-            case 'user':
-                $headings = ['Username', 'Nama', 'Password', 'No_Telp'];
-                break;
             case 'pembelian':
                 $headings = ['Tgl_Pembelian', 'Nama_Barang', 'Nama_Pemasok', 'Kuantitas', 'Jenis_Pembayaran', 'Ongkir'];
                 break;
@@ -150,15 +147,8 @@ class ExportImportController extends Controller
                     case 'pemasok':
                         $this->importPemasok($row);
                         break;
-                    case 'barang':
-                        $this->importBarang($row);
-                        break;
-                    case 'user':
-                        $this->importUser($row);
-                        break;
-                    case 'pembelian':
-                        $this->importPembelian($row);
-                        break;
+                    case 'barang':    $this->importBarang($row); break;
+                    case 'pembelian': $this->importPembelian($row); break;
                     case 'penjualan':
                         $this->importPenjualan($row);
                         break;
@@ -168,7 +158,7 @@ class ExportImportController extends Controller
             return back()->with('success', 'Impor data ' . ucfirst($type) . ' berhasil diselesaikan.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Gagal memproses file impor: ' . $e->getMessage());
+            return back()->with('error', 'Terjadi kesalahan sistem saat memproses file impor. Silakan pastikan format file sudah benar.');
         }
     }
 
@@ -213,19 +203,6 @@ class ExportImportController extends Controller
             'ID_Barang' => $id_barang,
             'Stok_Awal' => $row[7] ?? 0,
             'Stok_Akhir' => $row[7] ?? 0,
-        ]);
-    }
-
-    private function importUser($row) {
-        if (User::where('username', $row[0])->exists()) return;
-
-        User::create([
-            'username' => $row[0],
-            'name' => $row[1],
-            'password' => $row[2],
-            'role' => 'admin',
-            'NoTelp_User' => $row[3] ?? '-',
-            'Alamat_User' => '-',
         ]);
     }
 

@@ -80,7 +80,7 @@ class StockController extends Controller
             return redirect()->route('data.barang.list')->with('success', 'Produk baru telah berhasil didaftarkan.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Gagal mendaftarkan produk: ' . $e->getMessage())->withInput();
+            return back()->with('error', 'Terjadi kesalahan saat mendaftarkan produk baru. Silakan coba lagi.')->withInput();
         }
     }
 
@@ -118,7 +118,7 @@ class StockController extends Controller
             return redirect()->route('data.barang.list')->with('success', 'Data produk berhasil diperbarui.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Gagal memperbarui data produk: ' . $e->getMessage())->withInput();
+            return back()->with('error', 'Terjadi kesalahan saat memperbarui data produk. Silakan coba lagi.')->withInput();
         }
     }
 
@@ -133,7 +133,7 @@ class StockController extends Controller
             return redirect()->route('data.barang.list')->with('success', 'Produk telah dihapus dari sistem.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Gagal menghapus produk: ' . $e->getMessage());
+            return back()->with('error', 'Terjadi kesalahan saat menghapus data produk. Silakan coba lagi.');
         }
     }
 }

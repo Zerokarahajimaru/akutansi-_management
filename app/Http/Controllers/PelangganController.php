@@ -48,7 +48,7 @@ class PelangganController extends Controller
 
             return redirect()->route('data.pelanggan')->with('success', 'Data pelanggan berhasil ditambahkan.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Gagal menambahkan pelanggan: ' . $e->getMessage())->withInput();
+            return back()->with('error', 'Terjadi kesalahan saat menyimpan data pelanggan. Silakan coba lagi.')->withInput();
         }
     }
 
@@ -72,7 +72,7 @@ class PelangganController extends Controller
             $pelanggan->update($request->all());
             return redirect()->route('data.pelanggan')->with('success', 'Data pelanggan berhasil diperbarui.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Gagal memperbarui pelanggan: ' . $e->getMessage())->withInput();
+            return back()->with('error', 'Terjadi kesalahan saat memperbarui data pelanggan. Silakan coba lagi.')->withInput();
         }
     }
 
@@ -84,7 +84,7 @@ class PelangganController extends Controller
             $pelanggan->delete();
             return redirect()->route('data.pelanggan')->with('success', 'Data pelanggan berhasil dihapus.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Gagal menghapus pelanggan: ' . $e->getMessage());
+            return back()->with('error', 'Terjadi kesalahan saat menghapus data pelanggan. Silakan coba lagi.');
         }
     }
 }

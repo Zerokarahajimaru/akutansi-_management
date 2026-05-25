@@ -26,41 +26,6 @@
         </div>
     </div>
 
- <a href="{{ route('util.template', 'user') }}" class="flex items-center px-4 py-2 bg-gray-50 text-gray-600 rounded-xl text-xs font-bold hover:bg-gray-100 transition-colors border border-gray-200">
-    <i class="fas fa-file-arrow-down mr-2"></i> Unduh Template
- </a>
-
- <div x-data="{ openImport: false }" class="relative z-[100]">
-     <button @click="openImport = true" class="flex items-center px-4 py-2 bg-amber-50 text-amber-600 rounded-xl text-xs font-bold hover:bg-amber-100 transition-colors border border-amber-200">
-         <i class="fas fa-file-import mr-2"></i> Impor Data
-     </button>
-     
-     <div x-show="openImport" x-cloak class="fixed inset-0 z-[150] flex items-center justify-center bg-gray-900/50 backdrop-blur-sm" x-transition.opacity>
-         <div @click.outside="openImport = false" class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 transform transition-all" x-transition.scale.95>
-             <div class="flex justify-between items-center mb-5">
-                 <h3 class="text-lg font-bold text-gray-800">Impor Data Pengguna</h3>
-                 <button @click="openImport = false" class="text-gray-400 hover:text-red-500 transition-colors">
-                     <i class="fas fa-xmark text-lg"></i>
-                 </button>
-             </div>
-             <form action="{{ route('util.import', 'user') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
-                 @csrf
-                 <div class="border-2 border-dashed border-gray-200 rounded-xl p-6 text-center hover:border-teal-500 hover:bg-teal-50/50 transition-colors cursor-pointer relative">
-                     <input type="file" name="csv_file" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" accept=".xlsx,.xls,.csv" required onchange="document.getElementById('fileNameUser').textContent = this.files[0].name">
-                     <i class="fas fa-cloud-arrow-up text-3xl text-teal-500 mb-3"></i>
-                     <p class="text-sm font-semibold text-gray-700">Silakan klik atau seret file Excel ke area ini</p>
-                     <p class="text-xs text-gray-500 mt-1">Format yang didukung: .xlsx, .xls, .csv</p>
-                     <p id="fileNameUser" class="text-xs font-bold text-teal-600 mt-3 truncate"></p>
-                 </div>
-                 <div class="flex justify-end space-x-3 pt-2">
-                     <button type="button" @click="openImport = false" class="px-5 py-2.5 bg-gray-100 text-gray-600 font-bold rounded-xl text-sm hover:bg-gray-200 transition-colors">Batal</button>
-                     <button type="submit" class="px-5 py-2.5 bg-teal-600 text-white font-bold rounded-xl text-sm hover:bg-teal-700 shadow-lg shadow-teal-200 transition-colors">Mulai Impor</button>
-                 </div>
-             </form>
-         </div>
-     </div>
- </div>
-
  <a href="{{ route('util.export', 'user') }}" class="flex items-center px-4 py-2 bg-teal-50 text-teal-600 rounded-xl text-xs font-bold hover:bg-teal-100 transition-colors">
  <i class="fas fa-file-export mr-2"></i> Ekspor Excel
  </a>

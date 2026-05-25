@@ -48,7 +48,7 @@ class PemasokController extends Controller
 
             return redirect()->route('data.pemasok')->with('success', 'Data pemasok berhasil ditambahkan ke sistem.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Gagal menambahkan pemasok: ' . $e->getMessage())->withInput();
+            return back()->with('error', 'Terjadi kesalahan saat menyimpan data pemasok. Silakan coba lagi.')->withInput();
         }
     }
 
@@ -72,7 +72,7 @@ class PemasokController extends Controller
             $pemasok->update($request->all());
             return redirect()->route('data.pemasok')->with('success', 'Informasi pemasok berhasil diperbarui.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Gagal memperbarui data pemasok: ' . $e->getMessage())->withInput();
+            return back()->with('error', 'Terjadi kesalahan saat memperbarui data pemasok. Silakan coba lagi.')->withInput();
         }
     }
 
@@ -84,7 +84,7 @@ class PemasokController extends Controller
             $pemasok->delete();
             return redirect()->route('data.pemasok')->with('success', 'Data pemasok telah dihapus dari sistem.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Gagal menghapus data pemasok: ' . $e->getMessage());
+            return back()->with('error', 'Terjadi kesalahan saat menghapus data pemasok. Silakan coba lagi.');
         }
     }
 }

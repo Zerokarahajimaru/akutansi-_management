@@ -91,7 +91,7 @@ class PembelianController extends Controller
             return redirect()->route('data.pembelian')->with('success', 'Transaksi pembelian berhasil dicatat.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Gagal mencatat transaksi: ' . $e->getMessage())->withInput();
+            return back()->with('error', 'Terjadi kesalahan saat mencatat transaksi pembelian. Silakan coba lagi.')->withInput();
         }
     }
 
@@ -137,7 +137,7 @@ class PembelianController extends Controller
             return redirect()->route('data.pembelian')->with('success', 'Transaksi pembelian berhasil diperbarui.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Gagal memperbarui transaksi: ' . $e->getMessage())->withInput();
+            return back()->with('error', 'Terjadi kesalahan saat memperbarui transaksi pembelian. Silakan coba lagi.')->withInput();
         }
     }
 
@@ -158,7 +158,7 @@ class PembelianController extends Controller
             return redirect()->route('data.pembelian')->with('success', 'Data transaksi pembelian berhasil dihapus.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Gagal menghapus transaksi: ' . $e->getMessage());
+            return back()->with('error', 'Terjadi kesalahan saat menghapus transaksi pembelian. Silakan coba lagi.');
         }
     }
 }

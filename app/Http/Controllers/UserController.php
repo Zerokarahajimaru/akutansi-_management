@@ -54,7 +54,7 @@ class UserController extends Controller
 
             return redirect()->route('data.user')->with('success', 'Pengguna baru berhasil ditambahkan.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Gagal menambahkan pengguna: ' . $e->getMessage())->withInput();
+            return back()->with('error', 'Terjadi kesalahan saat mendaftarkan pengguna baru. Silakan coba lagi.')->withInput();
         }
     }
 
@@ -95,7 +95,7 @@ class UserController extends Controller
 
             return redirect()->route('data.user')->with('success', 'Informasi pengguna berhasil diperbarui.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Gagal memperbarui pengguna: ' . $e->getMessage())->withInput();
+            return back()->with('error', 'Terjadi kesalahan saat memperbarui informasi pengguna. Silakan coba lagi.')->withInput();
         }
     }
 
