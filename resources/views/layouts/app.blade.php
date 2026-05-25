@@ -153,10 +153,10 @@
     :class="sidebarOpen ? 'lg:pl-72' : 'pl-0'">
     
     <!-- Top Header -->
-    <header class="h-20 bg-white border-b border-slate-100 flex items-center justify-between px-8 sm:px-10 flex-shrink-0 z-40 sticky top-0 shadow-sm shadow-slate-900/5">
+    <header class="h-20 bg-teal-50 border-b border-teal-100 flex items-center justify-between px-8 sm:px-10 flex-shrink-0 z-40 sticky top-0 shadow-sm shadow-teal-900/5">
         <div class="flex items-center gap-6">
             <!-- Sidebar Toggle Button -->
-            <button @click="sidebarOpen = !sidebarOpen" class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-50 text-slate-400 hover:text-teal-600 hover:bg-teal-50 transition-all border border-slate-200">
+            <button @click="sidebarOpen = !sidebarOpen" class="w-10 h-10 flex items-center justify-center rounded-xl bg-white text-slate-400 hover:text-teal-600 transition-all border border-teal-100 shadow-sm">
                 <i class="fas fa-bars-staggered transition-transform duration-300" :class="sidebarOpen ? 'rotate-90' : ''"></i>
             </button>
 
@@ -171,7 +171,7 @@
         <div class="flex items-center gap-4">
             <div class="hidden md:flex flex-col items-end text-right">
                 <span class="text-xs font-black text-slate-800 tracking-tighter">{{ date('d M Y') }}</span>
-                <span class="text-[10px] text-teal-600 font-bold uppercase tracking-widest">Sistem Aktif</span>
+                <!-- <span class="text-[10px] text-teal-600 font-bold uppercase tracking-widest">Sistem Aktif</span> -->
             </div>
         </div>
     </header>

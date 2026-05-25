@@ -144,9 +144,9 @@
  <span class="text-sm font-bold text-teal-600">+{{ $item->Kuantitas }}</span>
  </td>
  <td class="py-4 px-6">
-    <div class="items-center">
+    <div class="flex flex-col">
         <span class="text-xs font-medium text-slate-600">{{ $item->user->name ?? 'Sistem' }}</span>
-        <span class="ml-1.5 text-[9px] text-slate-400 font-mono">({{ $item->user->formatted_id ?? '-' }})</span>
+        <span class="text-[10px] text-teal-600 font-mono font-bold">{{ $item->user_id ?? '-' }}</span>
     </div>
  </td>
  <td class="py-4 px-6 text-sm font-bold text-slate-900">Rp {{ number_format($item->Total_Harga, 0, ',', '.') }}</td>
