@@ -29,11 +29,11 @@
     </div>
 
     <!-- Inventory Grid/Table -->
-    <div class="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(15,23,42,0.04)] border border-slate-100 overflow-hidden">
+    <div class="bg-white rounded-[2.5rem] border border-slate-100 shadow-[0_20px_50px_rgba(13,148,136,0.05)] overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left">
                 <thead>
-                    <tr class="bg-slate-50/80 backdrop-blur-sm text-slate-500 text-[10px] font-black uppercase tracking-widest">
+                    <tr class="bg-teal-50/80 text-slate-600 text-[10px] font-black uppercase tracking-widest">
                         <th class="py-5 px-8">ID Produk</th>
                         <th class="py-5 px-8">Nama Produk</th>
                         <th class="py-5 px-8">Kategori</th>

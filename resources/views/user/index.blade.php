@@ -3,7 +3,7 @@
 @section('title', 'Manajemen Pengguna')
 
 @section('content')
-<div class="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(15,23,42,0.04)] border border-slate-100">
+<div class="bg-white rounded-[2.5rem] border border-slate-100 shadow-[0_8px_30px_rgb(13,148,136,0.04)]">
  <!-- Action Bar -->
  <div class="p-6 border-b border-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
  <div>
@@ -26,10 +26,10 @@
         </div>
     </div>
 
- <a href="{{ route('util.export', 'user') }}" class="flex items-center px-4 py-2 bg-slate-100 text-slate-600 border border-slate-200 font-bold rounded-xl text-xs hover:bg-slate-200 transition-all">
+ <a href="{{ route('util.export', 'user') }}" class="bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 flex items-center px-4 py-2 font-bold rounded-xl text-xs transition-all">
  <i class="fas fa-file-export mr-2"></i> Ekspor Excel
  </a>
- <a href="{{ route('input.user') }}" wire:navigate class="flex items-center px-4 py-2 bg-teal-600 text-white font-black rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 text-xs">
+ <a href="{{ route('input.user') }}" wire:navigate class="bg-teal-600 text-white font-black rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 flex items-center px-4 py-2 text-xs">
  <i class="fas fa-user-plus mr-2"></i> Tambah Pengguna
  </a>
  </div>
@@ -43,7 +43,7 @@
     $currentSortBy = request('sort_by', 'name');
     $currentSortDir = request('sort_dir', 'asc');
  @endphp
- <tr class="bg-slate-50/80 backdrop-blur-sm text-slate-500 text-xs font-bold uppercase tracking-wider">
+ <tr class="bg-teal-50/80 text-slate-600 text-[10px] font-black uppercase tracking-widest">
  <th class="py-4 px-6">ID Pengguna</th>
  @php $newDir = ($currentSortBy === 'name' && $currentSortDir === 'asc') ? 'desc' : 'asc'; @endphp
  <th class="py-4 px-6 cursor-pointer group" onclick="window.location.href='{{ request()->fullUrlWithQuery(['sort_by' => 'name', 'sort_dir' => $newDir, 'page' => 1]) }}'">
@@ -66,7 +66,7 @@
  </thead>
  <tbody class="divide-y divide-slate-50">
  @forelse($users as $user)
- <tr class="hover:bg-slate-50/50 transition-all">
+ <tr class="bg-white hover:bg-slate-50 transition-colors duration-200">
  <td class="py-4 px-6 text-sm text-teal-600 font-bold uppercase tracking-tighter">{{ $user->id }}</td>
  <td class="py-4 px-6 text-sm font-bold text-slate-800">{{ $user->name }}</td>
  <td class="py-4 px-6 text-sm text-slate-600 font-medium"><span>{{ $user->username }}</span></td>

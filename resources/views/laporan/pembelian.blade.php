@@ -19,12 +19,12 @@
             
             <form action="{{ route('laporan.pembelian') }}" method="GET" class="flex flex-wrap items-end gap-4">
                 <div class="space-y-2">
-                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Mulai Tanggal</label>
-                    <input type="date" name="start_date" value="{{ $start_date }}" class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-700 focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all">
+                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Mulai Tanggal</label>
+                    <input type="date" name="start_date" value="{{ $start_date }}" class="bg-white border-teal-200 text-slate-700 rounded-xl px-4 py-3 text-sm focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all">
                 </div>
                 <div class="space-y-2">
-                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Sampai Tanggal</label>
-                    <input type="date" name="end_date" value="{{ $end_date }}" class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-700 focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all">
+                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Sampai Tanggal</label>
+                    <input type="date" name="end_date" value="{{ $end_date }}" class="bg-white border-teal-200 text-slate-700 rounded-xl px-4 py-3 text-sm focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all">
                 </div>
                 <button type="submit" class="bg-teal-600 text-white font-black px-6 py-2.5 rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-95 transition-all text-xs uppercase tracking-widest">
                     Terapkan
@@ -34,7 +34,7 @@
     </div>
 
     <!-- Results Card -->
-    <div class="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(15,23,42,0.04)] border border-slate-100 overflow-hidden">
+    <div class="bg-white rounded-[2.5rem] border border-slate-100 shadow-[0_20px_50px_rgba(13,148,136,0.05)] overflow-hidden">
         <div class="p-8 border-b border-slate-50 flex justify-between items-center bg-slate-50/30">
             <h3 class="font-bold text-slate-800 text-lg">Ringkasan Transaksi</h3>
             <div class="flex gap-2">
@@ -50,7 +50,7 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left">
                 <thead>
-                    <tr class="bg-slate-50/80 backdrop-blur-sm text-slate-500 text-[10px] font-black uppercase tracking-widest">
+                    <tr class="bg-teal-50/80 text-slate-600 text-[10px] font-black uppercase tracking-widest">
                         <th class="py-5 px-8">Tanggal</th>
                         <th class="py-5 px-8">Produk / Barang</th>
                         <th class="py-5 px-8 text-center">Qty</th>

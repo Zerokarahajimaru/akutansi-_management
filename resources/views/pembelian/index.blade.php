@@ -3,7 +3,7 @@
 @section('title', 'Riwayat Pembelian')
 
 @section('content')
-<div class="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(15,23,42,0.04)] border border-slate-100">
+<div class="bg-white rounded-[2.5rem] border border-slate-100 shadow-[0_8px_30px_rgb(13,148,136,0.04)]">
  <!-- Action Bar -->
  <div class="p-6 border-b border-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
  <div>
@@ -26,20 +26,20 @@
         </div>
     </div>
 
- <a href="{{ route('util.template', 'pembelian') }}" class="bg-slate-100 text-slate-600 border border-slate-200 font-bold rounded-xl px-4 py-2 text-xs hover:bg-slate-200 transition-all flex items-center">
+ <a href="{{ route('util.template', 'pembelian') }}" class="bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 font-bold rounded-xl px-4 py-2 text-xs transition-all flex items-center">
     <i class="fas fa-file-arrow-down mr-2"></i> Unduh Template
  </a>
 
  <div x-data="{ openImport: false, isDragging: false }" class="relative z-[100]">
-     <button @click="openImport = true" class="flex items-center px-4 py-2 bg-slate-800 text-white rounded-xl text-xs font-bold hover:bg-slate-900 shadow-md shadow-slate-800/20 transition-all">
+     <button @click="openImport = true" class="bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 flex items-center px-4 py-2 rounded-xl text-xs font-bold transition-all">
          <i class="fas fa-file-import mr-2"></i> Impor Data
      </button>
      
      <div x-show="openImport" x-cloak class="fixed inset-0 z-[150] flex items-center justify-center bg-slate-900/50 backdrop-blur-sm" x-transition.opacity>
-         <div @click.outside="openImport = false" class="bg-white rounded-[2rem] shadow-xl w-full max-w-md p-6 transform transition-all" x-transition.scale.95>
+         <div @click.outside="openImport = false" class="bg-white rounded-[2.5rem] border border-slate-100 shadow-xl w-full max-w-md p-6 transform transition-all" x-transition.scale.95>
              <div class="flex justify-between items-center mb-5">
                  <h3 class="text-lg font-bold text-slate-800">Impor Data Pembelian</h3>
-                 <button @click="openImport = false" class="text-slate-400 hover:text-red-500 transition-colors">
+                 <button @click="openImport = false" class="text-slate-400 hover:text-rose-500 transition-colors">
                      <i class="fas fa-xmark text-lg"></i>
                  </button>
              </div>
@@ -85,7 +85,7 @@
      </div>
  </div>
 
- <a href="{{ route('util.export', 'pembelian') }}" class="bg-slate-100 text-slate-600 border border-slate-200 font-bold rounded-xl px-4 py-2 text-xs hover:bg-slate-200 transition-all flex items-center">
+ <a href="{{ route('util.export', 'pembelian') }}" class="bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 font-bold rounded-xl px-4 py-2 text-xs transition-all flex items-center">
  <i class="fas fa-file-export mr-2"></i> Ekspor Excel
  </a>
  <a href="{{ route('input.pembelian') }}" wire:navigate.hover class="bg-teal-600 text-white font-black rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 px-4 py-2 text-xs flex items-center">
@@ -102,7 +102,7 @@
     $currentSortBy = request('sort_by', 'Tgl_Pembelian');
     $currentSortDir = request('sort_dir', 'desc');
  @endphp
- <tr class="bg-slate-50/80 backdrop-blur-sm text-slate-500 text-xs font-bold uppercase tracking-wider">
+ <tr class="bg-teal-50/80 text-slate-600 text-[10px] font-black uppercase tracking-widest">
  @php $newDir = ($currentSortBy === 'Tgl_Pembelian' && $currentSortDir === 'asc') ? 'desc' : 'asc'; @endphp
  <th class="py-4 px-6 cursor-pointer group" onclick="window.location.href='{{ request()->fullUrlWithQuery(['sort_by' => 'Tgl_Pembelian', 'sort_dir' => $newDir, 'page' => 1]) }}'">
     <div class="flex items-center">
@@ -121,7 +121,7 @@
  </thead>
  <tbody class="divide-y divide-slate-50">
  @forelse($pembelians as $item)
- <tr class="hover:bg-slate-50/50 transition-all">
+ <tr class="bg-white hover:bg-slate-50 transition-colors duration-200">
  <td class="py-4 px-6 text-sm text-slate-600 font-medium">{{ date('d/m/Y', strtotime($item->Tgl_Pembelian)) }}</td>
  <td class="py-4 px-6">
  <div class="flex flex-col">
@@ -158,7 +158,7 @@
  <form action="{{ route('data.pembelian.destroy', $item->ID_Pembelian) }}" method="POST">
  @csrf
  @method('DELETE')
- <button type="submit" class="w-8 h-8 rounded-lg bg-slate-50 text-rose-500 hover:bg-rose-600 hover:text-white shadow-sm transition-all" title="Hapus Data">
+ <button type="submit" class="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white shadow-sm transition-all" title="Hapus Data">
  <i class="fas fa-trash text-xs"></i>
  </button>
  </form>
