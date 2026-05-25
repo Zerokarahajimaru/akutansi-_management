@@ -19,11 +19,11 @@
     background: transparent; 
  }
  ::-webkit-scrollbar-thumb {
-    background: #d1d5db; /* Tailwind gray-300 */
+    background: #cbd5e1; /* Tailwind slate-300 */
     border-radius: 10px;
  }
  ::-webkit-scrollbar-thumb:hover {
-    background: #9ca3af; /* Tailwind gray-400 */
+    background: #94a3b8; /* Tailwind slate-400 */
  }
  ::-webkit-scrollbar-button {
     display: none !important;
@@ -44,13 +44,13 @@
  /* Firefox scrollbar support */
  * {
     scrollbar-width: thin;
-    scrollbar-color: #d1d5db transparent;
+    scrollbar-color: #cbd5e1 transparent;
  }
 
  /* Standard Select Styling (Fallback) */
  select {
  appearance: none;
- background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+ background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
  background-repeat: no-repeat;
  background-position: right 1rem center;
  background-size: 1rem;
@@ -65,11 +65,11 @@
  select option {
  padding: 1rem;
  background-color: white;
- color: #1f2937;
+ color: #1e293b;
  }
  </style>
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased font-sans" x-data="{ sidebarOpen: true }">
+<body class="bg-slate-50 text-slate-800 antialiased font-sans" x-data="{ sidebarOpen: true }">
  <!-- SPA Progress Bar -->
  <div class="fixed top-0 left-0 right-0 z-[100] pointer-events-none">
     <div 
@@ -113,9 +113,9 @@
                         <div class="w-8 h-8 rounded-full ${bgClass} flex items-center justify-center flex-shrink-0">
                             <i class="fas ${iconClass} text-sm"></i>
                         </div>
-                        <h3 class="text-base font-bold text-gray-900 m-0">${titleText}</h3>
+                        <h3 class="text-base font-bold text-slate-900 m-0">${titleText}</h3>
                     </div>
-                    <p class="text-sm text-gray-500 m-0 pl-11">${message}</p>
+                    <p class="text-sm text-slate-500 m-0 pl-11">${message}</p>
                 </div>
             `,
             width: '24rem',
@@ -125,10 +125,10 @@
             confirmButtonText: 'Tutup',
             buttonsStyling: false,
             customClass: {
-                popup: '!rounded-2xl !border !border-gray-100 !shadow-xl !bg-white !m-0',
+                popup: '!rounded-2xl !border !border-slate-100 !shadow-xl !bg-white !m-0',
                 htmlContainer: '!m-0 !p-0 !text-left',
                 actions: '!mt-5 !w-full !flex !justify-end !p-0',
-                confirmButton: '!px-5 !py-2 !bg-gray-100 hover:!bg-gray-200 !text-gray-700 !text-sm !font-semibold !rounded-xl !transition-colors !m-0'
+                confirmButton: '!px-5 !py-2 !bg-slate-100 hover:!bg-slate-200 !text-slate-700 !text-sm !font-semibold !rounded-xl !transition-colors !m-0'
             }
         });
     }
@@ -168,9 +168,9 @@ document.addEventListener('submit', function(e) {
                         <div class="w-8 h-8 rounded-full bg-rose-50 flex items-center justify-center flex-shrink-0">
                             <i class="fas fa-triangle-exclamation text-rose-500 text-sm"></i>
                         </div>
-                        <h3 class="text-base font-bold text-gray-900 m-0">Konfirmasi Hapus</h3>
+                        <h3 class="text-base font-bold text-slate-900 m-0">Konfirmasi Hapus</h3>
                     </div>
-                    <p class="text-sm text-gray-500 m-0 pl-11">Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.</p>
+                    <p class="text-sm text-slate-500 m-0 pl-11">Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.</p>
                 </div>
             `,
             width: '24rem',
@@ -181,11 +181,11 @@ document.addEventListener('submit', function(e) {
             cancelButtonText: 'Batal',
             buttonsStyling: false,
             customClass: {
-                popup: '!rounded-2xl !border !border-gray-100 !shadow-xl !bg-white !m-0',
+                popup: '!rounded-2xl !border !border-slate-100 !shadow-xl !bg-white !m-0',
                 htmlContainer: '!m-0 !p-0 !text-left',
                 actions: '!mt-6 !w-full !flex !justify-end !gap-3 !p-0',
                 confirmButton: '!px-4 !py-2 !bg-rose-600 hover:!bg-rose-700 !text-white !text-sm !font-semibold !rounded-xl !transition-colors !m-0 !shadow-sm',
-                cancelButton: '!px-4 !py-2 !bg-gray-100 hover:!bg-gray-200 !text-gray-700 !text-sm !font-semibold !rounded-xl !transition-colors !m-0'
+                cancelButton: '!px-4 !py-2 !bg-slate-100 hover:!bg-slate-200 !text-slate-700 !text-sm !font-semibold !rounded-xl !transition-colors !m-0'
             }
         }).then((result) => {
             if (result.isConfirmed) {
@@ -200,10 +200,10 @@ document.addEventListener('submit', function(e) {
  <!-- Sidebar -->
  <aside 
  :class="sidebarOpen ? 'w-64' : 'w-20'"
- class="bg-white border-r border-gray-100 flex-shrink-0 flex flex-col z-20 transition-all duration-300 ease-in-out relative shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
+ class="bg-slate-950 flex-shrink-0 flex flex-col z-20 transition-all duration-300 ease-in-out relative shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
  
  <!-- Brand Logo & Toggle Header -->
- <div class="h-20 relative flex items-center border-b border-gray-50 overflow-hidden w-full flex-shrink-0">
+ <div class="h-20 relative flex items-center border-b border-white/5 overflow-hidden w-full flex-shrink-0">
  <!-- Expanded State -->
  <div x-show="sidebarOpen" 
  x-transition:enter="transition opacity-100 duration-300 delay-100" 
@@ -215,9 +215,9 @@ document.addEventListener('submit', function(e) {
  class="absolute inset-0 flex items-center justify-between px-6 w-64">
  <a href="{{ route('dashboard') }}" wire:navigate.hover class="flex items-center gap-3 group">
  <img src="{{ asset('Resource/xyra_logo.png') }}" alt="Xyra.id Logo" class="w-auto h-11 drop-shadow-sm group-hover:scale-105 transition-transform">
- <span class="text-xl font-black tracking-tighter text-gray-900">Xyra<span class="text-teal-600">.id</span></span>
+ <span class="text-xl font-black tracking-tighter text-white">Xyra<span class="text-teal-500">.id</span></span>
  </a>
- <button @click="sidebarOpen = false" title="Collapse Sidebar" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-teal-600 hover:bg-teal-50 rounded-lg transition-colors focus:outline-none">
+ <button @click="sidebarOpen = false" title="Collapse Sidebar" class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-teal-400 hover:bg-white/5 rounded-lg transition-colors focus:outline-none">
  <i class="fas fa-chevron-left text-sm"></i>
  </button>
  </div>
@@ -243,24 +243,23 @@ document.addEventListener('submit', function(e) {
  {!! Cache::remember($cacheKey, 86400, function() {
     return view('layouts.partials.navigation')->render();
  }) !!}
- </nav>
 
  <!-- User Info & Logout -->
- <div class="p-4 border-t border-gray-50 bg-white">
+ <div class="p-4 border-t border-white/5">
  <div class="flex items-center justify-between px-2 mb-4">
  <div x-show="sidebarOpen" class="flex flex-col overflow-hidden">
- <p class="text-sm font-semibold text-gray-800 truncate">{{ Auth::user()->name }}</p>
- <p class="text-xs text-gray-500 capitalize">{{ Auth::user()->role }}</p>
+ <p class="text-sm font-semibold text-white truncate">{{ Auth::user()->name }}</p>
+ <p class="text-xs text-slate-500 capitalize">{{ Auth::user()->role }}</p>
  </div>
  <!-- Settings Gear Icon -->
  <a wire:navigate.hover x-show="sidebarOpen" href="{{ route('data.user.edit', Auth::user()->id) }}" 
- class="transition-all duration-300 p-2 rounded-xl flex items-center justify-center group/settings {{ Request::is('data/user/'.Auth::user()->id.'/edit') ? 'bg-teal-50 text-teal-600' : 'text-gray-400 hover:text-gray-700 hover:bg-gray-50' }}">
+ class="transition-all duration-300 p-2 rounded-xl flex items-center justify-center group/settings {{ Request::is('data/user/'.Auth::user()->id.'/edit') ? 'bg-teal-500/20 text-teal-400' : 'text-slate-400 hover:text-white hover:bg-white/5' }}">
  <i class="fas fa-gear text-sm {{ Request::is('data/user/'.Auth::user()->id.'/edit') ? 'fa-spin' : 'group-hover/settings:rotate-90 transition-transform duration-500' }}"></i>
  </a>
  </div>
  <form action="{{ route('logout') }}" method="POST">
  @csrf
- <button type="submit" class="flex items-center justify-center w-full py-2.5 px-4 rounded-xl bg-red-50 border border-red-100 text-red-600 text-sm font-bold hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 group shadow-sm shadow-red-100/50">
+ <button type="submit" class="flex items-center justify-center w-full py-2.5 px-4 rounded-xl bg-slate-900 border border-white/5 text-slate-400 text-sm font-bold hover:bg-red-600 hover:text-white hover:border-red-600 transition-all duration-300 group shadow-sm">
  <i class="fas fa-arrow-right-from-bracket flex-shrink-0 group-hover:translate-x-0.5 transition-transform"></i>
  <span x-show="sidebarOpen" class="ml-2 whitespace-nowrap">Keluar Akun</span>
  </button> </form>
@@ -268,13 +267,13 @@ document.addEventListener('submit', function(e) {
  </aside>
 
  <!-- Main Content -->
- <div class="flex-1 flex flex-col overflow-hidden bg-gray-50/50">
+ <div class="flex-1 flex flex-col overflow-hidden bg-slate-50/50">
  <!-- Top Header -->
- <header class="h-20 bg-white/80 backdrop-blur-md border-b border-gray-100 flex items-center justify-between px-8 sm:px-10 flex-shrink-0 z-10 sticky top-0">
+ <header class="h-20 bg-white/80 backdrop-blur-md border-b border-slate-100 flex items-center justify-between px-8 sm:px-10 flex-shrink-0 z-10 sticky top-0">
  <div class="flex items-center text-sm">
  <a href="{{ route('dashboard') }}" wire:navigate class="text-teal-600 font-medium hover:underline">Beranda</a>
- <i class="fas fa-chevron-right text-xs mx-3 text-gray-400"></i>
- <span class="text-gray-800 font-medium">@yield('title', 'Dashboard')</span>
+ <i class="fas fa-chevron-right text-xs mx-3 text-slate-400"></i>
+ <span class="text-slate-800 font-medium">@yield('title', 'Dashboard')</span>
  </div>
  </header>
 
