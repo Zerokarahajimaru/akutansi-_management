@@ -42,7 +42,7 @@ class ExportImportController extends Controller
             case 'user':
                 $data = User::all()->map(function($user) {
                     return [
-                        'ID' => $user->formatted_id,
+                        'ID' => $user->id,
                         'Username' => $user->username,
                         'Nama' => $user->name,
                         'Role' => $user->role,

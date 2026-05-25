@@ -79,7 +79,7 @@
                 <i class="fas fa-edit text-xs"></i>
             </a>
         @else
-            <span class="text-[10px] text-slate-400 font-medium italic">Permanen</span>
+            <span class="text-[10px] text-slate-400 font-medium italic">-</span>
         @endif
     </div>
  </td>
