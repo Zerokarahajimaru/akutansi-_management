@@ -3,88 +3,101 @@
 @section('title', 'Laporan Pembelian')
 
 @section('content')
-<div class="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(15,23,42,0.04)] border border-slate-100 overflow-hidden">
- <!-- Filter Bar -->
- <div class="p-6 border-b border-slate-50">
- <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
- <div>
- <h2 class="font-bold text-slate-800 text-lg">Laporan Pembelian Stok</h2>
- <p class="text-slate-500 text-xs">Analisa riwayat pengadaan barang dari pemasok</p>
- </div>
- <form action="{{ route('laporan.pembelian') }}" method="GET" class="flex flex-wrap items-center gap-3">
- <div class="flex items-center bg-slate-50 border border-slate-200 rounded-xl px-3 py-2">
- <i class="fas fa-calendar text-slate-400 mr-2 text-xs"></i>
- <input type="date" name="start_date" value="{{ $start_date }}" class="bg-transparent text-xs font-bold focus:outline-none text-slate-700">
- <span class="mx-2 text-slate-300">-</span>
- <input type="date" name="end_date" value="{{ $end_date }}" class="bg-transparent text-xs font-bold focus:outline-none text-slate-700">
- </div>
- <button type="submit" class="bg-teal-600 text-white px-4 py-2 rounded-xl text-xs font-black hover:bg-teal-700 transition-all shadow-lg shadow-teal-500/30 hover:-translate-y-0.5">
- FILTER
- </button>
- <a href="{{ route('util.export', 'pembelian') }}" class="bg-teal-50 text-teal-600 px-4 py-2 rounded-xl text-xs font-bold hover:bg-teal-100 transition-all flex items-center">
- <i class="fas fa-file-excel mr-1"></i> EXPORT
- </a>
- </form>
- </div>
- </div>
-
- <!-- Stats Summary -->
- <div class="grid grid-cols-1 md:grid-cols-3 border-b border-slate-50">
- <div class="p-6 border-r border-slate-50">
- <p class="text-xs font-bold text-slate-400 mb-1">Total Transaksi</p>
- <h3 class="text-xl font-bold text-slate-800">{{ $pembelians->count() }}</h3>
- </div>
- <div class="p-6 border-r border-slate-50">
- <p class="text-xs font-bold text-slate-400 mb-1">Total Kuantitas</p>
- <h3 class="text-xl font-bold text-teal-600">+{{ $pembelians->sum('Kuantitas') }} <span class="text-xs text-slate-400 font-medium">Unit</span></h3>
- </div>
- <div class="p-6">
- <p class="text-xs font-bold text-slate-400 mb-1">Total Pengeluaran</p>
- <h3 class="text-xl font-bold text-teal-600">Rp {{ number_format($pembelians->sum('Total_Harga'), 0, ',', '.') }}</h3>
- </div>
- </div>
-
- <!-- Table -->
- <div class="overflow-x-auto">
- <table class="w-full text-left">
- <thead>
- <tr class="bg-slate-50/80 backdrop-blur-sm text-slate-400 text-xs font-bold uppercase tracking-wider">
- <th class="py-4 px-6">Tanggal</th>
- <th class="py-4 px-6">Produk</th>
- <th class="py-4 px-6">Pemasok</th>
- <th class="py-4 px-6 text-center">Qty</th>
- <th class="py-4 px-6 text-right">Total Nominal</th>
- </tr>
- </thead>
- <tbody class="divide-y divide-slate-50">
- @forelse($pembelians as $item)
- <tr class="hover:bg-slate-50/50 transition-colors">
- <td class="py-4 px-6 text-sm text-slate-500 font-medium">{{ \Carbon\Carbon::parse($item->Tgl_Pembelian)->format('d/m/Y') }}</td>
- <td class="py-4 px-6">
- <p class="text-sm font-bold text-slate-800">{{ $item->dataBarang->Nama_Barang ?? '-' }}</p>
- <p class="text-xs text-slate-400 font-medium uppercase">{{ $item->dataBarang->Ukuran_Barang }} | {{ $item->dataBarang->Warna_Barang }}</p>
- </td>
- <td class="py-4 px-6 text-sm text-slate-600 font-medium">{{ $item->pemasok->Nama_Pemasok ?? '-' }}</td>
- <td class="py-4 px-6 text-center">
- <span class="px-2 py-1 bg-teal-50 text-teal-600 text-[11px] font-bold rounded-lg">+{{ $item->Kuantitas }}</span>
- </td>
- <td class="py-4 px-6 text-sm font-bold text-slate-900 text-right">Rp {{ number_format($item->Total_Harga, 0, ',', '.') }}</td>
- </tr>
- @empty
- <tr>
-    <td colspan="100%" class="py-16 text-center">
-        <div class="flex flex-col items-center justify-center">
-            <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-4 border border-slate-100 shadow-sm">
-                <i class="fas fa-file-invoice-dollar text-slate-300 text-3xl"></i>
+<div class="space-y-8">
+    <!-- Filter Card -->
+    <div class="bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(13,148,136,0.05)] border border-slate-100 overflow-hidden">
+        <div class="p-8 border-b border-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-teal-50 rounded-2xl flex items-center justify-center">
+                    <i class="fas fa-filter text-teal-600 text-lg"></i>
+                </div>
+                <div>
+                    <h2 class="font-black text-slate-800 text-xl tracking-tight">Filter Laporan</h2>
+                    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mt-1">Pengadaan Stok Barang</p>
+                </div>
             </div>
-            <h3 class="text-slate-800 font-bold text-base">Data Laporan Kosong</h3>
-            <p class="text-slate-400 text-sm mt-1">Belum ada catatan pembelian untuk ditampilkan pada periode ini.</p>
+            
+            <form action="{{ route('laporan.pembelian') }}" method="GET" class="flex flex-wrap items-end gap-4">
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Mulai Tanggal</label>
+                    <input type="date" name="start_date" value="{{ $start_date }}" class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-700 focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Sampai Tanggal</label>
+                    <input type="date" name="end_date" value="{{ $end_date }}" class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-700 focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all">
+                </div>
+                <button type="submit" class="bg-teal-600 text-white font-black px-6 py-2.5 rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-95 transition-all text-xs uppercase tracking-widest">
+                    Terapkan
+                </button>
+            </form>
         </div>
-    </td>
- </tr>
- @endforelse
- </tbody>
- </table>
- </div>
+    </div>
+
+    <!-- Results Card -->
+    <div class="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(15,23,42,0.04)] border border-slate-100 overflow-hidden">
+        <div class="p-8 border-b border-slate-50 flex justify-between items-center bg-slate-50/30">
+            <h3 class="font-bold text-slate-800 text-lg">Ringkasan Transaksi</h3>
+            <div class="flex gap-2">
+                <a href="{{ route('util.export', 'pembelian') }}" class="flex items-center px-5 py-2.5 bg-slate-100 text-slate-600 border border-slate-200 font-bold rounded-xl text-xs uppercase tracking-widest hover:bg-slate-200 transition-all active:scale-95">
+                    <i class="fas fa-file-excel mr-2"></i> Ekspor Excel
+                </a>
+                <button onclick="window.print()" class="flex items-center px-5 py-2.5 bg-white text-slate-600 border border-slate-200 font-bold rounded-xl text-xs uppercase tracking-widest hover:bg-slate-50 transition-all active:scale-95">
+                    <i class="fas fa-print mr-2"></i> Cetak PDF
+                </button>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left">
+                <thead>
+                    <tr class="bg-slate-50/80 backdrop-blur-sm text-slate-500 text-[10px] font-black uppercase tracking-widest">
+                        <th class="py-5 px-8">Tanggal</th>
+                        <th class="py-5 px-8">Produk / Barang</th>
+                        <th class="py-5 px-8 text-center">Qty</th>
+                        <th class="py-5 px-8">Pemasok</th>
+                        <th class="py-5 px-8">Pembayaran</th>
+                        <th class="py-5 px-8 text-right">Total Biaya</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-50">
+                    @forelse($pembelians as $p)
+                    <tr class="hover:bg-teal-50/30 transition-colors group">
+                        <td class="py-5 px-8 text-sm text-slate-600 font-medium">{{ date('d/m/Y', strtotime($p->Tgl_Pembelian)) }}</td>
+                        <td class="py-5 px-8">
+                            <div class="flex flex-col">
+                                <span class="text-sm font-bold text-slate-800 group-hover:text-teal-600 transition-colors">{{ $p->dataBarang->Nama_Barang ?? '-' }}</span>
+                                <span class="text-[10px] text-slate-400 font-mono uppercase">{{ $p->ID_Barang }}</span>
+                            </div>
+                        </td>
+                        <td class="py-5 px-8 text-center">
+                            <span class="px-3 py-1 bg-teal-50 text-teal-600 rounded-full text-xs font-black">+{{ $p->Kuantitas }}</span>
+                        </td>
+                        <td class="py-5 px-8">
+                            <div class="flex flex-col">
+                                <span class="text-sm text-slate-700 font-semibold">{{ $p->pemasok->Nama_Pemasok ?? '-' }}</span>
+                                <span class="text-[10px] text-teal-600 font-bold uppercase tracking-tighter">{{ $p->ID_Pemasok }}</span>
+                            </div>
+                        </td>
+                        <td class="py-5 px-8">
+                            <span class="text-[10px] font-black uppercase tracking-widest text-slate-400 border border-slate-200 px-2 py-0.5 rounded-lg">{{ $p->jenis_pembayaran }}</span>
+                        </td>
+                        <td class="py-5 px-8 text-right">
+                            <span class="text-sm font-black text-slate-900">Rp {{ number_format($p->Total_Harga, 0, ',', '.') }}</span>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="6" class="py-20 text-center">
+                            <div class="flex flex-col items-center justify-center opacity-40">
+                                <i class="fas fa-file-invoice text-5xl mb-4 text-slate-300"></i>
+                                <p class="text-slate-500 font-bold uppercase tracking-widest text-xs">Data Tidak Ditemukan</p>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 @endsection

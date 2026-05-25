@@ -1,80 +1,100 @@
 @extends('layouts.app')
 
-@section('title', 'Laporan Stok Barang')
+@section('title', 'Ketersediaan Stok')
 
 @section('content')
-<div class="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(15,23,42,0.04)] border border-slate-100 overflow-hidden">
- <!-- Header Bar -->
- <div class="p-6 border-b border-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
- <div>
- <h2 class="font-bold text-slate-800 text-lg">Status Inventaris Terkini</h2>
- <p class="text-slate-500 text-xs">Pantau ketersediaan stok barang di seluruh kategori</p>
- </div>
- <div class="flex gap-2">
- <a href="{{ route('util.export', 'barang') }}" class="bg-slate-100 text-slate-600 px-4 py-2 rounded-xl text-xs font-bold hover:bg-slate-200 transition-all flex items-center">
- <i class="fas fa-file-excel mr-1"></i> EXPORT CSV
- </a>
- <!-- <button type="button" onclick="window.print()" class="bg-slate-100 text-slate-600 px-4 py-2 rounded-xl text-xs font-bold hover:bg-slate-200 transition-all">
- <i class="fas fa-print mr-1"></i> CETAK
- </button> -->
- </div>
- </div>
-
- <!-- Table -->
- <div class="overflow-x-auto">
- <table class="w-full text-left">
- <thead>
- <tr class="bg-slate-50/80 backdrop-blur-sm text-slate-400 text-xs font-bold">
- <th class="py-4 px-6">Nama Produk</th>
- <th class="py-4 px-6">Kategori</th>
- <th class="py-4 px-6 text-center">Stok Awal</th>
- <th class="py-4 px-6 text-center">Stok Akhir</th>
- <th class="py-4 px-6 text-center">Status</th>
- <th class="py-4 px-6">Keterangan</th>
- </tr>
- </thead>
- <tbody class="divide-y divide-slate-50">
- @forelse($stoks as $stok)
- <tr class="hover:bg-slate-50/50 transition-colors">
- <td class="py-4 px-6">
- <p class="text-sm font-bold text-slate-800">{{ $stok->dataBarang->Nama_Barang ?? '-' }}</p>
- <p class="text-xs text-slate-400 font-medium uppercase">{{ $stok->dataBarang->Ukuran_Barang }} | {{ $stok->dataBarang->Warna_Barang }}</p>
- </td>
- <td class="py-4 px-6 text-sm text-slate-600 font-medium">{{ $stok->dataBarang->Jenis_Barang ?? '-' }}</td>
- <td class="py-4 px-6 text-center text-sm font-medium text-slate-400">{{ $stok->Stok_Awal }}</td>
- <td class="py-4 px-6 text-center">
- <span class="text-sm font-bold {{ $stok->Stok_Akhir < 10 ? 'text-red-600' : 'text-teal-600' }}">
- {{ $stok->Stok_Akhir }}
- </span>
- </td>
- <td class="py-4 px-6 text-center">
- @if($stok->Stok_Akhir <= 0)
- <span class="px-2 py-0.5 bg-red-100 text-red-700 text-xs font-bold rounded uppercase">Habis</span>
- @elseif($stok->Stok_Akhir < 10)
- <span class="px-2 py-0.5 bg-orange-100 text-orange-700 text-xs font-bold rounded uppercase">Menipis</span>
- @else
- <span class="px-2 py-0.5 bg-teal-100 text-teal-700 text-xs font-bold rounded uppercase">Tersedia</span>
- @endif
- </td>
- <td class="py-4 px-6 text-xs text-slate-400 italic">
- {{ $stok->Keterangan ?? 'Tidak ada catatan' }}
- </td>
- </tr>
- @empty
- <tr>
-    <td colspan="100%" class="py-16 text-center">
-        <div class="flex flex-col items-center justify-center">
-            <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mb-4 border border-slate-100 shadow-sm">
-                <i class="fas fa-cubes-stacked text-slate-300 text-3xl"></i>
+<div class="space-y-8">
+    <!-- Header Card -->
+    <div class="bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(13,148,136,0.05)] border border-slate-100 overflow-hidden">
+        <div class="p-8 border-b border-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div class="flex items-center gap-4">
+                <div class="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center shadow-inner">
+                    <i class="fas fa-boxes-stacked text-teal-600 text-xl"></i>
+                </div>
+                <div>
+                    <h2 class="font-black text-slate-800 text-2xl tracking-tight">Ketersediaan Stok</h2>
+                    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mt-1">Pantau Inventaris Secara Real-Time</p>
+                </div>
             </div>
-            <h3 class="text-slate-800 font-bold text-base">Data Laporan Kosong</h3>
-            <p class="text-slate-400 text-sm mt-1">Belum ada catatan stok barang untuk ditampilkan saat ini.</p>
+            
+            <div class="flex gap-2">
+                <a href="{{ route('util.export', 'barang') }}" class="flex items-center px-6 py-3 bg-teal-600 text-white font-black rounded-xl text-xs uppercase tracking-widest shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-95 transition-all">
+                    <i class="fas fa-file-excel mr-2"></i> Ekspor CSV
+                </a>
+                <button onclick="window.print()" class="flex items-center px-6 py-3 bg-slate-100 text-slate-600 border border-slate-200 font-bold rounded-xl text-xs uppercase tracking-widest hover:bg-slate-200 transition-all active:scale-95">
+                    <i class="fas fa-print mr-2"></i> Cetak PDF
+                </button>
+            </div>
         </div>
-    </td>
- </tr>
- @endforelse
- </tbody>
- </table>
- </div>
+    </div>
+
+    <!-- Inventory Grid/Table -->
+    <div class="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(15,23,42,0.04)] border border-slate-100 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left">
+                <thead>
+                    <tr class="bg-slate-50/80 backdrop-blur-sm text-slate-500 text-[10px] font-black uppercase tracking-widest">
+                        <th class="py-5 px-8">ID Produk</th>
+                        <th class="py-5 px-8">Nama Produk</th>
+                        <th class="py-5 px-8">Kategori</th>
+                        <th class="py-5 px-8 text-center">Stok Awal</th>
+                        <th class="py-5 px-8 text-center">Stok Akhir</th>
+                        <th class="py-5 px-8">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-50">
+                    @forelse($stoks as $s)
+                    <tr class="hover:bg-teal-50/30 transition-colors group">
+                        <td class="py-5 px-8">
+                            <span class="text-[11px] font-black font-mono text-teal-600 bg-teal-50 px-2 py-1 rounded-md">{{ $s->ID_Barang }}</span>
+                        </td>
+                        <td class="py-5 px-8">
+                            <div class="flex flex-col">
+                                <span class="text-sm font-bold text-slate-800 group-hover:text-teal-600 transition-colors">{{ $s->dataBarang->Nama_Barang ?? 'Produk Dihapus' }}</span>
+                                <span class="text-[10px] text-slate-400 font-medium uppercase mt-0.5 tracking-wider">{{ $s->dataBarang->Warna_Barang ?? '-' }} / {{ $s->dataBarang->Ukuran_Barang ?? '-' }}</span>
+                            </div>
+                        </td>
+                        <td class="py-5 px-8">
+                            <span class="px-2.5 py-1 bg-slate-100 text-slate-500 rounded-lg text-[10px] font-black uppercase tracking-widest">{{ $s->dataBarang->Jenis_Barang ?? '-' }}</span>
+                        </td>
+                        <td class="py-5 px-8 text-center text-sm text-slate-400 font-medium italic">
+                            {{ $s->Stok_Awal }}
+                        </td>
+                        <td class="py-5 px-8 text-center">
+                            @php
+                                $statusClass = $s->Stok_Akhir < 10 ? 'bg-rose-50 text-rose-600' : 'bg-emerald-50 text-emerald-600';
+                            @endphp
+                            <span class="px-4 py-1.5 {{ $statusClass }} rounded-full text-sm font-black shadow-sm">
+                                {{ $s->Stok_Akhir }}
+                            </span>
+                        </td>
+                        <td class="py-5 px-8">
+                            @if($s->Stok_Akhir < 10)
+                                <div class="flex items-center gap-2 text-rose-500 animate-pulse">
+                                    <i class="fas fa-triangle-exclamation text-xs"></i>
+                                    <span class="text-[10px] font-black uppercase tracking-tighter">Stok Kritis</span>
+                                </div>
+                            @else
+                                <div class="flex items-center gap-2 text-emerald-500">
+                                    <i class="fas fa-circle-check text-xs"></i>
+                                    <span class="text-[10px] font-black uppercase tracking-tighter">Tersedia</span>
+                                </div>
+                            @endif
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="6" class="py-24 text-center">
+                            <div class="flex flex-col items-center justify-center opacity-40">
+                                <i class="fas fa-cubes text-6xl mb-4 text-slate-200"></i>
+                                <p class="text-slate-500 font-black uppercase tracking-[0.2em] text-xs">Gudang Kosong</p>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 @endsection

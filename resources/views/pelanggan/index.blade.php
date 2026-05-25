@@ -26,7 +26,7 @@
         </div>
     </div>
 
- <a href="{{ route('util.template', 'pelanggan') }}" class="flex items-center px-4 py-2 bg-white text-slate-600 rounded-xl text-xs font-bold hover:bg-slate-50 border border-slate-200 shadow-sm transition-all">
+ <a href="{{ route('util.template', 'pelanggan') }}" class="bg-slate-100 text-slate-600 border border-slate-200 font-bold rounded-xl hover:bg-slate-200 transition-all flex items-center px-4 py-2 text-xs">
     <i class="fas fa-file-arrow-down mr-2"></i> Unduh Template
  </a>
 
@@ -74,10 +74,10 @@
                      </div>
                  </div>
                  <div class="flex justify-end space-x-3 pt-2">
-                     <button type="button" @click="openImport = false" class="px-5 py-2.5 bg-slate-100 text-slate-600 font-bold rounded-xl text-sm hover:bg-slate-200 transition-colors">Batal</button>
-                     <button type="submit" class="px-5 py-2.5 bg-teal-600 text-white font-bold rounded-xl text-sm hover:bg-teal-700 shadow-lg shadow-teal-500/30 transition-all hover:-translate-y-0.5 group">
+                     <button type="button" @click="openImport = false" class="bg-slate-100 text-slate-600 border border-slate-200 font-bold rounded-xl hover:bg-slate-200 transition-all px-5 py-2.5 text-sm">Batal</button>
+                     <button type="submit" class="bg-teal-600 text-white font-black rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 px-5 py-2.5 text-sm flex items-center">
                         <span>Impor Saja</span>
-                        <i class="fas fa-arrow-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                        <i class="fas fa-arrow-right text-[10px] ml-2 group-hover:translate-x-1 transition-transform"></i>
                      </button>
                  </div>
              </form>
@@ -85,10 +85,10 @@
      </div>
  </div>
 
- <a href="{{ route('util.export', 'pelanggan') }}" class="flex items-center px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 shadow-sm rounded-xl text-xs font-bold transition-all">
+ <a href="{{ route('util.export', 'pelanggan') }}" class="bg-slate-100 text-slate-600 border border-slate-200 font-bold rounded-xl hover:bg-slate-200 transition-all flex items-center px-4 py-2 text-xs">
  <i class="fas fa-file-export mr-2"></i> Ekspor Excel
  </a>
- <a href="{{ route('input.pelanggan') }}" wire:navigate.hover class="flex items-center px-4 py-2 bg-teal-600 text-white rounded-xl text-xs font-bold hover:bg-teal-700 shadow-lg shadow-teal-500/30 transition-all hover:-translate-y-0.5">
+ <a href="{{ route('input.pelanggan') }}" wire:navigate.hover class="bg-teal-600 text-white font-black rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 flex items-center px-4 py-2 text-xs">
  <i class="fas fa-user-plus mr-2"></i> Tambah Pelanggan
  </a>
  </div>

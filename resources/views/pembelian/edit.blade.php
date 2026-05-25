@@ -4,10 +4,10 @@
 
 @section('content')
 <div class="max-w-4xl mx-auto">
- <div class="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(15,23,42,0.04)] border border-slate-100 overflow-hidden">
+ <div class="bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(13,148,136,0.05)] border border-slate-100 overflow-hidden">
  <div class="p-8 border-b border-slate-50">
- <h2 class="font-bold text-slate-800 text-xl">Edit Transaksi Pembelian</h2>
- <p class="text-slate-500 text-sm mt-1">Perbarui informasi transaksi stok masuk.</p>
+ <h2 class="font-bold text-slate-800 text-xl text-center">Edit Transaksi Pembelian</h2>
+ <p class="text-slate-500 text-sm mt-1 text-center">Perbarui informasi transaksi stok masuk untuk ID: <span class="font-mono font-bold text-teal-600">{{ $pembelian->ID_Pembelian }}</span></p>
  </div>
 
  <form action="{{ route('data.pembelian.update', $pembelian->ID_Pembelian) }}" method="POST" class="p-8 space-y-6">
@@ -15,16 +15,16 @@
  @method('PUT')
  
  @if(session('error'))
- <div class="bg-red-50 text-red-600 p-4 rounded-xl text-sm font-medium border border-red-100">
+ <div class="bg-rose-50 text-rose-600 p-4 rounded-xl text-sm font-medium border border-rose-100">
  {{ session('error') }}
  </div>
  @endif
 
  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
- <!-- ID Pembelian -->
+ <!-- ID Pembelian (Readonly Visual) -->
  <div class="space-y-2">
- <label class="block text-xs font-semibold text-slate-500 mb-2">ID Pembelian</label>
- <input type="text" value="{{ $pembelian->ID_Pembelian }}" class="w-full bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-500 cursor-not-allowed" readonly>
+ <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">ID Transaksi</label>
+ <input type="text" value="{{ $pembelian->ID_Pembelian }}" class="w-full bg-slate-100 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-400 cursor-not-allowed font-mono" readonly>
  </div>
 
  <!-- Barang -->
@@ -38,12 +38,12 @@
  @endforeach
  ]
  }">
- <label class="block text-xs font-semibold text-slate-500 mb-2">Pilih Produk</label>
+ <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Produk Terkait</label>
  <div class="relative">
  <input type="hidden" name="ID_Barang" :value="selected" required>
  <button @click="open = !open" type="button" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-slate-300 flex items-center justify-between">
- <span x-text="selectedLabel" :class="selected === '' ? 'text-slate-400' : 'text-slate-700 font-medium'"></span>
- <i class="fas fa-chevron-down text-slate-400 text-xs transition-transform" :class="open ? 'rotate-180' : ''"></i>
+ <span x-text="selectedLabel" :class="selected === '' ? 'text-slate-400' : 'text-slate-700 font-bold'"></span>
+ <i class="fas fa-chevron-down text-slate-400 text-[10px] transition-transform" :class="open ? 'rotate-180' : ''"></i>
  </button>
  
  <div x-show="open" @click.away="open = false" x-cloak 
@@ -54,9 +54,9 @@
  <template x-for="option in options" :key="option.val">
  <div @click="selected = option.val; selectedLabel = option.label; open = false" 
  class="px-4 py-2.5 text-sm cursor-pointer transition-colors flex items-center justify-between group hover:bg-teal-50 hover:text-teal-700 text-slate-600"
- :class="selected === option.val ? 'text-teal-600 font-bold' : ''">
+ :class="selected === option.val ? 'text-teal-600 font-bold bg-teal-50/50' : ''">
  <span x-text="option.label"></span>
- <i x-show="selected === option.val" class="fas fa-check text-xs"></i>
+ <i x-show="selected === option.val" class="fas fa-check text-[10px]"></i>
  </div>
  </template>
  </div>
@@ -74,12 +74,12 @@
  @endforeach
  ]
  }">
- <label class="block text-xs font-semibold text-slate-500 mb-2">Pemasok</label>
+ <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Nama Pemasok</label>
  <div class="relative">
  <input type="hidden" name="ID_Pemasok" :value="selected" required>
  <button @click="open = !open" type="button" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-slate-300 flex items-center justify-between">
- <span x-text="selectedLabel" :class="selected === '' ? 'text-slate-400' : 'text-slate-700 font-medium'"></span>
- <i class="fas fa-chevron-down text-slate-400 text-xs transition-transform" :class="open ? 'rotate-180' : ''"></i>
+ <span x-text="selectedLabel" :class="selected === '' ? 'text-slate-400' : 'text-slate-700 font-bold'"></span>
+ <i class="fas fa-chevron-down text-slate-400 text-[10px] transition-transform" :class="open ? 'rotate-180' : ''"></i>
  </button>
  
  <div x-show="open" @click.away="open = false" x-cloak 
@@ -90,9 +90,9 @@
  <template x-for="option in options" :key="option.val">
  <div @click="selected = option.val; selectedLabel = option.label; open = false" 
  class="px-4 py-2.5 text-sm cursor-pointer transition-colors flex items-center justify-between group hover:bg-teal-50 hover:text-teal-700 text-slate-600"
- :class="selected === option.val ? 'text-teal-600 font-bold' : ''">
+ :class="selected === option.val ? 'text-teal-600 font-bold bg-teal-50/50' : ''">
  <span x-text="option.label"></span>
- <i x-show="selected === option.val" class="fas fa-check text-xs"></i>
+ <i x-show="selected === option.val" class="fas fa-check text-[10px]"></i>
  </div>
  </template>
  </div>
@@ -101,14 +101,14 @@
 
  <!-- Tanggal -->
  <div class="space-y-2">
- <label class="block text-xs font-semibold text-slate-500 mb-2">Tanggal Pembelian</label>
+ <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Tanggal Transaksi</label>
  <input type="date" name="Tgl_Pembelian" value="{{ old('Tgl_Pembelian', \Carbon\Carbon::parse($pembelian->Tgl_Pembelian)->format('Y-m-d')) }}" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-slate-300" required>
  </div>
 
  <!-- Kuantitas -->
  <div class="space-y-2">
- <label class="block text-xs font-semibold text-slate-500 mb-2">Kuantitas Pembelian</label>
- <input type="number" name="Kuantitas" value="{{ old('Kuantitas', $pembelian->Kuantitas) }}" placeholder="0" min="1" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-slate-300" required>
+ <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Jumlah Item</label>
+ <input type="number" name="Kuantitas" value="{{ old('Kuantitas', $pembelian->Kuantitas) }}" placeholder="0" min="1" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-slate-300 font-bold" required>
  </div>
 
  <!-- Jenis Pembayaran -->
@@ -117,12 +117,12 @@
  selected: '{{ old('Jenis_Pembayaran', $pembelian->Jenis_Pembayaran) }}',
  options: ['Tunai', 'Transfer', 'Qris']
  }">
- <label class="block text-xs font-semibold text-slate-500 mb-2">Jenis Pembayaran</label>
+ <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Metode Pembayaran</label>
  <div class="relative">
  <input type="hidden" name="Jenis_Pembayaran" :value="selected">
  <button @click="open = !open" type="button" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-slate-300 flex items-center justify-between">
- <span x-text="selected" class="text-slate-700 font-medium"></span>
- <i class="fas fa-chevron-down text-slate-400 text-xs transition-transform" :class="open ? 'rotate-180' : ''"></i>
+ <span x-text="selected" class="text-slate-700 font-bold"></span>
+ <i class="fas fa-chevron-down text-slate-400 text-[10px] transition-transform" :class="open ? 'rotate-180' : ''"></i>
  </button>
  
  <div x-show="open" @click.away="open = false" x-cloak 
@@ -133,9 +133,9 @@
  <template x-for="option in options" :key="option">
  <div @click="selected = option; open = false" 
  class="px-4 py-2.5 text-sm cursor-pointer transition-colors flex items-center justify-between group hover:bg-teal-50 hover:text-teal-700 text-slate-600"
- :class="selected === option ? 'text-teal-600 font-bold' : ''">
+ :class="selected === option ? 'text-teal-600 font-bold bg-teal-50/50' : ''">
  <span x-text="option"></span>
- <i x-show="selected === option" class="fas fa-check text-xs"></i>
+ <i x-show="selected === option" class="fas fa-check text-[10px]"></i>
  </div>
  </template>
  </div>
@@ -144,14 +144,14 @@
 
  <!-- Ongkir -->
  <div class="space-y-2">
- <label class="block text-xs font-semibold text-slate-500 mb-2">Ongkos Kirim (Rp)</label>
- <input type="number" name="Ongkir" value="{{ old('Ongkir', $pembelian->Ongkir) }}" min="0" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-slate-300" required>
+ <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Ongkos Kirim (Rp)</label>
+ <input type="number" name="Ongkir" value="{{ old('Ongkir', $pembelian->Ongkir) }}" min="0" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-slate-300 font-bold" required>
  </div>
  </div>
 
- <div class="pt-6 border-t border-slate-50 flex justify-end space-x-3">
- <a href="{{ route('data.pembelian') }}" class="px-6 py-3 bg-slate-100 text-slate-600 font-bold rounded-xl text-sm hover:bg-slate-200 border border-slate-200 transition-colors">Batal</a>
- <button type="submit" class="px-10 py-3 bg-teal-600 text-white font-black rounded-xl text-sm hover:bg-teal-700 shadow-lg shadow-teal-500/30 transition-all hover:-translate-y-0.5">Simpan Perubahan</button>
+ <div class="pt-8 border-t border-slate-50 flex justify-end gap-3">
+ <a href="{{ route('data.pembelian') }}" class="px-8 py-4 bg-slate-100 text-slate-600 border border-slate-200 font-bold rounded-2xl text-xs uppercase tracking-widest hover:bg-slate-200 transition-all active:scale-95">Batal</a>
+ <button type="submit" class="px-12 py-4 bg-teal-600 text-white font-black rounded-2xl text-xs uppercase tracking-widest hover:bg-teal-700 shadow-[0_20px_40px_-8px_rgba(13,148,136,0.3)] transition-all hover:-translate-y-1 active:scale-[0.98]">Simpan Perubahan</button>
  </div>
  </form>
  </div>

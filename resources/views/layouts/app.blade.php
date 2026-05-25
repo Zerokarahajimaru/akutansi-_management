@@ -67,9 +67,13 @@
  background-color: white;
  color: #1e293b;
  }
+
+ .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+ }
  </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased font-sans" x-data="{ sidebarOpen: true }">
+<body class="bg-teal-50/30 text-slate-800 antialiased font-sans" x-data="{ sidebarOpen: true }">
  <!-- SPA Progress Bar -->
  <div class="fixed top-0 left-0 right-0 z-[100] pointer-events-none">
     <div 
@@ -85,20 +89,14 @@
     ></div>
  </div>
 
- <div class="flex h-screen overflow-hidden">
+ <div class="flex h-screen overflow-hidden relative">
  <!-- Global SweetAlert Handler -->
  @if(session('success') || session('error'))
  <script>
     function triggerFlashMessage() {
         const message = "{{ session('success') ?? session('error') }}";
-        
-        // 1. Immediately exit if there's no actual message (prevents JS logic errors)
         if (!message || message.trim() === '') return;
-
-        // 2. SPA Guard: Exit if we already showed a message in this DOM lifecycle
         if (window.hasShownFlashMessage) return;
-
-        // 3. Lock the guard synchronously BEFORE firing the alert
         window.hasShownFlashMessage = true;
 
         const isSuccess = "{{ session('success') ? 'true' : 'false' }}" === 'true';
@@ -132,24 +130,8 @@
             }
         });
     }
-
-    // Attach to both events, but the guard will stop duplicates
     document.addEventListener('DOMContentLoaded', triggerFlashMessage);
     document.addEventListener('livewire:navigated', triggerFlashMessage);
-
-    // --- Pagination SPA Fix ---
-    function applyPaginationSPA() {
-        const paginationLinks = document.querySelectorAll('nav[role="navigation"] a, .pagination a');
-        paginationLinks.forEach(link => {
-            if (!link.hasAttribute('wire:navigate')) {
-                link.setAttribute('wire:navigate', '');
-                link.setAttribute('wire:navigate.hover', '');
-            }
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', applyPaginationSPA);
-    document.addEventListener('livewire:navigated', applyPaginationSPA);
 </script>
 @endif
 
@@ -197,92 +179,103 @@ document.addEventListener('submit', function(e) {
 });
 </script> 
 
- <!-- Sidebar -->
+ <!-- Sidebar - Fixed and Slideable -->
  <aside 
- :class="sidebarOpen ? 'w-64' : 'w-20'"
- class="bg-slate-950 flex-shrink-0 flex flex-col z-20 transition-all duration-300 ease-in-out relative shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
+    x-cloak
+    :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+    class="fixed inset-y-0 left-0 w-72 bg-slate-950 flex flex-col z-50 transition-transform duration-300 ease-in-out shadow-[10px_0_40px_rgba(0,0,0,0.1)]">
  
- <!-- Brand Logo & Toggle Header -->
- <div class="h-20 relative flex items-center border-b border-white/5 overflow-hidden w-full flex-shrink-0">
- <!-- Expanded State -->
- <div x-show="sidebarOpen" 
- x-transition:enter="transition opacity-100 duration-300 delay-100" 
- x-transition:enter-start="opacity-0" 
- x-transition:enter-end="opacity-100" 
- x-transition:leave="transition opacity-0 duration-100" 
- x-transition:leave-start="opacity-100" 
- x-transition:leave-end="opacity-0" 
- class="absolute inset-0 flex items-center justify-between px-6 w-64">
- <a href="{{ route('dashboard') }}" wire:navigate.hover class="flex items-center gap-3 group">
- <img src="{{ asset('Resource/xyra_logo.png') }}" alt="Xyra.id Logo" class="w-auto h-11 drop-shadow-sm group-hover:scale-105 transition-transform">
- <span class="text-xl font-black tracking-tighter text-white">Xyra<span class="text-teal-500">.id</span></span>
- </a>
- <button @click="sidebarOpen = false" title="Collapse Sidebar" class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-teal-400 hover:bg-white/5 rounded-lg transition-colors focus:outline-none">
- <i class="fas fa-chevron-left text-sm"></i>
- </button>
- </div>
+    <!-- Sidebar Branding -->
+    <div class="h-20 flex items-center px-8 border-b border-white/5">
+        <a href="{{ route('dashboard') }}" wire:navigate.hover @click="sidebarOpen = false" class="flex items-center gap-3 group">
+            <img src="{{ asset('Resource/xyra_logo.png') }}" alt="Xyra.id Logo" class="w-auto h-10 drop-shadow-sm group-hover:scale-105 transition-transform">
+            <span class="text-xl font-black tracking-tighter text-white">Xyra<span class="text-teal-500">.id</span></span>
+        </a>
+    </div> 
 
- <!-- Collapsed State -->
- <div x-show="!sidebarOpen" x-cloak 
- x-transition:enter="transition opacity-100 duration-300 delay-100" 
- x-transition:enter-start="opacity-0" 
- x-transition:enter-end="opacity-100" 
- x-transition:leave="transition opacity-0 duration-100" 
- x-transition:leave-start="opacity-100" 
- x-transition:leave-end="opacity-0" 
- class="absolute inset-0 flex items-center justify-center w-20">
- <img @click="sidebarOpen = true" title="Expand Sidebar" src="{{ asset('Resource/xyra_logo.png') }}" alt="Xyra.id Logo" class="w-12 h-12 object-contain cursor-pointer hover:scale-110 hover:opacity-80 transition-all duration-300 drop-shadow-sm">
- </div>
- </div> 
+    <!-- Navigation Area -->
+    <div class="flex-1 overflow-y-auto custom-scrollbar">
+        @php
+            $cacheKey = 'sidebar_nav_' . auth()->user()->role . '_' . Request::path();
+        @endphp
+        {!! Cache::remember($cacheKey, 86400, function() {
+            return view('layouts.partials.navigation')->render();
+        }) !!}
+    </div>
 
- <!-- Navigation -->
- @php
-    $cacheKey = 'sidebar_nav_' . auth()->user()->role . '_' . Request::path();
- @endphp
-
- {!! Cache::remember($cacheKey, 86400, function() {
-    return view('layouts.partials.navigation')->render();
- }) !!}
-
- <!-- User Info & Logout -->
- <div class="p-4 border-t border-white/5">
- <div class="flex items-center justify-between px-2 mb-4">
- <div x-show="sidebarOpen" class="flex flex-col overflow-hidden">
- <p class="text-sm font-semibold text-white truncate">{{ Auth::user()->name }}</p>
- <p class="text-xs text-slate-500 capitalize">{{ Auth::user()->role }}</p>
- </div>
- <!-- Settings Gear Icon -->
- <a wire:navigate.hover x-show="sidebarOpen" href="{{ route('data.user.edit', Auth::user()->id) }}" 
- class="transition-all duration-300 p-2 rounded-xl flex items-center justify-center group/settings {{ Request::is('data/user/'.Auth::user()->id.'/edit') ? 'bg-teal-500/20 text-teal-400' : 'text-slate-400 hover:text-white hover:bg-white/5' }}">
- <i class="fas fa-gear text-sm {{ Request::is('data/user/'.Auth::user()->id.'/edit') ? 'fa-spin' : 'group-hover/settings:rotate-90 transition-transform duration-500' }}"></i>
- </a>
- </div>
- <form action="{{ route('logout') }}" method="POST">
- @csrf
- <button type="submit" class="flex items-center justify-center w-full py-2.5 px-4 rounded-xl bg-slate-900 border border-white/5 text-slate-400 text-sm font-bold hover:bg-red-600 hover:text-white hover:border-red-600 transition-all duration-300 group shadow-sm">
- <i class="fas fa-arrow-right-from-bracket flex-shrink-0 group-hover:translate-x-0.5 transition-transform"></i>
- <span x-show="sidebarOpen" class="ml-2 whitespace-nowrap">Keluar Akun</span>
- </button> </form>
- </div>
+    <!-- Sidebar Footer / User Info -->
+    <div class="p-6 border-t border-white/5 bg-black/10">
+        <div class="flex items-center justify-between mb-6 px-2">
+            <div class="flex flex-col overflow-hidden">
+                <p class="text-sm font-bold text-white truncate">{{ Auth::user()->name }}</p>
+                <p class="text-[10px] text-slate-500 uppercase tracking-widest font-black mt-0.5">{{ Auth::user()->role }}</p>
+            </div>
+            <a wire:navigate.hover href="{{ route('data.user.edit', Auth::user()->id) }}" @click="sidebarOpen = false"
+                class="transition-all duration-300 p-2.5 rounded-xl flex items-center justify-center group/settings {{ Request::is('data/user/'.Auth::user()->id.'/edit') ? 'bg-teal-500/20 text-teal-400' : 'text-slate-400 hover:text-white hover:bg-white/5' }}">
+                <i class="fas fa-gear text-sm {{ Request::is('data/user/'.Auth::user()->id.'/edit') ? 'fa-spin' : 'group-hover/settings:rotate-90 transition-transform duration-500' }}"></i>
+            </a>
+        </div>
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="flex items-center justify-center w-full py-3 px-4 rounded-2xl bg-slate-900 border border-white/5 text-slate-400 text-xs font-black uppercase tracking-widest hover:bg-rose-600 hover:text-white hover:border-rose-600 transition-all duration-300 group shadow-lg">
+                <i class="fas fa-arrow-right-from-bracket flex-shrink-0 group-hover:translate-x-0.5 transition-transform mr-3"></i>
+                <span>Keluar Akun</span>
+            </button>
+        </form>
+    </div>
  </aside>
 
- <!-- Main Content -->
- <div class="flex-1 flex flex-col overflow-hidden bg-slate-50/50">
- <!-- Top Header -->
- <header class="h-20 bg-white/80 backdrop-blur-md border-b border-slate-100 flex items-center justify-between px-8 sm:px-10 flex-shrink-0 z-10 sticky top-0">
- <div class="flex items-center text-sm">
- <a href="{{ route('dashboard') }}" wire:navigate class="text-teal-600 font-medium hover:underline">Beranda</a>
- <i class="fas fa-chevron-right text-xs mx-3 text-slate-400"></i>
- <span class="text-slate-800 font-medium">@yield('title', 'Dashboard')</span>
- </div>
- </header>
+ <!-- Main Content Wrapper -->
+ <div 
+    class="flex-1 flex flex-col transition-all duration-300 min-w-0 h-screen"
+    :class="sidebarOpen ? 'lg:pl-72' : 'pl-0'">
+    
+    <!-- Top Header -->
+    <header class="h-20 bg-white/70 backdrop-blur-xl border-b border-teal-500/10 flex items-center justify-between px-8 sm:px-10 flex-shrink-0 z-40 sticky top-0">
+        <div class="flex items-center gap-6">
+            <!-- Sidebar Toggle Button -->
+            <button @click="sidebarOpen = !sidebarOpen" class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-50 text-slate-600 hover:bg-teal-50 hover:text-teal-600 transition-all border border-slate-200">
+                <i class="fas fa-bars-staggered transition-transform duration-300" :class="sidebarOpen ? 'rotate-90' : ''"></i>
+            </button>
 
- <main class="flex-1 p-8 sm:p-10 overflow-y-auto custom-scrollbar">
- <div class="max-w-7xl mx-auto">
- @yield('content')
+            <!-- Breadcrumbs -->
+            <div class="flex items-center text-sm">
+                <a href="{{ route('dashboard') }}" wire:navigate class="text-teal-600 font-bold hover:text-teal-700 transition-colors">Beranda</a>
+                <i class="fas fa-chevron-right text-[10px] mx-4 text-slate-300"></i>
+                <span class="text-slate-400 font-medium tracking-tight">@yield('title', 'Dashboard')</span>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <!-- Digital Clock / Date (Optional visual polish) -->
+            <div class="hidden md:flex flex-col items-end text-right">
+                <span class="text-xs font-black text-slate-800 tracking-tighter">{{ date('d M Y') }}</span>
+                <span class="text-[10px] text-teal-600 font-bold uppercase tracking-widest">Sistem Aktif</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Content Area -->
+    <main class="flex-1 p-8 sm:p-10 overflow-y-auto custom-scrollbar bg-transparent">
+        <div class="max-w-7xl mx-auto pb-10">
+            @yield('content')
+        </div>
+    </main>
  </div>
- </main>
+
+ <!-- Mobile Sidebar Backdrop -->
+ <div 
+    x-show="sidebarOpen" 
+    @click="sidebarOpen = false" 
+    class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 lg:hidden"
+    x-transition:enter="transition opacity-100 duration-300"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition opacity-0 duration-300"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0">
  </div>
+
  </div>
  @livewireScripts
 </body>

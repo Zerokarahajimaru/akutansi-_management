@@ -26,10 +26,10 @@
         </div>
     </div>
 
- <a href="{{ route('util.export', 'user') }}" class="flex items-center px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 shadow-sm rounded-xl text-xs font-bold transition-all">
+ <a href="{{ route('util.export', 'user') }}" class="flex items-center px-4 py-2 bg-slate-100 text-slate-600 border border-slate-200 font-bold rounded-xl text-xs hover:bg-slate-200 transition-all">
  <i class="fas fa-file-export mr-2"></i> Ekspor Excel
  </a>
- <a href="{{ route('input.user') }}" wire:navigate class="flex items-center px-4 py-2 bg-teal-600 text-white rounded-xl text-xs font-bold hover:bg-teal-700 shadow-lg shadow-teal-500/30 transition-all hover:-translate-y-0.5">
+ <a href="{{ route('input.user') }}" wire:navigate class="flex items-center px-4 py-2 bg-teal-600 text-white font-black rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 text-xs">
  <i class="fas fa-user-plus mr-2"></i> Tambah Pengguna
  </a>
  </div>
