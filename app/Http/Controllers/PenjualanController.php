@@ -40,52 +40,57 @@ class PenjualanController extends Controller
 
     public function store(Request $request)
     {
+        // 1. Audit: Input name casing must match Blade, but Model maps to lowercase
         $request->validate([
-            'ID_Barang' => 'required|string',
-            'ID_Pelanggan' => 'required|string',
+            'ID_Barang' => 'required|string|exists:data_barangs,ID_Barang',
+            'ID_Pelanggan' => 'required|string|exists:pelanggans,ID_Pelanggan',
             'Tanggal_Penjualan' => 'required|date',
             'Kuantitas' => 'required|integer|min:1',
-            'jenis_pembayaran' => 'required|string',
+            'Jenis_Pembayaran' => 'required|string',
             'Ongkir' => 'required|numeric|min:0',
         ], [
-            'ID_Barang.required' => 'Pilih produk yang terjual.',
-            'ID_Pelanggan.required' => 'Pilih data pelanggan.',
-            'jenis_pembayaran.required' => 'Pilih metode pembayaran.',
+            'ID_Barang.exists' => 'Produk yang dipilih tidak ditemukan dalam katalog.',
+            'ID_Pelanggan.exists' => 'Data pelanggan tidak valid.',
         ]);
 
         $barang = DataBarang::findOrFail($request->ID_Barang);
         $total_harga_barang = $barang->Harga_Jual * $request->Kuantitas;
         $total_harga = $total_harga_barang + $request->Ongkir;
 
-        // Check stock
+        // 2. Audit: Pre-insertion stock check
         $stok = StokBarang::where('ID_Barang', $request->ID_Barang)->first();
         if (!$stok || $stok->Stok_Akhir < $request->Kuantitas) {
-            return back()->with('error', 'Gagal mencatat: Stok barang tidak mencukupi untuk transaksi ini.')->withInput();
+            $currentStok = $stok->Stok_Akhir ?? 0;
+            return back()->with('error', "Stok tidak mencukupi. Stok saat ini: {$currentStok}")->withInput();
         }
 
         DB::beginTransaction();
         try {
+            $newId = Penjualan::generateId('PJ');
+
+            // 3. Audit: Mass Assignment and ID Assignment
             $penjualan = Penjualan::create([
-                'ID_Penjualan' => Penjualan::generateId('PJ'),
+                'ID_Penjualan' => $newId,
                 'user_id' => auth()->id(),
                 'ID_Barang' => $request->ID_Barang,
                 'ID_Pelanggan' => $request->ID_Pelanggan,
                 'Tanggal_Penjualan' => $request->Tanggal_Penjualan,
                 'Kuantitas' => $request->Kuantitas,
-                'jenis_pembayaran' => $request->jenis_pembayaran,
+                'jenis_pembayaran' => $request->Jenis_Pembayaran,
                 'Total_Harga_Barang' => $total_harga_barang,
                 'Ongkir' => $request->Ongkir,
                 'Total_Harga' => $total_harga,
             ]);
 
-            // Update Stock
+            // 4. Audit: Relational sync (Decreasing stock)
             $stok->decrement('Stok_Akhir', $request->Kuantitas);
 
             DB::commit();
-            return redirect()->route('data.penjualan')->with('success', 'Transaksi penjualan berhasil dicatat.');
+            return redirect()->route('data.penjualan')->with('success', 'Transaksi penjualan ' . $newId . ' berhasil dicatat.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Terjadi kesalahan saat mencatat transaksi penjualan. Silakan coba lagi.')->withInput();
+            // 5. Audit: Critical - Expose DB error message
+            return back()->with('error', 'Gagal memproses penjualan: ' . $e->getMessage())->withInput();
         }
     }
 
@@ -101,7 +106,7 @@ class PenjualanController extends Controller
     {
         $request->validate([
             'Kuantitas' => 'required|integer|min:1',
-            'jenis_pembayaran' => 'required|string',
+            'Jenis_Pembayaran' => 'required|string',
             'Ongkir' => 'required|numeric|min:0',
         ]);
 
@@ -114,7 +119,7 @@ class PenjualanController extends Controller
 
         $stok = StokBarang::where('ID_Barang', $penjualan->ID_Barang)->first();
         if ($diff > 0 && (!$stok || $stok->Stok_Akhir < $diff)) {
-            return back()->with('error', 'Stok tidak mencukupi untuk penambahan kuantitas.')->withInput();
+            return back()->with('error', 'Update gagal: Stok tidak mencukupi untuk penambahan kuantitas.')->withInput();
         }
 
         DB::beginTransaction();
@@ -125,17 +130,17 @@ class PenjualanController extends Controller
 
             $penjualan->update([
                 'Kuantitas' => $request->Kuantitas,
-                'jenis_pembayaran' => $request->jenis_pembayaran,
+                'jenis_pembayaran' => $request->Jenis_Pembayaran,
                 'Ongkir' => $request->Ongkir,
                 'Total_Harga_Barang' => $total_harga_barang,
                 'Total_Harga' => $total_harga,
             ]);
 
             DB::commit();
-            return redirect()->route('data.penjualan')->with('success', 'Data transaksi penjualan berhasil diperbarui.');
+            return redirect()->route('data.penjualan')->with('success', 'Perubahan transaksi penjualan berhasil disimpan.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Terjadi kesalahan saat memperbarui transaksi penjualan. Silakan coba lagi.')->withInput();
+            return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage())->withInput();
         }
     }
 
@@ -153,10 +158,10 @@ class PenjualanController extends Controller
             $penjualan->delete();
 
             DB::commit();
-            return redirect()->route('data.penjualan')->with('success', 'Catatan penjualan berhasil dihapus dari sistem.');
+            return redirect()->route('data.penjualan')->with('success', 'Data transaksi telah dihapus dan stok dikembalikan.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Terjadi kesalahan saat menghapus transaksi penjualan. Silakan coba lagi.');
+            return back()->with('error', 'Gagal menghapus data: ' . $e->getMessage());
         }
     }
 }

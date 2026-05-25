@@ -23,19 +23,22 @@
  <!-- Nama Produk -->
  <div class="md:col-span-2 space-y-2">
     <label class="block text-xs font-semibold text-slate-500">Nama Lengkap Produk <span class="text-red-500">*</span></label>
-    <input type="text" name="Nama_Barang" placeholder="Contoh: Gamis Chino Premium" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-slate-300" required>
+    <input type="text" name="Nama_Barang" value="{{ old('Nama_Barang') }}" placeholder="Contoh: Gamis Chino Premium" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-slate-300 @error('Nama_Barang') border-rose-400 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
+    @error('Nama_Barang')
+        <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
+    @enderror
  </div>
 
  <!-- Jenis -->
  <div class="space-y-2" x-data="{ 
  open: false, 
- selected: 'Baju',
+ selected: '{{ old('Jenis_Barang', 'Baju') }}',
  options: ['Baju', 'Celana', 'Gamis', 'Aksesoris']
  }">
  <label class="block text-xs font-semibold text-slate-500 mb-2">Jenis / Kategori <span class="text-red-500">*</span></label>
  <div class="relative">
  <input type="hidden" name="Jenis_Barang" :value="selected">
- <button @click="open = !open" type="button" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-slate-300 flex items-center justify-between">
+ <button @click="open = !open" type="button" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-slate-300 flex items-center justify-between @error('Jenis_Barang') border-rose-400 focus:ring-rose-500/10 focus:border-rose-500 @enderror">
  <span x-text="selected" class="text-slate-700 font-medium"></span>
  <i class="fas fa-chevron-down text-slate-400 text-xs transition-transform" :class="open ? 'rotate-180' : ''"></i>
  </button>
@@ -55,12 +58,15 @@
  </template>
  </div>
  </div>
+ @error('Jenis_Barang')
+    <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
+ @enderror
  </div>
 
  <!-- Ukuran -->
  <div class="space-y-2" x-data="{ 
  open: false, 
- selected: 'M',
+ selected: '{{ old('Ukuran_Barang', 'M') }}',
  options: [
  {val: 'S', label: 'S (Small)'},
  {val: 'M', label: 'M (Medium)'},
@@ -73,7 +79,7 @@
  <label class="block text-xs font-semibold text-slate-500 mb-2">Ukuran Produk <span class="text-red-500">*</span></label>
  <div class="relative">
  <input type="hidden" name="Ukuran_Barang" :value="selected">
- <button @click="open = !open" type="button" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-slate-300 flex items-center justify-between">
+ <button @click="open = !open" type="button" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-slate-300 flex items-center justify-between @error('Ukuran_Barang') border-rose-400 focus:ring-rose-500/10 focus:border-rose-500 @enderror">
  <span x-text="options.find(o => o.val === selected).label" class="text-slate-700 font-medium"></span>
  <i class="fas fa-chevron-down text-slate-400 text-xs transition-transform" :class="open ? 'rotate-180' : ''"></i>
  </button>
@@ -93,13 +99,16 @@
  </template>
  </div>
  </div>
+ @error('Ukuran_Barang')
+    <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
+ @enderror
  </div>
 
  <!-- Pemasok Utama -->
  <div class="space-y-2" x-data="{ 
  open: false, 
- selected: '', 
- selectedLabel: '-- Pilih Pemasok --',
+ selected: '{{ old('ID_Pemasok') }}', 
+ selectedLabel: '{{ old('ID_Pemasok') ? ($pemasoks->firstWhere('ID_Pemasok', old('ID_Pemasok'))->Nama_Pemasok ?? '-- Pilih Pemasok --') : '-- Pilih Pemasok --' }}',
  options: [
  @foreach($pemasoks as $pemasok)
  {val: '{{ $pemasok->ID_Pemasok }}', label: '{{ $pemasok->Nama_Pemasok }}'},
@@ -109,7 +118,7 @@
  <label class="block text-xs font-semibold text-slate-500 mb-2">Pemasok Utama <span class="text-red-500">*</span></label>
  <div class="relative">
  <input type="hidden" name="ID_Pemasok" :value="selected" required>
- <button @click="open = !open" type="button" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-slate-300 flex items-center justify-between">
+ <button @click="open = !open" type="button" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-slate-300 flex items-center justify-between @error('ID_Pemasok') border-rose-400 focus:ring-rose-500/10 focus:border-rose-500 @enderror">
  <span x-text="selectedLabel" :class="selected === '' ? 'text-slate-400' : 'text-slate-700 font-medium'"></span>
  <i class="fas fa-chevron-down text-slate-400 text-xs transition-transform" :class="open ? 'rotate-180' : ''"></i>
  </button>
@@ -129,30 +138,45 @@
  </template>
  </div>
  </div>
+ @error('ID_Pemasok')
+    <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
+ @enderror
  </div>
 
  <!-- Warna -->
  <div class="space-y-2">
     <label class="block text-xs font-semibold text-slate-500 mb-2">Varian Warna <span class="text-red-500">*</span></label>
-    <input type="text" name="Warna_Barang" placeholder="Contoh: Kuning, Navy, Hitam" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-slate-300" required>
+    <input type="text" name="Warna_Barang" value="{{ old('Warna_Barang') }}" placeholder="Contoh: Kuning, Navy, Hitam" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-slate-300 @error('Warna_Barang') border-rose-400 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
+    @error('Warna_Barang')
+        <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
+    @enderror
  </div>
 
  <!-- Harga Beli -->
  <div class="space-y-2">
  <label class="block text-xs font-semibold text-slate-500 mb-2">Harga Beli Dasar (Rp) <span class="text-red-500">*</span></label>
- <input type="number" name="Harga_Beli" placeholder="0" min="0" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-slate-300" required>
+ <input type="number" name="Harga_Beli" value="{{ old('Harga_Beli') }}" placeholder="0" min="0" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-slate-300 @error('Harga_Beli') border-rose-400 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
+ @error('Harga_Beli')
+    <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
+ @enderror
  </div>
 
  <!-- Harga Jual -->
  <div class="space-y-2">
  <label class="block text-xs font-semibold text-slate-500 mb-2">Harga Jual Konsumen (Rp) <span class="text-red-500">*</span></label>
- <input type="number" name="Harga_Jual" placeholder="0" min="0" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-slate-300" required>
+ <input type="number" name="Harga_Jual" value="{{ old('Harga_Jual') }}" placeholder="0" min="0" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-slate-300 @error('Harga_Jual') border-rose-400 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
+ @error('Harga_Jual')
+    <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
+ @enderror
  </div>
 
  <!-- Stok Awal -->
  <div class="md:col-span-2 space-y-2">
  <label class="block text-xs font-semibold text-slate-500 mb-2">Saldo Awal Stok <span class="text-red-500">*</span></label>
- <input type="number" name="Stok_Awal" value="0" min="0" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-slate-300" required>
+ <input type="number" name="Stok_Awal" value="{{ old('Stok_Awal', '0') }}" min="0" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 transition-all duration-300 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 hover:border-slate-300 @error('Stok_Awal') border-rose-400 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
+ @error('Stok_Awal')
+    <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
+ @enderror
  <p class="text-xs text-slate-400 mt-1 italic">Kuantitas ini akan langsung tercatat sebagai stok tersedia di sistem.</p>
  </div>
  </div>

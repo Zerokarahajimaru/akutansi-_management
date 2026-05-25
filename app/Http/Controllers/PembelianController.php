@@ -40,17 +40,17 @@ class PembelianController extends Controller
 
     public function store(Request $request)
     {
+        // 1. Strict Validation: Ensure no silent failures here
         $request->validate([
-            'ID_Pemasok' => 'required|string',
-            'ID_Barang' => 'required|string',
+            'ID_Pemasok' => 'required|string|exists:pemasoks,ID_Pemasok',
+            'ID_Barang' => 'required|string|exists:data_barangs,ID_Barang',
             'Tgl_Pembelian' => 'required|date',
             'Kuantitas' => 'required|integer|min:1',
-            'jenis_pembayaran' => 'required|string',
+            'Jenis_Pembayaran' => 'required|string',
             'Ongkir' => 'required|numeric|min:0',
         ], [
-            'ID_Pemasok.required' => 'Silakan pilih pemasok.',
-            'ID_Barang.required' => 'Silakan pilih produk.',
-            'jenis_pembayaran.required' => 'Pilih metode pembayaran.',
+            'ID_Pemasok.exists' => 'Data pemasok yang dipilih tidak terdaftar.',
+            'ID_Barang.exists' => 'Produk yang dipilih tidak ditemukan.',
         ]);
 
         $barang = DataBarang::findOrFail($request->ID_Barang);
@@ -59,20 +59,24 @@ class PembelianController extends Controller
 
         DB::beginTransaction();
         try {
-            Pembelian::create([
-                'ID_Pembelian' => Pembelian::generateId('PB'),
+            // 2. ID Generation Audit
+            $newId = Pembelian::generateId('PB');
+
+            // 3. Mass Assignment Audit: Map request to DB columns
+            $pembelian = Pembelian::create([
+                'ID_Pembelian' => $newId,
                 'ID_Pemasok' => $request->ID_Pemasok,
                 'ID_Barang' => $request->ID_Barang,
                 'user_id' => auth()->id(),
                 'Tgl_Pembelian' => $request->Tgl_Pembelian,
                 'Kuantitas' => $request->Kuantitas,
-                'jenis_pembayaran' => $request->jenis_pembayaran,
+                'jenis_pembayaran' => $request->Jenis_Pembayaran,
                 'Total_Harga_Barang' => $total_harga_barang,
                 'Ongkir' => $request->Ongkir,
                 'Total_Harga' => $total_harga,
             ]);
 
-            // Update Stock
+            // 4. Relational Trigger: Update Stock
             $stok = StokBarang::where('ID_Barang', $request->ID_Barang)->first();
             if ($stok) {
                 $stok->increment('Stok_Akhir', $request->Kuantitas);
@@ -84,14 +88,16 @@ class PembelianController extends Controller
                     'ID_Barang' => $request->ID_Barang,
                     'Stok_Awal' => 0,
                     'Stok_Akhir' => $request->Kuantitas,
+                    'Keterangan' => 'Inisialisasi otomatis via Pembelian ' . $newId,
                 ]);
             }
 
             DB::commit();
-            return redirect()->route('data.pembelian')->with('success', 'Transaksi pembelian berhasil dicatat.');
+            return redirect()->route('data.pembelian')->with('success', 'Transaksi pembelian ' . $newId . ' berhasil disimpan.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Terjadi kesalahan saat mencatat transaksi pembelian. Silakan coba lagi.')->withInput();
+            // 5. Audit Fix: Return actual exception message instead of generic text
+            return back()->with('error', 'Gagal menyimpan transaksi: ' . $e->getMessage())->withInput();
         }
     }
 
@@ -107,7 +113,7 @@ class PembelianController extends Controller
     {
         $request->validate([
             'Kuantitas' => 'required|integer|min:1',
-            'jenis_pembayaran' => 'required|string',
+            'Jenis_Pembayaran' => 'required|string',
             'Ongkir' => 'required|numeric|min:0',
         ]);
 
@@ -127,17 +133,17 @@ class PembelianController extends Controller
 
             $pembelian->update([
                 'Kuantitas' => $request->Kuantitas,
-                'jenis_pembayaran' => $request->jenis_pembayaran,
+                'jenis_pembayaran' => $request->Jenis_Pembayaran,
                 'Ongkir' => $request->Ongkir,
                 'Total_Harga_Barang' => $total_harga_barang,
                 'Total_Harga' => $total_harga,
             ]);
 
             DB::commit();
-            return redirect()->route('data.pembelian')->with('success', 'Transaksi pembelian berhasil diperbarui.');
+            return redirect()->route('data.pembelian')->with('success', 'Data transaksi berhasil diperbarui.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Terjadi kesalahan saat memperbarui transaksi pembelian. Silakan coba lagi.')->withInput();
+            return back()->with('error', 'Gagal memperbarui data: ' . $e->getMessage())->withInput();
         }
     }
 
@@ -155,10 +161,10 @@ class PembelianController extends Controller
             $pembelian->delete();
 
             DB::commit();
-            return redirect()->route('data.pembelian')->with('success', 'Data transaksi pembelian berhasil dihapus.');
+            return redirect()->route('data.pembelian')->with('success', 'Transaksi berhasil dihapus dari sistem.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Terjadi kesalahan saat menghapus transaksi pembelian. Silakan coba lagi.');
+            return back()->with('error', 'Gagal menghapus transaksi: ' . $e->getMessage());
         }
     }
 }

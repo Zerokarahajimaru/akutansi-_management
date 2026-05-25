@@ -43,13 +43,10 @@ class StockController extends Controller
             'Ukuran_Barang' => 'required|string',
             'Harga_Beli' => 'required|numeric|min:0',
             'Harga_Jual' => 'required|numeric|min:0',
-            'ID_Pemasok' => 'required|string',
+            'ID_Pemasok' => 'required|string|exists:pemasoks,ID_Pemasok',
             'Stok_Awal' => 'required|integer|min:0',
         ], [
-            'Nama_Barang.required' => 'Nama produk wajib diisi.',
-            'Harga_Beli.required' => 'Harga beli wajib diisi.',
-            'Harga_Jual.required' => 'Harga jual wajib diisi.',
-            'ID_Pemasok.required' => 'Pemasok wajib dipilih.',
+            'ID_Pemasok.exists' => 'Pemasok tidak ditemukan.',
         ]);
 
         DB::beginTransaction();
@@ -77,10 +74,10 @@ class StockController extends Controller
             ]);
 
             DB::commit();
-            return redirect()->route('data.barang.list')->with('success', 'Produk baru telah berhasil didaftarkan.');
+            return redirect()->route('data.barang.list')->with('success', 'Produk ' . $id_barang . ' telah berhasil didaftarkan.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Terjadi kesalahan saat mendaftarkan produk baru. Silakan coba lagi.')->withInput();
+            return back()->with('error', 'Gagal mendaftarkan produk: ' . $e->getMessage())->withInput();
         }
     }
 
@@ -115,10 +112,10 @@ class StockController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('data.barang.list')->with('success', 'Data produk berhasil diperbarui.');
+            return redirect()->route('data.barang.list')->with('success', 'Perubahan informasi produk berhasil disimpan.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Terjadi kesalahan saat memperbarui data produk. Silakan coba lagi.')->withInput();
+            return back()->with('error', 'Gagal memperbarui produk: ' . $e->getMessage())->withInput();
         }
     }
 
@@ -130,10 +127,10 @@ class StockController extends Controller
         try {
             $barang->delete();
             DB::commit();
-            return redirect()->route('data.barang.list')->with('success', 'Produk telah dihapus dari sistem.');
+            return redirect()->route('data.barang.list')->with('success', 'Produk berhasil dihapus dari katalog.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Terjadi kesalahan saat menghapus data produk. Silakan coba lagi.');
+            return back()->with('error', 'Gagal menghapus produk: ' . $e->getMessage());
         }
     }
 }
