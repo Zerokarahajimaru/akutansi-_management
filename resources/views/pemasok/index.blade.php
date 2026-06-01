@@ -3,16 +3,16 @@
 @section('title', 'Data Pemasok')
 
 @section('content')
-<div class="bg-white rounded-[2.5rem] border border-slate-100 shadow-[0_8px_30px_rgb(13,148,136,0.04)]">
+<div class="bg-white rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgba(13,148,136,0.05)]">
  <!-- Action Bar -->
  <div class="p-6 border-b border-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
  <div>
  <h2 class="font-bold text-slate-800 text-lg">Kelola Data Pemasok</h2>
  <p class="text-slate-500 text-xs">Daftar mitra pemasok barang untuk Xyra.id</p>
  </div>
- <div class="flex flex-col sm:flex-row flex-wrap items-center gap-3">
+ <div class="flex flex-wrap items-center gap-3">
     <!-- Per Page Selector -->
-    <div x-data="{ open: false }" class="relative inline-block text-left z-[30] w-full lg:w-auto" x-cloak>
+    <div x-data="{ open: false }" class="relative inline-block text-left z-[30] w-full sm:w-auto" x-cloak>
         <button @click="open = !open" @click.outside="open = false" type="button" class="inline-flex items-center justify-between w-full sm:min-w-[140px] px-4 py-2.5 text-sm font-semibold text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:text-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500/30 transition-all shadow-sm group">
             <span class="truncate">Tampilkan: <span class="text-teal-600">{{ request('per_page', 50) === 'all' ? 'Semua' : request('per_page', 50) }}</span></span>
             <i class="fas fa-chevron-down ml-2 text-xs transition-transform duration-300" :class="open ? 'rotate-180 text-teal-600' : 'text-slate-400 group-hover:text-teal-500'"></i>
@@ -27,7 +27,7 @@
     </div>
 
     <!-- Utility Toolbar -->
-    <div class="flex items-center bg-slate-100 border border-slate-200 rounded-2xl shadow-sm w-full lg:w-auto divide-x divide-slate-200 overflow-hidden">
+    <div class="flex items-center bg-slate-100 border border-slate-200 rounded-xl shadow-sm w-full sm:w-auto divide-x divide-slate-200 overflow-hidden">
         <!-- Unduh Template -->
         <a href="{{ route('util.template', 'pemasok') }}" class="flex-1 lg:flex-none flex items-center justify-center px-3 py-2 text-[9px] font-black uppercase tracking-widest text-slate-500 hover:bg-white hover:text-slate-600 transition-all" title="Unduh Template Excel">
             <i class="fas fa-file-arrow-down mr-2 text-slate-400"></i> <span>Template</span>
@@ -40,7 +40,7 @@
             </button>
             
             <div x-show="openImport" x-cloak class="fixed inset-0 z-[150] flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4" x-transition.opacity>
-                <div @click.outside="openImport = false" class="bg-white rounded-[2.5rem] border border-slate-100 shadow-xl w-full max-w-md p-6 transform transition-all" x-transition.scale.95>
+                <div @click.outside="openImport = false" class="bg-white rounded-2xl border border-slate-100 shadow-xl w-full max-w-md p-6 transform transition-all" x-transition.scale.95>
                     <div class="flex justify-between items-center mb-5">
                         <h3 class="text-lg font-bold text-slate-800">Impor Data Pemasok</h3>
                         <button @click="openImport = false" class="text-slate-400 hover:text-rose-500 transition-colors">
@@ -50,14 +50,14 @@
                     <form action="{{ route('util.import', 'pemasok') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                         @csrf
                         <div 
-                            class="relative group rounded-[2.25rem] transition-all duration-500 p-2 bg-slate-100 border border-slate-200"
+                            class="relative group rounded-xl transition-all duration-500 p-2 bg-slate-100 border border-slate-200"
                             :class="isDragging ? 'bg-teal-50 border-teal-200 shadow-lg scale-[1.02]' : ''"
                             @dragover.prevent="isDragging = true"
                             @dragleave.prevent="isDragging = false"
                             @drop.prevent="isDragging = false; $refs.fileInput.files = $event.dataTransfer.files; document.getElementById('fileNamePemasok').textContent = $event.dataTransfer.files[0].name"
                         >
                             <div 
-                                class="border-2 border-dashed rounded-[1.75rem] p-10 text-center transition-all duration-300 relative overflow-hidden"
+                                class="border-2 border-dashed rounded-xl p-10 text-center transition-all duration-300 relative overflow-hidden"
                                 :class="isDragging ? 'bg-white/50 border-teal-400' : 'border-slate-300 group-hover:border-teal-300'"
                             >
                                 <input 
@@ -95,14 +95,14 @@
         </a>
     </div>
 
-    <a href="{{ route('input.pemasok') }}" wire:navigate.hover class="w-full lg:w-auto bg-teal-600 text-white font-black rounded-2xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 px-6 py-3 text-[10px] uppercase tracking-widest flex items-center justify-center">
+    <a href="{{ route('input.pemasok') }}" wire:navigate.hover class="w-full sm:w-auto bg-teal-600 text-white font-black rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 px-6 py-3 text-[10px] uppercase tracking-widest flex items-center justify-center">
         <i class="fas fa-truck-fast mr-2"></i> Tambah Pemasok
     </a>
  </div>
  </div>
 
  <!-- Table -->
- <div class="overflow-x-auto">
+ <div class="overflow-x-auto custom-scrollbar relative rounded-xl border border-slate-100">
  <table id="pemasok-table" class="w-full text-left">
  <thead>
  @php
@@ -110,25 +110,25 @@
     $currentSortDir = request('sort_dir', 'asc');
  @endphp
  <tr class="bg-teal-50/80 text-slate-600 text-[10px] font-black uppercase tracking-widest whitespace-nowrap">
- <th class="py-4 px-6">ID Pemasok</th>
+ <th class="py-4 px-6 sticky left-0 bg-teal-50 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] whitespace-nowrap">ID Pemasok</th>
  @php $newDir = ($currentSortBy === 'Nama_Pemasok' && $currentSortDir === 'asc') ? 'desc' : 'asc'; @endphp
- <th class="py-4 px-6 cursor-pointer group" onclick="window.location.href='{{ request()->fullUrlWithQuery(['sort_by' => 'Nama_Pemasok', 'sort_dir' => $newDir, 'page' => 1]) }}'">
+ <th class="py-4 px-6 cursor-pointer group whitespace-nowrap" onclick="window.location.href='{{ request()->fullUrlWithQuery(['sort_by' => 'Nama_Pemasok', 'sort_dir' => $newDir, 'page' => 1]) }}'">
     <div class="flex items-center">
         Nama Pemasok
         <i class="fas {{ $currentSortBy === 'Nama_Pemasok' ? ($currentSortDir === 'asc' ? 'fa-sort-up text-teal-600' : 'fa-sort-down text-teal-600') : 'fa-sort text-slate-300' }} text-[10px] ml-auto group-hover:text-teal-500 transition-colors"></i>
     </div>
  </th>
- <th class="py-4 px-6">Alamat</th>
- <th class="py-4 px-6 text-center">Nomor Telepon</th>
- <th class="py-4 px-6 text-center">Aksi</th>
+ <th class="py-4 px-6 whitespace-nowrap">Alamat</th>
+ <th class="py-4 px-6 text-center whitespace-nowrap">Nomor Telepon</th>
+ <th class="py-4 px-6 text-center whitespace-nowrap">Aksi</th>
  </tr>
  </thead>
  <tbody class="divide-y divide-slate-50">
  @forelse($pemasoks as $p)
- <tr class="bg-white hover:bg-slate-50 transition-colors duration-200">
- <td class="py-4 px-6 text-sm text-teal-600 font-bold uppercase whitespace-nowrap">{{ $p->ID_Pemasok }}</td>
+ <tr class="group even:bg-slate-50/50 hover:bg-teal-50/60 transition-colors duration-200">
+ <td class="py-4 px-6 text-sm text-teal-600 font-bold uppercase sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-teal-50 whitespace-nowrap">{{ $p->ID_Pemasok }}</td>
  <td class="py-4 px-6 text-sm font-bold text-slate-800 whitespace-nowrap">{{ $p->Nama_Pemasok }}</td>
- <td class="py-4 px-6 text-sm text-slate-600 leading-relaxed min-w-[300px]">{{ $p->Alamat_Pemasok }}</td>
+ <td class="py-4 px-6 text-sm text-slate-600 leading-relaxed min-w-[300px] whitespace-nowrap">{{ $p->Alamat_Pemasok }}</td>
  <td class="py-4 px-6 text-sm text-slate-600 text-center italic whitespace-nowrap">{{ $p->NoTelp_Pemasok }}</td>
  <td class="py-4 px-6 text-center whitespace-nowrap">
  <div class="flex justify-center space-x-2">

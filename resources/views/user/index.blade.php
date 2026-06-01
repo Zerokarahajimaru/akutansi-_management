@@ -3,16 +3,16 @@
 @section('title', 'Manajemen Pengguna')
 
 @section('content')
-<div class="bg-white rounded-[2.5rem] border border-slate-100 shadow-[0_8px_30px_rgb(13,148,136,0.04)]">
+<div class="bg-white rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgba(13,148,136,0.05)]">
  <!-- Action Bar -->
  <div class="p-6 border-b border-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
  <div>
  <h2 class="font-bold text-slate-800 text-lg">Daftar Pengguna Sistem</h2>
  <p class="text-slate-500 text-xs">Kelola akun Admin yang memiliki akses ke aplikasi Xyra.id</p>
  </div>
- <div class="flex flex-col sm:flex-row flex-wrap items-center gap-3">
+ <div class="flex flex-wrap items-center gap-3">
     <!-- Per Page Selector -->
-    <div x-data="{ open: false }" class="relative inline-block text-left z-[30] w-full lg:w-auto" x-cloak>
+    <div x-data="{ open: false }" class="relative inline-block text-left z-[30] w-full sm:w-auto" x-cloak>
         <button @click="open = !open" @click.outside="open = false" type="button" class="inline-flex items-center justify-between w-full sm:min-w-[140px] px-4 py-2.5 text-sm font-semibold text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:text-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500/30 transition-all shadow-sm group">
             <span class="truncate">Tampilkan: <span class="text-teal-600">{{ request('per_page', 50) === 'all' ? 'Semua' : request('per_page', 50) }}</span></span>
             <i class="fas fa-chevron-down ml-2 text-xs transition-transform duration-300" :class="open ? 'rotate-180 text-teal-600' : 'text-slate-400 group-hover:text-teal-500'"></i>
@@ -27,21 +27,21 @@
     </div>
 
     <!-- Utility Toolbar -->
-    <div class="flex items-center bg-slate-100 border border-slate-200 rounded-2xl shadow-sm w-full lg:w-auto divide-x divide-slate-200 overflow-hidden">
+    <div class="flex items-center bg-slate-100 border border-slate-200 rounded-xl shadow-sm w-full sm:w-auto divide-x divide-slate-200 overflow-hidden">
         <!-- Ekspor Excel -->
         <a href="{{ route('util.export', 'user') }}" class="flex-1 lg:flex-none flex items-center justify-center px-3 py-2 text-[9px] font-black uppercase tracking-widest text-slate-500 hover:bg-white hover:text-emerald-600 transition-all" title="Ekspor Data Excel">
             <i class="fas fa-file-export mr-2 text-emerald-500"></i> <span>Ekspor</span>
         </a>
     </div>
 
-    <a href="{{ route('input.user') }}" wire:navigate class="w-full lg:w-auto bg-teal-600 text-white font-black rounded-2xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 px-6 py-3 text-[10px] uppercase tracking-widest flex items-center justify-center">
+    <a href="{{ route('input.user') }}" wire:navigate class="w-full sm:w-auto bg-teal-600 text-white font-black rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 px-6 py-3 text-[10px] uppercase tracking-widest flex items-center justify-center">
         <i class="fas fa-user-plus mr-2"></i> Tambah Pengguna
     </a>
  </div>
  </div>
 
  <!-- Table -->
- <div class="overflow-x-auto">
+ <div class="overflow-x-auto custom-scrollbar relative rounded-xl border border-slate-100">
  <table id="user-table" class="w-full text-left">
  <thead>
  @php
@@ -49,36 +49,36 @@
     $currentSortDir = request('sort_dir', 'asc');
  @endphp
  <tr class="bg-teal-50/80 text-slate-600 text-[10px] font-black uppercase tracking-widest whitespace-nowrap">
- <th class="py-4 px-6">ID Pengguna</th>
+ <th class="py-4 px-6 sticky left-0 bg-teal-50 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] whitespace-nowrap">ID Pengguna</th>
  @php $newDir = ($currentSortBy === 'name' && $currentSortDir === 'asc') ? 'desc' : 'asc'; @endphp
- <th class="py-4 px-6 cursor-pointer group" onclick="window.location.href='{{ request()->fullUrlWithQuery(['sort_by' => 'name', 'sort_dir' => $newDir, 'page' => 1]) }}'">
+ <th class="py-4 px-6 cursor-pointer group whitespace-nowrap" onclick="window.location.href='{{ request()->fullUrlWithQuery(['sort_by' => 'name', 'sort_dir' => $newDir, 'page' => 1]) }}'">
     <div class="flex items-center">
         Nama Lengkap
         <i class="fas {{ $currentSortBy === 'name' ? ($currentSortDir === 'asc' ? 'fa-sort-up text-teal-600' : 'fa-sort-down text-teal-600') : 'fa-sort text-slate-300' }} text-[10px] ml-auto group-hover:text-teal-500 transition-colors"></i>
     </div>
  </th>
  @php $newDir = ($currentSortBy === 'username' && $currentSortDir === 'asc') ? 'desc' : 'asc'; @endphp
- <th class="py-4 px-6 cursor-pointer group" onclick="window.location.href='{{ request()->fullUrlWithQuery(['sort_by' => 'username', 'sort_dir' => $newDir, 'page' => 1]) }}'">
+ <th class="py-4 px-6 cursor-pointer group whitespace-nowrap" onclick="window.location.href='{{ request()->fullUrlWithQuery(['sort_by' => 'username', 'sort_dir' => $newDir, 'page' => 1]) }}'">
     <div class="flex items-center">
         Username
         <i class="fas {{ $currentSortBy === 'username' ? ($currentSortDir === 'asc' ? 'fa-sort-up text-teal-600' : 'fa-sort-down text-teal-600') : 'fa-sort text-slate-300' }} text-[10px] ml-auto group-hover:text-teal-500 transition-colors"></i>
     </div>
  </th>
- <th class="py-4 px-6 text-center">Nomor Telepon</th>
- <th class="py-4 px-6">Alamat</th>
- <th class="py-4 px-6 text-center">Aksi</th>
+ <th class="py-4 px-6 text-center whitespace-nowrap">Nomor Telepon</th>
+ <th class="py-4 px-6 whitespace-nowrap">Alamat</th>
+ <th class="py-4 px-6 text-center whitespace-nowrap">Aksi</th>
  </tr>
  </thead>
  <tbody class="divide-y divide-slate-50">
  @forelse($users as $user)
- <tr class="bg-white hover:bg-slate-50 transition-colors duration-200">
- <td class="py-4 px-6 text-sm text-teal-600 font-bold uppercase whitespace-nowrap">{{ $user->id }}</td>
+ <tr class="group even:bg-slate-50/50 hover:bg-teal-50/60 transition-colors duration-200">
+ <td class="py-4 px-6 text-sm text-teal-600 font-bold uppercase sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-teal-50 whitespace-nowrap">{{ $user->id }}</td>
  <td class="py-4 px-6 text-sm font-bold text-slate-800 whitespace-nowrap">{{ $user->name }}</td>
  <td class="py-4 px-6 text-sm text-slate-600 font-medium whitespace-nowrap"><span>{{ $user->username }}</span></td>
  <td class="py-4 px-6 text-sm text-slate-600 text-center italic whitespace-nowrap">{{ $user->NoTelp_User ?? '-' }}</td>
- <td class="py-4 px-6 text-sm text-slate-500 leading-relaxed min-w-[250px]">{{ $user->Alamat_User ?? '-' }}</td>
+ <td class="py-4 px-6 text-sm text-slate-500 leading-relaxed min-w-[250px] whitespace-nowrap">{{ $user->Alamat_User ?? '-' }}</td>
  <td class="py-4 px-6 text-center whitespace-nowrap">
-    <div class="flex justify-center items-center">
+    <div class="flex justify-center items-center whitespace-nowrap">
         @if(auth()->id() === $user->id)
             <a href="{{ route('data.user.edit', $user->id) }}" wire:navigate class="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-50 text-teal-600 hover:bg-teal-600 hover:text-white shadow-sm transition-all" title="Ubah Data">
                 <i class="fas fa-edit text-xs"></i>

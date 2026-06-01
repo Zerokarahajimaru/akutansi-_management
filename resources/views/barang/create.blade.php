@@ -4,9 +4,9 @@
 
 @section('content')
 <div class="max-w-4xl mx-auto">
-    <div class="bg-white rounded-[2.5rem] border border-slate-100 shadow-[0_20px_50px_rgba(13,148,136,0.05)] overflow-hidden">
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-[0_20px_50px_rgba(13,148,136,0.05)] overflow-hidden">
         <div class="p-8 border-b border-slate-50">
-            <h2 class="font-bold text-slate-800 text-xl">Tambah Produk Ke Katalog</h2>
+            <h2 class="text-xl font-black text-slate-800 tracking-tight">Tambah Produk Ke Katalog</h2>
             <p class="text-slate-500 text-sm mt-1">Lengkapi informasi detail produk untuk ditambahkan ke sistem inventaris Xyra.id.</p>
         </div>
 
@@ -22,8 +22,8 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Nama Produk -->
                 <div class="md:col-span-2 space-y-2">
-                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Nama Lengkap Produk <span class="text-red-500">*</span></label>
-                    <input type="text" name="Nama_Barang" value="{{ old('Nama_Barang') }}" placeholder="Contoh: Gamis Chino Premium" class="w-full bg-white border-teal-200 text-slate-700 rounded-xl px-4 py-3 text-sm focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all @error('Nama_Barang') border-rose-400 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
+                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Nama Lengkap Produk <span class="text-red-500">*</span></label>
+                    <input type="text" name="Nama_Barang" value="{{ old('Nama_Barang') }}" placeholder="Contoh: Gamis Chino Premium" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all duration-300 @error('Nama_Barang') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
                     @error('Nama_Barang')
                         <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
                     @enderror
@@ -35,10 +35,10 @@
                     selected: '{{ old('Jenis_Barang', 'Baju') }}',
                     options: ['Baju', 'Celana', 'Gamis', 'Aksesoris']
                 }">
-                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Jenis / Kategori <span class="text-red-500">*</span></label>
+                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Jenis / Kategori <span class="text-red-500">*</span></label>
                     <div class="relative">
                         <input type="hidden" name="Jenis_Barang" :value="selected">
-                        <button @click="open = !open" type="button" class="w-full bg-white border-teal-200 text-slate-700 rounded-xl px-4 py-3 text-sm focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all flex items-center justify-between @error('Jenis_Barang') border-rose-400 focus:ring-rose-500/10 focus:border-rose-500 @enderror">
+                        <button @click="open = !open" type="button" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all duration-300 flex items-center justify-between @error('Jenis_Barang') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror">
                             <span x-text="selected" class="font-medium"></span>
                             <i class="fas fa-chevron-down text-slate-400 text-xs transition-transform" :class="open ? 'rotate-180' : ''"></i>
                         </button>
@@ -76,10 +76,10 @@
                         {val: 'All Size', label: 'All Size'}
                     ]
                 }">
-                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Ukuran Produk <span class="text-red-500">*</span></label>
+                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Ukuran Produk <span class="text-red-500">*</span></label>
                     <div class="relative">
                         <input type="hidden" name="Ukuran_Barang" :value="selected">
-                        <button @click="open = !open" type="button" class="w-full bg-white border-teal-200 text-slate-700 rounded-xl px-4 py-3 text-sm focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all flex items-center justify-between @error('Ukuran_Barang') border-rose-400 focus:ring-rose-500/10 focus:border-rose-500 @enderror">
+                        <button @click="open = !open" type="button" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all duration-300 flex items-center justify-between @error('Ukuran_Barang') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror">
                             <span x-text="options.find(o => o.val === selected).label" class="font-medium"></span>
                             <i class="fas fa-chevron-down text-slate-400 text-xs transition-transform" :class="open ? 'rotate-180' : ''"></i>
                         </button>
@@ -115,10 +115,10 @@
                         @endforeach
                     ]
                 }">
-                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Pemasok Utama <span class="text-red-500">*</span></label>
+                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Pemasok Utama <span class="text-red-500">*</span></label>
                     <div class="relative">
                         <input type="hidden" name="ID_Pemasok" :value="selected" required>
-                        <button @click="open = !open" type="button" class="w-full bg-white border-teal-200 text-slate-700 rounded-xl px-4 py-3 text-sm focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all flex items-center justify-between @error('ID_Pemasok') border-rose-400 focus:ring-rose-500/10 focus:border-rose-500 @enderror">
+                        <button @click="open = !open" type="button" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all duration-300 flex items-center justify-between @error('ID_Pemasok') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror">
                             <span x-text="selectedLabel" :class="selected === '' ? 'text-slate-400' : 'font-medium'"></span>
                             <i class="fas fa-chevron-down text-slate-400 text-xs transition-transform" :class="open ? 'rotate-180' : ''"></i>
                         </button>
@@ -145,8 +145,8 @@
 
                 <!-- Warna -->
                 <div class="space-y-2">
-                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Varian Warna <span class="text-red-500">*</span></label>
-                    <input type="text" name="Warna_Barang" value="{{ old('Warna_Barang') }}" placeholder="Contoh: Kuning, Navy, Hitam" class="w-full bg-white border-teal-200 text-slate-700 rounded-xl px-4 py-3 text-sm focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all @error('Warna_Barang') border-rose-400 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
+                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Varian Warna <span class="text-red-500">*</span></label>
+                    <input type="text" name="Warna_Barang" value="{{ old('Warna_Barang') }}" placeholder="Contoh: Kuning, Navy, Hitam" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all duration-300 @error('Warna_Barang') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
                     @error('Warna_Barang')
                         <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
                     @enderror
@@ -154,8 +154,8 @@
 
                 <!-- Harga Beli -->
                 <div class="space-y-2">
-                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Harga Beli Dasar (Rp) <span class="text-red-500">*</span></label>
-                    <input type="number" name="Harga_Beli" value="{{ old('Harga_Beli') }}" placeholder="0" min="0" class="w-full bg-white border-teal-200 text-slate-700 rounded-xl px-4 py-3 text-sm focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all @error('Harga_Beli') border-rose-400 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
+                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Harga Beli Dasar (Rp) <span class="text-red-500">*</span></label>
+                    <input type="number" name="Harga_Beli" value="{{ old('Harga_Beli') }}" placeholder="0" min="0" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all duration-300 @error('Harga_Beli') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
                     @error('Harga_Beli')
                         <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
                     @enderror
@@ -163,8 +163,8 @@
 
                 <!-- Harga Jual -->
                 <div class="space-y-2">
-                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Harga Jual Konsumen (Rp) <span class="text-red-500">*</span></label>
-                    <input type="number" name="Harga_Jual" value="{{ old('Harga_Jual') }}" placeholder="0" min="0" class="w-full bg-white border-teal-200 text-slate-700 rounded-xl px-4 py-3 text-sm focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all @error('Harga_Jual') border-rose-400 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
+                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Harga Jual Konsumen (Rp) <span class="text-red-500">*</span></label>
+                    <input type="number" name="Harga_Jual" value="{{ old('Harga_Jual') }}" placeholder="0" min="0" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all duration-300 @error('Harga_Jual') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
                     @error('Harga_Jual')
                         <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
                     @enderror
@@ -172,8 +172,8 @@
 
                 <!-- Stok Awal -->
                 <div class="md:col-span-2 space-y-2">
-                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Saldo Awal Stok <span class="text-red-500">*</span></label>
-                    <input type="number" name="Stok_Awal" value="{{ old('Stok_Awal', '0') }}" min="0" class="w-full bg-white border-teal-200 text-slate-700 rounded-xl px-4 py-3 text-sm focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all @error('Stok_Awal') border-rose-400 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
+                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Saldo Awal Stok <span class="text-red-500">*</span></label>
+                    <input type="number" name="Stok_Awal" value="{{ old('Stok_Awal', '0') }}" min="0" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all duration-300 @error('Stok_Awal') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
                     @error('Stok_Awal')
                         <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
                     @enderror
@@ -182,8 +182,8 @@
             </div>
 
             <div class="pt-6 border-t border-slate-50 flex justify-end space-x-3">
-                <a href="{{ route('data.barang.list') }}" class="px-6 py-3 bg-slate-50 text-slate-400 border border-slate-200 rounded-xl text-sm font-bold hover:bg-slate-100 hover:text-slate-600 transition-all">Batal</a>
-                <button type="submit" class="px-10 py-3 bg-teal-600 text-white font-black rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 active:scale-95 transition-all">Simpan Data</button>
+                <a href="{{ route('data.barang.list') }}" class="bg-slate-50 text-slate-500 border border-slate-200 font-bold rounded-xl px-8 py-3 text-sm hover:bg-slate-100 transition-all">Batal</a>
+                <button type="submit" class="bg-teal-600 text-white font-black rounded-xl px-10 py-3 text-sm hover:bg-teal-700 shadow-lg shadow-teal-500/20 hover:-translate-y-0.5 active:scale-95 transition-all duration-300">Simpan Data</button>
             </div>
         </form>
     </div>

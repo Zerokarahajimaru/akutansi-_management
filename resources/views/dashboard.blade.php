@@ -4,79 +4,84 @@
 
 @section('content')
     <div class="mb-8">
-        <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Welcome, {{ Auth::user()->name }}!</h1>
-        <p class="text-slate-500 text-sm mt-1">Berikut ringkasan kinerja toko Anda hari ini.</p>
+        <h1 class="text-2xl font-black text-slate-800 tracking-tightest whitespace-nowrap">Selamat Datang, <span class="text-teal-600">{{ Auth::user()->name }}!</span></h1>
+        <p class="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mt-1 leading-relaxed">Ringkasan operasional harian Xyra.id</p>
     </div>
 
     <!-- Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
         <!-- Penjualan Card -->
-        <div class="bg-white p-8 rounded-[2rem] shadow-[0_8px_30px_rgb(15,23,42,0.04)] border border-slate-100 flex items-center justify-between group hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-500">
+        <div class="bg-white p-8 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 flex items-center justify-between group hover:border-teal-200 transition-all duration-300">
             <div>
-                <p class="text-sm font-semibold text-slate-500 mb-1">Today's Sales</p>
-                <h3 class="text-3xl font-bold text-slate-900">{{ $stats['penjualan_hari_ini'] }}</h3>
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5 leading-none">Penjualan Hari Ini</p>
+                <h3 class="text-3xl font-black text-slate-800">{{ $stats['penjualan_hari_ini'] }}</h3>
             </div>
-            <div class="w-16 h-16 bg-teal-50 rounded-[1.5rem] flex items-center justify-center group-hover:bg-teal-500 group-hover:-translate-y-2 transition-all duration-500 shadow-sm">
-                <i class="fas fa-hand-holding-dollar text-2xl text-teal-600 group-hover:text-white transition-colors duration-500"></i>
+            <div class="w-14 h-14 bg-teal-50 rounded-xl flex items-center justify-center transition-all duration-300 border border-teal-100">
+                <i class="fas fa-hand-holding-dollar text-xl text-teal-600"></i>
             </div>
         </div>
 
         <!-- Pembelian Card -->
-        <div class="bg-white p-8 rounded-[2rem] shadow-[0_8px_30px_rgb(15,23,42,0.04)] border border-slate-100 flex items-center justify-between group hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-500">
+        <div class="bg-white p-8 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 flex items-center justify-between group hover:border-blue-200 transition-all duration-300">
             <div>
-                <p class="text-sm font-semibold text-slate-500 mb-1">Today's Purchases</p>
-                <h3 class="text-3xl font-bold text-slate-900">{{ $stats['pembelian_hari_ini'] }}</h3>
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5 leading-none">Pembelian Hari Ini</p>
+                <h3 class="text-3xl font-black text-slate-800">{{ $stats['pembelian_hari_ini'] }}</h3>
             </div>
-            <div class="w-16 h-16 bg-blue-50 rounded-[1.5rem] flex items-center justify-center group-hover:bg-blue-500 group-hover:-translate-y-2 transition-all duration-500 shadow-sm">
-                <i class="fas fa-cart-shopping text-2xl text-blue-600 group-hover:text-white transition-colors duration-500"></i>
+            <div class="w-14 h-14 bg-blue-50 rounded-xl flex items-center justify-center transition-all duration-300 border border-blue-100">
+                <i class="fas fa-cart-shopping text-xl text-blue-600"></i>
             </div>
         </div>
 
         <!-- Stok Card -->
-        <div class="bg-white p-8 rounded-[2rem] shadow-[0_8px_30px_rgb(15,23,42,0.04)] border border-slate-100 flex items-center justify-between group hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-500">
+        <div class="bg-white p-8 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 flex items-center justify-between group hover:border-amber-200 transition-all duration-300">
             <div>
-                <p class="text-sm font-semibold text-slate-500 mb-1">Total Stock</p>
-                <h3 class="text-3xl font-bold text-slate-900">{{ $stats['total_stok'] }}</h3>
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5 leading-none">Total Stok Gudang</p>
+                <h3 class="text-3xl font-black text-slate-800">{{ $stats['total_stok'] }}</h3>
             </div>
-            <div class="w-16 h-16 bg-orange-50 rounded-[1.5rem] flex items-center justify-center group-hover:bg-orange-500 group-hover:-translate-y-2 transition-all duration-500 shadow-sm">
-                <i class="fas fa-box-open text-2xl text-orange-600 group-hover:text-white transition-colors duration-500"></i>
+            <div class="w-14 h-14 bg-amber-50 rounded-xl flex items-center justify-center transition-all duration-300 border border-amber-100">
+                <i class="fas fa-box-open text-xl text-amber-600"></i>
             </div>
         </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Recent Activities -->
-        <div class="lg:col-span-2 bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(15,23,42,0.04)] border border-slate-100 overflow-hidden">
-            <div class="p-8 border-b border-slate-50 flex items-center justify-between">
-                <h2 class="font-bold text-slate-800 flex items-center text-lg">
-                    <i class="fas fa-clock-rotate-left mr-3 text-teal-500"></i> Recent Activities
+        <div class="lg:col-span-2 bg-white rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 overflow-hidden">
+            <div class="p-6 border-b border-slate-50 flex items-center justify-between bg-slate-50/30">
+                <h2 class="font-black text-slate-800 text-[11px] uppercase tracking-widest flex items-center">
+                    <i class="fas fa-history mr-2 text-teal-500"></i> Transaksi Terkini
                 </h2>
             </div>
-            <div class="overflow-x-auto">
+            <div class="overflow-x-auto custom-scrollbar relative">
                 <table class="w-full text-left">
                     <thead>
-                        <tr class="bg-slate-50/50 text-slate-500 text-sm border-b border-slate-100">
-                            <th class="py-5 px-8 font-semibold">Date</th>
-                            <th class="py-5 px-8 font-semibold">Type</th>
-                            <th class="py-5 px-8 font-semibold">Product</th>
-                            <th class="py-5 px-8 font-semibold text-right">Amount</th>
+                        <tr class="bg-teal-50/80 text-teal-900 text-[10px] font-black uppercase tracking-widest whitespace-nowrap">
+                            <th class="py-4 px-8 sticky left-0 bg-teal-50 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">Tanggal</th>
+                            <th class="py-4 px-8">Tipe</th>
+                            <th class="py-4 px-8">Produk</th>
+                            <th class="py-4 px-8 text-right">Nominal</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-50">
                         @forelse($activities as $act)
-                        <tr class="hover:bg-slate-50/30 transition-colors duration-300">
-                            <td class="py-5 px-8 text-sm text-slate-500">{{ $act['date'] }}</td>
-                            <td class="py-5 px-8">
-                                <span class="px-3 py-1 rounded-lg text-xs font-semibold {{ $act['tipe'] === 'Penjualan' ? 'bg-teal-50 text-teal-700 border border-teal-100' : 'bg-blue-50 text-blue-700 border border-blue-100' }}">
+                        <tr class="hover:bg-teal-50/60 transition-colors duration-200 even:bg-slate-50/30 group">
+                            <td class="py-4 px-8 text-xs text-slate-500 font-medium whitespace-nowrap sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-teal-50 transition-colors">{{ $act['date'] }}</td>
+                            <td class="py-4 px-8 whitespace-nowrap">
+                                <span class="px-2 py-0.5 rounded-lg text-[10px] font-black uppercase tracking-tighter {{ $act['tipe'] === 'Penjualan' ? 'bg-teal-100 text-teal-700' : 'bg-blue-100 text-blue-700' }}">
                                     {{ $act['tipe'] }}
                                 </span>
                             </td>
-                            <td class="py-5 px-8 text-sm font-medium text-slate-800">{{ $act['produk'] }}</td>
-                            <td class="py-5 px-8 text-sm font-bold text-slate-900 text-right">{{ $act['nominal'] }}</td>
+                            <td class="py-4 px-8 text-xs font-bold text-slate-700 whitespace-nowrap">{{ $act['produk'] }}</td>
+                            <td class="py-4 px-8 text-xs font-black text-slate-900 text-right whitespace-nowrap">{{ $act['nominal'] }}</td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="4" class="py-12 text-center text-slate-400 text-sm">No recent activities</td>
+                            <td colspan="4" class="py-20 text-center">
+                                <div class="flex flex-col items-center justify-center opacity-40">
+                                    <i class="fas fa-inbox text-4xl text-slate-300 mb-3"></i>
+                                    <p class="text-slate-500 font-bold uppercase tracking-widest text-[10px]">Belum ada aktivitas</p>
+                                </div>
+                            </td>
                         </tr>
                         @endforelse
                     </tbody>
@@ -85,41 +90,41 @@
         </div>
 
         <!-- Critical Stocks -->
-        <div class="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(15,23,42,0.04)] border border-slate-100 overflow-hidden flex flex-col">
-            <div class="p-8 border-b border-slate-50">
-                <h2 class="font-bold text-slate-800 flex items-center text-lg">
-                    <i class="fas fa-triangle-exclamation mr-3 text-orange-500"></i> Critical Stock
+        <div class="bg-white rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 overflow-hidden flex flex-col self-start">
+            <div class="p-6 border-b border-slate-50 bg-slate-50/30">
+                <h2 class="font-black text-slate-800 text-[11px] uppercase tracking-widest flex items-center">
+                    <i class="fas fa-triangle-exclamation mr-2 text-amber-500"></i> Stok Kritis
                 </h2>
             </div>
-            <div class="p-8 space-y-6 flex-1">
+            <div class="p-6 space-y-4">
                 @forelse($critical_stocks as $item)
-                <div class="flex items-center justify-between group">
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 bg-rose-50 text-rose-500 rounded-xl flex items-center justify-center mr-4 group-hover:bg-rose-500 group-hover:text-white transition-all duration-300">
-                            <i class="fas fa-boxes-stacked text-sm"></i>
+                <div class="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100 group">
+                    <div class="flex items-center min-w-0">
+                        <div class="w-10 h-10 bg-amber-50 text-amber-600 rounded-lg flex items-center justify-center mr-3 flex-shrink-0 group-hover:bg-amber-500 group-hover:text-white transition-all duration-300">
+                            <i class="fas fa-box-archive text-sm"></i>
                         </div>
-                        <div>
-                            <p class="text-sm font-bold text-slate-800">{{ $item['name'] }}</p>
-                            <p class="text-xs text-slate-500 font-medium mt-0.5">Stock Level: {{ $item['level'] }}</p>
+                        <div class="truncate">
+                            <p class="text-xs font-black text-slate-800 truncate uppercase tracking-tighter">{{ $item['name'] }}</p>
+                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5 leading-none">Sisa: {{ $item['level'] }}</p>
                         </div>
                     </div>
-                    <div class="px-3 py-1 bg-rose-50 text-rose-600 rounded-lg font-bold text-sm border border-rose-100">
-                        {{ $item['level'] }}
+                    <div class="ml-4 px-2.5 py-1 bg-amber-100 text-amber-700 rounded-lg font-black text-[10px] uppercase shadow-sm">
+                        Kritis
                     </div>
                 </div>
                 @empty
-                <div class="py-12 flex flex-col items-center justify-center h-full">
-                    <div class="w-16 h-16 bg-teal-50 rounded-full flex items-center justify-center mb-4 shadow-inner">
-                        <i class="fas fa-check text-teal-500 text-2xl"></i>
+                <div class="py-12 flex flex-col items-center justify-center">
+                    <div class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center mb-3 shadow-inner border border-emerald-100">
+                        <i class="fas fa-check text-emerald-500 text-xl"></i>
                     </div>
-                    <p class="text-slate-500 text-sm font-medium">All stock levels are secure</p>
+                    <p class="text-slate-500 text-[10px] font-black uppercase tracking-widest">Stok Aman Terkendali</p>
                 </div>
                 @endforelse
             </div>
             @if(count($critical_stocks) > 0)
-            <div class="px-8 pb-8 mt-auto">
-                <a href="{{ route('laporan.stok') }}" class="block w-full text-center py-3.5 bg-slate-50 border border-slate-200 text-slate-700 rounded-2xl text-sm font-semibold hover:bg-slate-950 hover:text-white hover:border-slate-950 transition-all duration-300 shadow-sm">
-                    Update Stock Now
+            <div class="px-6 pb-6 mt-auto">
+                <a href="{{ route('laporan.stok') }}" class="block w-full text-center py-3 bg-slate-100 border border-slate-200 text-slate-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-950 hover:text-white hover:border-slate-950 transition-all duration-300">
+                    Periksa Gudang
                 </a>
             </div>
             @endif
