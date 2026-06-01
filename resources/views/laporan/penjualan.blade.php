@@ -44,7 +44,7 @@
     <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100">
         <!-- TOP DECK (Filters) -->
         <form action="{{ route('laporan.penjualan') }}" method="GET" class="w-full flex flex-col xl:flex-row justify-between items-start xl:items-end gap-6 w-full">
-            <div class="relative w-full xl:w-96 flex-shrink-0">
+            <div class="relative flex-1 w-full min-w-[250px]">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <i class="fas fa-magnifying-glass text-slate-400 text-xs"></i>
                 </div>
