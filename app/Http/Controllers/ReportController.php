@@ -13,7 +13,7 @@ class ReportController extends Controller
 {
     public function pembelian(Request $request)
     {
-        $start_date = $request->input('start_date', Carbon::now()->startOfMonth()->toDateString());
+        $start_date = $request->input('start_date', Carbon::now()->subYear()->toDateString());
         $end_date = $request->input('end_date', Carbon::now()->toDateString());
         $search = $request->input('search');
 
@@ -40,7 +40,7 @@ class ReportController extends Controller
 
     public function penjualan(Request $request)
     {
-        $start_date = $request->input('start_date', Carbon::now()->startOfMonth()->toDateString());
+        $start_date = $request->input('start_date', Carbon::now()->subYear()->toDateString());
         $end_date = $request->input('end_date', Carbon::now()->toDateString());
         $search = $request->input('search');
 
