@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
         ]);
 
         // Secondary Admin
-        User::create([x
+        User::create([
             'id' => User::generateId('usr-xyra'),
             'name' => 'Owner Xyra',
             'username' => 'owner',

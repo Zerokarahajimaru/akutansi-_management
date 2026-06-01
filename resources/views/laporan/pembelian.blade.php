@@ -41,9 +41,6 @@
                 <a href="{{ route('util.export', 'pembelian') }}" class="flex items-center justify-center px-5 py-2.5 bg-slate-100 text-slate-600 border border-slate-200 font-black rounded-xl text-xs uppercase tracking-widest hover:bg-slate-200 transition-all active:scale-95">
                     <i class="fas fa-file-excel mr-2"></i> Ekspor Excel
                 </a>
-                <button onclick="window.print()" class="flex items-center justify-center px-5 py-2.5 bg-white text-slate-600 border border-slate-200 font-black rounded-xl text-xs uppercase tracking-widest hover:bg-slate-50 transition-all active:scale-95">
-                    <i class="fas fa-print mr-2"></i> Cetak PDF
-                </button>
             </div>
         </div>
 

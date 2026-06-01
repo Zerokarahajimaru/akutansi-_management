@@ -21,9 +21,6 @@
                 <a href="{{ route('util.export', 'barang') }}" class="flex items-center justify-center px-6 py-3 bg-teal-600 text-white font-black rounded-xl text-xs uppercase tracking-widest shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-95 transition-all">
                     <i class="fas fa-file-excel mr-2"></i> Ekspor CSV
                 </a>
-                <button onclick="window.print()" class="flex items-center justify-center px-6 py-3 bg-slate-100 text-slate-600 border border-slate-200 font-black rounded-xl text-xs uppercase tracking-widest hover:bg-slate-200 transition-all active:scale-95">
-                    <i class="fas fa-print mr-2"></i> Cetak PDF
-                </button>
             </div>
         </div>
     </div>
