@@ -22,9 +22,9 @@ class StockController extends Controller
         $stocks = DataBarang::with(['stokBarangs', 'pemasok'])
             ->when($search, function($q) use ($search) {
                 $q->where(function($sub) use ($search) {
-                    $sub->where('Nama_Barang', 'like', "%{$search}%")
-                        ->orWhere('ID_Barang', 'like', "%{$search}%")
-                        ->orWhere('Jenis_Barang', 'like', "%{$search}%");
+                    $sub->where('Nama_Barang', 'ilike', "%{$search}%")
+                        ->orWhere('ID_Barang', 'ilike', "%{$search}%")
+                        ->orWhere('Jenis_Barang', 'ilike', "%{$search}%");
                 });
             })
             ->orderBy($sortBy, $sortDir)

@@ -23,9 +23,9 @@ class PenjualanController extends Controller
         $penjualans = Penjualan::with(['dataBarang', 'pelanggan', 'user'])
             ->when($search, function($q) use ($search) {
                 $q->where(function($sub) use ($search) {
-                    $sub->where('ID_Penjualan', 'like', "%{$search}%")
-                        ->orWhere('ID_Barang', 'like', "%{$search}%")
-                        ->orWhere('ID_Pelanggan', 'like', "%{$search}%");
+                    $sub->where('ID_Penjualan', 'ilike', "%{$search}%")
+                        ->orWhere('ID_Barang', 'ilike', "%{$search}%")
+                        ->orWhere('ID_Pelanggan', 'ilike', "%{$search}%");
                 });
             })
             ->orderBy($sortBy, $sortDir)

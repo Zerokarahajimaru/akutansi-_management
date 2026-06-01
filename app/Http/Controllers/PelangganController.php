@@ -17,9 +17,9 @@ class PelangganController extends Controller
 
         $pelanggans = Pelanggan::when($search, function($q) use ($search) {
                 $q->where(function($sub) use ($search) {
-                    $sub->where('Nama_Pelanggan', 'like', "%{$search}%")
-                        ->orWhere('ID_Pelanggan', 'like', "%{$search}%")
-                        ->orWhere('NoTelp_Pelanggan', 'like', "%{$search}%");
+                    $sub->where('Nama_Pelanggan', 'ilike', "%{$search}%")
+                        ->orWhere('ID_Pelanggan', 'ilike', "%{$search}%")
+                        ->orWhere('NoTelp_Pelanggan', 'ilike', "%{$search}%");
                 });
             })
             ->orderBy($sortBy, $sortDir)

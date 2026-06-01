@@ -17,9 +17,9 @@ class PemasokController extends Controller
 
         $pemasoks = Pemasok::when($search, function($q) use ($search) {
                 $q->where(function($sub) use ($search) {
-                    $sub->where('Nama_Pemasok', 'like', "%{$search}%")
-                        ->orWhere('ID_Pemasok', 'like', "%{$search}%")
-                        ->orWhere('NoTelp_Pemasok', 'like', "%{$search}%");
+                    $sub->where('Nama_Pemasok', 'ilike', "%{$search}%")
+                        ->orWhere('ID_Pemasok', 'ilike', "%{$search}%")
+                        ->orWhere('NoTelp_Pemasok', 'ilike', "%{$search}%");
                 });
             })
             ->orderBy($sortBy, $sortDir)

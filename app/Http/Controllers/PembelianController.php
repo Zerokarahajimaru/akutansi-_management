@@ -23,9 +23,9 @@ class PembelianController extends Controller
         $pembelians = Pembelian::with(['dataBarang', 'pemasok', 'user'])
             ->when($search, function($q) use ($search) {
                 $q->where(function($sub) use ($search) {
-                    $sub->where('ID_Pembelian', 'like', "%{$search}%")
-                        ->orWhere('ID_Barang', 'like', "%{$search}%")
-                        ->orWhere('ID_Pemasok', 'like', "%{$search}%");
+                    $sub->where('ID_Pembelian', 'ilike', "%{$search}%")
+                        ->orWhere('ID_Barang', 'ilike', "%{$search}%")
+                        ->orWhere('ID_Pemasok', 'ilike', "%{$search}%");
                 });
             })
             ->orderBy($sortBy, $sortDir)

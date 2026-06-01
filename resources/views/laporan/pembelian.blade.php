@@ -17,19 +17,31 @@
                 </div>
             </div>
             
-            <form action="{{ route('laporan.pembelian') }}" method="GET" class="flex flex-col sm:flex-row items-stretch sm:items-end gap-4">
-                <div class="space-y-2 flex-1 sm:flex-initial">
-                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Mulai Tanggal</label>
-                    <input type="date" name="start_date" value="{{ $start_date }}" class="w-full bg-white border-teal-200 text-slate-700 rounded-xl px-4 py-3 text-sm focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all">
-                </div>
-                <div class="space-y-2 flex-1 sm:flex-initial">
-                    <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Sampai Tanggal</label>
-                    <input type="date" name="end_date" value="{{ $end_date }}" class="w-full bg-white border-teal-200 text-slate-700 rounded-xl px-4 py-3 text-sm focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all">
-                </div>
-                <button type="submit" class="bg-teal-600 text-white font-black px-6 py-3 rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-95 transition-all text-xs uppercase tracking-widest">
-                    Terapkan
-                </button>
-            </form>
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                <form action="{{ route('laporan.pembelian') }}" method="GET" class="flex-1 max-w-2xl">
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-end gap-4">
+                        <div class="relative flex-1">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-magnifying-glass text-slate-400 text-xs"></i>
+                            </div>
+                            <input type="text" name="search" value="{{ request('search') }}" 
+                                class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all shadow-sm placeholder:text-slate-400" 
+                                placeholder="Cari ID, Produk, atau Pemasok...">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Mulai</label>
+                            <input type="date" name="start_date" value="{{ $start_date }}" class="bg-white border border-teal-200 rounded-xl px-4 py-3 text-sm text-slate-700 focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Sampai</label>
+                            <input type="date" name="end_date" value="{{ $end_date }}" class="bg-white border border-teal-200 rounded-xl px-4 py-3 text-sm text-slate-700 focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all">
+                        </div>
+                        <button type="submit" class="bg-teal-600 text-white font-black px-6 py-3.5 rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 active:scale-95 transition-all text-[10px] uppercase tracking-widest">
+                            Terapkan
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 

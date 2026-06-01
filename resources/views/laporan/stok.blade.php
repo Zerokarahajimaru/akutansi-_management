@@ -17,10 +17,21 @@
                 </div>
             </div>
             
-            <div class="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
-                <a href="{{ route('util.export', 'barang') }}" class="flex items-center justify-center px-6 py-3 bg-teal-600 text-white font-black rounded-xl text-xs uppercase tracking-widest shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-95 transition-all">
-                    <i class="fas fa-file-excel mr-2"></i> Ekspor CSV
-                </a>
+            <div class="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
+                <form action="{{ route('laporan.stok') }}" method="GET" class="w-full sm:w-[300px] relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-magnifying-glass text-slate-400 text-xs"></i>
+                    </div>
+                    <input type="text" name="search" value="{{ request('search') }}" 
+                        class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all shadow-sm placeholder:text-slate-400" 
+                        placeholder="Cari Produk atau Kategori...">
+                </form>
+
+                <div class="flex gap-2 w-full sm:w-auto">
+                    <a href="{{ route('util.export', 'barang') }}" class="flex-1 sm:flex-none flex items-center justify-center px-6 py-2.5 bg-teal-600 text-white font-black rounded-xl text-xs uppercase tracking-widest shadow-lg shadow-teal-500/20 hover:bg-teal-700 active:scale-95 transition-all">
+                        <i class="fas fa-file-excel mr-2"></i> Ekspor
+                    </a>
+                </div>
             </div>
         </div>
     </div>
