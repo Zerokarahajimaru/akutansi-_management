@@ -14,12 +14,20 @@ class PembelianController extends Controller
 {
     public function index(Request $request)
     {
+        $search = $request->input('search');
         $sortBy = $request->input('sort_by', 'Tgl_Pembelian');
         $sortDir = $request->input('sort_dir', 'desc');
         $perPage = $request->input('per_page', 50);
         if ($perPage === 'all') $perPage = 9999;
 
         $pembelians = Pembelian::with(['dataBarang', 'pemasok', 'user'])
+            ->when($search, function($q) use ($search) {
+                $q->where(function($sub) use ($search) {
+                    $sub->where('ID_Pembelian', 'like', "%{$search}%")
+                        ->orWhere('ID_Barang', 'like', "%{$search}%")
+                        ->orWhere('ID_Pemasok', 'like', "%{$search}%");
+                });
+            })
             ->orderBy($sortBy, $sortDir)
             ->paginate($perPage)
             ->withQueryString();

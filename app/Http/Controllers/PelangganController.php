@@ -9,12 +9,20 @@ class PelangganController extends Controller
 {
     public function index(Request $request)
     {
+        $search = $request->input('search');
         $sortBy = $request->input('sort_by', 'Nama_Pelanggan');
         $sortDir = $request->input('sort_dir', 'asc');
         $perPage = $request->input('per_page', 50);
         if ($perPage === 'all') $perPage = 9999;
 
-        $pelanggans = Pelanggan::orderBy($sortBy, $sortDir)
+        $pelanggans = Pelanggan::when($search, function($q) use ($search) {
+                $q->where(function($sub) use ($search) {
+                    $sub->where('Nama_Pelanggan', 'like', "%{$search}%")
+                        ->orWhere('ID_Pelanggan', 'like', "%{$search}%")
+                        ->orWhere('NoTelp_Pelanggan', 'like', "%{$search}%");
+                });
+            })
+            ->orderBy($sortBy, $sortDir)
             ->paginate($perPage)
             ->withQueryString();
 

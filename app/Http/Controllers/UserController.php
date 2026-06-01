@@ -11,12 +11,20 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
+        $search = $request->input('search');
         $sortBy = $request->input('sort_by', 'name');
         $sortDir = $request->input('sort_dir', 'asc');
         $perPage = $request->input('per_page', 50);
         if ($perPage === 'all') $perPage = 9999;
 
-        $users = User::orderBy($sortBy, $sortDir)
+        $users = User::when($search, function($q) use ($search) {
+                $q->where(function($sub) use ($search) {
+                    $sub->where('name', 'like', "%{$search}%")
+                        ->orWhere('username', 'like', "%{$search}%")
+                        ->orWhere('id', 'like', "%{$search}%");
+                });
+            })
+            ->orderBy($sortBy, $sortDir)
             ->paginate($perPage)
             ->withQueryString();
 

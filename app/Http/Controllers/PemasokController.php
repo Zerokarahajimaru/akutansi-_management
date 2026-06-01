@@ -9,12 +9,20 @@ class PemasokController extends Controller
 {
     public function index(Request $request)
     {
+        $search = $request->input('search');
         $sortBy = $request->input('sort_by', 'Nama_Pemasok');
         $sortDir = $request->input('sort_dir', 'asc');
         $perPage = $request->input('per_page', 50);
         if ($perPage === 'all') $perPage = 9999;
 
-        $pemasoks = Pemasok::orderBy($sortBy, $sortDir)
+        $pemasoks = Pemasok::when($search, function($q) use ($search) {
+                $q->where(function($sub) use ($search) {
+                    $sub->where('Nama_Pemasok', 'like', "%{$search}%")
+                        ->orWhere('ID_Pemasok', 'like', "%{$search}%")
+                        ->orWhere('NoTelp_Pemasok', 'like', "%{$search}%");
+                });
+            })
+            ->orderBy($sortBy, $sortDir)
             ->paginate($perPage)
             ->withQueryString();
 

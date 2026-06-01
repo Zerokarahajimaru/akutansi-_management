@@ -5,38 +5,57 @@
 @section('content')
 <div class="bg-white rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgba(13,148,136,0.05)]">
  <!-- Action Bar -->
- <div class="p-6 border-b border-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
+ <div class="p-6 border-b border-slate-50">
+ <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
  <div>
  <h2 class="font-bold text-slate-800 text-lg">Daftar Pengguna Sistem</h2>
  <p class="text-slate-500 text-xs">Kelola akun Admin yang memiliki akses ke aplikasi Xyra.id</p>
  </div>
- <div class="flex flex-wrap items-center gap-3">
-    <!-- Per Page Selector -->
-    <div x-data="{ open: false }" class="relative inline-block text-left z-[30] w-full sm:w-auto" x-cloak>
-        <button @click="open = !open" @click.outside="open = false" type="button" class="inline-flex items-center justify-between w-full sm:min-w-[140px] px-4 py-2.5 text-sm font-semibold text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:text-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500/30 transition-all shadow-sm group">
-            <span class="truncate">Tampilkan: <span class="text-teal-600">{{ request('per_page', 50) === 'all' ? 'Semua' : request('per_page', 50) }}</span></span>
-            <i class="fas fa-chevron-down ml-2 text-xs transition-transform duration-300" :class="open ? 'rotate-180 text-teal-600' : 'text-slate-400 group-hover:text-teal-500'"></i>
-        </button>
-        <div x-show="open" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 scale-95 translate-y-1" x-transition:enter-end="opacity-100 scale-100 translate-y-0" class="absolute left-0 mt-2 w-full min-w-[140px] bg-white border border-slate-100 rounded-xl shadow-xl z-[100] py-1 overflow-hidden" style="display: none; top: 100%;">
-            @foreach([5, 10, 25, 50, 'all'] as $size)
-                <a href="{{ request()->fullUrlWithQuery(['per_page' => $size, 'page' => 1]) }}" wire:navigate class="block px-4 py-2 text-sm transition-all duration-200 {{ request('per_page', 50) == $size ? 'bg-slate-50 text-teal-700 font-bold border-l-2 border-teal-500' : 'text-slate-600 hover:bg-slate-50 hover:text-teal-700 border-l-2 border-transparent' }}">
-                    {{ $size === 'all' ? 'Semua Data' : $size . ' Baris' }}
-                </a>
-            @endforeach
-        </div>
-    </div>
+ </div>
 
-    <!-- Utility Toolbar -->
-    <div class="flex items-center bg-slate-100 border border-slate-200 rounded-xl shadow-sm w-full sm:w-auto divide-x divide-slate-200 overflow-hidden">
-        <!-- Ekspor Excel -->
-        <a href="{{ route('util.export', 'user') }}" class="flex-1 lg:flex-none flex items-center justify-center px-3 py-2 text-[9px] font-black uppercase tracking-widest text-slate-500 hover:bg-white hover:text-emerald-600 transition-all" title="Ekspor Data Excel">
-            <i class="fas fa-file-export mr-2 text-emerald-500"></i> <span>Ekspor</span>
+ <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
+    <form method="GET" action="" class="w-full md:max-w-md relative">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <i class="fas fa-magnifying-glass text-slate-400"></i>
+        </div>
+        <input type="text" name="search" value="{{ request('search') }}" 
+            class="w-full bg-white border border-slate-200 text-slate-800 text-sm rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all shadow-sm placeholder:text-slate-400" 
+            placeholder="Cari data berdasarkan nama, ID, atau kategori...">
+        @if(request('search'))
+            <a href="{{ request()->url() }}" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-rose-500 transition-colors">
+                <i class="fas fa-circle-xmark"></i>
+            </a>
+        @endif
+    </form>
+
+    <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+        <!-- Per Page Selector -->
+        <div x-data="{ open: false }" class="relative inline-block text-left z-[30] w-full sm:w-auto" x-cloak>
+            <button @click="open = !open" @click.outside="open = false" type="button" class="inline-flex items-center justify-between w-full sm:min-w-[140px] px-4 py-2.5 text-sm font-semibold text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:text-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500/30 transition-all shadow-sm group">
+                <span class="truncate">Tampilkan: <span class="text-teal-600">{{ request('per_page', 50) === 'all' ? 'Semua' : request('per_page', 50) }}</span></span>
+                <i class="fas fa-chevron-down ml-2 text-xs transition-transform duration-300" :class="open ? 'rotate-180 text-teal-600' : 'text-slate-400 group-hover:text-teal-500'"></i>
+            </button>
+            <div x-show="open" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 scale-95 translate-y-1" x-transition:enter-end="opacity-100 scale-100 translate-y-0" class="absolute left-0 mt-2 w-full min-w-[140px] bg-white border border-slate-100 rounded-xl shadow-xl z-[100] py-1 overflow-hidden" style="display: none; top: 100%;">
+                @foreach([5, 10, 25, 50, 'all'] as $size)
+                    <a href="{{ request()->fullUrlWithQuery(['per_page' => $size, 'page' => 1]) }}" wire:navigate class="block px-4 py-2 text-sm transition-all duration-200 {{ request('per_page', 50) == $size ? 'bg-slate-50 text-teal-700 font-bold border-l-2 border-teal-500' : 'text-slate-600 hover:bg-slate-50 hover:text-teal-700 border-l-2 border-transparent' }}">
+                        {{ $size === 'all' ? 'Semua Data' : $size . ' Baris' }}
+                    </a>
+                @endforeach
+            </div>
+        </div>
+
+        <!-- Utility Toolbar -->
+        <div class="flex items-center bg-slate-100 border border-slate-200 rounded-xl shadow-sm w-full sm:w-auto divide-x divide-slate-200 overflow-hidden">
+            <!-- Ekspor Excel -->
+            <a href="{{ route('util.export', 'user') }}" class="flex-1 lg:flex-none flex items-center justify-center px-3 py-2 text-[9px] font-black uppercase tracking-widest text-slate-500 hover:bg-white hover:text-emerald-600 transition-all" title="Ekspor Data Excel">
+                <i class="fas fa-file-export mr-2 text-emerald-500"></i> <span>Ekspor</span>
+            </a>
+        </div>
+
+        <a href="{{ route('input.user') }}" wire:navigate class="w-full sm:w-auto bg-teal-600 text-white font-black rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 px-6 py-3 text-[10px] uppercase tracking-widest flex items-center justify-center">
+            <i class="fas fa-user-plus mr-2"></i> Tambah Pengguna
         </a>
     </div>
-
-    <a href="{{ route('input.user') }}" wire:navigate class="w-full sm:w-auto bg-teal-600 text-white font-black rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 px-6 py-3 text-[10px] uppercase tracking-widest flex items-center justify-center">
-        <i class="fas fa-user-plus mr-2"></i> Tambah Pengguna
-    </a>
  </div>
  </div>
 

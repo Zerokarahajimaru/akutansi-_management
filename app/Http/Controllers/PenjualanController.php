@@ -14,12 +14,20 @@ class PenjualanController extends Controller
 {
     public function index(Request $request)
     {
+        $search = $request->input('search');
         $sortBy = $request->input('sort_by', 'Tanggal_Penjualan');
         $sortDir = $request->input('sort_dir', 'desc');
         $perPage = $request->input('per_page', 50);
         if ($perPage === 'all') $perPage = 9999;
 
         $penjualans = Penjualan::with(['dataBarang', 'pelanggan', 'user'])
+            ->when($search, function($q) use ($search) {
+                $q->where(function($sub) use ($search) {
+                    $sub->where('ID_Penjualan', 'like', "%{$search}%")
+                        ->orWhere('ID_Barang', 'like', "%{$search}%")
+                        ->orWhere('ID_Pelanggan', 'like', "%{$search}%");
+                });
+            })
             ->orderBy($sortBy, $sortDir)
             ->paginate($perPage)
             ->withQueryString();
