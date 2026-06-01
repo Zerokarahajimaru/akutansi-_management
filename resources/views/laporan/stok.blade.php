@@ -42,7 +42,8 @@
 
     <!-- Action Bar -->
     <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 flex flex-col md:flex-row justify-between items-center gap-6">
-        <form action="{{ route('laporan.stok') }}" method="GET" class="w-full md:max-w-md relative">
+        <!-- Left Side (Form/Search) -->
+        <form action="{{ route('laporan.stok') }}" method="GET" class="relative w-full md:w-96 flex-shrink-0">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <i class="fas fa-magnifying-glass text-slate-400 text-xs"></i>
             </div>
@@ -51,12 +52,13 @@
                 placeholder="Cari produk atau kategori...">
         </form>
 
-        <div class="flex gap-3 w-full md:w-auto">
-            <a href="{{ route('laporan.export.excel', array_merge(request()->query(), ['type' => 'stok'])) }}" class="flex-1 md:flex-none flex items-center justify-center px-6 py-2.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white border border-emerald-200 font-bold rounded-xl text-[10px] uppercase tracking-widest transition-all active:scale-95">
-                <i class="fas fa-file-excel mr-2"></i> Ekspor Excel
+        <!-- Right Side (Exports) -->
+        <div class="inline-flex items-center bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm w-full sm:w-auto">
+            <a href="{{ route('laporan.export.excel', array_merge(request()->query(), ['type' => 'stok'])) }}" class="flex-1 sm:flex-none px-5 py-2.5 bg-slate-50 hover:bg-emerald-50 text-slate-600 hover:text-emerald-700 text-[10px] font-black uppercase tracking-widest transition-all border-r border-slate-200 flex items-center justify-center gap-2">
+                <i class="fas fa-file-excel text-emerald-600 text-sm"></i> Ekspor Excel
             </a>
-            <a href="{{ route('laporan.export.pdf', array_merge(request()->query(), ['type' => 'stok'])) }}" class="flex-1 md:flex-none flex items-center justify-center px-6 py-2.5 bg-rose-50 text-rose-700 hover:bg-rose-600 hover:text-white border border-rose-200 font-bold rounded-xl text-[10px] uppercase tracking-widest transition-all active:scale-95">
-                <i class="fas fa-file-pdf mr-2"></i> Cetak PDF
+            <a href="{{ route('laporan.export.pdf', array_merge(request()->query(), ['type' => 'stok'])) }}" class="flex-1 sm:flex-none px-5 py-2.5 bg-slate-50 hover:bg-rose-50 text-slate-600 hover:text-rose-700 text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2">
+                <i class="fas fa-file-pdf text-rose-600 text-sm"></i> Cetak PDF
             </a>
         </div>
     </div>

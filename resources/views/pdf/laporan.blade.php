@@ -91,8 +91,8 @@
             <td width="60%" class="header-text">
                 <h1>XYRA.ID</h1>
                 <p>Cloth Management System & Retail</p>
-                <p>Jl. Contoh Perusahaan No. 123, Kota Bandung, Jawa Barat</p>
-                <p>Telp: (022) 1234567 | Email: info@xyra.id | Web: www.xyra.id</p>
+                <p>Jln Sari Asih, Depok</p>
+                <p>Telp: 0877-7516-8381 | Email: xyra@gmail.com | Web: xyra-wb3l.onrender.com</p>
             </td>
             <td width="20%"></td>
         </tr>
@@ -127,6 +127,21 @@
             @endforelse
         </tbody>
     </table>
+
+    <!-- Ringkasan Laporan -->
+    @if(isset($summary) && count($summary) > 0)
+    <div style="margin-top: 20px; border: 1px solid #333; padding: 15px; width: 50%;">
+        <h3 style="margin-top: 0; font-size: 14px; text-transform: uppercase;">Ringkasan Laporan</h3>
+        <table style="width: 100%; font-size: 12px;">
+            @foreach($summary as $key => $value)
+                <tr>
+                    <td style="padding: 3px 0; text-transform: capitalize;"><strong>{{ str_replace('_', ' ', $key) }}</strong></td>
+                    <td style="padding: 3px 0;">: {{ is_numeric($value) && $value > 1000 ? 'Rp ' . number_format($value, 0, ',', '.') : $value }}</td>
+                </tr>
+            @endforeach
+        </table>
+    </div>
+    @endif
 
     <!-- Pengesahan -->
     <div class="signature-block">

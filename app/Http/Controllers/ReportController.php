@@ -249,6 +249,13 @@ class ReportController extends Controller
                     });
                 }
                 $results = $query->orderBy('Tgl_Pembelian', 'desc')->get();
+                $summary = [
+                    'total_pengeluaran' => $results->sum('Total_Harga'),
+                    'total_barang_masuk' => $results->sum('Kuantitas'),
+                    'top_pemasok' => $results->groupBy('ID_Pemasok')->map->count()->sortDesc()->keys()->first() 
+                        ? (\App\Models\Pemasok::find($results->groupBy('ID_Pemasok')->map->count()->sortDesc()->keys()->first())->Nama_Pemasok ?? '-') 
+                        : '-'
+                ];
                 $headers = ['Tanggal', 'Produk', 'Pemasok', 'Qty', 'Total Biaya'];
                 foreach ($results as $item) {
                     $data[] = [
@@ -276,6 +283,13 @@ class ReportController extends Controller
                     });
                 }
                 $results = $query->orderBy('Tanggal_Penjualan', 'desc')->get();
+                $summary = [
+                    'total_pendapatan' => $results->sum('Total_Harga'),
+                    'total_transaksi' => $results->count(),
+                    'best_seller' => $results->groupBy('ID_Barang')->map->sum('Kuantitas')->sortDesc()->keys()->first()
+                        ? (\App\Models\DataBarang::find($results->groupBy('ID_Barang')->map->sum('Kuantitas')->sortDesc()->keys()->first())->Nama_Barang ?? '-')
+                        : '-'
+                ];
                 $headers = ['Tanggal', 'Produk', 'Pelanggan', 'Qty', 'Total Harga'];
                 foreach ($results as $item) {
                     $data[] = [
@@ -300,6 +314,11 @@ class ReportController extends Controller
                     });
                 }
                 $results = $query->get();
+                $summary = [
+                    'valuasi_aset' => $results->sum(fn($s) => $s->Stok_Akhir * ($s->dataBarang->Harga_Beli ?? 0)),
+                    'stok_aman' => $results->where('Stok_Akhir', '>=', 10)->count(),
+                    'stok_kritis' => $results->where('Stok_Akhir', '<', 10)->count(),
+                ];
                 $headers = ['ID Produk', 'Nama Produk', 'Kategori', 'Stok Akhir', 'Status'];
                 foreach ($results as $item) {
                     $data[] = [
@@ -314,7 +333,7 @@ class ReportController extends Controller
                 return back()->with('error', 'Tipe laporan tidak didukung.');
             }
 
-            $pdf = Pdf::loadView('pdf.laporan', compact('title', 'period', 'headers', 'data'));
+            $pdf = Pdf::loadView('pdf.laporan', compact('title', 'period', 'headers', 'data', 'summary'));
             return $pdf->stream("Laporan_{$type}.pdf");
         } catch (\Exception $e) {
             return back()->with('error', 'Gagal mencetak PDF: ' . $e->getMessage());
