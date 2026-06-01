@@ -46,7 +46,7 @@
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased font-sans" x-data="{ sidebarOpen: window.innerWidth >= 1024 }" x-init="window.addEventListener('resize', () => { if(window.innerWidth >= 1024) sidebarOpen = true })">
  <!-- SPA Progress Bar -->
- <div class="fixed top-0 left-0 right-0 z-[100] pointer-events-none">
+ <div class="fixed top-0 left-0 right-0 z-[10000] pointer-events-none">
     <div 
         x-data="{ show: false, progress: 0 }"
         x-on:livewire:navigate.start="show = true; progress = 0; $nextTick(() => progress = 30)"
@@ -61,6 +61,97 @@
  </div>
 
  <div class="flex h-screen overflow-hidden relative">
+    <!-- Main Content Wrapper -->
+    <div 
+        class="flex-1 flex flex-col transition-all duration-300 min-w-0 h-screen relative z-0"
+        :class="sidebarOpen ? 'lg:pl-72' : 'pl-0'">
+        
+        <!-- Top Header -->
+        <header class="h-20 bg-teal-50 border-b border-teal-100 flex items-center justify-between px-4 md:px-8 flex-shrink-0 z-10 sticky top-0 shadow-sm shadow-teal-900/5">
+            <div class="flex items-center gap-4 md:gap-6">
+                <!-- Sidebar Toggle Button -->
+                <button @click="sidebarOpen = !sidebarOpen" class="w-10 h-10 flex items-center justify-center rounded-xl bg-white text-slate-400 hover:text-teal-600 transition-all border border-teal-100 shadow-sm">
+                    <i class="fas fa-bars-staggered transition-transform duration-300" :class="sidebarOpen ? 'rotate-90' : ''"></i>
+                </button>
+
+                <!-- Breadcrumbs -->
+                <div class="flex items-center text-sm overflow-hidden">
+                    <a href="{{ route('dashboard') }}" wire:navigate class="text-teal-600 font-bold hover:text-teal-700 transition-colors whitespace-nowrap">Beranda</a>
+                    <i class="fas fa-chevron-right text-[10px] mx-2 md:mx-4 text-slate-300 flex-shrink-0"></i>
+                    <span class="text-slate-400 font-medium tracking-tight truncate">@yield('title', 'Dashboard')</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="hidden sm:flex flex-col items-end text-right">
+                    <span class="text-xs font-black text-slate-800 tracking-tighter">{{ date('d M Y') }}</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content Area -->
+        <main class="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto custom-scrollbar bg-transparent relative">
+            <div class="max-w-7xl mx-auto pb-10">
+                @yield('content')
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile Sidebar Backdrop -->
+    <div 
+        x-show="sidebarOpen" 
+        @click="sidebarOpen = false" 
+        class="fixed inset-0 bg-slate-900/40 z-[9998] lg:hidden"
+        x-transition:enter="transition opacity-100 duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition opacity-0 duration-300"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0">
+    </div>
+
+    <!-- Sidebar - Fixed and Slideable -->
+    <aside 
+        x-cloak
+        :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+        class="fixed inset-y-0 left-0 w-72 bg-teal-50 flex flex-col z-[9999] transition-transform duration-300 ease-in-out border-r border-teal-100/50 shadow-sm shadow-teal-900/5 lg:translate-x-0">
+    
+        <!-- Sidebar Branding -->
+        <div class="h-20 flex items-center px-8 border-b border-teal-100/50">
+            <a href="{{ route('dashboard') }}" wire:navigate.hover @click="if(window.innerWidth < 1024) sidebarOpen = false" class="flex items-center gap-3 group">
+                <img src="{{ asset('Resource/xyra_logo.png') }}" alt="Xyra.id Logo" class="w-auto h-8 drop-shadow-sm group-hover:scale-105 transition-transform">
+                <span class="text-xl font-black tracking-tighter text-teal-950">Xyra<span class="text-teal-600">.id</span></span>
+            </a>
+        </div> 
+
+        <!-- Navigation Area -->
+        <div class="flex-1 overflow-y-auto custom-scrollbar">
+            @include('layouts.partials.navigation')
+        </div>
+
+        <!-- Sidebar Footer / User Info -->
+        <div class="p-6 border-t border-teal-100/50 bg-teal-100/20">
+            <div class="flex items-center justify-between mb-6 px-2">
+                <div class="flex flex-col overflow-hidden">
+                    <p class="text-sm font-bold text-teal-950 truncate">{{ Auth::user()->name }}</p>
+                    <p class="text-[10px] text-teal-600/60 uppercase tracking-widest font-black mt-0.5">{{ Auth::user()->role }}</p>
+                </div>
+                <a wire:navigate.hover href="{{ route('data.user.edit', Auth::user()->id) }}" @click="if(window.innerWidth < 1024) sidebarOpen = false"
+                    class="transition-all duration-300 p-2.5 rounded-xl flex items-center justify-center text-teal-400 hover:text-teal-700 hover:bg-white shadow-sm border border-transparent hover:border-teal-100">
+                    <i class="fas fa-gear text-sm"></i>
+                </a>
+            </div>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="flex items-center justify-center w-full py-3 px-4 rounded-2xl bg-white border border-teal-200 text-teal-700 text-xs font-black uppercase tracking-widest hover:bg-rose-600 hover:text-white hover:border-rose-600 transition-all duration-300 group shadow-sm">
+                    <i class="fas fa-arrow-right-from-bracket flex-shrink-0 group-hover:translate-x-0.5 transition-transform mr-3"></i>
+                    <span>Keluar Akun</span>
+                </button>
+            </form>
+        </div>
+    </aside>
+ </div>
+
  <!-- Global SweetAlert Handler -->
  @if(session('success') || session('error'))
  <script>
@@ -94,7 +185,7 @@
             confirmButtonText: 'Tutup',
             buttonsStyling: false,
             customClass: {
-                popup: '!rounded-2xl !border !border-slate-100 !shadow-xl !bg-white !m-0',
+                popup: '!rounded-2xl !border !border-slate-100 !shadow-xl !bg-white !m-[99999px]',
                 htmlContainer: '!m-0 !p-0 !text-left',
                 actions: '!mt-5 !w-full !flex !justify-end !p-0',
                 confirmButton: '!px-5 !py-2 !bg-slate-100 hover:!bg-slate-200 !text-slate-700 !text-sm !font-semibold !rounded-xl !transition-colors !m-0'
@@ -106,97 +197,6 @@
 </script>
 @endif
 
- <!-- Sidebar - Fixed and Slideable -->
- <aside 
-    x-cloak
-    :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
-    class="fixed inset-y-0 left-0 w-72 bg-teal-50 flex flex-col z-50 transition-transform duration-300 ease-in-out border-r border-teal-100/50 shadow-sm shadow-teal-900/5 lg:translate-x-0">
- 
-    <!-- Sidebar Branding -->
-    <div class="h-20 flex items-center px-8 border-b border-teal-100/50">
-        <a href="{{ route('dashboard') }}" wire:navigate.hover @click="if(window.innerWidth < 1024) sidebarOpen = false" class="flex items-center gap-3 group">
-            <img src="{{ asset('Resource/xyra_logo.png') }}" alt="Xyra.id Logo" class="w-auto h-8 drop-shadow-sm group-hover:scale-105 transition-transform">
-            <span class="text-xl font-black tracking-tighter text-teal-950">Xyra<span class="text-teal-600">.id</span></span>
-        </a>
-    </div> 
-
-    <!-- Navigation Area -->
-    <div class="flex-1 overflow-y-auto custom-scrollbar">
-        @include('layouts.partials.navigation')
-    </div>
-
-    <!-- Sidebar Footer / User Info -->
-    <div class="p-6 border-t border-teal-100/50 bg-teal-100/20">
-        <div class="flex items-center justify-between mb-6 px-2">
-            <div class="flex flex-col overflow-hidden">
-                <p class="text-sm font-bold text-teal-950 truncate">{{ Auth::user()->name }}</p>
-                <p class="text-[10px] text-teal-600/60 uppercase tracking-widest font-black mt-0.5">{{ Auth::user()->role }}</p>
-            </div>
-            <a wire:navigate.hover href="{{ route('data.user.edit', Auth::user()->id) }}" @click="if(window.innerWidth < 1024) sidebarOpen = false"
-                class="transition-all duration-300 p-2.5 rounded-xl flex items-center justify-center text-teal-400 hover:text-teal-700 hover:bg-white shadow-sm border border-transparent hover:border-teal-100">
-                <i class="fas fa-gear text-sm"></i>
-            </a>
-        </div>
-        <form action="{{ route('logout') }}" method="POST">
-            @csrf
-            <button type="submit" class="flex items-center justify-center w-full py-3 px-4 rounded-2xl bg-white border border-teal-200 text-teal-700 text-xs font-black uppercase tracking-widest hover:bg-rose-600 hover:text-white hover:border-rose-600 transition-all duration-300 group shadow-sm">
-                <i class="fas fa-arrow-right-from-bracket flex-shrink-0 group-hover:translate-x-0.5 transition-transform mr-3"></i>
-                <span>Keluar Akun</span>
-            </button>
-        </form>
-    </div>
- </aside>
-
- <!-- Main Content Wrapper -->
- <div 
-    class="flex-1 flex flex-col transition-all duration-300 min-w-0 h-screen"
-    :class="sidebarOpen ? 'lg:pl-72' : 'pl-0'">
-    
-    <!-- Top Header -->
-    <header class="h-20 bg-teal-50 border-b border-teal-100 flex items-center justify-between px-4 md:px-8 flex-shrink-0 z-40 sticky top-0 shadow-sm shadow-teal-900/5">
-        <div class="flex items-center gap-4 md:gap-6">
-            <!-- Sidebar Toggle Button -->
-            <button @click="sidebarOpen = !sidebarOpen" class="w-10 h-10 flex items-center justify-center rounded-xl bg-white text-slate-400 hover:text-teal-600 transition-all border border-teal-100 shadow-sm">
-                <i class="fas fa-bars-staggered transition-transform duration-300" :class="sidebarOpen ? 'rotate-90' : ''"></i>
-            </button>
-
-            <!-- Breadcrumbs -->
-            <div class="flex items-center text-sm overflow-hidden">
-                <a href="{{ route('dashboard') }}" wire:navigate class="text-teal-600 font-bold hover:text-teal-700 transition-colors whitespace-nowrap">Beranda</a>
-                <i class="fas fa-chevron-right text-[10px] mx-2 md:mx-4 text-slate-300 flex-shrink-0"></i>
-                <span class="text-slate-400 font-medium tracking-tight truncate">@yield('title', 'Dashboard')</span>
-            </div>
-        </div>
-
-        <div class="flex items-center gap-4">
-            <div class="hidden sm:flex flex-col items-end text-right">
-                <span class="text-xs font-black text-slate-800 tracking-tighter">{{ date('d M Y') }}</span>
-            </div>
-        </div>
-    </header>
-
-    <!-- Content Area -->
-    <main class="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto custom-scrollbar bg-transparent">
-        <div class="max-w-7xl mx-auto pb-10">
-            @yield('content')
-        </div>
-    </main>
- </div>
-
- <!-- Mobile Sidebar Backdrop -->
- <div 
-    x-show="sidebarOpen" 
-    @click="sidebarOpen = false" 
-    class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 lg:hidden"
-    x-transition:enter="transition opacity-100 duration-300"
-    x-transition:enter-start="opacity-0"
-    x-transition:enter-end="opacity-100"
-    x-transition:leave="transition opacity-0 duration-300"
-    x-transition:leave-start="opacity-100"
-    x-transition:leave-end="opacity-0">
- </div>
-
- </div>
  @livewireScripts
 </body>
 </html>

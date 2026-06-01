@@ -12,12 +12,12 @@
  </div>
  <div class="flex flex-col sm:flex-row flex-wrap items-center gap-3">
     <!-- Per Page Selector -->
-    <div x-data="{ open: false }" class="relative inline-block text-left z-[100] w-full sm:w-auto" x-cloak>
+    <div x-data="{ open: false }" class="relative inline-block text-left z-[30] w-full sm:w-auto" x-cloak>
         <button @click="open = !open" @click.outside="open = false" type="button" class="inline-flex items-center justify-between w-full sm:min-w-[140px] px-4 py-2.5 text-sm font-semibold text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:text-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500/30 transition-all shadow-sm group">
             <span class="truncate">Tampilkan: <span class="text-teal-600">{{ request('per_page', 50) === 'all' ? 'Semua' : request('per_page', 50) }}</span></span>
             <i class="fas fa-chevron-down ml-2 text-xs transition-transform duration-300" :class="open ? 'rotate-180 text-teal-600' : 'text-slate-400 group-hover:text-teal-500'"></i>
         </button>
-        <div x-show="open" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 scale-95 translate-y-1" x-transition:enter-end="opacity-100 scale-100 translate-y-0" class="absolute left-0 mt-2 w-full min-w-[140px] bg-white border border-slate-100 rounded-xl shadow-xl z-50 py-1 overflow-hidden" style="display: none; top: 100%;">
+        <div x-show="open" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 scale-95 translate-y-1" x-transition:enter-end="opacity-100 scale-100 translate-y-0" class="absolute left-0 mt-2 w-full min-w-[140px] bg-white border border-slate-100 rounded-xl shadow-xl z-[100] py-1 overflow-hidden" style="display: none; top: 100%;">
             @foreach([5, 10, 25, 50, 'all'] as $size)
                 <a href="{{ request()->fullUrlWithQuery(['per_page' => $size, 'page' => 1]) }}" wire:navigate class="block px-4 py-2 text-sm transition-all duration-200 {{ request('per_page', 50) == $size ? 'bg-slate-50 text-teal-700 font-bold border-l-2 border-teal-500' : 'text-slate-600 hover:bg-slate-50 hover:text-teal-700 border-l-2 border-transparent' }}">
                     {{ $size === 'all' ? 'Semua Data' : $size . ' Baris' }}
@@ -30,7 +30,7 @@
     <i class="fas fa-file-arrow-down mr-2"></i> Unduh Template
  </a>
 
- <div x-data="{ openImport: false, isDragging: false }" class="relative z-[100] w-full sm:w-auto">
+ <div x-data="{ openImport: false, isDragging: false }" class="relative z-[20] w-full sm:w-auto">
      <button @click="openImport = true" class="w-full bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 flex items-center justify-center px-4 py-2.5 rounded-xl text-xs font-bold transition-all">
          <i class="fas fa-file-import mr-2"></i> Impor Data
      </button>
