@@ -10,7 +10,7 @@
             <p class="text-slate-500 text-sm mt-1">Gunakan formulir ini untuk menambah stok barang dari pemasok.</p>
         </div>
 
-        <form action="{{ route('input.pembelian') }}" method="POST" class="p-8 space-y-6">
+        <form action="{{ route('input.pembelian') }}" method="POST" class="p-8 space-y-6" x-data="{ isSubmitting: false }" @submit="isSubmitting = true">
             @csrf
             
             @if(session('error'))

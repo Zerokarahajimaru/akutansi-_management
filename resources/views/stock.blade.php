@@ -34,7 +34,7 @@
         </a>
 
         <!-- Impor Data -->
-        <div x-data="{ openImport: false, isDragging: false }" class="flex-1 lg:flex-none">
+        <div x-data="{ openImport: false, isDragging: false, isSubmitting: false }" class="flex-1 lg:flex-none">
             <button @click="openImport = true" class="w-full flex items-center justify-center px-3 py-2 text-[9px] font-black uppercase tracking-widest text-slate-500 hover:bg-white hover:text-amber-600 transition-all" title="Impor Data Excel">
                 <i class="fas fa-file-import mr-2 text-amber-500"></i> <span>Impor</span>
             </button>
@@ -47,7 +47,7 @@
                             <i class="fas fa-xmark text-lg"></i>
                         </button>
                     </div>
-                    <form action="{{ route('util.import', 'barang') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+                    <form action="{{ route('util.import', 'barang') }}" method="POST" enctype="multipart/form-data" @submit="isSubmitting = true" class="space-y-4">
                         @csrf
                         <div 
                             class="relative group rounded-xl transition-all duration-500 p-2 bg-slate-100 border border-slate-200"
@@ -79,9 +79,12 @@
                         </div>
                         <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-2">
                             <button type="button" @click="openImport = false" class="w-full sm:w-auto bg-slate-100 text-slate-600 border border-slate-200 font-bold rounded-xl hover:bg-slate-200 transition-all px-5 py-2.5 text-sm">Batal</button>
-                            <button type="submit" class="w-full sm:w-auto bg-teal-600 text-white font-black rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 px-5 py-2.5 text-sm flex items-center justify-center group">
-                                <span>Impor Saja</span>
-                                <i class="fas fa-arrow-right text-[10px] ml-2 group-hover:translate-x-1 transition-transform"></i>
+                            <button type="submit" :disabled="isSubmitting" :class="isSubmitting ? 'opacity-70 cursor-not-allowed' : ''" class="w-full sm:w-auto bg-teal-600 text-white font-black rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 px-5 py-2.5 text-sm flex items-center justify-center group">
+                                <span x-show="!isSubmitting">Impor Saja</span>
+                                <span x-show="isSubmitting" x-cloak class="flex items-center justify-center">
+                                    Memproses... <i class="fas fa-circle-notch fa-spin ml-2"></i>
+                                </span>
+                                <i x-show="!isSubmitting" class="fas fa-arrow-right text-[10px] ml-2 group-hover:translate-x-1 transition-transform"></i>
                             </button>
                         </div>
                     </form>
@@ -128,17 +131,17 @@
  <tbody class="divide-y divide-slate-50">
  @forelse($stocks as $barang)
  <tr class="group even:bg-slate-50/50 hover:bg-teal-50/60 transition-colors duration-200">
- <td class="py-4 px-6 text-sm text-teal-600 font-bold uppercase sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-teal-50 whitespace-nowrap">{{ $barang->ID_Barang }}</td>
+ <td class="py-4 px-6 text-sm text-teal-600 font-bold uppercase sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-teal-50 whitespace-nowrap">{{ $barang->ID_Barang ?? '-' }}</td>
  <td class="py-4 px-6 whitespace-nowrap">
  <div class="flex flex-col min-w-[200px]">
- <p class="text-sm font-bold text-slate-800">{{ $barang->Nama_Barang }}</p>
+ <p class="text-sm font-bold text-slate-800 max-w-xs truncate" title="{{ $barang->Nama_Barang ?? '' }}">{{ $barang->Nama_Barang ?? '-' }}</p>
  <div class="flex gap-2 mt-1">
- <span class="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded uppercase font-bold">{{ $barang->Jenis_Barang }}</span>
- <span class="text-[10px] bg-teal-50 text-teal-600 px-1.5 py-0.5 rounded uppercase font-bold">{{ $barang->Ukuran_Barang }}</span>
+ <span class="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded uppercase font-bold">{{ $barang->Jenis_Barang ?? '-' }}</span>
+ <span class="text-[10px] bg-teal-50 text-teal-600 px-1.5 py-0.5 rounded uppercase font-bold">{{ $barang->Ukuran_Barang ?? '-' }}</span>
  </div>
  </div>
  </td>
- <td class="py-4 px-6 text-sm text-slate-600 uppercase font-medium whitespace-nowrap">{{ $barang->ID_Pemasok }}</td>
+ <td class="py-4 px-6 text-sm text-slate-600 uppercase font-medium whitespace-nowrap">{{ $barang->ID_Pemasok ?? '-' }}</td>
  <td class="py-4 px-6 text-center text-sm text-slate-500 whitespace-nowrap">{{ $barang->stokBarangs->first()->Stok_Awal ?? 0 }}</td>
  <td class="py-4 px-6 text-center whitespace-nowrap">
  @php $stok = $barang->stokBarangs->first()->Stok_Akhir ?? 0; @endphp
@@ -146,7 +149,7 @@
  {{ $stok }}
  </span>
  </td>
- <td class="py-4 px-6 text-sm font-bold text-slate-900 whitespace-nowrap">Rp {{ number_format($barang->Harga_Jual, 0, ',', '.') }}</td>
+ <td class="py-4 px-6 text-sm font-bold text-slate-900 whitespace-nowrap">Rp {{ number_format($barang->Harga_Jual ?? 0, 0, ',', '.') }}</td>
  <td class="py-4 px-6 text-center whitespace-nowrap">
  <div class="flex justify-center space-x-2">
  <a href="{{ route('data.barang.edit', $barang->ID_Barang) }}" wire:navigate.hover class="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-50 text-teal-600 hover:bg-teal-600 hover:text-white shadow-sm transition-all" title="Ubah Produk">

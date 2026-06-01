@@ -62,27 +62,27 @@
                 <tbody class="divide-y divide-slate-50">
                     @forelse($penjualans as $p)
                     <tr class="even:bg-slate-50/50 hover:bg-teal-50/60 transition-colors group">
-                        <td class="py-5 px-8 text-sm text-slate-600 font-medium whitespace-nowrap sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-teal-50">{{ date('d/m/Y', strtotime($p->Tanggal_Penjualan)) }}</td>
+                        <td class="py-5 px-8 text-sm text-slate-600 font-medium whitespace-nowrap sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-teal-50">{{ $p->Tanggal_Penjualan ? date('d/m/Y', strtotime($p->Tanggal_Penjualan)) : '-' }}</td>
                         <td class="py-5 px-8 whitespace-nowrap">
                             <div class="flex flex-col min-w-[150px]">
-                                <span class="text-sm font-bold text-slate-800 group-hover:text-teal-600 transition-colors">{{ $p->dataBarang->Nama_Barang ?? '-' }}</span>
-                                <span class="text-[10px] text-slate-400 font-mono uppercase">{{ $p->ID_Barang }}</span>
+                                <span class="text-sm font-bold text-slate-800 group-hover:text-teal-600 transition-colors max-w-xs truncate" title="{{ $p->dataBarang->Nama_Barang ?? '' }}">{{ $p->dataBarang->Nama_Barang ?? '-' }}</span>
+                                <span class="text-[10px] text-slate-400 font-mono uppercase">{{ $p->ID_Barang ?? '-' }}</span>
                             </div>
                         </td>
                         <td class="py-5 px-8 text-center whitespace-nowrap">
-                            <span class="px-3 py-1 bg-rose-50 text-rose-600 rounded-xl text-xs font-black">-{{ $p->Kuantitas }}</span>
+                            <span class="px-3 py-1 bg-rose-50 text-rose-600 rounded-xl text-xs font-black">-{{ $p->Kuantitas ?? 0 }}</span>
                         </td>
                         <td class="py-5 px-8 whitespace-nowrap">
                             <div class="flex flex-col min-w-[150px]">
-                                <span class="text-sm text-slate-700 font-semibold">{{ $p->pelanggan->Nama_Pelanggan ?? 'Umum' }}</span>
+                                <span class="text-sm text-slate-700 font-semibold max-w-xs truncate" title="{{ $p->pelanggan->Nama_Pelanggan ?? 'Umum' }}">{{ $p->pelanggan->Nama_Pelanggan ?? 'Umum' }}</span>
                                 <span class="text-[10px] text-teal-600 font-bold uppercase tracking-tighter">{{ $p->ID_Pelanggan ?? '-' }}</span>
                             </div>
                         </td>
                         <td class="py-5 px-8 whitespace-nowrap">
-                            <span class="text-[10px] font-black uppercase tracking-widest text-slate-400 border border-slate-200 px-2 py-0.5 rounded-xl">{{ $p->jenis_pembayaran }}</span>
+                            <span class="text-[10px] font-black uppercase tracking-widest text-slate-400 border border-slate-200 px-2 py-0.5 rounded-xl">{{ $p->jenis_pembayaran ?? '-' }}</span>
                         </td>
                         <td class="py-5 px-8 text-right whitespace-nowrap">
-                            <span class="text-sm font-black text-slate-900">Rp {{ number_format($p->Total_Harga, 0, ',', '.') }}</span>
+                            <span class="text-sm font-black text-slate-900">Rp {{ number_format($p->Total_Harga ?? 0, 0, ',', '.') }}</span>
                         </td>
                     </tr>
                     @empty

@@ -34,7 +34,7 @@
         </a>
 
         <!-- Impor Data -->
-        <div x-data="{ openImport: false, isDragging: false }" class="flex-1 lg:flex-none">
+        <div x-data="{ openImport: false, isDragging: false, isSubmitting: false }" class="flex-1 lg:flex-none">
             <button @click="openImport = true" class="w-full flex items-center justify-center px-3 py-2 text-[9px] font-black uppercase tracking-widest text-slate-500 hover:bg-white hover:text-amber-600 transition-all" title="Impor Data Excel">
                 <i class="fas fa-file-import mr-2 text-amber-500"></i> <span>Impor</span>
             </button>
@@ -47,7 +47,7 @@
                             <i class="fas fa-xmark text-lg"></i>
                         </button>
                     </div>
-                    <form action="{{ route('util.import', 'penjualan') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+                    <form action="{{ route('util.import', 'penjualan') }}" method="POST" enctype="multipart/form-data" @submit="isSubmitting = true" class="space-y-4">
                         @csrf
                         <div 
                             class="relative group rounded-xl transition-all duration-500 p-2 bg-slate-100 border border-slate-200"
@@ -79,9 +79,12 @@
                         </div>
                         <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-2">
                             <button type="button" @click="openImport = false" class="w-full sm:w-auto bg-slate-100 text-slate-600 border border-slate-200 font-bold rounded-xl hover:bg-slate-200 transition-all px-5 py-2.5 text-sm">Batal</button>
-                            <button type="submit" class="w-full sm:w-auto bg-teal-600 text-white font-black rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 px-5 py-2.5 text-sm group flex items-center justify-center">
-                                <span>Impor Saja</span>
-                                <i class="fas fa-arrow-right text-[10px] ml-2 group-hover:translate-x-1 transition-transform"></i>
+                            <button type="submit" :disabled="isSubmitting" :class="isSubmitting ? 'opacity-70 cursor-not-allowed' : ''" class="w-full sm:w-auto bg-teal-600 text-white font-black rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 px-5 py-2.5 text-sm flex items-center justify-center group">
+                                <span x-show="!isSubmitting">Impor Saja</span>
+                                <span x-show="isSubmitting" x-cloak class="flex items-center justify-center">
+                                    Memproses... <i class="fas fa-circle-notch fa-spin ml-2"></i>
+                                </span>
+                                <i x-show="!isSubmitting" class="fas fa-arrow-right text-[10px] ml-2 group-hover:translate-x-1 transition-transform"></i>
                             </button>
                         </div>
                     </form>
@@ -129,16 +132,16 @@
  <tbody class="divide-y divide-slate-50">
  @forelse($penjualans as $item)
  <tr class="group even:bg-slate-50/50 hover:bg-teal-50/60 transition-colors duration-200">
- <td class="py-4 px-6 text-sm text-slate-600 font-medium sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-teal-50 whitespace-nowrap">{{ date('d/m/Y', strtotime($item->Tanggal_Penjualan)) }}</td>
+ <td class="py-4 px-6 text-sm text-slate-600 font-medium sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-teal-50 whitespace-nowrap">{{ $item->Tanggal_Penjualan ? date('d/m/Y', strtotime($item->Tanggal_Penjualan)) : '-' }}</td>
  <td class="py-4 px-6 whitespace-nowrap">
  <div class="flex flex-col min-w-[180px]">
- <p class="text-sm font-bold text-slate-800">{{ $item->dataBarang->Nama_Barang ?? 'Produk Dihapus' }}</p>
- <p class="text-[10px] text-slate-400 font-bold uppercase italic">{{ $item->ID_Barang }}</p>
+ <p class="text-sm font-bold text-slate-800 max-w-xs truncate" title="{{ $item->dataBarang->Nama_Barang ?? 'Produk Dihapus' }}">{{ $item->dataBarang->Nama_Barang ?? 'Produk Dihapus' }}</p>
+ <p class="text-[10px] text-slate-400 font-bold uppercase italic">{{ $item->ID_Barang ?? '-' }}</p>
  </div>
  </td>
  <td class="py-4 px-6 whitespace-nowrap">
     <div class="flex flex-col min-w-[150px]">
-        <p class="text-sm text-slate-700 font-semibold">{{ $item->pelanggan->Nama_Pelanggan ?? 'Umum' }}</p>
+        <p class="text-sm text-slate-700 font-semibold max-w-xs truncate" title="{{ $item->pelanggan->Nama_Pelanggan ?? 'Umum' }}">{{ $item->pelanggan->Nama_Pelanggan ?? 'Umum' }}</p>
         <p class="text-[10px] text-teal-600 font-bold uppercase tracking-tighter">{{ $item->ID_Pelanggan ?? '-' }}</p>
     </div>
  </td>
@@ -148,7 +151,7 @@
     </span>
  </td>
  <td class="py-4 px-6 text-center whitespace-nowrap">
- <span class="text-sm font-bold text-rose-600">-{{ $item->Kuantitas }}</span>
+ <span class="text-sm font-bold text-rose-600">-{{ $item->Kuantitas ?? 0 }}</span>
  </td>
  <td class="py-4 px-6 whitespace-nowrap">
     <div class="flex flex-col min-w-[120px]">
@@ -156,10 +159,10 @@
         <span class="text-[10px] text-teal-600 font-mono font-bold">{{ $item->user_id ?? '-' }}</span>
     </div>
  </td>
- <td class="py-4 px-6 text-sm font-bold text-slate-900 text-right whitespace-nowrap">Rp {{ number_format($item->Total_Harga, 0, ',', '.') }}</td>
+ <td class="py-4 px-6 text-sm font-bold text-slate-900 text-right whitespace-nowrap">Rp {{ number_format($item->Total_Harga ?? 0, 0, ',', '.') }}</td>
  <td class="py-4 px-6 text-center whitespace-nowrap">
  <div class="flex justify-center space-x-2">
- <a href="{{ route('data.penjualan.edit', $item->ID_Penjualan) }}" wire:navigate.hover class="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-50 text-teal-600 hover:bg-teal-600 hover:text-white shadow-sm transition-all" title="Ubah Data">
+ <a href="{{ route('data.penjualan.edit', $item->ID_Penjualan) }}" wire:navigate class="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-50 text-teal-600 hover:bg-teal-600 hover:text-white shadow-sm transition-all" title="Ubah Data">
  <i class="fas fa-edit text-xs"></i>
  </a>
  <form action="{{ route('data.penjualan.destroy', $item->ID_Penjualan) }}" method="POST">

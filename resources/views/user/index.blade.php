@@ -72,11 +72,11 @@
  <tbody class="divide-y divide-slate-50">
  @forelse($users as $user)
  <tr class="group even:bg-slate-50/50 hover:bg-teal-50/60 transition-colors duration-200">
- <td class="py-4 px-6 text-sm text-teal-600 font-bold uppercase sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-teal-50 whitespace-nowrap">{{ $user->id }}</td>
- <td class="py-4 px-6 text-sm font-bold text-slate-800 whitespace-nowrap">{{ $user->name }}</td>
- <td class="py-4 px-6 text-sm text-slate-600 font-medium whitespace-nowrap"><span>{{ $user->username }}</span></td>
+ <td class="py-4 px-6 text-sm text-teal-600 font-bold uppercase sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-teal-50 whitespace-nowrap">{{ $user->id ?? '-' }}</td>
+ <td class="py-4 px-6 text-sm font-bold text-slate-800 max-w-xs truncate" title="{{ $user->name ?? '' }}">{{ $user->name ?? '-' }}</td>
+ <td class="py-4 px-6 text-sm text-slate-600 font-medium whitespace-nowrap"><span>{{ $user->username ?? '-' }}</span></td>
  <td class="py-4 px-6 text-sm text-slate-600 text-center italic whitespace-nowrap">{{ $user->NoTelp_User ?? '-' }}</td>
- <td class="py-4 px-6 text-sm text-slate-500 leading-relaxed min-w-[250px] whitespace-nowrap">{{ $user->Alamat_User ?? '-' }}</td>
+ <td class="py-4 px-6 text-sm text-slate-500 leading-relaxed max-w-sm truncate" title="{{ $user->Alamat_User ?? '' }}">{{ $user->Alamat_User ?? '-' }}</td>
  <td class="py-4 px-6 text-center whitespace-nowrap">
     <div class="flex justify-center items-center whitespace-nowrap">
         @if(auth()->id() === $user->id)

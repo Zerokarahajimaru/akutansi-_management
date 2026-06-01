@@ -9,7 +9,7 @@
             <h2 class="text-xl font-black text-slate-800 tracking-tight">Pendaftaran Pemasok Baru</h2>
             <p class="text-slate-500 text-sm mt-1">Tambahkan informasi mitra pemasok barang untuk inventaris Xyra.id.</p>
         </div>
-        <form action="{{ route('input.pemasok') }}" method="POST" class="p-8 space-y-6">
+        <form action="{{ route('input.pemasok') }}" method="POST" class="p-8 space-y-6" x-data="{ isSubmitting: false }" @submit="isSubmitting = true">
             @csrf
             
             <div class="space-y-2">
@@ -38,7 +38,15 @@
 
             <div class="pt-6 border-t border-slate-50 flex justify-end space-x-3">
                 <a href="{{ route('data.pemasok') }}" class="bg-slate-50 text-slate-500 border border-slate-200 font-bold rounded-xl px-8 py-3 text-sm hover:bg-slate-100 transition-all">Batal</a>
-                <button type="submit" class="bg-teal-600 text-white font-black rounded-xl px-10 py-3 text-sm hover:bg-teal-700 shadow-lg shadow-teal-500/20 hover:-translate-y-0.5 active:scale-95 transition-all duration-300">Simpan Data</button>
+                <button type="submit" 
+                    :disabled="isSubmitting" 
+                    :class="isSubmitting ? 'opacity-70 cursor-not-allowed scale-[0.98]' : ''"
+                    class="bg-teal-600 text-white font-black rounded-xl px-10 py-3 text-sm hover:bg-teal-700 shadow-lg shadow-teal-500/20 hover:-translate-y-0.5 active:scale-95 transition-all duration-300">
+                    <span x-show="!isSubmitting">Simpan Data</span>
+                    <span x-show="isSubmitting" x-cloak class="flex items-center justify-center">
+                        Mohon Tunggu... <i class="fas fa-circle-notch fa-spin ml-2"></i>
+                    </span>
+                </button>
             </div>
         </form>
     </div>

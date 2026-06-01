@@ -46,11 +46,11 @@
                     @forelse($stoks as $s)
                     <tr class="even:bg-slate-50/50 hover:bg-teal-50/60 transition-colors group">
                         <td class="py-5 px-8 whitespace-nowrap sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-teal-50">
-                            <span class="text-[11px] font-black font-mono text-teal-600 bg-teal-50 px-2 py-1 rounded-lg">{{ $s->ID_Barang }}</span>
+                            <span class="text-[11px] font-black font-mono text-teal-600 bg-teal-50 px-2 py-1 rounded-lg">{{ $s->ID_Barang ?? '-' }}</span>
                         </td>
                         <td class="py-5 px-8 whitespace-nowrap">
                             <div class="flex flex-col min-w-[200px]">
-                                <span class="text-sm font-bold text-slate-800 group-hover:text-teal-600 transition-colors">{{ $s->dataBarang->Nama_Barang ?? 'Produk Dihapus' }}</span>
+                                <span class="text-sm font-bold text-slate-800 group-hover:text-teal-600 transition-colors max-w-xs truncate" title="{{ $s->dataBarang->Nama_Barang ?? 'Produk Dihapus' }}">{{ $s->dataBarang->Nama_Barang ?? 'Produk Dihapus' }}</span>
                                 <span class="text-[10px] text-slate-400 font-black uppercase mt-0.5 tracking-widest">{{ $s->dataBarang->Warna_Barang ?? '-' }} / {{ $s->dataBarang->Ukuran_Barang ?? '-' }}</span>
                             </div>
                         </td>
@@ -58,18 +58,18 @@
                             <span class="px-2.5 py-1 bg-slate-100 text-slate-500 rounded-xl text-[10px] font-black uppercase tracking-widest">{{ $s->dataBarang->Jenis_Barang ?? '-' }}</span>
                         </td>
                         <td class="py-5 px-8 text-center text-sm text-slate-400 font-medium italic whitespace-nowrap">
-                            {{ $s->Stok_Awal }}
+                            {{ $s->Stok_Awal ?? 0 }}
                         </td>
                         <td class="py-5 px-8 text-center whitespace-nowrap">
                             @php
-                                $statusClass = $s->Stok_Akhir < 10 ? 'bg-amber-50 text-amber-600 border border-amber-100' : 'bg-emerald-50 text-emerald-600 border border-emerald-100';
+                                $statusClass = ($s->Stok_Akhir ?? 0) < 10 ? 'bg-amber-50 text-amber-600 border border-amber-100' : 'bg-emerald-50 text-emerald-600 border border-emerald-100';
                             @endphp
                             <span class="px-4 py-1.5 {{ $statusClass }} rounded-xl text-sm font-black shadow-sm">
-                                {{ $s->Stok_Akhir }}
+                                {{ $s->Stok_Akhir ?? 0 }}
                             </span>
                         </td>
                         <td class="py-5 px-8 whitespace-nowrap">
-                            @if($s->Stok_Akhir < 10)
+                            @if(($s->Stok_Akhir ?? 0) < 10)
                                 <div class="flex items-center gap-2 text-amber-500 animate-pulse">
                                     <i class="fas fa-triangle-exclamation text-xs"></i>
                                     <span class="text-[10px] font-black uppercase tracking-widest">Stok Kritis</span>
