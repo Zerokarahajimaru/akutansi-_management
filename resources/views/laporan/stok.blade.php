@@ -4,41 +4,66 @@
 
 @section('content')
 <div class="space-y-8">
-    <!-- Header Card -->
-    <div class="bg-white rounded-2xl shadow-[0_20px_50px_rgba(13,148,136,0.05)] border border-slate-100 overflow-hidden">
-        <div class="p-6 md:p-8 border-b border-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div class="flex items-center gap-4">
-                <div class="w-14 h-14 bg-teal-50 rounded-xl flex items-center justify-center shadow-inner">
-                    <i class="fas fa-boxes-stacked text-teal-600 text-xl"></i>
-                </div>
-                <div>
-                    <h2 class="font-black text-slate-800 text-2xl tracking-tight">Ketersediaan Stok</h2>
-                    <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">Pantau Inventaris Secara Real-Time</p>
-                </div>
+    <!-- Analytics Summary -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Estimasi Valuasi Aset -->
+        <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 flex items-center justify-between group hover:border-teal-200 transition-all duration-300">
+            <div>
+                <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">Estimasi Valuasi Aset</p>
+                <h3 class="text-2xl font-black text-slate-800">Rp {{ number_format($summary['valuasi_aset'] ?? 0, 0, ',', '.') }}</h3>
             </div>
-            
-            <div class="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
-                <form action="{{ route('laporan.stok') }}" method="GET" class="w-full sm:w-[300px] relative">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fas fa-magnifying-glass text-slate-400 text-xs"></i>
-                    </div>
-                    <input type="text" name="search" value="{{ request('search') }}" 
-                        class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all shadow-sm placeholder:text-slate-400" 
-                        placeholder="Cari Produk atau Kategori...">
-                </form>
+            <div class="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center border border-teal-100 shadow-sm">
+                <i class="fas fa-boxes-stacked text-teal-600 text-lg"></i>
+            </div>
+        </div>
 
-                <div class="flex gap-2 w-full sm:w-auto">
-                    <a href="{{ route('util.export', 'barang') }}" class="flex-1 sm:flex-none flex items-center justify-center px-6 py-2.5 bg-teal-600 text-white font-black rounded-xl text-xs uppercase tracking-widest shadow-lg shadow-teal-500/20 hover:bg-teal-700 active:scale-95 transition-all">
-                        <i class="fas fa-file-excel mr-2"></i> Ekspor
-                    </a>
-                </div>
+        <!-- Stok Aman -->
+        <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 flex items-center justify-between group hover:border-emerald-200 transition-all duration-300">
+            <div>
+                <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">Stok Aman (>= 10)</p>
+                <h3 class="text-2xl font-black text-slate-800">{{ number_format($summary['stok_aman'] ?? 0, 0, ',', '.') }} <span class="text-xs text-slate-400 font-bold ml-1 uppercase">Item</span></h3>
+            </div>
+            <div class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center border border-emerald-100 shadow-sm">
+                <i class="fas fa-check-circle text-emerald-600 text-lg"></i>
+            </div>
+        </div>
+
+        <!-- Stok Kritis -->
+        <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 flex items-center justify-between group hover:border-amber-200 transition-all duration-300">
+            <div>
+                <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">Stok Kritis (< 10)</p>
+                <h3 class="text-2xl font-black text-slate-800">{{ number_format($summary['stok_kritis'] ?? 0, 0, ',', '.') }} <span class="text-xs text-slate-400 font-bold ml-1 uppercase">Item</span></h3>
+            </div>
+            <div class="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center border border-amber-100 shadow-sm">
+                <i class="fas fa-triangle-exclamation text-amber-600 text-lg"></i>
             </div>
         </div>
     </div>
 
-    <!-- Inventory Grid/Table -->
-    <div class="bg-white rounded-2xl border border-slate-100 shadow-[0_20px_50px_rgba(13,148,136,0.05)] overflow-hidden">
-        <div class="overflow-x-auto custom-scrollbar relative rounded-xl border border-slate-100">
+    <!-- Action Bar -->
+    <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 flex flex-col md:flex-row justify-between items-center gap-6">
+        <form action="{{ route('laporan.stok') }}" method="GET" class="w-full md:max-w-md relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-magnifying-glass text-slate-400 text-xs"></i>
+            </div>
+            <input type="text" name="search" value="{{ request('search') }}" 
+                class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all shadow-sm placeholder:text-slate-400" 
+                placeholder="Cari produk atau kategori...">
+        </form>
+
+        <div class="flex gap-3 w-full md:w-auto">
+            <a href="{{ route('util.export', 'barang') }}" class="flex-1 md:flex-none flex items-center justify-center px-6 py-2.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white border border-emerald-200 font-bold rounded-xl text-[10px] uppercase tracking-widest transition-all active:scale-95">
+                <i class="fas fa-file-excel mr-2"></i> Ekspor Excel
+            </a>
+            <button onclick="window.print()" class="flex-1 md:flex-none flex items-center justify-center px-6 py-2.5 bg-rose-50 text-rose-700 hover:bg-rose-600 hover:text-white border border-rose-200 font-bold rounded-xl text-[10px] uppercase tracking-widest transition-all active:scale-95">
+                <i class="fas fa-file-pdf mr-2"></i> Cetak PDF
+            </button>
+        </div>
+    </div>
+
+    <!-- Inventory Table -->
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgba(13,148,136,0.05)] overflow-hidden">
+        <div class="overflow-x-auto custom-scrollbar relative rounded-xl border border-slate-100 m-4">
             <table class="w-full text-left">
                 <thead>
                     <tr class="bg-teal-50/80 text-slate-600 text-[10px] font-black uppercase tracking-widest">
@@ -58,7 +83,7 @@
                         </td>
                         <td class="py-5 px-8 whitespace-nowrap">
                             <div class="flex flex-col min-w-[200px]">
-                                <span class="text-sm font-bold text-slate-800 group-hover:text-teal-600 transition-colors max-w-xs truncate" title="{{ $s->dataBarang->Nama_Barang ?? 'Produk Dihapus' }}">{{ $s->dataBarang->Nama_Barang ?? 'Produk Dihapus' }}</span>
+                                <span class="text-sm font-bold text-slate-800 group-hover:text-teal-600 transition-colors max-w-xs truncate" title="{{ $s->dataBarang->Nama_Barang ?? '' }}">{{ $s->dataBarang->Nama_Barang ?? 'Produk Dihapus' }}</span>
                                 <span class="text-[10px] text-slate-400 font-black uppercase mt-0.5 tracking-widest">{{ $s->dataBarang->Warna_Barang ?? '-' }} / {{ $s->dataBarang->Ukuran_Barang ?? '-' }}</span>
                             </div>
                         </td>

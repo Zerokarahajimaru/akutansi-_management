@@ -4,59 +4,83 @@
 
 @section('content')
 <div class="space-y-8">
-    <!-- Filter Card -->
-    <div class="bg-white rounded-2xl shadow-[0_20px_50px_rgba(13,148,136,0.05)] border border-slate-100 overflow-hidden">
-        <div class="p-6 md:p-8 border-b border-slate-50 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center">
-                    <i class="fas fa-filter text-teal-600 text-lg"></i>
-                </div>
-                <div>
-                    <h2 class="font-black text-slate-800 text-xl tracking-tight">Filter Laporan</h2>
-                    <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">Pengadaan Stok Barang</p>
-                </div>
+    <!-- Analytics Summary -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Total Pengeluaran -->
+        <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 flex items-center justify-between group hover:border-teal-200 transition-all duration-300">
+            <div>
+                <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">Total Pengeluaran</p>
+                <h3 class="text-2xl font-black text-slate-800">Rp {{ number_format($summary['total_pengeluaran'] ?? 0, 0, ',', '.') }}</h3>
             </div>
-            
-            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-                <form action="{{ route('laporan.pembelian') }}" method="GET" class="flex-1 max-w-2xl">
-                    <div class="flex flex-col sm:flex-row items-stretch sm:items-end gap-4">
-                        <div class="relative flex-1">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <i class="fas fa-magnifying-glass text-slate-400 text-xs"></i>
-                            </div>
-                            <input type="text" name="search" value="{{ request('search') }}" 
-                                class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all shadow-sm placeholder:text-slate-400" 
-                                placeholder="Cari ID, Produk, atau Pemasok...">
-                        </div>
-                        <div class="space-y-1">
-                            <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Mulai</label>
-                            <input type="date" name="start_date" value="{{ $start_date }}" class="bg-white border border-teal-200 rounded-xl px-4 py-3 text-sm text-slate-700 focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all">
-                        </div>
-                        <div class="space-y-1">
-                            <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Sampai</label>
-                            <input type="date" name="end_date" value="{{ $end_date }}" class="bg-white border border-teal-200 rounded-xl px-4 py-3 text-sm text-slate-700 focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all">
-                        </div>
-                        <button type="submit" class="bg-teal-600 text-white font-black px-6 py-3.5 rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 active:scale-95 transition-all text-[10px] uppercase tracking-widest">
-                            Terapkan
-                        </button>
-                    </div>
-                </form>
+            <div class="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center border border-teal-100 shadow-sm">
+                <i class="fas fa-cart-arrow-down text-teal-600 text-lg"></i>
+            </div>
+        </div>
+
+        <!-- Total Barang Masuk -->
+        <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 flex items-center justify-between group hover:border-blue-200 transition-all duration-300">
+            <div>
+                <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">Total Barang Masuk</p>
+                <h3 class="text-2xl font-black text-slate-800">{{ number_format($summary['total_barang_masuk'] ?? 0, 0, ',', '.') }} <span class="text-xs text-slate-400 font-bold ml-1 uppercase">Pcs</span></h3>
+            </div>
+            <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center border border-blue-100 shadow-sm">
+                <i class="fas fa-boxes-stacked text-blue-600 text-lg"></i>
+            </div>
+        </div>
+
+        <!-- Top Pemasok -->
+        <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 flex items-center justify-between group hover:border-amber-200 transition-all duration-300">
+            <div class="min-w-0 flex-1 mr-4">
+                <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">Mitra Teraktif</p>
+                <h3 class="text-lg font-black text-slate-800 truncate" title="{{ $summary['top_pemasok'] ?? '-' }}">{{ $summary['top_pemasok'] ?? '-' }}</h3>
+            </div>
+            <div class="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center border border-amber-100 shadow-sm flex-shrink-0">
+                <i class="fas fa-truck-fast text-amber-600 text-lg"></i>
             </div>
         </div>
     </div>
 
-    <!-- Results Card -->
-    <div class="bg-white rounded-2xl border border-slate-100 shadow-[0_20px_50px_rgba(13,148,136,0.05)] overflow-hidden">
-        <div class="p-6 md:p-8 border-b border-slate-50 flex flex-col md:flex-row justify-between items-center bg-slate-50/30 gap-4">
-            <h3 class="font-black text-slate-800 text-lg">Ringkasan Transaksi</h3>
-            <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-                <a href="{{ route('util.export', 'pembelian') }}" class="flex items-center justify-center px-5 py-2.5 bg-slate-100 text-slate-600 border border-slate-200 font-black rounded-xl text-xs uppercase tracking-widest hover:bg-slate-200 transition-all active:scale-95">
-                    <i class="fas fa-file-excel mr-2"></i> Ekspor Excel
-                </a>
+    <!-- Universal Filter & Action Bar -->
+    <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 flex flex-col lg:flex-row justify-between items-center gap-6">
+        <form action="{{ route('laporan.pembelian') }}" method="GET" class="w-full lg:flex-1">
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-end gap-4">
+                <div class="relative flex-1">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-magnifying-glass text-slate-400 text-xs"></i>
+                    </div>
+                    <input type="text" name="search" value="{{ request('search') }}" 
+                        class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all shadow-sm placeholder:text-slate-400" 
+                        placeholder="Cari nota, produk, atau pemasok...">
+                </div>
+                <div class="flex gap-4">
+                    <div class="space-y-1">
+                        <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Mulai</label>
+                        <input type="date" name="start_date" value="{{ $start_date }}" class="bg-white border border-teal-200 rounded-xl px-4 py-3 text-sm text-slate-700 focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Sampai</label>
+                        <input type="date" name="end_date" value="{{ $end_date }}" class="bg-white border border-teal-200 rounded-xl px-4 py-3 text-sm text-slate-700 focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all">
+                    </div>
+                    <button type="submit" class="bg-teal-600 text-white font-black px-6 py-3.5 rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 active:scale-95 transition-all text-[10px] uppercase tracking-widest">
+                        Terapkan
+                    </button>
+                </div>
             </div>
-        </div>
+        </form>
 
-        <div class="overflow-x-auto custom-scrollbar relative rounded-xl border border-slate-100">
+        <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto border-t lg:border-t-0 pt-4 lg:pt-0 border-slate-50">
+            <a href="{{ route('util.export', 'pembelian') }}" class="flex-1 lg:flex-none flex items-center justify-center px-5 py-2.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white border border-emerald-200 font-bold rounded-xl text-[10px] uppercase tracking-widest transition-all active:scale-95">
+                <i class="fas fa-file-excel mr-2"></i> Ekspor Excel
+            </a>
+            <button onclick="window.print()" class="flex-1 lg:flex-none flex items-center justify-center px-5 py-2.5 bg-rose-50 text-rose-700 hover:bg-rose-600 hover:text-white border border-rose-200 font-bold rounded-xl text-[10px] uppercase tracking-widest transition-all active:scale-95">
+                <i class="fas fa-file-pdf mr-2"></i> Cetak PDF
+            </button>
+        </div>
+    </div>
+
+    <!-- Data Table -->
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgba(13,148,136,0.05)] overflow-hidden">
+        <div class="overflow-x-auto custom-scrollbar relative rounded-xl border border-slate-100 m-4">
             <table class="w-full text-left">
                 <thead>
                     <tr class="bg-teal-50/80 text-slate-600 text-[10px] font-black uppercase tracking-widest">
