@@ -44,7 +44,7 @@
  }
  </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased font-sans" x-data="{ sidebarOpen: true }">
+<body class="bg-slate-50 text-slate-800 antialiased font-sans" x-data="{ sidebarOpen: window.innerWidth >= 1024 }" x-init="window.addEventListener('resize', () => { if(window.innerWidth >= 1024) sidebarOpen = true })">
  <!-- SPA Progress Bar -->
  <div class="fixed top-0 left-0 right-0 z-[100] pointer-events-none">
     <div 
@@ -110,7 +110,7 @@
  <aside 
     x-cloak
     :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
-    class="fixed inset-y-0 left-0 w-72 bg-teal-50 flex flex-col z-50 transition-transform duration-300 ease-in-out border-r border-teal-100/50 shadow-sm shadow-teal-900/5">
+    class="fixed inset-y-0 left-0 w-72 bg-teal-50 flex flex-col z-50 transition-transform duration-300 ease-in-out border-r border-teal-100/50 shadow-sm shadow-teal-900/5 lg:translate-x-0">
  
     <!-- Sidebar Branding -->
     <div class="h-20 flex items-center px-8 border-b border-teal-100/50">
@@ -153,31 +153,30 @@
     :class="sidebarOpen ? 'lg:pl-72' : 'pl-0'">
     
     <!-- Top Header -->
-    <header class="h-20 bg-teal-50 border-b border-teal-100 flex items-center justify-between px-8 sm:px-10 flex-shrink-0 z-40 sticky top-0 shadow-sm shadow-teal-900/5">
-        <div class="flex items-center gap-6">
+    <header class="h-20 bg-teal-50 border-b border-teal-100 flex items-center justify-between px-4 md:px-8 flex-shrink-0 z-40 sticky top-0 shadow-sm shadow-teal-900/5">
+        <div class="flex items-center gap-4 md:gap-6">
             <!-- Sidebar Toggle Button -->
             <button @click="sidebarOpen = !sidebarOpen" class="w-10 h-10 flex items-center justify-center rounded-xl bg-white text-slate-400 hover:text-teal-600 transition-all border border-teal-100 shadow-sm">
                 <i class="fas fa-bars-staggered transition-transform duration-300" :class="sidebarOpen ? 'rotate-90' : ''"></i>
             </button>
 
             <!-- Breadcrumbs -->
-            <div class="flex items-center text-sm">
-                <a href="{{ route('dashboard') }}" wire:navigate class="text-teal-600 font-bold hover:text-teal-700 transition-colors">Beranda</a>
-                <i class="fas fa-chevron-right text-[10px] mx-4 text-slate-300"></i>
-                <span class="text-slate-400 font-medium tracking-tight">@yield('title', 'Dashboard')</span>
+            <div class="flex items-center text-sm overflow-hidden">
+                <a href="{{ route('dashboard') }}" wire:navigate class="text-teal-600 font-bold hover:text-teal-700 transition-colors whitespace-nowrap">Beranda</a>
+                <i class="fas fa-chevron-right text-[10px] mx-2 md:mx-4 text-slate-300 flex-shrink-0"></i>
+                <span class="text-slate-400 font-medium tracking-tight truncate">@yield('title', 'Dashboard')</span>
             </div>
         </div>
 
         <div class="flex items-center gap-4">
-            <div class="hidden md:flex flex-col items-end text-right">
+            <div class="hidden sm:flex flex-col items-end text-right">
                 <span class="text-xs font-black text-slate-800 tracking-tighter">{{ date('d M Y') }}</span>
-                <!-- <span class="text-[10px] text-teal-600 font-bold uppercase tracking-widest">Sistem Aktif</span> -->
             </div>
         </div>
     </header>
 
     <!-- Content Area -->
-    <main class="flex-1 p-8 sm:p-10 overflow-y-auto custom-scrollbar bg-transparent">
+    <main class="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto custom-scrollbar bg-transparent">
         <div class="max-w-7xl mx-auto pb-10">
             @yield('content')
         </div>

@@ -10,10 +10,10 @@
  <h2 class="font-bold text-slate-800 text-lg">Data Transaksi Pembelian</h2>
  <p class="text-slate-500 text-xs">Kelola riwayat pengadaan stok barang dari pemasok Xyra.id</p>
  </div>
- <div class="flex flex-wrap items-center gap-2">
+ <div class="flex flex-col sm:flex-row flex-wrap items-center gap-3">
     <!-- Per Page Selector -->
-    <div x-data="{ open: false }" class="relative inline-block text-left z-[100]" x-cloak>
-        <button @click="open = !open" @click.outside="open = false" type="button" class="inline-flex items-center justify-between min-w-[140px] px-4 py-2.5 text-sm font-semibold text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:text-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500/30 transition-all shadow-sm group">
+    <div x-data="{ open: false }" class="relative inline-block text-left z-[100] w-full sm:w-auto" x-cloak>
+        <button @click="open = !open" @click.outside="open = false" type="button" class="inline-flex items-center justify-between w-full sm:min-w-[140px] px-4 py-2.5 text-sm font-semibold text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:text-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500/30 transition-all shadow-sm group">
             <span class="truncate">Tampilkan: <span class="text-teal-600">{{ request('per_page', 50) === 'all' ? 'Semua' : request('per_page', 50) }}</span></span>
             <i class="fas fa-chevron-down ml-2 text-xs transition-transform duration-300" :class="open ? 'rotate-180 text-teal-600' : 'text-slate-400 group-hover:text-teal-500'"></i>
         </button>
@@ -26,16 +26,16 @@
         </div>
     </div>
 
- <a href="{{ route('util.template', 'pembelian') }}" class="bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 font-bold rounded-xl px-4 py-2 text-xs transition-all flex items-center">
+ <a href="{{ route('util.template', 'pembelian') }}" class="w-full sm:w-auto bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 font-bold rounded-xl px-4 py-2.5 text-xs transition-all flex items-center justify-center">
     <i class="fas fa-file-arrow-down mr-2"></i> Unduh Template
  </a>
 
- <div x-data="{ openImport: false, isDragging: false }" class="relative z-[100]">
-     <button @click="openImport = true" class="bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 flex items-center px-4 py-2 rounded-xl text-xs font-bold transition-all">
+ <div x-data="{ openImport: false, isDragging: false }" class="relative z-[100] w-full sm:w-auto">
+     <button @click="openImport = true" class="w-full bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 flex items-center justify-center px-4 py-2.5 rounded-xl text-xs font-bold transition-all">
          <i class="fas fa-file-import mr-2"></i> Impor Data
      </button>
      
-     <div x-show="openImport" x-cloak class="fixed inset-0 z-[150] flex items-center justify-center bg-slate-900/50 backdrop-blur-sm" x-transition.opacity>
+     <div x-show="openImport" x-cloak class="fixed inset-0 z-[150] flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4" x-transition.opacity>
          <div @click.outside="openImport = false" class="bg-white rounded-[2.5rem] border border-slate-100 shadow-xl w-full max-w-md p-6 transform transition-all" x-transition.scale.95>
              <div class="flex justify-between items-center mb-5">
                  <h3 class="text-lg font-bold text-slate-800">Impor Data Pembelian</h3>
@@ -73,11 +73,11 @@
                          </div>
                      </div>
                  </div>
-                 <div class="flex justify-end space-x-3 pt-2">
-                     <button type="button" @click="openImport = false" class="bg-slate-100 text-slate-600 border border-slate-200 font-bold rounded-xl px-5 py-2.5 text-sm hover:bg-slate-200 transition-all">Batal</button>
-                     <button type="submit" class="bg-teal-600 text-white font-black rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 px-5 py-2.5 text-sm group">
+                 <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-2">
+                     <button type="button" @click="openImport = false" class="w-full sm:w-auto bg-slate-100 text-slate-600 border border-slate-200 font-bold rounded-xl px-5 py-2.5 text-sm hover:bg-slate-200 transition-all">Batal</button>
+                     <button type="submit" class="w-full sm:w-auto bg-teal-600 text-white font-black rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 px-5 py-2.5 text-sm group flex items-center justify-center">
                         <span>Impor Saja</span>
-                        <i class="fas fa-arrow-right text-[10px] group-hover:translate-x-1 transition-transform ml-1"></i>
+                        <i class="fas fa-arrow-right text-[10px] group-hover:translate-x-1 transition-transform ml-2"></i>
                      </button>
                  </div>
              </form>
@@ -85,10 +85,10 @@
      </div>
  </div>
 
- <a href="{{ route('util.export', 'pembelian') }}" class="bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 font-bold rounded-xl px-4 py-2 text-xs transition-all flex items-center">
+ <a href="{{ route('util.export', 'pembelian') }}" class="w-full sm:w-auto bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 font-bold rounded-xl px-4 py-2.5 text-xs transition-all flex items-center justify-center">
  <i class="fas fa-file-export mr-2"></i> Ekspor Excel
  </a>
- <a href="{{ route('input.pembelian') }}" wire:navigate.hover class="bg-teal-600 text-white font-black rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 px-4 py-2 text-xs flex items-center">
+ <a href="{{ route('input.pembelian') }}" wire:navigate.hover class="w-full sm:w-auto bg-teal-600 text-white font-black rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 px-4 py-2.5 text-xs flex items-center justify-center">
  <i class="fas fa-cart-plus mr-2"></i> Tambah Transaksi
  </a>
  </div>
@@ -102,7 +102,7 @@
     $currentSortBy = request('sort_by', 'Tgl_Pembelian');
     $currentSortDir = request('sort_dir', 'desc');
  @endphp
- <tr class="bg-teal-50/80 text-slate-600 text-[10px] font-black uppercase tracking-widest">
+ <tr class="bg-teal-50/80 text-slate-600 text-[10px] font-black uppercase tracking-widest whitespace-nowrap">
  @php $newDir = ($currentSortBy === 'Tgl_Pembelian' && $currentSortDir === 'asc') ? 'desc' : 'asc'; @endphp
  <th class="py-4 px-6 cursor-pointer group" onclick="window.location.href='{{ request()->fullUrlWithQuery(['sort_by' => 'Tgl_Pembelian', 'sort_dir' => $newDir, 'page' => 1]) }}'">
     <div class="flex items-center">
@@ -115,42 +115,42 @@
  <th class="py-4 px-6">Metode Pembayaran</th>
  <th class="py-4 px-6 text-center">Kuantitas</th>
  <th class="py-4 px-6">Admin Pencatat</th>
- <th class="py-4 px-6">Total Harga</th>
+ <th class="py-4 px-6 text-right">Total Harga</th>
  <th class="py-4 px-6 text-center">Aksi</th>
  </tr>
  </thead>
  <tbody class="divide-y divide-slate-50">
  @forelse($pembelians as $item)
  <tr class="bg-white hover:bg-slate-50 transition-colors duration-200">
- <td class="py-4 px-6 text-sm text-slate-600 font-medium">{{ date('d/m/Y', strtotime($item->Tgl_Pembelian)) }}</td>
+ <td class="py-4 px-6 text-sm text-slate-600 font-medium whitespace-nowrap">{{ date('d/m/Y', strtotime($item->Tgl_Pembelian)) }}</td>
  <td class="py-4 px-6">
- <div class="flex flex-col">
+ <div class="flex flex-col min-w-[180px]">
  <p class="text-sm font-bold text-slate-800">{{ $item->dataBarang->Nama_Barang ?? 'Produk Dihapus' }}</p>
  <p class="text-[10px] text-slate-400 font-bold uppercase italic">{{ $item->ID_Barang }}</p>
  </div>
  </td>
  <td class="py-4 px-6">
-    <div class="flex flex-col">
+    <div class="flex flex-col min-w-[150px]">
         <p class="text-sm text-slate-700 font-semibold">{{ $item->pemasok->Nama_Pemasok ?? 'Pemasok Dihapus' }}</p>
         <p class="text-[10px] text-teal-600 font-bold uppercase tracking-tighter">{{ $item->ID_Pemasok ?? '-' }}</p>
     </div>
  </td>
- <td class="py-4 px-6">
+ <td class="py-4 px-6 whitespace-nowrap">
     <span class="px-2 py-0.5 rounded-lg text-[10px] font-black uppercase tracking-widest border border-slate-200 bg-slate-50 text-slate-500">
         {{ $item->jenis_pembayaran ?? 'Transfer' }}
     </span>
  </td>
- <td class="py-4 px-6 text-center">
+ <td class="py-4 px-6 text-center whitespace-nowrap">
  <span class="text-sm font-bold text-teal-600">+{{ $item->Kuantitas }}</span>
  </td>
  <td class="py-4 px-6">
-    <div class="flex flex-col">
+    <div class="flex flex-col min-w-[120px]">
         <span class="text-xs font-medium text-slate-600">{{ $item->user->name ?? 'Sistem' }}</span>
         <span class="text-[10px] text-teal-600 font-mono font-bold">{{ $item->user_id ?? '-' }}</span>
     </div>
  </td>
- <td class="py-4 px-6 text-sm font-bold text-slate-900">Rp {{ number_format($item->Total_Harga, 0, ',', '.') }}</td>
- <td class="py-4 px-6 text-center">
+ <td class="py-4 px-6 text-sm font-bold text-slate-900 text-right whitespace-nowrap">Rp {{ number_format($item->Total_Harga, 0, ',', '.') }}</td>
+ <td class="py-4 px-6 text-center whitespace-nowrap">
  <div class="flex justify-center space-x-2">
  <a href="{{ route('data.pembelian.edit', $item->ID_Pembelian) }}" wire:navigate.hover class="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-50 text-teal-600 hover:bg-teal-600 hover:text-white shadow-sm transition-all" title="Ubah Data">
  <i class="fas fa-edit text-xs"></i>

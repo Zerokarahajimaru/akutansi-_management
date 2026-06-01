@@ -10,10 +10,10 @@
  <h2 class="font-bold text-slate-800 text-lg">Daftar Pengguna Sistem</h2>
  <p class="text-slate-500 text-xs">Kelola akun Admin yang memiliki akses ke aplikasi Xyra.id</p>
  </div>
- <div class="flex flex-wrap items-center gap-2">
+ <div class="flex flex-col sm:flex-row flex-wrap items-center gap-3">
     <!-- Per Page Selector -->
-    <div x-data="{ open: false }" class="relative inline-block text-left z-[100]" x-cloak>
-        <button @click="open = !open" @click.outside="open = false" type="button" class="inline-flex items-center justify-between min-w-[140px] px-4 py-2.5 text-sm font-semibold text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:text-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500/30 transition-all shadow-sm group">
+    <div x-data="{ open: false }" class="relative inline-block text-left z-[100] w-full sm:w-auto" x-cloak>
+        <button @click="open = !open" @click.outside="open = false" type="button" class="inline-flex items-center justify-between w-full sm:min-w-[140px] px-4 py-2.5 text-sm font-semibold text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:text-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500/30 transition-all shadow-sm group">
             <span class="truncate">Tampilkan: <span class="text-teal-600">{{ request('per_page', 50) === 'all' ? 'Semua' : request('per_page', 50) }}</span></span>
             <i class="fas fa-chevron-down ml-2 text-xs transition-transform duration-300" :class="open ? 'rotate-180 text-teal-600' : 'text-slate-400 group-hover:text-teal-500'"></i>
         </button>
@@ -26,10 +26,10 @@
         </div>
     </div>
 
- <a href="{{ route('util.export', 'user') }}" class="bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 flex items-center px-4 py-2 font-bold rounded-xl text-xs transition-all">
+ <a href="{{ route('util.export', 'user') }}" class="w-full sm:w-auto bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 flex items-center justify-center px-4 py-2.5 font-bold rounded-xl text-xs transition-all">
  <i class="fas fa-file-export mr-2"></i> Ekspor Excel
  </a>
- <a href="{{ route('input.user') }}" wire:navigate class="bg-teal-600 text-white font-black rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 flex items-center px-4 py-2 text-xs">
+ <a href="{{ route('input.user') }}" wire:navigate class="w-full sm:w-auto bg-teal-600 text-white font-black rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 flex items-center justify-center px-4 py-2.5 text-xs">
  <i class="fas fa-user-plus mr-2"></i> Tambah Pengguna
  </a>
  </div>
@@ -43,7 +43,7 @@
     $currentSortBy = request('sort_by', 'name');
     $currentSortDir = request('sort_dir', 'asc');
  @endphp
- <tr class="bg-teal-50/80 text-slate-600 text-[10px] font-black uppercase tracking-widest">
+ <tr class="bg-teal-50/80 text-slate-600 text-[10px] font-black uppercase tracking-widest whitespace-nowrap">
  <th class="py-4 px-6">ID Pengguna</th>
  @php $newDir = ($currentSortBy === 'name' && $currentSortDir === 'asc') ? 'desc' : 'asc'; @endphp
  <th class="py-4 px-6 cursor-pointer group" onclick="window.location.href='{{ request()->fullUrlWithQuery(['sort_by' => 'name', 'sort_dir' => $newDir, 'page' => 1]) }}'">
@@ -59,7 +59,7 @@
         <i class="fas {{ $currentSortBy === 'username' ? ($currentSortDir === 'asc' ? 'fa-sort-up text-teal-600' : 'fa-sort-down text-teal-600') : 'fa-sort text-slate-300' }} text-[10px] ml-auto group-hover:text-teal-500 transition-colors"></i>
     </div>
  </th>
- <th class="py-4 px-6">Nomor Telepon</th>
+ <th class="py-4 px-6 text-center">Nomor Telepon</th>
  <th class="py-4 px-6">Alamat</th>
  <th class="py-4 px-6 text-center">Aksi</th>
  </tr>
@@ -67,12 +67,12 @@
  <tbody class="divide-y divide-slate-50">
  @forelse($users as $user)
  <tr class="bg-white hover:bg-slate-50 transition-colors duration-200">
- <td class="py-4 px-6 text-sm text-teal-600 font-bold uppercase tracking-tighter">{{ $user->id }}</td>
- <td class="py-4 px-6 text-sm font-bold text-slate-800">{{ $user->name }}</td>
- <td class="py-4 px-6 text-sm text-slate-600 font-medium"><span>{{ $user->username }}</span></td>
- <td class="py-4 px-6 text-sm text-slate-600 italic">{{ $user->NoTelp_User ?? '-' }}</td>
- <td class="py-4 px-6 text-sm text-slate-500 leading-relaxed">{{ $user->Alamat_User ?? '-' }}</td>
- <td class="py-4 px-6 text-center">
+ <td class="py-4 px-6 text-sm text-teal-600 font-bold uppercase whitespace-nowrap">{{ $user->id }}</td>
+ <td class="py-4 px-6 text-sm font-bold text-slate-800 whitespace-nowrap">{{ $user->name }}</td>
+ <td class="py-4 px-6 text-sm text-slate-600 font-medium whitespace-nowrap"><span>{{ $user->username }}</span></td>
+ <td class="py-4 px-6 text-sm text-slate-600 text-center italic whitespace-nowrap">{{ $user->NoTelp_User ?? '-' }}</td>
+ <td class="py-4 px-6 text-sm text-slate-500 leading-relaxed min-w-[250px]">{{ $user->Alamat_User ?? '-' }}</td>
+ <td class="py-4 px-6 text-center whitespace-nowrap">
     <div class="flex justify-center items-center">
         @if(auth()->id() === $user->id)
             <a href="{{ route('data.user.edit', $user->id) }}" wire:navigate class="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-50 text-teal-600 hover:bg-teal-600 hover:text-white shadow-sm transition-all" title="Ubah Data">
