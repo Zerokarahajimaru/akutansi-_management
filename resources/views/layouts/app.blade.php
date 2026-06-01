@@ -44,7 +44,12 @@
  }
  </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased font-sans" x-data="{ sidebarOpen: window.innerWidth >= 1024 }">
+<body class="bg-slate-50 text-slate-800 antialiased font-sans" 
+    x-data="{ 
+        isDesktop: window.innerWidth >= 1024, 
+        sidebarOpen: window.innerWidth >= 1024 
+    }" 
+    @resize.window="isDesktop = window.innerWidth >= 1024">
  <!-- SPA Progress Bar -->
  <div class="fixed top-0 left-0 right-0 z-[10000] pointer-events-none">
     <div 
@@ -61,10 +66,52 @@
  </div>
 
  <div class="flex h-screen overflow-hidden relative">
+    <!-- Sidebar - Fixed and Collapsible -->
+    <aside 
+        x-cloak
+        :class="sidebarOpen ? 'w-72 translate-x-0' : (isDesktop ? 'w-20 translate-x-0' : 'w-72 -translate-x-full')"
+        class="fixed inset-y-0 left-0 bg-teal-50 flex flex-col z-[200] transition-all duration-300 ease-in-out border-r border-teal-100/50 shadow-sm shadow-teal-900/5">
+    
+        <!-- Sidebar Branding -->
+        <div class="h-20 flex items-center border-b border-teal-100/50 px-6 transition-all duration-300" :class="sidebarOpen ? 'justify-start' : 'justify-center px-0'">
+            <a href="{{ route('dashboard') }}" wire:navigate.hover @click="sidebarOpen = false" class="flex items-center gap-3 group">
+                <img src="{{ asset('Resource/xyra_logo.png') }}" alt="Xyra.id Logo" class="h-8 w-auto transition-transform group-hover:scale-105">
+                <span x-show="sidebarOpen" x-transition.opacity.duration.300 class="text-xl font-black tracking-tighter text-teal-950 whitespace-nowrap">Xyra<span class="text-teal-600">.id</span></span>
+            </a>
+        </div> 
+
+        <!-- Navigation Area -->
+        <div class="flex-1 overflow-y-auto custom-scrollbar overflow-x-hidden">
+            @include('layouts.partials.navigation')
+        </div>
+
+        <!-- Sidebar Footer / User Info -->
+        <div class="p-4 border-t border-teal-100/50 bg-teal-100/20">
+            <div class="flex items-center justify-between mb-6 transition-all duration-300" :class="sidebarOpen ? 'px-2' : 'justify-center px-0'">
+                <div x-show="sidebarOpen" x-transition.opacity.duration.300 class="flex flex-col overflow-hidden">
+                    <p class="text-sm font-bold text-teal-950 truncate">{{ Auth::user()->name }}</p>
+                    <p class="text-[10px] text-teal-600/60 uppercase tracking-widest font-black mt-0.5">{{ Auth::user()->role }}</p>
+                </div>
+                <a wire:navigate.hover href="{{ route('data.user.edit', Auth::user()->id) }}" @click="sidebarOpen = false"
+                    class="transition-all duration-300 p-2.5 rounded-xl flex items-center justify-center text-teal-400 hover:text-teal-700 hover:bg-white shadow-sm border border-transparent hover:border-teal-100"
+                    title="Pengaturan Profil">
+                    <i class="fas fa-gear text-sm"></i>
+                </a>
+            </div>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="flex items-center justify-center w-full py-3 px-4 rounded-xl bg-white border border-teal-200 text-teal-700 text-xs font-black uppercase tracking-widest hover:bg-rose-600 hover:text-white hover:border-rose-600 transition-all duration-300 group shadow-sm" title="Keluar Akun">
+                    <i class="fas fa-arrow-right-from-bracket flex-shrink-0 group-hover:translate-x-0.5 transition-transform" :class="sidebarOpen ? 'mr-3' : ''"></i>
+                    <span x-show="sidebarOpen" x-transition.opacity.duration.300>Keluar</span>
+                </button>
+            </form>
+        </div>
+    </aside>
+
     <!-- Main Content Wrapper -->
     <div 
         class="flex-1 flex flex-col transition-all duration-300 min-w-0 h-screen relative z-0"
-        :class="sidebarOpen ? 'lg:pl-72' : 'pl-0'">
+        :class="sidebarOpen ? 'lg:pl-72' : 'lg:pl-20'">
         
         <!-- Top Header -->
         <header class="h-20 bg-teal-50 border-b border-teal-100 flex items-center justify-between px-4 md:px-8 flex-shrink-0 z-[100] sticky top-0 shadow-sm shadow-teal-900/5">
@@ -99,7 +146,7 @@
 
     <!-- Mobile Sidebar Backdrop -->
     <div 
-        x-show="sidebarOpen" 
+        x-show="!isDesktop && sidebarOpen" 
         @click="sidebarOpen = false" 
         class="fixed inset-0 bg-slate-900/40 z-[190] lg:hidden"
         x-transition:enter="transition opacity-100 duration-300"
@@ -109,47 +156,6 @@
         x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0">
     </div>
-
-    <!-- Sidebar - Fixed and Slideable -->
-    <aside 
-        x-cloak
-        :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
-        class="fixed inset-y-0 left-0 w-72 bg-teal-50 flex flex-col z-[200] transition-transform duration-300 ease-in-out border-r border-teal-100/50 shadow-sm shadow-teal-900/5">
-    
-        <!-- Sidebar Branding -->
-        <div class="h-20 flex items-center px-8 border-b border-teal-100/50">
-            <a href="{{ route('dashboard') }}" wire:navigate.hover @click="sidebarOpen = false" class="flex items-center gap-3 group">
-                <img src="{{ asset('Resource/xyra_logo.png') }}" alt="Xyra.id Logo" class="h-8 w-auto transition-transform group-hover:scale-105">
-                <span class="text-xl font-black tracking-tighter text-teal-950">Xyra<span class="text-teal-600">.id</span></span>
-            </a>
-        </div> 
-
-        <!-- Navigation Area -->
-        <div class="flex-1 overflow-y-auto custom-scrollbar">
-            @include('layouts.partials.navigation')
-        </div>
-
-        <!-- Sidebar Footer / User Info -->
-        <div class="p-6 border-t border-teal-100/50 bg-teal-100/20">
-            <div class="flex items-center justify-between mb-6 px-2">
-                <div class="flex flex-col overflow-hidden">
-                    <p class="text-sm font-bold text-teal-950 truncate">{{ Auth::user()->name }}</p>
-                    <p class="text-[10px] text-teal-600/60 uppercase tracking-widest font-black mt-0.5">{{ Auth::user()->role }}</p>
-                </div>
-                <a wire:navigate.hover href="{{ route('data.user.edit', Auth::user()->id) }}" @click="sidebarOpen = false"
-                    class="transition-all duration-300 p-2.5 rounded-xl flex items-center justify-center text-teal-400 hover:text-teal-700 hover:bg-white shadow-sm border border-transparent hover:border-teal-100">
-                    <i class="fas fa-gear text-sm"></i>
-                </a>
-            </div>
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit" class="flex items-center justify-center w-full py-3 px-4 rounded-xl bg-white border border-teal-200 text-teal-700 text-xs font-black uppercase tracking-widest hover:bg-rose-600 hover:text-white hover:border-rose-600 transition-all duration-300 group shadow-sm">
-                    <i class="fas fa-arrow-right-from-bracket flex-shrink-0 group-hover:translate-x-0.5 transition-transform mr-3"></i>
-                    <span>Keluar Akun</span>
-                </button>
-            </form>
-        </div>
-    </aside>
  </div>
 
  <!-- Global SweetAlert Handler -->
