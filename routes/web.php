@@ -86,6 +86,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/pembelian', [ReportController::class, 'pembelian'])->name('laporan.pembelian');
         Route::get('/penjualan', [ReportController::class, 'penjualan'])->name('laporan.penjualan');
         Route::get('/stok', [ReportController::class, 'stok'])->name('laporan.stok');
+        
+        // Export Routes
+        Route::get('/export/excel', [ReportController::class, 'exportExcel'])->name('laporan.export.excel');
+        Route::get('/export/pdf', [ReportController::class, 'exportPdf'])->name('laporan.export.pdf');
     });
 });
 

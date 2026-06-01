@@ -13,8 +13,8 @@
  </div>
  </div>
 
- <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
-    <form method="GET" action="" class="w-full md:max-w-md relative">
+ <div class="flex flex-col xl:flex-row justify-between items-center gap-4 mb-6 w-full">
+    <form method="GET" action="" class="w-full sm:w-[320px] lg:w-[400px] flex-shrink-0 relative">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <i class="fas fa-magnifying-glass text-slate-400"></i>
         </div>

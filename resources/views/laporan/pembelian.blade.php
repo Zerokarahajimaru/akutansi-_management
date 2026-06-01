@@ -41,40 +41,43 @@
     </div>
 
     <!-- Universal Filter & Action Bar -->
-    <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 flex flex-col lg:flex-row justify-between items-center gap-6">
-        <form action="{{ route('laporan.pembelian') }}" method="GET" class="w-full lg:flex-1">
-            <div class="flex flex-col sm:flex-row items-stretch sm:items-end gap-4">
-                <div class="relative flex-1">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fas fa-magnifying-glass text-slate-400 text-xs"></i>
-                    </div>
-                    <input type="text" name="search" value="{{ request('search') }}" 
-                        class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all shadow-sm placeholder:text-slate-400" 
-                        placeholder="Cari nota, produk, atau pemasok...">
+    <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100">
+        <!-- TOP DECK (Filters) -->
+        <form action="{{ route('laporan.pembelian') }}" method="GET" class="w-full flex flex-col xl:flex-row items-end gap-4">
+            <div class="relative flex-1 w-full min-w-[250px]">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i class="fas fa-magnifying-glass text-slate-400 text-xs"></i>
                 </div>
-                <div class="flex gap-4">
-                    <div class="space-y-1">
-                        <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Mulai</label>
-                        <input type="date" name="start_date" value="{{ $start_date }}" class="bg-white border border-teal-200 rounded-xl px-4 py-3 text-sm text-slate-700 focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all">
-                    </div>
-                    <div class="space-y-1">
-                        <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Sampai</label>
-                        <input type="date" name="end_date" value="{{ $end_date }}" class="bg-white border border-teal-200 rounded-xl px-4 py-3 text-sm text-slate-700 focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all">
-                    </div>
-                    <button type="submit" class="bg-teal-600 text-white font-black px-6 py-3.5 rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 active:scale-95 transition-all text-[10px] uppercase tracking-widest">
-                        Terapkan
-                    </button>
+                <input type="text" name="search" value="{{ request('search') }}" 
+                    class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all shadow-sm placeholder:text-slate-400" 
+                    placeholder="Cari nota, produk, atau pemasok...">
+            </div>
+            <div class="flex gap-4 w-full xl:w-auto">
+                <div class="space-y-1 flex-1 xl:flex-none">
+                    <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Mulai</label>
+                    <input type="date" name="start_date" value="{{ $start_date }}" class="w-full bg-white border border-teal-200 rounded-xl px-4 py-3 text-sm text-slate-700 focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all">
                 </div>
+                <div class="space-y-1 flex-1 xl:flex-none">
+                    <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Sampai</label>
+                    <input type="date" name="end_date" value="{{ $end_date }}" class="w-full bg-white border border-teal-200 rounded-xl px-4 py-3 text-sm text-slate-700 focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all">
+                </div>
+                <button type="submit" class="bg-teal-600 text-white font-black px-6 py-3.5 rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 active:scale-95 transition-all text-[10px] uppercase tracking-widest flex-shrink-0">
+                    Terapkan
+                </button>
             </div>
         </form>
 
-        <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto border-t lg:border-t-0 pt-4 lg:pt-0 border-slate-50">
-            <a href="{{ route('util.export', 'pembelian') }}" class="flex-1 lg:flex-none flex items-center justify-center px-5 py-2.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white border border-emerald-200 font-bold rounded-xl text-[10px] uppercase tracking-widest transition-all active:scale-95">
+        <!-- DIVIDER -->
+        <hr class="border-slate-100 my-6">
+
+        <!-- BOTTOM DECK (Exports) -->
+        <div class="flex flex-col sm:flex-row justify-end gap-3">
+            <a href="{{ route('laporan.export.excel', array_merge(request()->query(), ['type' => 'pembelian'])) }}" class="w-full sm:w-auto px-6 py-2.5 flex items-center justify-center bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white border border-emerald-200 font-bold rounded-xl text-[10px] uppercase tracking-widest transition-all active:scale-95">
                 <i class="fas fa-file-excel mr-2"></i> Ekspor Excel
             </a>
-            <button onclick="window.print()" class="flex-1 lg:flex-none flex items-center justify-center px-5 py-2.5 bg-rose-50 text-rose-700 hover:bg-rose-600 hover:text-white border border-rose-200 font-bold rounded-xl text-[10px] uppercase tracking-widest transition-all active:scale-95">
+            <a href="{{ route('laporan.export.pdf', array_merge(request()->query(), ['type' => 'pembelian'])) }}" class="w-full sm:w-auto px-6 py-2.5 flex items-center justify-center bg-rose-50 text-rose-700 hover:bg-rose-600 hover:text-white border border-rose-200 font-bold rounded-xl text-[10px] uppercase tracking-widest transition-all active:scale-95">
                 <i class="fas fa-file-pdf mr-2"></i> Cetak PDF
-            </button>
+            </a>
         </div>
     </div>
 
