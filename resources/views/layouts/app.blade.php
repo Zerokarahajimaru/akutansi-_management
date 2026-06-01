@@ -74,7 +74,7 @@
     
         <!-- Sidebar Branding -->
         <div class="h-20 flex items-center border-b border-teal-100/50 px-6 transition-all duration-300" :class="sidebarOpen ? 'justify-start' : 'justify-center px-0'">
-            <a href="{{ route('dashboard') }}" wire:navigate.hover @click="sidebarOpen = false" class="flex items-center gap-3 group">
+            <a href="{{ route('dashboard') }}" wire:navigate.hover @click="if(!isDesktop) sidebarOpen = false" class="flex items-center gap-3 group">
                 <img src="{{ asset('Resource/xyra_logo.png') }}" alt="Xyra.id Logo" class="h-8 w-auto transition-transform group-hover:scale-105">
                 <span x-show="sidebarOpen" x-transition.opacity.duration.300 class="text-xl font-black tracking-tighter text-teal-950 whitespace-nowrap">Xyra<span class="text-teal-600">.id</span></span>
             </a>
@@ -92,7 +92,7 @@
                     <p class="text-sm font-bold text-teal-950 truncate">{{ Auth::user()->name }}</p>
                     <p class="text-[10px] text-teal-600/60 uppercase tracking-widest font-black mt-0.5">{{ Auth::user()->role }}</p>
                 </div>
-                <a wire:navigate.hover href="{{ route('data.user.edit', Auth::user()->id) }}" @click="sidebarOpen = false"
+                <a wire:navigate.hover href="{{ route('data.user.edit', Auth::user()->id) }}" @click="if(!isDesktop) sidebarOpen = false"
                     class="transition-all duration-300 p-2.5 rounded-xl flex items-center justify-center text-teal-400 hover:text-teal-700 hover:bg-white shadow-sm border border-transparent hover:border-teal-100"
                     title="Pengaturan Profil">
                     <i class="fas fa-gear text-sm"></i>
@@ -130,11 +130,9 @@
             </div>
 
             <div class="flex items-center gap-4">
-                <div class="hidden sm:flex flex-col items-end text-right">
-                    <span class="text-xs font-black text-slate-800 tracking-tighter">{{ date('d M Y') }}</span>
-                </div>
+                <!-- Header Right Section (Empty) -->
             </div>
-        </header>
+            </header>
 
         <!-- Content Area -->
         <main class="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto custom-scrollbar bg-transparent relative">
@@ -147,7 +145,7 @@
     <!-- Mobile Sidebar Backdrop -->
     <div 
         x-show="!isDesktop && sidebarOpen" 
-        @click="sidebarOpen = false" 
+        @click="if(!isDesktop) sidebarOpen = false" 
         class="fixed inset-0 bg-slate-900/40 z-[190] lg:hidden"
         x-transition:enter="transition opacity-100 duration-300"
         x-transition:enter-start="opacity-0"
