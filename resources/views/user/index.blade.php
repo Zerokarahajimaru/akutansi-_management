@@ -12,7 +12,7 @@
  </div>
  <div class="flex flex-col sm:flex-row flex-wrap items-center gap-3">
     <!-- Per Page Selector -->
-    <div x-data="{ open: false }" class="relative inline-block text-left z-[30] w-full sm:w-auto" x-cloak>
+    <div x-data="{ open: false }" class="relative inline-block text-left z-[30] w-full lg:w-auto" x-cloak>
         <button @click="open = !open" @click.outside="open = false" type="button" class="inline-flex items-center justify-between w-full sm:min-w-[140px] px-4 py-2.5 text-sm font-semibold text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:text-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500/30 transition-all shadow-sm group">
             <span class="truncate">Tampilkan: <span class="text-teal-600">{{ request('per_page', 50) === 'all' ? 'Semua' : request('per_page', 50) }}</span></span>
             <i class="fas fa-chevron-down ml-2 text-xs transition-transform duration-300" :class="open ? 'rotate-180 text-teal-600' : 'text-slate-400 group-hover:text-teal-500'"></i>
@@ -26,12 +26,17 @@
         </div>
     </div>
 
- <a href="{{ route('util.export', 'user') }}" class="w-full sm:w-auto bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 flex items-center justify-center px-4 py-2.5 font-bold rounded-xl text-xs transition-all">
- <i class="fas fa-file-export mr-2"></i> Ekspor Excel
- </a>
- <a href="{{ route('input.user') }}" wire:navigate class="w-full sm:w-auto bg-teal-600 text-white font-black rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 flex items-center justify-center px-4 py-2.5 text-xs">
- <i class="fas fa-user-plus mr-2"></i> Tambah Pengguna
- </a>
+    <!-- Utility Toolbar -->
+    <div class="flex items-center bg-slate-100 border border-slate-200 rounded-2xl shadow-sm w-full lg:w-auto divide-x divide-slate-200 overflow-hidden">
+        <!-- Ekspor Excel -->
+        <a href="{{ route('util.export', 'user') }}" class="flex-1 lg:flex-none flex items-center justify-center px-3 py-2 text-[9px] font-black uppercase tracking-widest text-slate-500 hover:bg-white hover:text-emerald-600 transition-all" title="Ekspor Data Excel">
+            <i class="fas fa-file-export mr-2 text-emerald-500"></i> <span>Ekspor</span>
+        </a>
+    </div>
+
+    <a href="{{ route('input.user') }}" wire:navigate class="w-full lg:w-auto bg-teal-600 text-white font-black rounded-2xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 px-6 py-3 text-[10px] uppercase tracking-widest flex items-center justify-center">
+        <i class="fas fa-user-plus mr-2"></i> Tambah Pengguna
+    </a>
  </div>
  </div>
 
