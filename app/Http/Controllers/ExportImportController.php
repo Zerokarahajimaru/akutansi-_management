@@ -42,6 +42,18 @@ class ExportImportController extends Controller
                     $data = DataBarang::all(['ID_Barang', 'ID_Pemasok', 'Jenis_Barang', 'Nama_Barang', 'Warna_Barang', 'Ukuran_Barang', 'Harga_Beli', 'Harga_Jual']);
                     $headings = ['ID Barang', 'ID Pemasok', 'Kategori', 'Nama Produk', 'Warna', 'Ukuran', 'Harga Beli', 'Harga Jual'];
                     break;
+                case 'stok':
+                    $data = StokBarang::with('dataBarang')->get()->map(function($stok) {
+                        return [
+                            'ID_Stok' => $stok->ID_Stok,
+                            'ID_Barang' => $stok->ID_Barang,
+                            'Nama_Barang' => $stok->dataBarang->Nama_Barang ?? '-',
+                            'Stok_Awal' => $stok->Stok_Awal,
+                            'Stok_Akhir' => $stok->Stok_Akhir,
+                        ];
+                    });
+                    $headings = ['ID Stok', 'ID Barang', 'Nama Produk', 'Stok Awal', 'Sisa Stok'];
+                    break;
                 case 'user':
                     $data = User::all()->map(function($user) {
                         return [
@@ -111,7 +123,10 @@ class ExportImportController extends Controller
                 $headings = ['Nama_Pemasok', 'Alamat_Pemasok', 'NoTelp_Pemasok'];
                 break;
             case 'barang':
-                $headings = ['Nama_Pemasok', 'Jenis_Barang', 'Nama_Barang', 'Warna_Barang', 'Ukuran_Barang', 'Harga_Beli', 'Harga_Jual', 'Stok_Awal'];
+                $headings = ['Nama_Pemasok', 'Jenis_Barang', 'Nama_Barang', 'Warna_Barang', 'Ukuran_Barang', 'Harga_Beli', 'Harga_Jual'];
+                break;
+            case 'stok':
+                $headings = ['ID_Barang', 'Stok_Awal', 'Stok_Akhir'];
                 break;
             case 'pembelian':
                 $headings = ['Tgl_Pembelian', 'Nama_Barang', 'Nama_Pemasok', 'Kuantitas', 'Jenis_Pembayaran', 'Ongkir'];
@@ -159,6 +174,7 @@ class ExportImportController extends Controller
                         case 'pelanggan': $this->importPelanggan($row); break;
                         case 'pemasok':   $this->importPemasok($row); break;
                         case 'barang':    $this->importBarang($row); break;
+                        case 'stok':      $this->importStok($row); break;
                         case 'pembelian': $this->importPembelian($row); break;
                         case 'penjualan': $this->importPenjualan($row); break;
                     }
@@ -220,9 +236,9 @@ class ExportImportController extends Controller
             'user_id' => auth()->id(),
             'ID_Pemasok' => $pemasok->ID_Pemasok,
             'ID_Barang' => $id_barang,
-            'Stok_Awal' => $row[7] ?? 0,
-            'Stok_Akhir' => $row[7] ?? 0,
-            'Keterangan' => 'Import bulk otomatis',
+            'Stok_Awal' => 0,
+            'Stok_Akhir' => 0,
+            'Keterangan' => 'Import master barang otomatis',
         ]);
     }
 
@@ -288,6 +304,30 @@ class ExportImportController extends Controller
         ]);
 
         $stok->decrement('Stok_Akhir', $qty);
+    }
+
+    private function importStok($row) {
+        if (empty($row[0])) throw new \Exception("ID Barang tidak boleh kosong.");
+        
+        $stok = StokBarang::where('ID_Barang', $row[0])->first();
+        if (!$stok) {
+            $barang = DataBarang::where('ID_Barang', $row[0])->first();
+            if (!$barang) throw new \Exception("Barang dengan ID '{$row[0]}' tidak ditemukan.");
+            
+            StokBarang::create([
+                'ID_Stok' => 'STK-' . substr($row[0], 4),
+                'user_id' => auth()->id(),
+                'ID_Pemasok' => $barang->ID_Pemasok,
+                'ID_Barang' => $row[0],
+                'Stok_Awal' => $row[1] ?? 0,
+                'Stok_Akhir' => $row[2] ?? 0,
+            ]);
+        } else {
+            $stok->update([
+                'Stok_Awal' => $row[1] ?? $stok->Stok_Awal,
+                'Stok_Akhir' => $row[2] ?? $stok->Stok_Akhir,
+            ]);
+        }
     }
 
     private function parseDate($value) {

@@ -48,7 +48,7 @@
                 <!-- Utility Toolbar -->
                 <div class="flex items-center bg-slate-100 border border-slate-200 rounded-xl shadow-sm w-full sm:w-auto divide-x divide-slate-200 overflow-hidden">
                     <!-- Unduh Template -->
-                    <a href="{{ route('util.template', 'barang') }}" class="flex-1 lg:flex-none flex items-center justify-center px-3 py-2 text-[9px] font-black uppercase tracking-widest text-slate-500 hover:bg-white hover:text-slate-600 transition-all" title="Unduh Template Excel">
+                    <a href="{{ route('util.template', 'stok') }}" class="flex-1 lg:flex-none flex items-center justify-center px-3 py-2 text-[9px] font-black uppercase tracking-widest text-slate-500 hover:bg-white hover:text-slate-600 transition-all" title="Unduh Template Excel">
                         <i class="fas fa-file-arrow-down mr-2 text-slate-400"></i> <span>Template</span>
                     </a>
 
@@ -66,7 +66,7 @@
                                         <i class="fas fa-xmark text-lg"></i>
                                     </button>
                                 </div>
-                                <form action="{{ route('util.import', 'barang') }}" method="POST" enctype="multipart/form-data" @submit="isSubmitting = true" class="space-y-4">
+                                <form action="{{ route('util.import', 'stok') }}" method="POST" enctype="multipart/form-data" @submit="isSubmitting = true" class="space-y-4">
                                     @csrf
                                     <div 
                                         class="relative group rounded-xl transition-all duration-500 p-2 bg-slate-100 border border-slate-200"
@@ -112,7 +112,7 @@
                     </div>
 
                     <!-- Ekspor Excel -->
-                    <a href="{{ route('util.export', 'barang') }}" class="flex-1 lg:flex-none flex items-center justify-center px-3 py-2 text-[9px] font-black uppercase tracking-widest text-slate-500 hover:bg-white hover:text-emerald-600 transition-all" title="Ekspor Data Excel">
+                    <a href="{{ route('util.export', 'stok') }}" class="flex-1 lg:flex-none flex items-center justify-center px-3 py-2 text-[9px] font-black uppercase tracking-widest text-slate-500 hover:bg-white hover:text-emerald-600 transition-all" title="Ekspor Data Excel">
                         <i class="fas fa-file-export mr-2 text-emerald-500"></i> <span>Ekspor</span>
                     </a>
                 </div>
@@ -156,8 +156,11 @@
                     <td class="py-5 px-8 text-center text-sm font-bold text-slate-400">
                         {{ number_format($stok->Stok_Awal, 0, ',', '.') }}
                     </td>
-                    <td class="py-5 px-8 text-center text-sm font-black text-slate-800">
-                        {{ number_format($stok->Stok_Akhir, 0, ',', '.') }}
+                    <td class="py-5 px-8 text-center whitespace-nowrap">
+                        @php $qty_akhir = $stok->Stok_Akhir ?? 0; @endphp
+                        <span class="px-2.5 py-1 rounded-xl text-xs font-bold {{ $qty_akhir < 10 ? 'bg-amber-50 text-amber-600 border border-amber-100' : 'bg-teal-50 text-teal-600 border border-teal-100' }}">
+                        {{ $qty_akhir }}
+                        </span>
                     </td>
                     <td class="py-5 px-8">
                         @php
@@ -183,13 +186,13 @@
                     </td>
                     <td class="py-5 px-8">
                         <div class="flex justify-center items-center gap-2">
-                            <a href="{{ route('data.barang.edit', $stok->ID_Barang) }}" wire:navigate.hover class="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-50 text-slate-400 hover:bg-teal-600 hover:text-white hover:shadow-lg hover:shadow-teal-500/30 transition-all border border-slate-100" title="Edit Stok">
+                            <a href="{{ route('data.barang.edit', $stok->ID_Barang) }}" wire:navigate.hover class="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-50 text-teal-600 hover:bg-teal-600 hover:text-white shadow-sm transition-all" title="Edit Stok">
                                 <i class="fas fa-edit text-xs"></i>
                             </a>
                             <form action="{{ route('data.barang.destroy', $stok->ID_Barang) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-50 text-slate-400 hover:bg-rose-600 hover:text-white hover:shadow-lg hover:shadow-rose-500/30 transition-all border border-slate-100" title="Hapus Stok">
+                                <button type="submit" class="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white shadow-sm transition-all" title="Hapus Stok">
                                     <i class="fas fa-trash-can text-xs"></i>
                                 </button>
                             </form>

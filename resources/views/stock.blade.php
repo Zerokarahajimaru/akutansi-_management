@@ -141,9 +141,9 @@
     </div>
  </th>
  <th class="py-4 px-6 whitespace-nowrap">ID Pemasok</th>
- <th class="py-4 px-6 text-center whitespace-nowrap">Stok Awal</th>
- <th class="py-4 px-6 text-center whitespace-nowrap">Stok Akhir</th>
- <th class="py-4 px-6 whitespace-nowrap">Harga Jual</th>
+ <th class="py-4 px-6 whitespace-nowrap">Warna</th>
+ <th class="py-4 px-6 whitespace-nowrap text-right">Harga Beli</th>
+ <th class="py-4 px-6 whitespace-nowrap text-right">Harga Jual</th>
  <th class="py-4 px-6 text-center whitespace-nowrap">Aksi</th>
  </tr>
  </thead>
@@ -161,14 +161,11 @@
  </div>
  </td>
  <td class="py-4 px-6 text-sm text-slate-600 uppercase font-medium whitespace-nowrap">{{ $barang->ID_Pemasok ?? '-' }}</td>
- <td class="py-4 px-6 text-center text-sm text-slate-500 whitespace-nowrap">{{ $barang->stokBarangs->first()->Stok_Awal ?? 0 }}</td>
- <td class="py-4 px-6 text-center whitespace-nowrap">
- @php $stok = $barang->stokBarangs->first()->Stok_Akhir ?? 0; @endphp
- <span class="px-2.5 py-1 rounded-xl text-xs font-bold {{ $stok < 10 ? 'bg-amber-50 text-amber-600 border border-amber-100' : 'bg-teal-50 text-teal-600 border border-teal-100' }}">
- {{ $stok }}
- </span>
+ <td class="py-4 px-6 text-sm text-slate-500 whitespace-nowrap">
+     <span class="px-2 py-1 bg-slate-100 rounded-lg text-[10px] font-black uppercase tracking-wider text-slate-500">{{ $barang->Warna_Barang ?? '-' }}</span>
  </td>
- <td class="py-4 px-6 text-sm font-bold text-slate-900 whitespace-nowrap">Rp {{ number_format($barang->Harga_Jual ?? 0, 0, ',', '.') }}</td>
+ <td class="py-4 px-6 text-sm font-bold text-slate-900 whitespace-nowrap text-right text-slate-400">Rp {{ number_format($barang->Harga_Beli ?? 0, 0, ',', '.') }}</td>
+ <td class="py-4 px-6 text-sm font-bold text-teal-600 whitespace-nowrap text-right">Rp {{ number_format($barang->Harga_Jual ?? 0, 0, ',', '.') }}</td>
  <td class="py-4 px-6 text-center whitespace-nowrap">
  <div class="flex justify-center space-x-2">
  <a href="{{ route('data.barang.edit', $barang->ID_Barang) }}" wire:navigate.hover class="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-50 text-teal-600 hover:bg-teal-600 hover:text-white shadow-sm transition-all" title="Ubah Produk">
