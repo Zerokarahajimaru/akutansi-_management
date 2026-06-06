@@ -27,6 +27,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/pelanggan', [PelangganController::class, 'index'])->name('data.pelanggan');
         Route::get('/pemasok', [PemasokController::class, 'index'])->name('data.pemasok');
         Route::get('/barang', [StockController::class, 'index'])->name('data.barang.list');
+        Route::get('/stok', [StockController::class, 'stokIndex'])->name('data.stok');
         Route::get('/pembelian', [PembelianController::class, 'index'])->name('data.pembelian');
         Route::get('/penjualan', [PenjualanController::class, 'index'])->name('data.penjualan');
 

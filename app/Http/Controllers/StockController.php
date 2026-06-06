@@ -34,6 +34,27 @@ class StockController extends Controller
         return view('stock', compact('stocks'));
     }
 
+    public function stokIndex(Request $request)
+    {
+        $search = $request->input('search');
+        $perPage = $request->input('per_page', 50);
+        if ($perPage === 'all') $perPage = 9999;
+
+        $stokMaster = StokBarang::with(['dataBarang', 'pemasok'])
+            ->when($search, function($q) use ($search) {
+                $q->where('ID_Stok', 'ilike', "%{$search}%")
+                  ->orWhereHas('dataBarang', function($sub) use ($search) {
+                      $sub->where('Nama_Barang', 'ilike', "%{$search}%")
+                          ->orWhere('Jenis_Barang', 'ilike', "%{$search}%");
+                  });
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate($perPage)
+            ->withQueryString();
+
+        return view('stok.index', compact('stokMaster'));
+    }
+
     public function create()
     {
         $pemasoks = Cache::rememberForever('active_pemasoks_list', function() {
