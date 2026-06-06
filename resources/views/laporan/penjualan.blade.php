@@ -61,7 +61,7 @@
                     <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Sampai</label>
                     <input type="date" name="end_date" value="{{ $end_date }}" class="w-full bg-white border border-teal-200 rounded-xl px-4 py-3 text-sm text-slate-700 focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all">
                 </div>
-                <button type="submit" class="bg-teal-600 text-white font-black px-6 py-3.5 rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 active:scale-95 transition-all text-[10px] uppercase tracking-widest flex-shrink-0 w-full sm:w-auto">
+                <button type="submit" class="bg-orange-500 text-white font-black px-6 py-3.5 rounded-xl shadow-lg shadow-orange-500/25 hover:bg-orange-600 hover:-translate-y-0.5 active:scale-95 transition-all duration-300 text-[10px] uppercase tracking-widest flex-shrink-0 w-full sm:w-auto">
                     Terapkan
                 </button>
             </div>

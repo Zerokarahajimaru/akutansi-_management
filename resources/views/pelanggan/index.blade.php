@@ -116,7 +116,7 @@
             </a>
         </div>
 
-        <a href="{{ route('input.pelanggan') }}" wire:navigate.hover class="w-full sm:w-auto bg-teal-600 text-white font-black rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 px-6 py-3 text-[10px] uppercase tracking-widest flex items-center justify-center">
+        <a href="{{ route('input.pelanggan') }}" wire:navigate.hover class="w-full sm:w-auto bg-orange-500 text-white font-black rounded-xl shadow-lg shadow-orange-500/25 hover:bg-orange-600 hover:-translate-y-0.5 active:scale-95 transition-all duration-300 px-6 py-3 text-[10px] uppercase tracking-widest flex items-center justify-center">
             <i class="fas fa-user-plus mr-2"></i> Tambah Pelanggan
         </a>
     </div>

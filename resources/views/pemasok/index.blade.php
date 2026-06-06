@@ -97,7 +97,7 @@
                             </div>
                             <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-2">
                                 <button type="button" @click="openImport = false" class="w-full sm:w-auto bg-slate-100 text-slate-600 border border-slate-200 font-bold rounded-xl hover:bg-slate-200 transition-all px-5 py-2.5 text-sm">Batal</button>
-                                <button type="submit" :disabled="isSubmitting" :class="isSubmitting ? 'opacity-70 cursor-not-allowed' : ''" class="w-full sm:w-auto bg-teal-600 text-white font-black rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 px-5 py-2.5 text-sm flex items-center justify-center group">
+                                <button type="submit" :disabled="isSubmitting" :class="isSubmitting ? 'opacity-70 cursor-not-allowed' : ''" class="w-full sm:w-auto bg-orange-500 text-white font-black rounded-xl shadow-lg shadow-orange-500/25 hover:bg-orange-600 hover:-translate-y-0.5 active:scale-95 transition-all duration-300 px-5 py-2.5 text-sm flex items-center justify-center group">
                                     <span x-show="!isSubmitting">Impor Saja</span>
                                     <span x-show="isSubmitting" x-cloak class="flex items-center justify-center">
                                         Memproses... <i class="fas fa-circle-notch fa-spin ml-2"></i>
@@ -116,7 +116,7 @@
             </a>
         </div>
 
-        <a href="{{ route('input.pemasok') }}" wire:navigate.hover class="w-full sm:w-auto bg-teal-600 text-white font-black rounded-xl shadow-lg shadow-teal-500/20 hover:bg-teal-700 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 px-6 py-3 text-[10px] uppercase tracking-widest flex items-center justify-center">
+        <a href="{{ route('input.pemasok') }}" wire:navigate.hover class="w-full sm:w-auto bg-orange-500 text-white font-black rounded-xl shadow-lg shadow-orange-500/25 hover:bg-orange-600 hover:-translate-y-0.5 active:scale-95 transition-all duration-300 px-6 py-3 text-[10px] uppercase tracking-widest flex items-center justify-center">
             <i class="fas fa-truck-fast mr-2"></i> Tambah Pemasok
         </a>
     </div>

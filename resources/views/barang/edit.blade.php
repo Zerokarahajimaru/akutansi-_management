@@ -183,7 +183,7 @@
                 <button type="submit" 
                     :disabled="isSubmitting" 
                     :class="isSubmitting ? 'opacity-70 cursor-not-allowed scale-[0.98]' : ''"
-                    class="bg-teal-600 text-white font-black rounded-xl px-10 py-3 text-sm hover:bg-teal-700 shadow-lg shadow-teal-500/20 hover:-translate-y-0.5 active:scale-95 transition-all duration-300">
+                    class="bg-orange-500 text-white font-black rounded-xl px-10 py-3 text-sm hover:bg-orange-600 shadow-lg shadow-orange-500/25 hover:-translate-y-0.5 active:scale-95 transition-all duration-300">
                     <span x-show="!isSubmitting">Simpan Perubahan</span>
                     <span x-show="isSubmitting" x-cloak class="flex items-center justify-center">
                         Mohon Tunggu... <i class="fas fa-circle-notch fa-spin ml-2"></i>
