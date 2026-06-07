@@ -16,22 +16,22 @@
                 <input type="text" value="{{ $pelanggan->ID_Pelanggan }}" class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 text-sm text-slate-400 cursor-not-allowed" readonly>
             </div>
             <div>
-                <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Nama Pelanggan <span class="text-red-500">*</span></label>
-                <input type="text" name="Nama_Pelanggan" value="{{ old('Nama_Pelanggan', $pelanggan->Nama_Pelanggan) }}" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all duration-300 @error('Nama_Pelanggan') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
+                <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Nama Pelanggan <span class="text-[#B04025]">*</span></label>
+                <input type="text" name="Nama_Pelanggan" value="{{ old('Nama_Pelanggan', $pelanggan->Nama_Pelanggan) }}" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all duration-300 @error('Nama_Pelanggan') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
                 @error('Nama_Pelanggan')
                     <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
                 @enderror
             </div>
             <div>
-                <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">No. HP Pelanggan <span class="text-red-500">*</span></label>
-                <input type="text" name="NoTelp_Pelanggan" value="{{ old('NoTelp_Pelanggan', $pelanggan->NoTelp_Pelanggan) }}" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all duration-300 @error('NoTelp_Pelanggan') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
+                <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">No. HP Pelanggan <span class="text-[#B04025]">*</span></label>
+                <input type="text" name="NoTelp_Pelanggan" value="{{ old('NoTelp_Pelanggan', $pelanggan->NoTelp_Pelanggan) }}" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all duration-300 @error('NoTelp_Pelanggan') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
                 @error('NoTelp_Pelanggan')
                     <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
                 @enderror
             </div>
             <div>
-                <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Alamat Pelanggan <span class="text-red-500">*</span></label>
-                <textarea name="Alamat_Pelanggan" rows="3" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all duration-300 @error('Alamat_Pelanggan') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>{{ old('Alamat_Pelanggan', $pelanggan->Alamat_Pelanggan) }}</textarea>
+                <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Alamat Pelanggan <span class="text-[#B04025]">*</span></label>
+                <textarea name="Alamat_Pelanggan" rows="3" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all duration-300 @error('Alamat_Pelanggan') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>{{ old('Alamat_Pelanggan', $pelanggan->Alamat_Pelanggan) }}</textarea>
                 @error('Alamat_Pelanggan')
                     <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
                 @enderror
@@ -41,7 +41,7 @@
                 <button type="submit" 
                     :disabled="isSubmitting" 
                     :class="isSubmitting ? 'opacity-70 cursor-not-allowed scale-[0.98]' : ''"
-                    class="bg-orange-500 text-white font-black rounded-xl px-10 py-3 text-sm hover:bg-orange-600 shadow-lg shadow-orange-500/25 hover:-translate-y-0.5 active:scale-95 transition-all duration-300">
+                    class="bg-[#3B8A7F] text-white font-black rounded-xl px-10 py-3 text-sm hover:bg-white shadow-lg shadow-[#3B8A7F]/25 hover:-translate-y-0.5 active:scale-95 transition-all duration-300">
                     <span x-show="!isSubmitting">Simpan Perubahan</span>
                     <span x-show="isSubmitting" x-cloak class="flex items-center justify-center">
                         Mohon Tunggu... <i class="fas fa-circle-notch fa-spin ml-2"></i>

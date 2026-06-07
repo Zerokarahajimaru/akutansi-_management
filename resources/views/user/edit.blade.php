@@ -15,7 +15,7 @@
  @method('PUT')
  
  @if(session('error'))
- <div class="bg-rose-50 text-rose-600 p-4 rounded-xl text-sm font-medium border border-rose-100">
+ <div class="bg-white/10 text-[#B04025] p-4 rounded-xl text-sm font-medium border border-rose-100">
  {{ session('error') }}
  </div>
  @endif
@@ -24,7 +24,7 @@
  <!-- Nama Lengkap -->
  <div class="space-y-2">
  <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Nama Lengkap</label>
- <input type="text" name="name" value="{{ old('name', $user->name) }}" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all duration-300 @error('name') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" placeholder="Nama Lengkap" required>
+ <input type="text" name="name" value="{{ old('name', $user->name) }}" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all duration-300 @error('name') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" placeholder="Nama Lengkap" required>
  @error('name')
  <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
  @enderror
@@ -55,8 +55,8 @@
  <div x-data="{ showPassword: false }" class="space-y-2">
  <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Password Baru (Kosongkan jika tidak ingin mengubah)</label>
  <div class="relative">
- <input :type="showPassword ? 'text' : 'password'" name="password" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all duration-300 pr-12 @error('password') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" placeholder="••••••••">
- <button type="button" @click="showPassword = !showPassword" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-teal-600 focus:outline-none transition-colors">
+ <input :type="showPassword ? 'text' : 'password'" name="password" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all duration-300 pr-12 @error('password') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" placeholder="••••••••">
+ <button type="button" @click="showPassword = !showPassword" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-800 focus:outline-none transition-colors">
  <i class="fas" :class="showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
  </button>
  </div>
@@ -68,7 +68,7 @@
  <!-- No Telp -->
  <div class="space-y-2">
  <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Nomor Telepon</label>
- <input type="text" name="NoTelp_User" value="{{ old('NoTelp_User', $user->NoTelp_User) }}" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all duration-300 @error('NoTelp_User') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" placeholder="08xxxx">
+ <input type="text" name="NoTelp_User" value="{{ old('NoTelp_User', $user->NoTelp_User) }}" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all duration-300 @error('NoTelp_User') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" placeholder="08xxxx">
  @error('NoTelp_User')
  <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
  @enderror
@@ -77,7 +77,7 @@
  <!-- Alamat -->
  <div class="space-y-2">
  <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Alamat Lengkap</label>
- <textarea name="Alamat_User" rows="3" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all duration-300 @error('Alamat_User') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" placeholder="Alamat lengkap...">{{ old('Alamat_User', $user->Alamat_User) }}</textarea>
+ <textarea name="Alamat_User" rows="3" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all duration-300 @error('Alamat_User') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" placeholder="Alamat lengkap...">{{ old('Alamat_User', $user->Alamat_User) }}</textarea>
  @error('Alamat_User')
  <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
  @enderror
@@ -89,7 +89,7 @@
  <button type="submit" 
     :disabled="isSubmitting" 
     :class="isSubmitting ? 'opacity-70 cursor-not-allowed scale-[0.98]' : ''"
-    class="bg-orange-500 text-white font-black rounded-xl px-10 py-3 text-sm hover:bg-orange-600 shadow-lg shadow-orange-500/25 hover:-translate-y-0.5 active:scale-95 transition-all duration-300">
+    class="bg-[#3B8A7F] text-white font-black rounded-xl px-10 py-3 text-sm hover:bg-white shadow-lg shadow-[#3B8A7F]/25 hover:-translate-y-0.5 active:scale-95 transition-all duration-300">
     <span x-show="!isSubmitting">Simpan Perubahan</span>
     <span x-show="isSubmitting" x-cloak class="flex items-center justify-center">
         Mohon Tunggu... <i class="fas fa-circle-notch fa-spin ml-2"></i>

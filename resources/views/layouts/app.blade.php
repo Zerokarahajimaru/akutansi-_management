@@ -60,7 +60,7 @@
         x-transition:leave="transition opacity-300"
         x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0"
-        class="h-1 bg-teal-600 shadow-[0_0_10px_rgba(13,148,136,0.5)] transition-all duration-500 ease-out"
+        class="h-1 bg-[#3B8A7F] shadow-[0_0_10px_rgba(59,138,127,0.5)] transition-all duration-500 ease-out"
         :style="`width: ${progress}%`"
     ></div>
  </div>
@@ -70,13 +70,13 @@
     <aside 
         x-cloak
         :class="sidebarOpen ? 'w-72 translate-x-0' : (isDesktop ? 'w-20 translate-x-0' : 'w-72 -translate-x-full')"
-        class="fixed inset-y-0 left-0 bg-teal-50 flex flex-col z-[200] transition-all duration-300 ease-in-out border-r border-teal-100/50 shadow-sm shadow-teal-900/5">
+        class="fixed inset-y-0 left-0 bg-[#3B8A7F] flex flex-col z-[200] transition-all duration-300 ease-in-out border-r border-white/10 shadow-sm shadow-black/5">
     
         <!-- Sidebar Branding -->
-        <div class="h-20 flex items-center border-b border-teal-100/50 px-6 transition-all duration-300" :class="sidebarOpen ? 'justify-start' : 'justify-center px-0'">
+        <div class="h-20 flex items-center border-b border-white/10 px-6 transition-all duration-300" :class="sidebarOpen ? 'justify-start' : 'justify-center px-0'">
             <a href="{{ route('dashboard') }}" wire:navigate.hover @click="if(!isDesktop) sidebarOpen = false" class="flex items-center gap-3 group">
-                <img src="{{ asset('Resource/xyra_logo.png') }}" alt="Xyra.id Logo" class="h-8 w-auto transition-transform group-hover:scale-105">
-                <span x-show="sidebarOpen" x-transition.opacity.duration.300 class="text-xl font-black tracking-tighter text-teal-950 whitespace-nowrap">Xyra<span class="text-teal-600">.id</span></span>
+                <img src="{{ asset('Resource/xyra_logo.png') }}" alt="Xyra.id Logo" class="h-8 w-auto transition-transform group-hover:scale-105 ">
+                <span x-show="sidebarOpen" x-transition.opacity.duration.300 class="text-xl font-black tracking-tighter text-white whitespace-nowrap">Xyra<span class="text-[#A98D66]">.id</span></span>
             </a>
         </div> 
 
@@ -86,21 +86,21 @@
         </div>
 
         <!-- Sidebar Footer / User Info -->
-        <div class="p-4 border-t border-teal-100/50 bg-teal-100/20">
+        <div class="p-4 border-t border-white/10 bg-black/10">
             <div class="flex items-center justify-between mb-6 transition-all duration-300" :class="sidebarOpen ? 'px-2' : 'justify-center px-0'">
                 <div x-show="sidebarOpen" x-transition.opacity.duration.300 class="flex flex-col overflow-hidden">
-                    <p class="text-sm font-bold text-teal-950 truncate">{{ Auth::user()->name }}</p>
-                    <p class="text-[10px] text-teal-600/60 uppercase tracking-widest font-black mt-0.5">{{ Auth::user()->role }}</p>
+                    <p class="text-sm font-bold text-white truncate">{{ Auth::user()->name }}</p>
+                    <p class="text-[10px] text-[#A98D66] uppercase tracking-widest font-black mt-0.5">{{ Auth::user()->role }}</p>
                 </div>
                 <a wire:navigate.hover href="{{ route('data.user.edit', Auth::user()->id) }}" @click="if(!isDesktop) sidebarOpen = false"
-                    class="transition-all duration-300 p-2.5 rounded-xl flex items-center justify-center text-teal-400 hover:text-teal-700 hover:bg-white shadow-sm border border-transparent hover:border-teal-100"
+                    class="transition-all duration-300 p-2.5 rounded-xl flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 shadow-sm border border-transparent hover:border-white/10"
                     title="Pengaturan Profil">
                     <i class="fas fa-gear text-sm"></i>
                 </a>
             </div>
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
-                <button type="submit" class="flex items-center justify-center w-full py-3 px-4 rounded-xl bg-white border border-teal-200 text-teal-700 text-xs font-black uppercase tracking-widest hover:bg-rose-600 hover:text-white hover:border-rose-600 transition-all duration-300 group shadow-sm" title="Keluar Akun">
+                <button type="submit" class="flex items-center justify-center w-full py-3 px-4 rounded-xl bg-[#2F5C53] border border-white/10 text-white text-xs font-black uppercase tracking-widest hover:bg-white hover:text-white hover:border-[#B04025] transition-all duration-300 group shadow-sm" title="Keluar Akun">
                     <i class="fas fa-arrow-right-from-bracket flex-shrink-0 group-hover:translate-x-0.5 transition-transform" :class="sidebarOpen ? 'mr-3' : ''"></i>
                     <span x-show="sidebarOpen" x-transition.opacity.duration.300>Keluar</span>
                 </button>
@@ -114,16 +114,16 @@
         :class="sidebarOpen ? 'lg:pl-72' : 'lg:pl-20'">
         
         <!-- Top Header -->
-        <header class="h-20 bg-teal-50 border-b border-teal-100 flex items-center justify-between px-4 md:px-8 flex-shrink-0 z-[100] sticky top-0 shadow-sm shadow-teal-900/5">
+        <header class="h-20 bg-[#3B8A7F] border-b border-white/10 flex items-center justify-between px-4 md:px-8 flex-shrink-0 z-[100] sticky top-0 shadow-lg shadow-black/5">
             <div class="flex items-center gap-4 md:gap-6">
                 <!-- Sidebar Toggle Button -->
-                <button @click="sidebarOpen = !sidebarOpen" class="w-10 h-10 flex items-center justify-center rounded-xl bg-white text-slate-400 hover:text-teal-600 transition-all border border-teal-100 shadow-sm">
+                <button @click="sidebarOpen = !sidebarOpen" class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-50 text-slate-400 hover:text-[#3B8A7F] transition-all border border-white/10 shadow-sm">
                     <i class="fas fa-bars-staggered transition-transform duration-300" :class="sidebarOpen ? 'rotate-90' : ''"></i>
                 </button>
 
                 <!-- Breadcrumbs -->
                 <div class="flex items-center text-sm overflow-hidden text-slate-500">
-                    <a href="{{ route('dashboard') }}" wire:navigate class="text-teal-600 font-bold hover:text-teal-700 transition-colors whitespace-nowrap">Beranda</a>
+                    <a href="{{ route('dashboard') }}" wire:navigate class="text-[#3B8A7F] font-bold hover:text-[#2F5C53] transition-colors whitespace-nowrap">Beranda</a>
                     <i class="fas fa-chevron-right text-[10px] mx-2 md:mx-4 text-slate-300 flex-shrink-0"></i>
                     <span class="text-slate-400 font-medium tracking-tight truncate">@yield('title', 'Dashboard')</span>
                 </div>
@@ -167,8 +167,8 @@
 
         const isSuccess = "{{ session('success') ? 'true' : 'false' }}" === 'true';
         const titleText = isSuccess ? 'Berhasil' : 'Gagal';
-        const iconClass = isSuccess ? 'fa-check text-teal-600' : 'fa-triangle-exclamation text-rose-500';
-        const bgClass = isSuccess ? 'bg-teal-50' : 'bg-rose-50';
+        const iconClass = isSuccess ? 'fa-check text-[#3B8A7F]' : 'fa-triangle-exclamation text-rose-500';
+        const bgClass = isSuccess ? 'bg-[#A98D66]/10' : 'bg-white/10';
 
         window.Swal.fire({
             html: `
@@ -177,7 +177,7 @@
                         <div class="w-8 h-8 rounded-full ${bgClass} flex items-center justify-center flex-shrink-0">
                             <i class="fas ${iconClass} text-sm"></i>
                         </div>
-                        <h3 class="text-base font-bold text-slate-900 m-0">${titleText}</h3>
+                        <h3 class="text-base font-bold text-slate-800 m-0">${titleText}</h3>
                     </div>
                     <p class="text-sm text-slate-500 m-0 pl-11">${message}</p>
                 </div>
@@ -192,7 +192,7 @@
                 popup: '!rounded-2xl !border !border-slate-100 !shadow-xl !bg-white !m-0',
                 htmlContainer: '!m-0 !p-0 !text-left',
                 actions: '!mt-5 !w-full !flex !justify-end !p-0',
-                confirmButton: '!px-5 !py-2 !bg-slate-100 hover:!bg-slate-200 !text-slate-700 !text-sm !font-semibold !rounded-xl !transition-colors !m-0'
+                confirmButton: '!px-5 !py-2 !bg-slate-100 hover:!bg-slate-200 !text-slate-800 !text-sm !font-semibold !rounded-xl !transition-colors !m-0'
             }
         });
     }
@@ -216,10 +216,10 @@ document.addEventListener('submit', function(e) {
             html: `
                 <div class="text-left">
                     <div class="flex items-center gap-3 mb-2">
-                        <div class="w-10 h-10 rounded-xl bg-rose-50 flex items-center justify-center flex-shrink-0 border border-rose-100">
-                            <i class="fas fa-trash-can text-rose-600 text-sm"></i>
+                        <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0 border border-rose-100">
+                            <i class="fas fa-trash-can text-[#B04025] text-sm"></i>
                         </div>
-                        <h3 class="text-lg font-black text-slate-900 m-0">Konfirmasi Hapus</h3>
+                        <h3 class="text-lg font-black text-slate-800 m-0">Konfirmasi Hapus</h3>
                     </div>
                     <p class="text-sm text-slate-500 m-0 pl-13 leading-relaxed font-medium">Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan dan data akan hilang permanen.</p>
                 </div>
@@ -250,4 +250,6 @@ document.addEventListener('submit', function(e) {
 
  @livewireScripts
 </body>
+</html>
+y>
 </html>

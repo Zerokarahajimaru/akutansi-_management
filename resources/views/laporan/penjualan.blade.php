@@ -7,35 +7,35 @@
     <!-- Analytics Summary -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <!-- Total Pendapatan -->
-        <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 flex items-center justify-between group hover:border-teal-200 transition-all duration-300">
+        <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 flex items-center justify-between group hover:border-[#3B8A7F]/30 transition-all duration-300">
             <div>
                 <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">Total Pendapatan</p>
                 <h3 class="text-2xl font-black text-slate-800">Rp {{ number_format($summary['total_pendapatan'] ?? 0, 0, ',', '.') }}</h3>
             </div>
-            <div class="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center border border-teal-100 shadow-sm">
-                <i class="fas fa-wallet text-teal-600 text-lg"></i>
+            <div class="w-12 h-12 bg-[#A98D66]/10 rounded-xl flex items-center justify-center border border-slate-200/20 shadow-sm">
+                <i class="fas fa-wallet text-slate-800 text-lg"></i>
             </div>
         </div>
 
         <!-- Total Transaksi -->
-        <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 flex items-center justify-between group hover:border-blue-200 transition-all duration-300">
+        <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 flex items-center justify-between group hover:border-[#3B8A7F]/30 transition-all duration-300">
             <div>
                 <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">Total Transaksi</p>
                 <h3 class="text-2xl font-black text-slate-800">{{ number_format($summary['total_transaksi'] ?? 0, 0, ',', '.') }} <span class="text-xs text-slate-400 font-bold ml-1 uppercase">Nota</span></h3>
             </div>
-            <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center border border-blue-100 shadow-sm">
-                <i class="fas fa-receipt text-blue-600 text-lg"></i>
+            <div class="w-12 h-12 bg-[#8E734B]/10 rounded-xl flex items-center justify-center border border-[#8E734B]/20 shadow-sm">
+                <i class="fas fa-receipt text-[#8E734B] text-lg"></i>
             </div>
         </div>
 
         <!-- Produk Best Seller -->
-        <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 flex items-center justify-between group hover:border-amber-200 transition-all duration-300">
+        <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 flex items-center justify-between group hover:border-[#CA5B33]/30 transition-all duration-300">
             <div class="min-w-0 flex-1 mr-4">
                 <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">Produk Terlaris</p>
                 <h3 class="text-lg font-black text-slate-800 truncate" title="{{ $summary['best_seller'] ?? '-' }}">{{ $summary['best_seller'] ?? '-' }}</h3>
             </div>
-            <div class="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center border border-amber-100 shadow-sm flex-shrink-0">
-                <i class="fas fa-crown text-amber-600 text-lg"></i>
+            <div class="w-12 h-12 bg-[#3B8A7F]/10 rounded-xl flex items-center justify-center border border-[#CA5B33]/20 shadow-sm flex-shrink-0">
+                <i class="fas fa-crown text-[#CA5B33] text-lg"></i>
             </div>
         </div>
     </div>
@@ -49,19 +49,19 @@
                     <i class="fas fa-magnifying-glass text-slate-400 text-xs"></i>
                 </div>
                 <input type="text" name="search" value="{{ request('search') }}" 
-                    class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all shadow-sm placeholder:text-slate-400" 
+                    class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all shadow-sm placeholder:text-slate-400" 
                     placeholder="Cari nota, produk, atau pelanggan...">
             </div>
             <div class="flex flex-col sm:flex-row items-end gap-4 w-full xl:w-auto">
                 <div class="space-y-1 flex-1 sm:flex-none w-full sm:w-auto">
                     <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Mulai</label>
-                    <input type="date" name="start_date" value="{{ $start_date }}" class="w-full bg-white border border-teal-200 rounded-xl px-4 py-3 text-sm text-slate-700 focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all">
+                    <input type="date" name="start_date" value="{{ $start_date }}" class="w-full bg-white border border-[#3B8A7F]/20 rounded-xl px-4 py-3 text-sm text-slate-800 focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all">
                 </div>
                 <div class="space-y-1 flex-1 sm:flex-none w-full sm:w-auto">
                     <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Sampai</label>
-                    <input type="date" name="end_date" value="{{ $end_date }}" class="w-full bg-white border border-teal-200 rounded-xl px-4 py-3 text-sm text-slate-700 focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all">
+                    <input type="date" name="end_date" value="{{ $end_date }}" class="w-full bg-white border border-[#3B8A7F]/20 rounded-xl px-4 py-3 text-sm text-slate-800 focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all">
                 </div>
-                <button type="submit" class="bg-orange-500 text-white font-black px-6 py-3.5 rounded-xl shadow-lg shadow-orange-500/25 hover:bg-orange-600 hover:-translate-y-0.5 active:scale-95 transition-all duration-300 text-[10px] uppercase tracking-widest flex-shrink-0 w-full sm:w-auto">
+                <button type="submit" class="bg-[#3B8A7F] text-white font-black px-6 py-3.5 rounded-xl shadow-lg shadow-[#3B8A7F]/25 hover:bg-white hover:-translate-y-0.5 active:scale-95 transition-all duration-300 text-[10px] uppercase tracking-widest flex-shrink-0 w-full sm:w-auto">
                     Terapkan
                 </button>
             </div>
@@ -73,11 +73,11 @@
         <!-- BOTTOM DECK (Exports) -->
         <div class="flex flex-col sm:flex-row justify-start xl:justify-end w-full">
             <div class="inline-flex items-center bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm w-full sm:w-auto">
-                <a href="{{ route('laporan.export.excel', array_merge(request()->query(), ['type' => 'penjualan'])) }}" class="flex-1 sm:flex-none px-5 py-2.5 bg-slate-50 hover:bg-emerald-50 text-slate-600 hover:text-emerald-700 text-[10px] font-black uppercase tracking-widest transition-all border-r border-slate-200 flex items-center justify-center gap-2">
-                    <i class="fas fa-file-excel text-emerald-600 text-sm"></i> Ekspor Excel
+                <a href="{{ route('laporan.export.excel', array_merge(request()->query(), ['type' => 'penjualan'])) }}" class="flex-1 sm:flex-none px-5 py-2.5 bg-slate-50 hover:bg-[#A98D66]/5 text-slate-800 hover:text-slate-800 text-[10px] font-black uppercase tracking-widest transition-all border-r border-slate-200 flex items-center justify-center gap-2">
+                    <i class="fas fa-file-excel text-slate-800 text-sm"></i> Ekspor Excel
                 </a>
-                <a href="{{ route('laporan.export.pdf', array_merge(request()->query(), ['type' => 'penjualan'])) }}" class="flex-1 sm:flex-none px-5 py-2.5 bg-slate-50 hover:bg-rose-50 text-slate-600 hover:text-rose-700 text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2">
-                    <i class="fas fa-file-pdf text-rose-600 text-sm"></i> Cetak PDF
+                <a href="{{ route('laporan.export.pdf', array_merge(request()->query(), ['type' => 'penjualan'])) }}" class="flex-1 sm:flex-none px-5 py-2.5 bg-slate-50 hover:bg-white/5 text-slate-800 hover:text-[#B04025] text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2">
+                    <i class="fas fa-file-pdf text-[#B04025] text-sm"></i> Cetak PDF
                 </a>
             </div>
         </div>
@@ -88,8 +88,8 @@
         <div class="overflow-x-auto custom-scrollbar relative rounded-xl border border-slate-100 m-4">
             <table class="w-full text-left">
                 <thead>
-                    <tr class="bg-teal-50/80 text-slate-600 text-[10px] font-black uppercase tracking-widest">
-                        <th class="py-5 px-8 whitespace-nowrap sticky left-0 bg-teal-50 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">Tanggal</th>
+                    <tr class="bg-white text-slate-800 text-[10px] font-black uppercase tracking-widest border-b-2 border-[#8E734B]">
+                        <th class="py-5 px-8 whitespace-nowrap sticky left-0 bg-inherit z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">Tanggal</th>
                         <th class="py-5 px-8 whitespace-nowrap">Produk / Barang</th>
                         <th class="py-5 px-8 whitespace-nowrap text-center">Qty</th>
                         <th class="py-5 px-8 whitespace-nowrap">Nama Pelanggan</th>
@@ -99,28 +99,28 @@
                 </thead>
                 <tbody class="divide-y divide-slate-50">
                     @forelse($penjualans as $p)
-                    <tr class="even:bg-slate-50/50 hover:bg-teal-50/60 transition-colors group">
-                        <td class="py-5 px-8 text-sm text-slate-600 font-medium whitespace-nowrap sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-teal-50">{{ $p->Tanggal_Penjualan ? date('d/m/Y', strtotime($p->Tanggal_Penjualan)) : '-' }}</td>
+                    <tr class="bg-white even:bg-white even:text-white hover:bg-[#A98D66]/20 transition-all group">
+                        <td class="py-5 px-8 text-sm text-slate-800 font-medium whitespace-nowrap sticky left-0 bg-white even:bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-[#A98D66]/10">{{ $p->Tanggal_Penjualan ? date('d/m/Y', strtotime($p->Tanggal_Penjualan)) : '-' }}</td>
                         <td class="py-5 px-8 whitespace-nowrap">
                             <div class="flex flex-col min-w-[150px]">
-                                <span class="text-sm font-bold text-slate-800 group-hover:text-teal-600 transition-colors max-w-xs truncate" title="{{ $p->dataBarang->Nama_Barang ?? '' }}">{{ $p->dataBarang->Nama_Barang ?? '-' }}</span>
+                                <span class="text-sm font-bold text-slate-800 group-hover:text-slate-800 transition-colors max-w-xs truncate" title="{{ $p->dataBarang->Nama_Barang ?? '' }}">{{ $p->dataBarang->Nama_Barang ?? '-' }}</span>
                                 <span class="text-[10px] text-slate-400 font-mono uppercase">{{ $p->ID_Barang ?? '-' }}</span>
                             </div>
                         </td>
                         <td class="py-5 px-8 text-center whitespace-nowrap">
-                            <span class="px-3 py-1 bg-rose-50 text-rose-600 rounded-xl text-xs font-black">-{{ $p->Kuantitas ?? 0 }}</span>
+                            <span class="px-3 py-1 bg-white/10 text-[#B04025] rounded-xl text-xs font-black">-{{ $p->Kuantitas ?? 0 }}</span>
                         </td>
                         <td class="py-5 px-8 whitespace-nowrap">
                             <div class="flex flex-col min-w-[150px]">
-                                <span class="text-sm text-slate-700 font-semibold max-w-xs truncate" title="{{ $p->pelanggan->Nama_Pelanggan ?? 'Umum' }}">{{ $p->pelanggan->Nama_Pelanggan ?? 'Umum' }}</span>
-                                <span class="text-[10px] text-teal-600 font-bold uppercase tracking-tighter">{{ $p->ID_Pelanggan ?? '-' }}</span>
+                                <span class="text-sm text-slate-800 font-semibold max-w-xs truncate" title="{{ $p->pelanggan->Nama_Pelanggan ?? 'Umum' }}">{{ $p->pelanggan->Nama_Pelanggan ?? 'Umum' }}</span>
+                                <span class="text-[10px] text-slate-800 font-bold uppercase tracking-tighter">{{ $p->ID_Pelanggan ?? '-' }}</span>
                             </div>
                         </td>
                         <td class="py-5 px-8 whitespace-nowrap">
                             <span class="text-[10px] font-black uppercase tracking-widest text-slate-400 border border-slate-200 px-2 py-0.5 rounded-xl">{{ $p->jenis_pembayaran ?? '-' }}</span>
                         </td>
                         <td class="py-5 px-8 text-right whitespace-nowrap">
-                            <span class="text-sm font-black text-slate-900">Rp {{ number_format($p->Total_Harga ?? 0, 0, ',', '.') }}</span>
+                            <span class="text-sm font-black text-slate-800">Rp {{ number_format($p->Total_Harga ?? 0, 0, ',', '.') }}</span>
                         </td>
                     </tr>
                     @empty

@@ -41,7 +41,7 @@
                     <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Pilih Produk</label>
                     <div class="relative">
                         <input type="hidden" name="ID_Barang" :value="selected" required>
-                        <button @click="open = !open" type="button" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all duration-300 flex items-center justify-between @error('ID_Barang') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror">
+                        <button @click="open = !open" type="button" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all duration-300 flex items-center justify-between @error('ID_Barang') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror">
                             <span x-text="selectedLabel" :class="selected === '' ? 'text-slate-400' : 'font-medium'"></span>
                             <i class="fas fa-chevron-down text-slate-400 text-xs transition-transform" :class="open ? 'rotate-180' : ''"></i>
                         </button>
@@ -53,8 +53,8 @@
                             class="absolute z-50 w-full mt-2 bg-white border border-slate-100 rounded-2xl shadow-xl py-2 max-h-60 overflow-y-auto select-scrollbar">
                             <template x-for="option in options" :key="option.val">
                                 <div @click="selected = option.val; selectedLabel = option.label; open = false" 
-                                    class="px-4 py-2.5 text-sm cursor-pointer transition-colors flex items-center justify-between group hover:bg-teal-50 hover:text-teal-700 text-slate-600"
-                                    :class="selected === option.val ? 'text-teal-600 font-bold' : ''">
+                                    class="px-4 py-2.5 text-sm cursor-pointer transition-colors flex items-center justify-between group hover:bg-[#A98D66]/10 hover:text-teal-700 text-slate-800"
+                                    :class="selected === option.val ? 'text-slate-800 font-bold' : ''">
                                     <span x-text="option.label"></span>
                                     <i x-show="selected === option.val" class="fas fa-check text-xs"></i>
                                 </div>
@@ -80,7 +80,7 @@
                     <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Pelanggan</label>
                     <div class="relative">
                         <input type="hidden" name="ID_Pelanggan" :value="selected" required>
-                        <button @click="open = !open" type="button" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all duration-300 flex items-center justify-between @error('ID_Pelanggan') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror">
+                        <button @click="open = !open" type="button" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all duration-300 flex items-center justify-between @error('ID_Pelanggan') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror">
                             <span x-text="selectedLabel" :class="selected === '' ? 'text-slate-400' : 'font-medium'"></span>
                             <i class="fas fa-chevron-down text-slate-400 text-xs transition-transform" :class="open ? 'rotate-180' : ''"></i>
                         </button>
@@ -92,8 +92,8 @@
                             class="absolute z-50 w-full mt-2 bg-white border border-slate-100 rounded-2xl shadow-xl py-2 max-h-60 overflow-y-auto select-scrollbar">
                             <template x-for="option in options" :key="option.val">
                                 <div @click="selected = option.val; selectedLabel = option.label; open = false" 
-                                    class="px-4 py-2.5 text-sm cursor-pointer transition-colors flex items-center justify-between group hover:bg-teal-50 hover:text-teal-700 text-slate-600"
-                                    :class="selected === option.val ? 'text-teal-600 font-bold' : ''">
+                                    class="px-4 py-2.5 text-sm cursor-pointer transition-colors flex items-center justify-between group hover:bg-[#A98D66]/10 hover:text-teal-700 text-slate-800"
+                                    :class="selected === option.val ? 'text-slate-800 font-bold' : ''">
                                     <span x-text="option.label"></span>
                                     <i x-show="selected === option.val" class="fas fa-check text-xs"></i>
                                 </div>
@@ -108,7 +108,7 @@
                 <!-- Tanggal -->
                 <div class="space-y-2">
                     <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Tanggal Penjualan</label>
-                    <input type="date" name="Tanggal_Penjualan" value="{{ old('Tanggal_Penjualan', \Carbon\Carbon::parse($penjualan->Tanggal_Penjualan)->format('Y-m-d')) }}" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all duration-300 @error('Tanggal_Penjualan') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
+                    <input type="date" name="Tanggal_Penjualan" value="{{ old('Tanggal_Penjualan', \Carbon\Carbon::parse($penjualan->Tanggal_Penjualan)->format('Y-m-d')) }}" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all duration-300 @error('Tanggal_Penjualan') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
                     @error('Tanggal_Penjualan')
                         <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
                     @enderror
@@ -117,7 +117,7 @@
                 <!-- Kuantitas -->
                 <div class="space-y-2">
                     <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Kuantitas Penjualan</label>
-                    <input type="number" name="Kuantitas" value="{{ old('Kuantitas', $penjualan->Kuantitas) }}" placeholder="0" min="1" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all duration-300 @error('Kuantitas') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
+                    <input type="number" name="Kuantitas" value="{{ old('Kuantitas', $penjualan->Kuantitas) }}" placeholder="0" min="1" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all duration-300 @error('Kuantitas') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
                     @error('Kuantitas')
                         <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
                     @enderror
@@ -132,7 +132,7 @@
                     <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Jenis Pembayaran</label>
                     <div class="relative">
                         <input type="hidden" name="Jenis_Pembayaran" :value="selected">
-                        <button @click="open = !open" type="button" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all duration-300 flex items-center justify-between @error('Jenis_Pembayaran') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror">
+                        <button @click="open = !open" type="button" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all duration-300 flex items-center justify-between @error('Jenis_Pembayaran') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror">
                             <span x-text="selected" class="font-medium"></span>
                             <i class="fas fa-chevron-down text-slate-400 text-xs transition-transform" :class="open ? 'rotate-180' : ''"></i>
                         </button>
@@ -144,8 +144,8 @@
                             class="absolute z-50 w-full mt-2 bg-white border border-slate-100 rounded-2xl shadow-xl py-2 max-h-60 overflow-y-auto select-scrollbar">
                             <template x-for="option in options" :key="option">
                                 <div @click="selected = option; open = false" 
-                                    class="px-4 py-2.5 text-sm cursor-pointer transition-colors flex items-center justify-between group hover:bg-teal-50 hover:text-teal-700 text-slate-600"
-                                    :class="selected === option ? 'text-teal-600 font-bold' : ''">
+                                    class="px-4 py-2.5 text-sm cursor-pointer transition-colors flex items-center justify-between group hover:bg-[#A98D66]/10 hover:text-teal-700 text-slate-800"
+                                    :class="selected === option ? 'text-slate-800 font-bold' : ''">
                                     <span x-text="option"></span>
                                     <i x-show="selected === option" class="fas fa-check text-xs"></i>
                                 </div>
@@ -160,7 +160,7 @@
                 <!-- Ongkir -->
                 <div class="space-y-2">
                     <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Ongkos Kirim (Rp)</label>
-                    <input type="number" name="Ongkir" value="{{ old('Ongkir', $penjualan->Ongkir) }}" min="0" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all duration-300 @error('Ongkir') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
+                    <input type="number" name="Ongkir" value="{{ old('Ongkir', $penjualan->Ongkir) }}" min="0" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all duration-300 @error('Ongkir') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
                     @error('Ongkir')
                         <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
                     @enderror
@@ -172,7 +172,7 @@
                 <button type="submit" 
                     :disabled="isSubmitting" 
                     :class="isSubmitting ? 'opacity-70 cursor-not-allowed scale-[0.98]' : ''"
-                    class="bg-teal-600 text-white font-black rounded-xl px-10 py-3 text-sm hover:bg-teal-700 shadow-lg shadow-teal-500/20 hover:-translate-y-0.5 active:scale-95 transition-all duration-300">
+                    class="bg-[#3B8A7F] text-white font-black rounded-xl px-10 py-3 text-sm hover:bg-white shadow-lg shadow-[#3B8A7F]/20 hover:-translate-y-0.5 active:scale-95 transition-all duration-300">
                     <span x-show="!isSubmitting">Simpan Perubahan</span>
                     <span x-show="isSubmitting" x-cloak class="flex items-center justify-center">
                         Mohon Tunggu... <i class="fas fa-circle-notch fa-spin ml-2"></i>
@@ -183,3 +183,4 @@
     </div>
 </div>
 @endsection
+n

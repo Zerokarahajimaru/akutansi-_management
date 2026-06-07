@@ -19,7 +19,7 @@
             <i class="fas fa-magnifying-glass text-slate-400"></i>
         </div>
         <input type="text" name="search" value="{{ request('search') }}" 
-            class="w-full bg-white border border-slate-200 text-slate-800 text-sm rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all shadow-sm placeholder:text-slate-400" 
+            class="w-full bg-white border border-slate-200 text-slate-800 text-sm rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#3B8A7F]/20 focus:border-[#3B8A7F] transition-all shadow-sm placeholder:text-slate-400" 
             placeholder="Cari data berdasarkan nama, ID, atau kategori...">
         @if(request('search'))
             <a href="{{ request()->url() }}" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-rose-500 transition-colors">
@@ -31,13 +31,13 @@
     <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
         <!-- Per Page Selector -->
         <div x-data="{ open: false }" class="relative inline-block text-left z-[30] w-full sm:w-auto" x-cloak>
-            <button @click="open = !open" @click.outside="open = false" type="button" class="inline-flex items-center justify-between w-full sm:min-w-[140px] px-4 py-2.5 text-sm font-semibold text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:text-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500/30 transition-all shadow-sm group">
-                <span class="truncate">Tampilkan: <span class="text-teal-600">{{ request('per_page', 50) === 'all' ? 'Semua' : request('per_page', 50) }}</span></span>
-                <i class="fas fa-chevron-down ml-2 text-xs transition-transform duration-300" :class="open ? 'rotate-180 text-teal-600' : 'text-slate-400 group-hover:text-teal-500'"></i>
+            <button @click="open = !open" @click.outside="open = false" type="button" class="inline-flex items-center justify-between w-full sm:min-w-[140px] px-4 py-2.5 text-sm font-semibold text-slate-800 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:text-[#2F5C53] focus:outline-none focus:ring-2 focus:ring-[#3B8A7F]/30 transition-all shadow-sm group">
+                <span class="truncate">Tampilkan: <span class="text-slate-800">{{ request('per_page', 50) === 'all' ? 'Semua' : request('per_page', 50) }}</span></span>
+                <i class="fas fa-chevron-down ml-2 text-xs transition-transform duration-300" :class="open ? 'rotate-180 text-slate-800' : 'text-slate-400 group-hover:text-slate-800'"></i>
             </button>
             <div x-show="open" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 scale-95 translate-y-1" x-transition:enter-end="opacity-100 scale-100 translate-y-0" class="absolute left-0 mt-2 w-full min-w-[140px] bg-white border border-slate-100 rounded-xl shadow-xl z-[100] py-1 overflow-hidden" style="display: none; top: 100%;">
                 @foreach([5, 10, 25, 50, 'all'] as $size)
-                    <a href="{{ request()->fullUrlWithQuery(['per_page' => $size, 'page' => 1]) }}" wire:navigate class="block px-4 py-2 text-sm transition-all duration-200 {{ request('per_page', 50) == $size ? 'bg-slate-50 text-teal-700 font-bold border-l-2 border-teal-500' : 'text-slate-600 hover:bg-slate-50 hover:text-teal-700 border-l-2 border-transparent' }}">
+                    <a href="{{ request()->fullUrlWithQuery(['per_page' => $size, 'page' => 1]) }}" wire:navigate class="block px-4 py-2 text-sm transition-all duration-200 {{ request('per_page', 50) == $size ? 'bg-slate-50 text-[#2F5C53] font-bold border-l-2 border-[#3B8A7F]' : 'text-slate-800 hover:bg-slate-50 hover:text-[#2F5C53] border-l-2 border-transparent' }}">
                         {{ $size === 'all' ? 'Semua Data' : $size . ' Baris' }}
                     </a>
                 @endforeach
@@ -47,7 +47,7 @@
         <!-- Utility Toolbar -->
         <div class="flex items-center bg-slate-100 border border-slate-200 rounded-xl shadow-sm w-full sm:w-auto divide-x divide-slate-200 overflow-hidden">
             <!-- Unduh Template -->
-            <a href="{{ route('util.template', 'pemasok') }}" class="flex-1 lg:flex-none flex items-center justify-center px-3 py-2 text-[9px] font-black uppercase tracking-widest text-slate-500 hover:bg-white hover:text-slate-600 transition-all" title="Unduh Template Excel">
+            <a href="{{ route('util.template', 'pemasok') }}" class="flex-1 lg:flex-none flex items-center justify-center px-3 py-2 text-[9px] font-black uppercase tracking-widest text-slate-500 hover:bg-white hover:text-slate-800 transition-all" title="Unduh Template Excel">
                 <i class="fas fa-file-arrow-down mr-2 text-slate-400"></i> <span>Template</span>
             </a>
 
@@ -69,14 +69,14 @@
                             @csrf
                             <div 
                                 class="relative group rounded-xl transition-all duration-500 p-2 bg-slate-100 border border-slate-200"
-                                :class="isDragging ? 'bg-teal-50 border-teal-200 shadow-lg scale-[1.02]' : ''"
+                                :class="isDragging ? 'bg-[#A98D66]/10 border-[#3B8A7F]/20 shadow-lg scale-[1.02]' : ''"
                                 @dragover.prevent="isDragging = true"
                                 @dragleave.prevent="isDragging = false"
                                 @drop.prevent="isDragging = false; $refs.fileInput.files = $event.dataTransfer.files; document.getElementById('fileNamePemasok').textContent = $event.dataTransfer.files[0].name"
                             >
                                 <div 
                                     class="border-2 border-dashed rounded-xl p-10 text-center transition-all duration-300 relative overflow-hidden"
-                                    :class="isDragging ? 'bg-white/50 border-teal-400' : 'border-slate-300 group-hover:border-teal-300'"
+                                    :class="isDragging ? 'bg-white/50 border-[#3B8A7F]/40' : 'border-slate-300 group-hover:border-[#3B8A7F]/30'"
                                 >
                                     <input 
                                         type="file" 
@@ -88,16 +88,16 @@
                                         @change="document.getElementById('fileNamePemasok').textContent = $event.target.files[0].name"
                                     >
                                     <div class="relative z-0">
-                                        <i class="fas fa-cloud-arrow-up text-3xl text-teal-500 mb-3 transition-transform duration-300 group-hover:-translate-y-1"></i>
-                                        <p class="text-sm font-semibold text-slate-700">Silakan klik atau seret file Excel ke area ini</p>
+                                        <i class="fas fa-cloud-arrow-up text-3xl text-slate-800 mb-3 transition-transform duration-300 group-hover:-translate-y-1"></i>
+                                        <p class="text-sm font-semibold text-slate-800">Silakan klik atau seret file Excel ke area ini</p>
                                         <p class="text-xs text-slate-500 mt-1">Format yang didukung: .xlsx, .xls, .csv</p>
-                                        <p id="fileNamePemasok" class="text-xs font-bold text-teal-600 mt-3 truncate"></p>
+                                        <p id="fileNamePemasok" class="text-xs font-bold text-slate-800 mt-3 truncate"></p>
                                     </div>
                                 </div>
                             </div>
                             <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-2">
-                                <button type="button" @click="openImport = false" class="w-full sm:w-auto bg-slate-100 text-slate-600 border border-slate-200 font-bold rounded-xl hover:bg-slate-200 transition-all px-5 py-2.5 text-sm">Batal</button>
-                                <button type="submit" :disabled="isSubmitting" :class="isSubmitting ? 'opacity-70 cursor-not-allowed' : ''" class="w-full sm:w-auto bg-orange-500 text-white font-black rounded-xl shadow-lg shadow-orange-500/25 hover:bg-orange-600 hover:-translate-y-0.5 active:scale-95 transition-all duration-300 px-5 py-2.5 text-sm flex items-center justify-center group">
+                                <button type="button" @click="openImport = false" class="w-full sm:w-auto bg-slate-100 text-slate-800 border border-slate-200 font-bold rounded-xl hover:bg-slate-200 transition-all px-5 py-2.5 text-sm">Batal</button>
+                                <button type="submit" :disabled="isSubmitting" :class="isSubmitting ? 'opacity-70 cursor-not-allowed' : ''" class="w-full sm:w-auto bg-[#3B8A7F] text-white font-black rounded-xl shadow-lg shadow-[#3B8A7F]/25 hover:bg-white hover:-translate-y-0.5 active:scale-95 transition-all duration-300 px-5 py-2.5 text-sm flex items-center justify-center group">
                                     <span x-show="!isSubmitting">Impor Saja</span>
                                     <span x-show="isSubmitting" x-cloak class="flex items-center justify-center">
                                         Memproses... <i class="fas fa-circle-notch fa-spin ml-2"></i>
@@ -116,7 +116,7 @@
             </a>
         </div>
 
-        <a href="{{ route('input.pemasok') }}" wire:navigate.hover class="w-full sm:w-auto bg-orange-500 text-white font-black rounded-xl shadow-lg shadow-orange-500/25 hover:bg-orange-600 hover:-translate-y-0.5 active:scale-95 transition-all duration-300 px-6 py-3 text-[10px] uppercase tracking-widest flex items-center justify-center">
+        <a href="{{ route('input.pemasok') }}" wire:navigate.hover class="w-full sm:w-auto bg-[#3B8A7F] text-white font-black rounded-xl shadow-lg shadow-[#3B8A7F]/25 hover:bg-white hover:-translate-y-0.5 active:scale-95 transition-all duration-300 px-6 py-3 text-[10px] uppercase tracking-widest flex items-center justify-center">
             <i class="fas fa-truck-fast mr-2"></i> Tambah Pemasok
         </a>
     </div>
@@ -131,13 +131,13 @@
     $currentSortBy = request('sort_by', 'Nama_Pemasok');
     $currentSortDir = request('sort_dir', 'asc');
  @endphp
- <tr class="bg-teal-50/80 text-slate-600 text-[10px] font-black uppercase tracking-widest whitespace-nowrap">
- <th class="py-4 px-6 sticky left-0 bg-teal-50 z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] whitespace-nowrap">ID Pemasok</th>
+ <tr class="bg-white border-b-2 border-[#8E734B] text-slate-800 text-[10px] font-black uppercase tracking-widest whitespace-nowrap">
+ <th class="py-4 px-6 sticky left-0 bg-inherit z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] whitespace-nowrap">ID Pemasok</th>
  @php $newDir = ($currentSortBy === 'Nama_Pemasok' && $currentSortDir === 'asc') ? 'desc' : 'asc'; @endphp
  <th class="py-4 px-6 cursor-pointer group whitespace-nowrap" onclick="window.location.href='{{ request()->fullUrlWithQuery(['sort_by' => 'Nama_Pemasok', 'sort_dir' => $newDir, 'page' => 1]) }}'">
     <div class="flex items-center">
         Nama Pemasok
-        <i class="fas {{ $currentSortBy === 'Nama_Pemasok' ? ($currentSortDir === 'asc' ? 'fa-sort-up text-teal-600' : 'fa-sort-down text-teal-600') : 'fa-sort text-slate-300' }} text-[10px] ml-auto group-hover:text-teal-500 transition-colors"></i>
+        <i class="fas {{ $currentSortBy === 'Nama_Pemasok' ? ($currentSortDir === 'asc' ? 'fa-sort-up text-slate-800' : 'fa-sort-down text-slate-800') : 'fa-sort text-slate-300' }} text-[10px] ml-auto group-hover:text-slate-800 transition-colors"></i>
     </div>
  </th>
  <th class="py-4 px-6 whitespace-nowrap">Alamat</th>
@@ -147,20 +147,20 @@
  </thead>
  <tbody class="divide-y divide-slate-50">
  @forelse($pemasoks as $p)
- <tr class="group even:bg-slate-50/50 hover:bg-teal-50/60 transition-colors duration-200">
- <td class="py-4 px-6 text-sm text-teal-600 font-bold uppercase sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-teal-50 whitespace-nowrap">{{ $p->ID_Pemasok ?? '-' }}</td>
+ <tr class="group bg-white even:bg-white even:text-white hover:bg-[#A98D66]/20 transition-all duration-200">
+ <td class="py-4 px-6 text-sm text-slate-800 font-bold uppercase sticky left-0 bg-white even:bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-[#A98D66]/10 whitespace-nowrap">{{ $p->ID_Pemasok ?? '-' }}</td>
  <td class="py-4 px-6 text-sm font-bold text-slate-800 max-w-xs truncate" title="{{ $p->Nama_Pemasok ?? '' }}">{{ $p->Nama_Pemasok ?? '-' }}</td>
- <td class="py-4 px-6 text-sm text-slate-600 leading-relaxed max-w-sm truncate" title="{{ $p->Alamat_Pemasok ?? '' }}">{{ $p->Alamat_Pemasok ?? '-' }}</td>
- <td class="py-4 px-6 text-sm text-slate-600 text-center italic whitespace-nowrap">{{ $p->NoTelp_Pemasok ?? '-' }}</td>
+ <td class="py-4 px-6 text-sm text-slate-800 leading-relaxed max-w-sm truncate" title="{{ $p->Alamat_Pemasok ?? '' }}">{{ $p->Alamat_Pemasok ?? '-' }}</td>
+ <td class="py-4 px-6 text-sm text-slate-800 text-center italic whitespace-nowrap">{{ $p->NoTelp_Pemasok ?? '-' }}</td>
  <td class="py-4 px-6 text-center whitespace-nowrap">
  <div class="flex justify-center space-x-2">
- <a href="{{ route('data.pemasok.edit', $p->ID_Pemasok) }}" wire:navigate class="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-50 text-teal-600 hover:bg-teal-600 hover:text-white shadow-sm transition-all" title="Ubah Data">
+ <a href="{{ route('data.pemasok.edit', $p->ID_Pemasok) }}" wire:navigate class="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-50 text-slate-800 hover:bg-[#3B8A7F] hover:text-white shadow-sm transition-all" title="Ubah Data">
  <i class="fas fa-edit text-xs"></i>
  </a>
  <form action="{{ route('data.pemasok.destroy', $p->ID_Pemasok) }}" method="POST">
  @csrf
  @method('DELETE')
- <button type="submit" class="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white shadow-sm transition-all" title="Hapus Data">
+ <button type="submit" class="w-8 h-8 rounded-lg bg-white/10 text-[#B04025] hover:bg-white hover:text-white shadow-sm transition-all" title="Hapus Data">
  <i class="fas fa-trash text-xs"></i>
  </button>
  </form>
