@@ -44,7 +44,7 @@
  }
  </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased font-sans" 
+<body class="bg-[#A98D66]/5 text-slate-800 antialiased font-sans" 
     x-data="{ 
         isDesktop: window.innerWidth >= 1024, 
         sidebarOpen: window.innerWidth >= 1024 
@@ -79,6 +79,7 @@
                 <span x-show="sidebarOpen" x-transition.opacity.duration.300 class="text-xl font-black tracking-tighter text-white whitespace-nowrap">Xyra<span class="text-[#A98D66]">.id</span></span>
             </a>
         </div> 
+
 
         <!-- Navigation Area -->
         <div class="flex-1 overflow-y-auto custom-scrollbar overflow-x-hidden">
@@ -167,8 +168,8 @@
 
         const isSuccess = "{{ session('success') ? 'true' : 'false' }}" === 'true';
         const titleText = isSuccess ? 'Berhasil' : 'Gagal';
-        const iconClass = isSuccess ? 'fa-check text-[#3B8A7F]' : 'fa-triangle-exclamation text-rose-500';
-        const bgClass = isSuccess ? 'bg-[#A98D66]/10' : 'bg-white/10';
+        const iconClass = isSuccess ? 'fa-check text-[#ca5b33]' : 'fa-triangle-exclamation text-[#B04025]';
+        const bgClass = isSuccess ? 'bg-[#ca5b33]/10' : 'bg-[#B04025]/10';
 
         window.Swal.fire({
             html: `
@@ -216,10 +217,10 @@ document.addEventListener('submit', function(e) {
             html: `
                 <div class="text-left">
                     <div class="flex items-center gap-3 mb-2">
-                        <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0 border border-rose-100">
+                        <div class="w-10 h-10 rounded-xl bg-[#B04025]/5 flex items-center justify-center flex-shrink-0 border border-[#B04025]/10">
                             <i class="fas fa-trash-can text-[#B04025] text-sm"></i>
                         </div>
-                        <h3 class="text-lg font-black text-slate-800 m-0">Konfirmasi Hapus</h3>
+                        <h3 class="text-lg font-black text-[#000000] m-0">Konfirmasi Hapus</h3>
                     </div>
                     <p class="text-sm text-slate-500 m-0 pl-13 leading-relaxed font-medium">Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan dan data akan hilang permanen.</p>
                 </div>
@@ -236,7 +237,7 @@ document.addEventListener('submit', function(e) {
                 popup: 'rounded-2xl border border-slate-100 shadow-2xl bg-white',
                 htmlContainer: 'm-0 p-0 text-left',
                 actions: 'flex items-center justify-end gap-3 mt-8 w-full',
-                confirmButton: 'px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white text-xs font-black uppercase tracking-widest rounded-xl transition-all duration-300 shadow-md shadow-red-500/20 active:scale-95',
+                confirmButton: 'px-6 py-2.5 bg-[#B04025] hover:bg-[#8B2D1A] text-white text-xs font-black uppercase tracking-widest rounded-xl transition-all duration-300 shadow-md shadow-[#B04025]/20 active:scale-95',
                 cancelButton: 'px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-black uppercase tracking-widest rounded-xl border border-slate-200 transition-all duration-300 active:scale-95'
             }
         }).then((result) => {
