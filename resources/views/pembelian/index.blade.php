@@ -48,10 +48,7 @@
                     <!-- Utility Toolbar -->
                     <div class="flex items-center bg-slate-100 border border-slate-200 rounded-xl shadow-sm w-full sm:w-auto divide-x divide-slate-200 overflow-hidden">
                         <!-- Unduh Template -->
-                        <a href="{{ route('util.template', 'pembelian') }}" class="flex-1 lg:flex-none flex items-center justify-center px-3 py-2 text-[9px] font-black uppercase tracking-widest text-slate-500 hover:bg-white hover:text-slate-800 transition-all" title="Unduh Template Excel">
-                            <i class="fas fa-file-arrow-down mr-2 text-slate-400"></i> <span>Template</span>
-                        </a>
-
+                
                         <!-- Impor Data -->
                         <div x-data="{ openImport: false, isDragging: false, isSubmitting: false }" class="flex-1 lg:flex-none">
                             <button @click="openImport = true" class="w-full flex items-center justify-center px-3 py-2 text-[9px] font-black uppercase tracking-widest text-slate-500 hover:bg-white hover:text-amber-600 transition-all" title="Impor Data Excel">
