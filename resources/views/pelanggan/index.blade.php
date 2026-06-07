@@ -147,7 +147,7 @@
  <tbody class="divide-y divide-slate-50">
  @forelse($pelanggans as $p)
  <tr class="group bg-white hover:bg-[#A98D66]/10 transition-all duration-200">
- <td class="py-4 px-6 text-sm text-[#000000] font-black uppercase sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-[#A98D66]/5 whitespace-nowrap">{{ $p->ID_Pelanggan ?? '-' }}</td>
+ <td class="py-4 px-6 text-sm text-[#000000] font-black uppercase sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-[#FAF9F7] whitespace-nowrap">{{ $p->ID_Pelanggan ?? '-' }}</td>
  <td class="py-4 px-6 text-sm font-bold text-slate-800 max-w-xs truncate" title="{{ $p->Nama_Pelanggan ?? '' }}">{{ $p->Nama_Pelanggan ?? '-' }}</td>
  <td class="py-4 px-6 text-sm text-slate-800 text-center italic whitespace-nowrap">{{ $p->NoTelp_Pelanggan ?? '-' }}</td>
  <td class="py-4 px-6 text-sm text-slate-800 leading-relaxed max-w-sm truncate" title="{{ $p->Alamat_Pelanggan ?? '' }}">{{ $p->Alamat_Pelanggan ?? '-' }}</td>

@@ -69,7 +69,7 @@
             <table class="w-full text-left">
                 <thead>
                     <tr class="bg-white text-slate-800 text-[10px] font-black uppercase tracking-widest border-b-2 border-[#8E734B]">
-                        <th class="py-5 px-8 whitespace-nowrap sticky left-0 bg-inherit z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">ID Produk</th>
+                        <th class="py-5 px-8 whitespace-nowrap sticky left-0 bg-white z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">ID Produk</th>
                         <th class="py-5 px-8 whitespace-nowrap">Nama Produk</th>
                         <th class="py-5 px-8 whitespace-nowrap">Kategori</th>
                         <th class="py-5 px-8 whitespace-nowrap text-center">Stok Awal</th>
@@ -80,7 +80,7 @@
                 <tbody class="divide-y divide-slate-50">
                     @forelse($stoks as $s)
                     <tr class="bg-white even:bg-white even:text-white hover:bg-[#A98D66]/20 transition-all group">
-                        <td class="py-5 px-8 whitespace-nowrap sticky left-0 bg-white even:bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-[#A98D66]/10">
+                        <td class="py-5 px-8 whitespace-nowrap sticky left-0 bg-white even:bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-[#F6F4F0]">
                             <span class="text-[11px] font-black font-mono text-slate-800 bg-[#3B8A7F]/10 px-2 py-1 rounded-lg">{{ $s->ID_Barang ?? '-' }}</span>
                         </td>
                         <td class="py-5 px-8 whitespace-nowrap">

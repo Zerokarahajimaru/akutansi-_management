@@ -129,7 +129,7 @@
         <table class="w-full text-left">
             <thead>
                 <tr class="bg-white text-[#000000] text-[10px] font-black uppercase tracking-widest whitespace-nowrap border-b-2 border-[#8E734B]">
-                    <th class="py-5 px-8 sticky left-0 bg-inherit z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">ID Stok</th>
+                    <th class="py-5 px-8 sticky left-0 bg-white z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">ID Stok</th>
                     <th class="py-5 px-8">Produk</th>
                     <th class="py-5 px-8">Kategori</th>
                     <th class="py-5 px-8 text-center">Stok Awal</th>
@@ -141,7 +141,7 @@
             <tbody class="divide-y divide-slate-50">
                 @forelse($stokMaster as $stok)
                 <tr class="group bg-white even:bg-white even:text-white hover:bg-[#A98D66]/20 transition-all duration-200">
-                    <td class="py-5 px-8 text-xs font-black text-slate-400 uppercase tracking-widest sticky left-0 bg-white even:bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-[#A98D66]/10 transition-colors">
+                    <td class="py-5 px-8 text-xs font-black text-slate-400 uppercase tracking-widest sticky left-0 bg-white even:bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-[#F6F4F0] transition-colors">
                         {{ $stok->ID_Stok }}
                     </td>
                     <td class="py-5 px-8">

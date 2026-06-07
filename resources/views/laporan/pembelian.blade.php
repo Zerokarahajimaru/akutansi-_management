@@ -89,7 +89,7 @@
             <table class="w-full text-left">
                 <thead>
                     <tr class="bg-white text-slate-800 text-[10px] font-black uppercase tracking-widest border-b-2 border-[#8E734B]">
-                        <th class="py-5 px-8 whitespace-nowrap sticky left-0 bg-inherit z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">Tanggal</th>
+                        <th class="py-5 px-8 whitespace-nowrap sticky left-0 bg-white z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">Tanggal</th>
                         <th class="py-5 px-8 whitespace-nowrap">Produk / Barang</th>
                         <th class="py-5 px-8 whitespace-nowrap text-center">Qty</th>
                         <th class="py-5 px-8 whitespace-nowrap">Pemasok</th>
@@ -100,7 +100,7 @@
                 <tbody class="divide-y divide-slate-50">
                     @forelse($pembelians as $p)
                     <tr class="bg-white even:bg-white even:text-white hover:bg-[#A98D66]/20 transition-all group">
-                        <td class="py-5 px-8 text-sm text-slate-800 font-medium whitespace-nowrap sticky left-0 bg-white even:bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-[#A98D66]/10">{{ $p->Tgl_Pembelian ? date('d/m/Y', strtotime($p->Tgl_Pembelian)) : '-' }}</td>
+                        <td class="py-5 px-8 text-sm text-slate-800 font-medium whitespace-nowrap sticky left-0 bg-white even:bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-[#F6F4F0]">{{ $p->Tgl_Pembelian ? date('d/m/Y', strtotime($p->Tgl_Pembelian)) : '-' }}</td>
                         <td class="py-5 px-8 whitespace-nowrap">
                             <div class="flex flex-col min-w-[150px]">
                                 <span class="text-sm font-bold text-slate-800 group-hover:text-slate-800 transition-colors max-w-xs truncate" title="{{ $p->dataBarang->Nama_Barang ?? '' }}">{{ $p->dataBarang->Nama_Barang ?? '-' }}</span>

@@ -133,7 +133,7 @@
  @endphp
  <tr class="bg-white border-b-2 border-[#8E734B] text-slate-800 text-[10px] font-black uppercase tracking-widest whitespace-nowrap">
  @php $newDir = ($currentSortBy === 'Tgl_Pembelian' && $currentSortDir === 'asc') ? 'desc' : 'asc'; @endphp
- <th class="py-4 px-6 cursor-pointer group sticky left-0 bg-inherit z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] whitespace-nowrap" onclick="window.location.href='{{ request()->fullUrlWithQuery(['sort_by' => 'Tgl_Pembelian', 'sort_dir' => $newDir, 'page' => 1]) }}'">
+ <th class="py-4 px-6 cursor-pointer group sticky left-0 bg-white z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] whitespace-nowrap" onclick="window.location.href='{{ request()->fullUrlWithQuery(['sort_by' => 'Tgl_Pembelian', 'sort_dir' => $newDir, 'page' => 1]) }}'">
     <div class="flex items-center">
         Tanggal
         <i class="fas {{ $currentSortBy === 'Tgl_Pembelian' ? ($currentSortDir === 'asc' ? 'fa-sort-up text-slate-800' : 'fa-sort-down text-slate-800') : 'fa-sort text-slate-300' }} text-[10px] ml-auto group-hover:text-slate-800 transition-colors"></i>
@@ -151,7 +151,7 @@
  <tbody class="divide-y divide-slate-50">
  @forelse($pembelians as $item)
  <tr class="group bg-white even:bg-white even:text-white hover:bg-[#A98D66]/20 transition-all duration-200">
- <td class="py-4 px-6 text-sm text-slate-800 font-medium sticky left-0 bg-white even:bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-[#A98D66]/10 whitespace-nowrap">{{ $item->Tgl_Pembelian ? date('d/m/Y', strtotime($item->Tgl_Pembelian)) : '-' }}</td>
+ <td class="py-4 px-6 text-sm text-slate-800 font-medium sticky left-0 bg-white even:bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-[#F6F4F0] whitespace-nowrap">{{ $item->Tgl_Pembelian ? date('d/m/Y', strtotime($item->Tgl_Pembelian)) : '-' }}</td>
  <td class="py-4 px-6 whitespace-nowrap">
  <div class="flex flex-col min-w-[180px]">
  <p class="text-sm font-bold text-slate-800 max-w-xs truncate" title="{{ $item->dataBarang->Nama_Barang ?? 'Produk Dihapus' }}">{{ $item->dataBarang->Nama_Barang ?? 'Produk Dihapus' }}</p>

@@ -132,7 +132,7 @@
     $currentSortDir = request('sort_dir', 'asc');
  @endphp
  <tr class="bg-white border-b-2 border-[#8E734B] text-slate-800 text-[10px] font-black uppercase tracking-widest whitespace-nowrap">
- <th class="py-4 px-6 sticky left-0 bg-inherit z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] whitespace-nowrap">ID Pemasok</th>
+ <th class="py-4 px-6 sticky left-0 bg-white z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] whitespace-nowrap">ID Pemasok</th>
  @php $newDir = ($currentSortBy === 'Nama_Pemasok' && $currentSortDir === 'asc') ? 'desc' : 'asc'; @endphp
  <th class="py-4 px-6 cursor-pointer group whitespace-nowrap" onclick="window.location.href='{{ request()->fullUrlWithQuery(['sort_by' => 'Nama_Pemasok', 'sort_dir' => $newDir, 'page' => 1]) }}'">
     <div class="flex items-center">
@@ -148,7 +148,7 @@
  <tbody class="divide-y divide-slate-50">
  @forelse($pemasoks as $p)
  <tr class="group bg-white even:bg-white even:text-white hover:bg-[#A98D66]/20 transition-all duration-200">
- <td class="py-4 px-6 text-sm text-slate-800 font-bold uppercase sticky left-0 bg-white even:bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-[#A98D66]/10 whitespace-nowrap">{{ $p->ID_Pemasok ?? '-' }}</td>
+ <td class="py-4 px-6 text-sm text-slate-800 font-bold uppercase sticky left-0 bg-white even:bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-[#F6F4F0] whitespace-nowrap">{{ $p->ID_Pemasok ?? '-' }}</td>
  <td class="py-4 px-6 text-sm font-bold text-slate-800 max-w-xs truncate" title="{{ $p->Nama_Pemasok ?? '' }}">{{ $p->Nama_Pemasok ?? '-' }}</td>
  <td class="py-4 px-6 text-sm text-slate-800 leading-relaxed max-w-sm truncate" title="{{ $p->Alamat_Pemasok ?? '' }}">{{ $p->Alamat_Pemasok ?? '-' }}</td>
  <td class="py-4 px-6 text-sm text-slate-800 text-center italic whitespace-nowrap">{{ $p->NoTelp_Pemasok ?? '-' }}</td>
