@@ -137,16 +137,16 @@
                 </form>
 
                 <!-- Secure Notice Footer -->
-                <div class="mt-8 pt-6 border-t border-slate-50 flex items-center justify-center gap-3">
+                <!-- <div class="mt-8 pt-6 border-t border-slate-50 flex items-center justify-center gap-3">
                     <i class="fas fa-shield-halved text-slate-300 text-sm"></i>
                     <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Data Encrypted</p>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Global Footer Link -->
-            <!-- <p class="mt-8 text-center text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em]">
+            <p class="mt-8 text-center text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em]">
                 XYRA SYSTEM VERSION 4.0.1
-            </p> -->
+            </p>
         </div>
     </main>
 
