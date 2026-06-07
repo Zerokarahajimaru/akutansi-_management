@@ -67,7 +67,7 @@
             <!-- Login Card -->
             <div class="bg-white p-8 sm:p-10 rounded-[2.5rem] shadow-[0_20px_60px_rgba(169,141,102,0.12)] border border-slate-100 relative overflow-hidden">
                 <!-- Top Accent -->
-                <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#A98D66] via-[#ca5b33] to-[#3B8A7F]"></div>
+                <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#ca5b33] via-[#ca5b33] to-[#ca5b33]"></div>
 
                 <div class="mb-10 text-center lg:text-left">
                     <!-- <div class="inline-flex items-center gap-2 bg-[#3B8A7F]/5 px-3 py-1 rounded-full mb-4">
