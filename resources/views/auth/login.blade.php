@@ -20,12 +20,12 @@
 
         <!-- Header Logo -->
         <div class="relative z-10 flex items-center gap-6">
-            <div class="w-20 h-20 bg-white rounded-3xl flex items-center justify-center shadow-2xl transition-transform hover:scale-105 duration-500">
-                <img src="{{ asset('Resource/xyra_logo.png') }}" alt="Xyra.id Logo" class="w-12 h-12 object-contain">
+            <div class="w-20 h-20 bg-transparent flex items-center justify-center transition-transform hover:scale-105 duration-500">
+                <img src="{{ asset('Resource/xyra_logo.png') }}" alt="Xyra.id Logo" class="w-20 h-20 object-contain">
             </div>
             <div class="h-12 w-[2px] bg-white/20"></div>
             <div>
-                <h1 class="text-4xl font-black text-[#000000] tracking-tightest">Xyra<span class="text-[#A98D66]">.id</span></h1>
+                <h1 class="text-4xl font-black text-[#A98D66] tracking-tightest whitespace-nowrap">Xyra.id</h1>
                 <p class="text-[10px] text-white/60 font-bold uppercase tracking-[0.3em]">Official Inventory System</p>
             </div>
         </div>
@@ -56,10 +56,10 @@
         <div class="w-full max-w-[400px] relative z-10">
             <!-- Mobile Logo -->
             <div class="lg:hidden mb-12 flex flex-col items-center">
-                <div class="w-20 h-20 bg-[#A98D66]/10 rounded-3xl flex items-center justify-center mb-6 shadow-sm border border-slate-200/20">
-                    <img src="{{ asset('Resource/xyra_logo.png') }}" alt="Logo" class="w-12 h-12 object-contain ">
+                <div class="w-24 h-24 bg-transparent flex items-center justify-center mb-6">
+                    <img src="{{ asset('Resource/xyra_logo.png') }}" alt="Logo" class="w-24 h-24 object-contain ">
                 </div>
-                <h2 class="text-3xl font-black text-[#000000] tracking-tightest">Xyra<span class="text-[#A98D66]">.id</span></h2>
+                <h2 class="text-3xl font-black text-[#A98D66] tracking-tightest whitespace-nowrap">Xyra.id</h2>
                 <p class="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] mt-3">Inventory Portal</p>
             </div>
 

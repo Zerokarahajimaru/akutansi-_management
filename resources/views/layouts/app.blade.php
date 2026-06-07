@@ -76,7 +76,7 @@
         <div class="h-20 flex items-center border-b border-white/10 px-6 transition-all duration-300" :class="sidebarOpen ? 'justify-start' : 'justify-center px-0'">
             <a href="{{ route('dashboard') }}" wire:navigate.hover @click="if(!isDesktop) sidebarOpen = false" class="flex items-center gap-3 group">
                 <img src="{{ asset('Resource/xyra_logo.png') }}" alt="Xyra.id Logo" class="h-8 w-auto transition-transform group-hover:scale-105 ">
-                <span x-show="sidebarOpen" x-transition.opacity.duration.300 class="text-xl font-black tracking-tighter text-white whitespace-nowrap">Xyra<span class="text-[#A98D66]">.id</span></span>
+                <span x-show="sidebarOpen" x-transition.opacity.duration.300 class="text-xl font-black tracking-tighter text-[#A98D66] whitespace-nowrap">Xyra.id</span>
             </a>
         </div> 
 

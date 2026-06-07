@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="mb-10">
-        <h1 class="text-4xl font-black text-[#A98D66] tracking-tightest whitespace-nowrap uppercase">Ringkasan <span class="text-[#3B8A7F]">Sistem.</span></h1>
+        <h1 class="text-4xl font-black text-[#A98D66] tracking-tightest whitespace-nowrap uppercase">Ringkasan <span class="text-[#A98D66]">Sistem.</span></h1>
         <p class="text-slate-500 text-xs font-medium mt-2 leading-relaxed max-w-2xl">Selamat datang kembali, {{ Auth::user()->name }}. Berikut adalah visualisasi performa operasional harian Xyra.id hari ini.</p>
     </div>
 
