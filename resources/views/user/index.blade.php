@@ -3,12 +3,12 @@
 @section('title', 'Manajemen Pengguna')
 
 @section('content')
-<div class="bg-white rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgba(13,148,136,0.05)]">
+<div class="bg-white rounded-3xl border border-slate-100 shadow-[0_8px_30px_rgba(169,141,102,0.08)]">
  <!-- Action Bar -->
  <div class="p-6 border-b border-slate-50">
  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
  <div>
- <h2 class="font-black text-[#ca5b33] text-lg tracking-tight">Daftar Pengguna Sistem</h2>
+ <h2 class="text-[#A98D66] font-black tracking-tightest uppercase text-lg">Daftar Pengguna Sistem</h2>
  <p class="text-slate-500 text-xs font-medium">Kelola akun Admin yang memiliki akses ke aplikasi Xyra.id</p>
  </div>
  </div>
@@ -19,7 +19,7 @@
             <i class="fas fa-magnifying-glass text-slate-400"></i>
         </div>
         <input type="text" name="search" value="{{ request('search') }}" 
-            class="w-full bg-white border border-slate-200 text-slate-800 text-sm rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#3B8A7F]/20 focus:border-[#3B8A7F] transition-all shadow-sm placeholder:text-slate-400" 
+            class="w-full bg-white border border-slate-200 text-slate-800 text-sm rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:ring-4 focus:ring-[#ca5b33]/15 focus:border-[#ca5b33] transition-all shadow-sm placeholder:text-slate-400" 
             placeholder="Cari data berdasarkan nama, ID, atau kategori...">
         @if(request('search'))
             <a href="{{ request()->url() }}" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-rose-500 transition-colors">
@@ -31,7 +31,7 @@
     <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
         <!-- Per Page Selector -->
         <div x-data="{ open: false }" class="relative inline-block text-left z-[30] w-full sm:w-auto" x-cloak>
-            <button @click="open = !open" @click.outside="open = false" type="button" class="inline-flex items-center justify-between w-full sm:min-w-[140px] px-4 py-2.5 text-sm font-semibold text-slate-800 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:text-[#2F5C53] focus:outline-none focus:ring-2 focus:ring-[#3B8A7F]/30 transition-all shadow-sm group">
+            <button @click="open = !open" @click.outside="open = false" type="button" class="inline-flex items-center justify-between w-full sm:min-w-[140px] px-4 py-2.5 text-sm font-semibold text-slate-800 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:text-[#2F5C53] focus:outline-none focus:ring-4 focus:ring-[#ca5b33]/15 transition-all shadow-sm group">
                 <span class="truncate">Tampilkan: <span class="text-slate-800">{{ request('per_page', 50) === 'all' ? 'Semua' : request('per_page', 50) }}</span></span>
                 <i class="fas fa-chevron-down ml-2 text-xs transition-transform duration-300" :class="open ? 'rotate-180 text-slate-800' : 'text-slate-400 group-hover:text-slate-800'"></i>
             </button>
@@ -52,7 +52,7 @@
             </a>
         </div>
 
-        <a href="{{ route('input.user') }}" wire:navigate class="w-full sm:w-auto bg-[#ca5b33] text-white font-black rounded-xl shadow-lg shadow-[#ca5b33]/25 hover:bg-[#B04025] hover:-translate-y-0.5 active:scale-95 transition-all duration-300 px-6 py-3 text-[10px] uppercase tracking-widest flex items-center justify-center">
+        <a href="{{ route('input.user') }}" wire:navigate class="w-full sm:w-auto bg-[#ca5b33] text-white font-black rounded-2xl shadow-xl shadow-[#ca5b33]/25 hover:bg-[#B04025] hover:-translate-y-1 active:scale-95 transition-all duration-300 px-6 py-3 text-[10px] uppercase tracking-widest flex items-center justify-center">
             <i class="fas fa-user-plus mr-2"></i> Tambah Pengguna
         </a>
     </div>
@@ -60,46 +60,46 @@
  </div>
 
  <!-- Table -->
- <div class="overflow-x-auto custom-scrollbar relative rounded-xl border border-slate-100">
+ <div class="overflow-x-auto custom-scrollbar relative rounded-3xl border border-slate-100">
  <table id="user-table" class="w-full text-left">
  <thead>
  @php
     $currentSortBy = request('sort_by', 'name');
     $currentSortDir = request('sort_dir', 'asc');
  @endphp
- <tr class="bg-white border-b-2 border-[#8E734B] text-slate-800 text-[10px] font-black uppercase tracking-widest whitespace-nowrap">
- <th class="py-4 px-6 sticky left-0 bg-white z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] whitespace-nowrap">ID Pengguna</th>
+ <tr class="bg-white border-b-2 border-[#B04025] text-[#A98D66] text-[10px] font-black uppercase tracking-widest whitespace-nowrap">
+ <th class="py-5 px-8 sticky left-0 bg-white z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] whitespace-nowrap">ID Pengguna</th>
  @php $newDir = ($currentSortBy === 'name' && $currentSortDir === 'asc') ? 'desc' : 'asc'; @endphp
- <th class="py-4 px-6 cursor-pointer group whitespace-nowrap" onclick="window.location.href='{{ request()->fullUrlWithQuery(['sort_by' => 'name', 'sort_dir' => $newDir, 'page' => 1]) }}'">
+ <th class="py-5 px-8 cursor-pointer group whitespace-nowrap" onclick="window.location.href='{{ request()->fullUrlWithQuery(['sort_by' => 'name', 'sort_dir' => $newDir, 'page' => 1]) }}'">
     <div class="flex items-center">
         Nama Lengkap
-        <i class="fas {{ $currentSortBy === 'name' ? ($currentSortDir === 'asc' ? 'fa-sort-up text-slate-800' : 'fa-sort-down text-slate-800') : 'fa-sort text-slate-300' }} text-[10px] ml-auto group-hover:text-slate-800 transition-colors"></i>
+        <i class="fas {{ $currentSortBy === 'name' ? ($currentSortDir === 'asc' ? 'fa-sort-up text-[#A98D66]' : 'fa-sort-down text-[#A98D66]') : 'fa-sort text-slate-300' }} text-[10px] ml-auto group-hover:text-[#A98D66] transition-colors"></i>
     </div>
  </th>
  @php $newDir = ($currentSortBy === 'username' && $currentSortDir === 'asc') ? 'desc' : 'asc'; @endphp
- <th class="py-4 px-6 cursor-pointer group whitespace-nowrap" onclick="window.location.href='{{ request()->fullUrlWithQuery(['sort_by' => 'username', 'sort_dir' => $newDir, 'page' => 1]) }}'">
+ <th class="py-5 px-8 cursor-pointer group whitespace-nowrap" onclick="window.location.href='{{ request()->fullUrlWithQuery(['sort_by' => 'username', 'sort_dir' => $newDir, 'page' => 1]) }}'">
     <div class="flex items-center">
         Username
-        <i class="fas {{ $currentSortBy === 'username' ? ($currentSortDir === 'asc' ? 'fa-sort-up text-slate-800' : 'fa-sort-down text-slate-800') : 'fa-sort text-slate-300' }} text-[10px] ml-auto group-hover:text-slate-800 transition-colors"></i>
+        <i class="fas {{ $currentSortBy === 'username' ? ($currentSortDir === 'asc' ? 'fa-sort-up text-[#A98D66]' : 'fa-sort-down text-[#A98D66]') : 'fa-sort text-slate-300' }} text-[10px] ml-auto group-hover:text-[#A98D66] transition-colors"></i>
     </div>
  </th>
- <th class="py-4 px-6 text-center whitespace-nowrap">Nomor Telepon</th>
- <th class="py-4 px-6 whitespace-nowrap">Alamat</th>
- <th class="py-4 px-6 text-center whitespace-nowrap">Aksi</th>
+ <th class="py-5 px-8 text-center whitespace-nowrap">Nomor Telepon</th>
+ <th class="py-5 px-8 whitespace-nowrap">Alamat</th>
+ <th class="py-5 px-8 text-center whitespace-nowrap">Aksi</th>
  </tr>
  </thead>
  <tbody class="divide-y divide-slate-50">
  @forelse($users as $user)
- <tr class="group bg-white even:bg-white even:text-white hover:bg-[#A98D66]/20 transition-all duration-200">
- <td class="py-4 px-6 text-sm text-slate-800 font-bold uppercase sticky left-0 bg-white even:bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-[#F6F4F0] whitespace-nowrap">{{ $user->id ?? '-' }}</td>
- <td class="py-4 px-6 text-sm font-bold text-slate-800 max-w-xs truncate" title="{{ $user->name ?? '' }}">{{ $user->name ?? '-' }}</td>
- <td class="py-4 px-6 text-sm text-slate-800 font-medium whitespace-nowrap"><span>{{ $user->username ?? '-' }}</span></td>
- <td class="py-4 px-6 text-sm text-slate-800 text-center italic whitespace-nowrap">{{ $user->NoTelp_User ?? '-' }}</td>
- <td class="py-4 px-6 text-sm text-slate-500 leading-relaxed max-w-sm truncate" title="{{ $user->Alamat_User ?? '' }}">{{ $user->Alamat_User ?? '-' }}</td>
- <td class="py-4 px-6 text-center whitespace-nowrap">
+ <tr class="group bg-white hover:bg-[#A98D66]/10 transition-all duration-200">
+ <td class="py-5 px-8 text-sm text-slate-800 font-bold uppercase sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-[#F6F4F0] transition-colors whitespace-nowrap">{{ $user->id ?? '-' }}</td>
+ <td class="py-5 px-8 text-sm font-bold text-slate-800 max-w-xs truncate" title="{{ $user->name ?? '' }}">{{ $user->name ?? '-' }}</td>
+ <td class="py-5 px-8 text-sm text-slate-800 font-medium whitespace-nowrap"><span>{{ $user->username ?? '-' }}</span></td>
+ <td class="py-5 px-8 text-sm text-slate-800 text-center italic whitespace-nowrap">{{ $user->NoTelp_User ?? '-' }}</td>
+ <td class="py-5 px-8 text-sm text-slate-500 leading-relaxed max-w-sm truncate" title="{{ $user->Alamat_User ?? '' }}">{{ $user->Alamat_User ?? '-' }}</td>
+ <td class="py-5 px-8 text-center whitespace-nowrap">
     <div class="flex justify-center items-center whitespace-nowrap">
         @if(auth()->id() === $user->id)
-            <a href="{{ route('data.user.edit', $user->id) }}" wire:navigate class="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-50 text-slate-800 hover:bg-[#3B8A7F] hover:text-white shadow-sm transition-all" title="Ubah Data">
+            <a href="{{ route('data.user.edit', $user->id) }}" wire:navigate class="flex items-center justify-center w-8 h-8 rounded-xl bg-slate-50 text-slate-800 hover:bg-[#3B8A7F] hover:text-white shadow-sm transition-all" title="Ubah Data">
                 <i class="fas fa-edit text-xs"></i>
             </a>
         @else
