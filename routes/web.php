@@ -56,8 +56,6 @@ Route::middleware(['auth'])->group(function () {
     // Export/Import Utility Routes
     Route::prefix('util')->group(function () {
         Route::get('/export/{type}', [ExportImportController::class, 'exportCSV'])->name('util.export');
-        Route::get('/template/{type}', [ExportImportController::class, 'downloadTemplate'])->name('util.template');
-        Route::post('/import/{type}', [ExportImportController::class, 'importCSV'])->name('util.import');
     });
 
     // Input Forms & Logic

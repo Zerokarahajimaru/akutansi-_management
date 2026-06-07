@@ -47,67 +47,6 @@
 
                     <!-- Utility Toolbar -->
                     <div class="flex items-center bg-slate-100 border border-slate-200 rounded-xl shadow-sm w-full sm:w-auto divide-x divide-slate-200 overflow-hidden">
-                        <a href="{{ route('util.template', 'pelanggan') }}" class="flex-1 lg:flex-none flex items-center justify-center px-3 py-2 text-[9px] font-black uppercase tracking-widest text-slate-500 hover:bg-white hover:text-[#ca5b33] transition-all" title="Unduh Template Excel">
-                            <i class="fas fa-file-arrow-down mr-2 text-slate-400"></i> <span>Template</span>
-                        </a>
-
-                        <div x-data="{ openImport: false, isDragging: false, isSubmitting: false }" class="flex-1 lg:flex-none">
-                            <button @click="openImport = true" class="w-full flex items-center justify-center px-3 py-2 text-[9px] font-black uppercase tracking-widest text-slate-500 hover:bg-white hover:text-[#ca5b33] transition-all" title="Impor Data Excel">
-                                <i class="fas fa-file-import mr-2 text-[#A98D66]"></i> <span>Impor</span>
-                            </button>
-                            
-                            <div x-show="openImport" x-cloak class="fixed inset-0 z-[150] flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4" x-transition.opacity>
-                                <div @click.outside="openImport = false" class="bg-white rounded-3xl border border-slate-100 shadow-xl w-full max-w-md p-6 transform transition-all" x-transition.scale.95>
-                                    <div class="flex justify-between items-center mb-5">
-                                        <h3 class="text-lg font-black text-[#000000]">Impor Data Pelanggan</h3>
-                                        <button @click="openImport = false" class="text-slate-400 hover:text-rose-500 transition-colors">
-                                            <i class="fas fa-xmark text-lg"></i>
-                                        </button>
-                                    </div>
-                                    <form action="{{ route('util.import', 'pelanggan') }}" method="POST" enctype="multipart/form-data" @submit="isSubmitting = true" class="space-y-4">
-                                        @csrf
-                                        <div 
-                                            class="relative group rounded-2xl transition-all duration-500 p-2 bg-slate-100 border border-slate-200"
-                                            :class="isDragging ? 'bg-[#A98D66]/10 border-[#A98D66]/20 shadow-lg scale-[1.02]' : ''"
-                                            @dragover.prevent="isDragging = true"
-                                            @dragleave.prevent="isDragging = false"
-                                            @drop.prevent="isDragging = false; $refs.fileInput.files = $event.dataTransfer.files; document.getElementById('fileNamePelanggan').textContent = $event.dataTransfer.files[0].name"
-                                        >
-                                            <div 
-                                                class="border-2 border-dashed rounded-2xl p-10 text-center transition-all duration-300 relative overflow-hidden"
-                                                :class="isDragging ? 'bg-white/50 border-[#A98D66]/40' : 'border-slate-300 group-hover:border-[#ca5b33]/30'"
-                                            >
-                                                <input 
-                                                    type="file" 
-                                                    name="csv_file" 
-                                                    x-ref="fileInput"
-                                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" 
-                                                    accept=".xlsx,.xls,.csv" 
-                                                    required 
-                                                    @change="document.getElementById('fileNamePelanggan').textContent = $event.target.files[0].name"
-                                                >
-                                                <div class="relative z-0">
-                                                    <i class="fas fa-cloud-arrow-up text-3xl text-slate-800 mb-3 transition-transform duration-300 group-hover:-translate-y-1"></i>
-                                                    <p class="text-sm font-bold text-slate-800">Silakan klik atau seret file Excel ke area ini</p>
-                                                    <p class="text-[10px] text-slate-500 mt-1 uppercase font-black tracking-widest">Format yang didukung: .xlsx, .xls, .csv</p>
-                                                    <p id="fileNamePelanggan" class="text-xs font-black text-[#ca5b33] mt-3 truncate"></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-2">
-                                            <button type="button" @click="openImport = false" class="w-full sm:w-auto bg-slate-100 text-slate-800 border border-slate-200 font-bold rounded-xl hover:bg-slate-200 transition-all px-5 py-2.5 text-sm">Batal</button>
-                                            <button type="submit" :disabled="isSubmitting" :class="isSubmitting ? 'opacity-70 cursor-not-allowed' : ''" class="w-full sm:w-auto bg-[#ca5b33] text-white font-black rounded-2xl shadow-xl shadow-[#ca5b33]/25 hover:bg-[#B04025] hover:-translate-y-1 active:scale-95 transition-all duration-300 px-5 py-2.5 text-sm flex items-center justify-center group uppercase tracking-widest">
-                                                <span x-show="!isSubmitting">Impor Saja</span>
-                                                <span x-show="isSubmitting" x-cloak class="flex items-center justify-center">
-                                                    Memproses... <i class="fas fa-circle-notch fa-spin ml-2"></i>
-                                                </span>
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
                         <!-- Ekspor Excel -->
                         <a href="{{ route('util.export', 'pelanggan') }}" class="flex-1 lg:flex-none flex items-center justify-center px-3 py-2 text-[9px] font-black uppercase tracking-widest text-slate-500 hover:bg-white hover:text-[#ca5b33] transition-all" title="Ekspor Data Excel">
                             <i class="fas fa-file-export mr-2 text-slate-400"></i> <span>Ekspor</span>
