@@ -8,8 +8,8 @@
  <div class="p-6 border-b border-slate-50">
  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
  <div>
- <h2 class="font-bold text-slate-800 text-lg">Stok & Master Barang</h2>
- <p class="text-slate-500 text-xs">Pantau ketersediaan stok produk dan kelola informasi barang</p>
+ <h2 class="font-black text-[#ca5b33] text-lg tracking-tight">Stok & Master Barang</h2>
+ <p class="text-slate-500 text-xs font-medium">Pantau ketersediaan stok produk dan kelola informasi barang</p>
  </div>
  </div>
 
@@ -116,7 +116,7 @@
             </a>
         </div>
 
-        <a href="{{ route('input.barang') }}" wire:navigate.hover class="w-full sm:w-auto bg-[#3B8A7F] text-white font-black rounded-xl shadow-lg shadow-[#3B8A7F]/25 hover:bg-white hover:-translate-y-0.5 active:scale-95 transition-all duration-300 px-6 py-3 text-[10px] uppercase tracking-widest flex items-center justify-center">
+        <a href="{{ route('input.barang') }}" wire:navigate.hover class="w-full sm:w-auto bg-[#ca5b33] text-white font-black rounded-xl shadow-lg shadow-[#ca5b33]/25 hover:bg-[#B04025] hover:-translate-y-0.5 active:scale-95 transition-all duration-300 px-6 py-3 text-[10px] uppercase tracking-widest flex items-center justify-center">
             <i class="fas fa-boxes-packing mr-2"></i> Tambah Produk
         </a>
     </div>

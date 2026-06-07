@@ -8,7 +8,7 @@
  <div class="p-6 border-b border-slate-50">
  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
  <div>
- <h2 class="font-black text-[#000000] text-lg tracking-tight">Kelola Data Pelanggan</h2>
+ <h2 class="font-black text-[#ca5b33] text-lg tracking-tight">Kelola Data Pelanggan</h2>
  <p class="text-slate-500 text-xs font-medium">Daftar pelanggan aktif untuk transaksi penjualan Xyra.id</p>
  </div>
  </div>

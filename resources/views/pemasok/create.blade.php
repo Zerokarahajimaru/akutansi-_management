@@ -6,33 +6,33 @@
 <div class="max-w-2xl mx-auto">
     <div class="bg-white rounded-2xl border border-slate-100 shadow-[0_20px_50px_rgba(13,148,136,0.05)] overflow-hidden">
         <div class="p-8 border-b border-slate-50">
-            <h2 class="text-xl font-black text-slate-800 tracking-tight">Pendaftaran Pemasok Baru</h2>
-            <p class="text-slate-500 text-sm mt-1">Tambahkan informasi mitra pemasok barang untuk inventaris Xyra.id.</p>
+            <h2 class="text-xl font-black text-[#ca5b33] tracking-tight">Pendaftaran Pemasok Baru</h2>
+            <p class="text-slate-500 text-sm mt-1 font-medium">Tambahkan informasi mitra pemasok barang untuk inventaris Xyra.id.</p>
         </div>
         <form action="{{ route('input.pemasok') }}" method="POST" class="p-8 space-y-6" x-data="{ isSubmitting: false }" @submit="isSubmitting = true">
             @csrf
             
             <div class="space-y-2">
                 <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Nama Lengkap Pemasok <span class="text-[#B04025]">*</span></label>
-                <input type="text" name="Nama_Pemasok" value="{{ old('Nama_Pemasok') }}" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all duration-300 @error('Nama_Pemasok') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" placeholder="Masukkan nama PT atau CV" required>
+                <input type="text" name="Nama_Pemasok" value="{{ old('Nama_Pemasok') }}" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#ca5b33]/10 focus:border-[#ca5b33] transition-all duration-300 @error('Nama_Pemasok') border-[#B04025]/40 focus:ring-[#B04025]/10 focus:border-[#B04025] @enderror" placeholder="Masukkan nama PT atau CV" required>
                 @error('Nama_Pemasok')
-                    <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
+                    <p class="text-[#B04025] text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
                 @enderror
             </div>
 
             <div class="space-y-2">
                 <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">No. HP Pemasok <span class="text-[#B04025]">*</span></label>
-                <input type="text" name="NoTelp_Pemasok" value="{{ old('NoTelp_Pemasok') }}" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all duration-300 @error('NoTelp_Pemasok') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" placeholder="08xxxxxxxx" required>
+                <input type="text" name="NoTelp_Pemasok" value="{{ old('NoTelp_Pemasok') }}" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#ca5b33]/10 focus:border-[#ca5b33] transition-all duration-300 @error('NoTelp_Pemasok') border-[#B04025]/40 focus:ring-[#B04025]/10 focus:border-[#B04025] @enderror" placeholder="08xxxxxxxx" required>
                 @error('NoTelp_Pemasok')
-                    <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
+                    <p class="text-[#B04025] text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
                 @enderror
             </div>
 
             <div class="space-y-2">
                 <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Alamat Lengkap Pemasok <span class="text-[#B04025]">*</span></label>
-                <textarea name="Alamat_Pemasok" rows="3" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all duration-300 @error('Alamat_Pemasok') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" placeholder="Masukkan alamat lengkap kantor/gudang" required>{{ old('Alamat_Pemasok') }}</textarea>
+                <textarea name="Alamat_Pemasok" rows="3" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#ca5b33]/10 focus:border-[#ca5b33] transition-all duration-300 @error('Alamat_Pemasok') border-[#B04025]/40 focus:ring-[#B04025]/10 focus:border-[#B04025] @enderror" placeholder="Masukkan alamat lengkap kantor/gudang" required>{{ old('Alamat_Pemasok') }}</textarea>
                 @error('Alamat_Pemasok')
-                    <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
+                    <p class="text-[#B04025] text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
                 @enderror
             </div>
 
@@ -41,7 +41,7 @@
                 <button type="submit" 
                     :disabled="isSubmitting" 
                     :class="isSubmitting ? 'opacity-70 cursor-not-allowed scale-[0.98]' : ''"
-                    class="bg-[#3B8A7F] text-white font-black rounded-xl px-10 py-3 text-sm hover:bg-white shadow-lg shadow-[#3B8A7F]/25 hover:-translate-y-0.5 active:scale-95 transition-all duration-300">
+                    class="bg-[#ca5b33] text-white font-black rounded-xl px-10 py-3 text-sm hover:bg-[#B04025] shadow-lg shadow-[#ca5b33]/20 hover:-translate-y-0.5 active:scale-95 transition-all duration-300 uppercase tracking-widest">
                     <span x-show="!isSubmitting">Simpan Data</span>
                     <span x-show="isSubmitting" x-cloak class="flex items-center justify-center">
                         Mohon Tunggu... <i class="fas fa-circle-notch fa-spin ml-2"></i>

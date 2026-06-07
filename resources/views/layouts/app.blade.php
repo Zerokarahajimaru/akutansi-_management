@@ -124,7 +124,7 @@
 
                 <!-- Breadcrumbs -->
                 <div class="flex items-center text-sm overflow-hidden text-slate-500">
-                    <a href="{{ route('dashboard') }}" wire:navigate class="text-[#3B8A7F] font-bold hover:text-[#2F5C53] transition-colors whitespace-nowrap">Beranda</a>
+                    <a href="{{ route('dashboard') }}" wire:navigate class="text-[#ca5b33] font-bold hover:text-[#B04025] transition-colors whitespace-nowrap">Beranda</a>
                     <i class="fas fa-chevron-right text-[10px] mx-2 md:mx-4 text-slate-300 flex-shrink-0"></i>
                     <span class="text-slate-400 font-medium tracking-tight truncate">@yield('title', 'Dashboard')</span>
                 </div>

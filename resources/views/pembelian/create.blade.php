@@ -6,8 +6,8 @@
 <div class="max-w-4xl mx-auto">
     <div class="bg-white rounded-2xl border border-slate-100 shadow-[0_20px_50px_rgba(59,138,127,0.05)] overflow-hidden">
         <div class="p-8 border-b border-slate-50">
-            <h2 class="text-xl font-black text-slate-800 tracking-tight">Catat Pembelian Baru</h2>
-            <p class="text-slate-500 text-sm mt-1">Gunakan formulir ini untuk menambah stok barang dari pemasok.</p>
+            <h2 class="text-xl font-black text-[#ca5b33] tracking-tight">Catat Pembelian Baru</h2>
+            <p class="text-slate-500 text-sm mt-1 font-medium">Gunakan formulir ini untuk menambah stok barang dari pemasok.</p>
         </div>
 
         <form action="{{ route('input.pembelian') }}" method="POST" class="p-8 space-y-6" x-data="{ isSubmitting: false }" @submit="isSubmitting = true">
@@ -165,7 +165,7 @@
                 <button type="submit" 
                     :disabled="isSubmitting" 
                     :class="isSubmitting ? 'opacity-70 cursor-not-allowed scale-[0.98]' : ''"
-                    class="bg-[#3B8A7F] text-white font-black rounded-xl px-10 py-3 text-sm hover:bg-white shadow-lg shadow-[#3B8A7F]/25 hover:-translate-y-0.5 active:scale-95 transition-all duration-300">
+                    class="bg-[#ca5b33] text-white font-black rounded-xl px-10 py-3 text-sm hover:bg-[#B04025] shadow-lg shadow-[#ca5b33]/25 hover:-translate-y-0.5 active:scale-95 transition-all duration-300 uppercase tracking-widest">
                     <span x-show="!isSubmitting">Simpan Data</span>
                     <span x-show="isSubmitting" x-cloak class="flex items-center justify-center">
                         Mohon Tunggu... <i class="fas fa-circle-notch fa-spin ml-2"></i>

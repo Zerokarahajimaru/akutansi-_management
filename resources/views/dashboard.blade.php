@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="mb-8">
-        <h1 class="text-3xl font-black text-[#000000] tracking-tightest whitespace-nowrap">Selamat Datang, <span class="text-[#3B8A7F]">{{ Auth::user()->name }}!</span></h1>
+        <h1 class="text-3xl font-black text-[#ca5b33] tracking-tightest whitespace-nowrap">Selamat Datang, <span class="text-[#3B8A7F]">{{ Auth::user()->name }}!</span></h1>
         <p class="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mt-1 leading-relaxed">Ringkasan operasional harian Xyra.id</p>
     </div>
 
@@ -48,8 +48,8 @@
         <!-- Recent Activities -->
         <div class="lg:col-span-2 bg-white rounded-2xl shadow-[0_8px_30px_rgba(202,91,51,0.05)] border border-slate-100 overflow-hidden">
             <div class="p-6 border-b border-slate-50 flex items-center justify-between bg-slate-50/30">
-                <h2 class="font-black text-[#000000] text-[11px] uppercase tracking-widest flex items-center">
-                    <i class="fas fa-history mr-2 text-[#3B8A7F]"></i> Transaksi Terkini
+                <h2 class="font-black text-[#ca5b33] text-[11px] uppercase tracking-widest flex items-center">
+                    <i class="fas fa-history mr-2 text-[#ca5b33]"></i> Transaksi Terkini
                 </h2>
             </div>
             <div class="overflow-x-auto custom-scrollbar relative">

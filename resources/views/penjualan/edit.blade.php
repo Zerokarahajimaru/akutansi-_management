@@ -6,8 +6,8 @@
 <div class="max-w-4xl mx-auto">
     <div class="bg-white rounded-2xl border border-slate-100 shadow-[0_20px_50px_rgba(13,148,136,0.05)] overflow-hidden">
         <div class="p-8 border-b border-slate-50">
-            <h2 class="text-xl font-black text-slate-800 tracking-tight">Edit Transaksi Penjualan</h2>
-            <p class="text-slate-500 text-sm mt-1">Perbarui informasi transaksi stok keluar.</p>
+            <h2 class="text-xl font-black text-[#ca5b33] tracking-tight">Edit Transaksi Penjualan</h2>
+            <p class="text-slate-500 text-sm mt-1 font-medium">Perbarui informasi transaksi stok keluar.</p>
         </div>
 
         <form action="{{ route('data.penjualan.update', $penjualan->ID_Penjualan) }}" method="POST" class="p-8 space-y-6" x-data="{ isSubmitting: false }" @submit="isSubmitting = true">
@@ -172,7 +172,7 @@
                 <button type="submit" 
                     :disabled="isSubmitting" 
                     :class="isSubmitting ? 'opacity-70 cursor-not-allowed scale-[0.98]' : ''"
-                    class="bg-[#3B8A7F] text-white font-black rounded-xl px-10 py-3 text-sm hover:bg-white shadow-lg shadow-[#3B8A7F]/20 hover:-translate-y-0.5 active:scale-95 transition-all duration-300">
+                    class="bg-[#ca5b33] text-white font-black rounded-xl px-10 py-3 text-sm hover:bg-[#B04025] shadow-lg shadow-[#ca5b33]/20 hover:-translate-y-0.5 active:scale-95 transition-all duration-300 uppercase tracking-widest">
                     <span x-show="!isSubmitting">Simpan Perubahan</span>
                     <span x-show="isSubmitting" x-cloak class="flex items-center justify-center">
                         Mohon Tunggu... <i class="fas fa-circle-notch fa-spin ml-2"></i>

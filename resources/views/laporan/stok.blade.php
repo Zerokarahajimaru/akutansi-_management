@@ -48,7 +48,7 @@
                 <i class="fas fa-magnifying-glass text-slate-400 text-xs"></i>
             </div>
             <input type="text" name="search" value="{{ request('search') }}" 
-                class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all shadow-sm placeholder:text-slate-400" 
+                class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:ring-4 focus:ring-[#ca5b33]/10 focus:border-[#ca5b33] transition-all shadow-sm placeholder:text-slate-400" 
                 placeholder="Cari produk atau kategori...">
         </form>
 

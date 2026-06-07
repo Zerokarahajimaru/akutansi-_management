@@ -49,19 +49,19 @@
                     <i class="fas fa-magnifying-glass text-slate-400 text-xs"></i>
                 </div>
                 <input type="text" name="search" value="{{ request('search') }}" 
-                    class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all shadow-sm placeholder:text-slate-400" 
+                    class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:ring-4 focus:ring-[#ca5b33]/10 focus:border-[#ca5b33] transition-all shadow-sm placeholder:text-slate-400" 
                     placeholder="Cari nota, produk, atau pemasok...">
             </div>
             <div class="flex flex-col sm:flex-row items-end gap-4 w-full xl:w-auto">
                 <div class="space-y-1 flex-1 sm:flex-none w-full sm:w-auto">
                     <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Mulai</label>
-                    <input type="date" name="start_date" value="{{ $start_date }}" class="w-full bg-white border border-[#3B8A7F]/20 rounded-xl px-4 py-3 text-sm text-slate-800 focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all">
+                    <input type="date" name="start_date" value="{{ $start_date }}" class="w-full bg-white border border-[#3B8A7F]/20 rounded-xl px-4 py-3 text-sm text-slate-800 focus:ring-4 focus:ring-[#ca5b33]/10 focus:border-[#ca5b33] transition-all">
                 </div>
                 <div class="space-y-1 flex-1 sm:flex-none w-full sm:w-auto">
                     <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest ml-1">Sampai</label>
-                    <input type="date" name="end_date" value="{{ $end_date }}" class="w-full bg-white border border-[#3B8A7F]/20 rounded-xl px-4 py-3 text-sm text-slate-800 focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all">
+                    <input type="date" name="end_date" value="{{ $end_date }}" class="w-full bg-white border border-[#3B8A7F]/20 rounded-xl px-4 py-3 text-sm text-slate-800 focus:ring-4 focus:ring-[#ca5b33]/10 focus:border-[#ca5b33] transition-all">
                 </div>
-                <button type="submit" class="bg-[#3B8A7F] text-white font-black px-6 py-3.5 rounded-xl shadow-lg shadow-orange-500/25 hover:bg-white hover:-translate-y-0.5 active:scale-95 transition-all duration-300 text-[10px] uppercase tracking-widest flex-shrink-0 w-full sm:w-auto">
+                <button type="submit" class="bg-[#ca5b33] text-white font-black px-6 py-3.5 rounded-xl shadow-lg shadow-[#ca5b33]/20 hover:bg-[#B04025] hover:-translate-y-0.5 active:scale-95 transition-all duration-300 text-[10px] uppercase tracking-widest flex-shrink-0 w-full sm:w-auto">
                     Terapkan
                 </button>
             </div>

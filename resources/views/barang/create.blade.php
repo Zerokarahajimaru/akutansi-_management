@@ -6,7 +6,7 @@
 <div class="max-w-4xl mx-auto">
     <div class="bg-white rounded-2xl border border-slate-100 shadow-[0_20px_50px_rgba(59,138,127,0.05)] overflow-hidden">
         <div class="p-8 border-b border-slate-50">
-            <h2 class="text-xl font-black text-slate-800 tracking-tight">Tambah Produk Ke Katalog</h2>
+            <h2 class="text-xl font-black text-[#ca5b33] tracking-tight">Tambah Produk Ke Katalog</h2>
             <p class="text-slate-500 text-sm mt-1">Lengkapi informasi detail produk untuk ditambahkan ke sistem inventaris Xyra.id.</p>
         </div>
 
@@ -23,9 +23,9 @@
                 <!-- Nama Produk -->
                 <div class="md:col-span-2 space-y-2">
                     <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Nama Lengkap Produk <span class="text-[#B04025]">*</span></label>
-                    <input type="text" name="Nama_Barang" value="{{ old('Nama_Barang') }}" placeholder="Contoh: Gamis Chino Premium" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all duration-300 @error('Nama_Barang') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
+                    <input type="text" name="Nama_Barang" value="{{ old('Nama_Barang') }}" placeholder="Contoh: Gamis Chino Premium" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#ca5b33]/10 focus:border-[#ca5b33] transition-all duration-300 @error('Nama_Barang') border-[#B04025]/40 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
                     @error('Nama_Barang')
-                        <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
+                        <p class="text-[#B04025] text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -38,7 +38,7 @@
                     <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Jenis / Kategori <span class="text-[#B04025]">*</span></label>
                     <div class="relative">
                         <input type="hidden" name="Jenis_Barang" :value="selected">
-                        <button @click="open = !open" type="button" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all duration-300 flex items-center justify-between @error('Jenis_Barang') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror">
+                        <button @click="open = !open" type="button" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#ca5b33]/10 focus:border-[#ca5b33] transition-all duration-300 flex items-center justify-between @error('Jenis_Barang') border-[#B04025]/40 focus:ring-rose-500/10 focus:border-rose-500 @enderror">
                             <span x-text="selected" class="font-medium"></span>
                             <i class="fas fa-chevron-down text-slate-400 text-xs transition-transform" :class="open ? 'rotate-180' : ''"></i>
                         </button>
@@ -59,7 +59,7 @@
                         </div>
                     </div>
                     @error('Jenis_Barang')
-                        <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
+                        <p class="text-[#B04025] text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -79,7 +79,7 @@
                     <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Ukuran Produk <span class="text-[#B04025]">*</span></label>
                     <div class="relative">
                         <input type="hidden" name="Ukuran_Barang" :value="selected">
-                        <button @click="open = !open" type="button" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all duration-300 flex items-center justify-between @error('Ukuran_Barang') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror">
+                        <button @click="open = !open" type="button" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#ca5b33]/10 focus:border-[#ca5b33] transition-all duration-300 flex items-center justify-between @error('Ukuran_Barang') border-[#B04025]/40 focus:ring-rose-500/10 focus:border-rose-500 @enderror">
                             <span x-text="options.find(o => o.val === selected).label" class="font-medium"></span>
                             <i class="fas fa-chevron-down text-slate-400 text-xs transition-transform" :class="open ? 'rotate-180' : ''"></i>
                         </button>
@@ -100,7 +100,7 @@
                         </div>
                     </div>
                     @error('Ukuran_Barang')
-                        <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
+                        <p class="text-[#B04025] text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -118,7 +118,7 @@
                     <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Pemasok Utama <span class="text-[#B04025]">*</span></label>
                     <div class="relative">
                         <input type="hidden" name="ID_Pemasok" :value="selected" required>
-                        <button @click="open = !open" type="button" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all duration-300 flex items-center justify-between @error('ID_Pemasok') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror">
+                        <button @click="open = !open" type="button" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#ca5b33]/10 focus:border-[#ca5b33] transition-all duration-300 flex items-center justify-between @error('ID_Pemasok') border-[#B04025]/40 focus:ring-rose-500/10 focus:border-rose-500 @enderror">
                             <span x-text="selectedLabel" :class="selected === '' ? 'text-slate-400' : 'font-medium'"></span>
                             <i class="fas fa-chevron-down text-slate-400 text-xs transition-transform" :class="open ? 'rotate-180' : ''"></i>
                         </button>
@@ -139,43 +139,43 @@
                         </div>
                     </div>
                     @error('ID_Pemasok')
-                        <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
+                        <p class="text-[#B04025] text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
                     @enderror
                 </div>
 
                 <!-- Warna -->
                 <div class="space-y-2">
                     <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Varian Warna <span class="text-[#B04025]">*</span></label>
-                    <input type="text" name="Warna_Barang" value="{{ old('Warna_Barang') }}" placeholder="Contoh: Kuning, Navy, Hitam" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all duration-300 @error('Warna_Barang') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
+                    <input type="text" name="Warna_Barang" value="{{ old('Warna_Barang') }}" placeholder="Contoh: Kuning, Navy, Hitam" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#ca5b33]/10 focus:border-[#ca5b33] transition-all duration-300 @error('Warna_Barang') border-[#B04025]/40 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
                     @error('Warna_Barang')
-                        <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
+                        <p class="text-[#B04025] text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
                     @enderror
                 </div>
 
                 <!-- Harga Beli -->
                 <div class="space-y-2">
                     <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Harga Beli Dasar (Rp) <span class="text-[#B04025]">*</span></label>
-                    <input type="number" name="Harga_Beli" value="{{ old('Harga_Beli') }}" placeholder="0" min="0" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all duration-300 @error('Harga_Beli') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
+                    <input type="number" name="Harga_Beli" value="{{ old('Harga_Beli') }}" placeholder="0" min="0" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#ca5b33]/10 focus:border-[#ca5b33] transition-all duration-300 @error('Harga_Beli') border-[#B04025]/40 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
                     @error('Harga_Beli')
-                        <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
+                        <p class="text-[#B04025] text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
                     @enderror
                 </div>
 
                 <!-- Harga Jual -->
                 <div class="space-y-2">
                     <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Harga Jual Konsumen (Rp) <span class="text-[#B04025]">*</span></label>
-                    <input type="number" name="Harga_Jual" value="{{ old('Harga_Jual') }}" placeholder="0" min="0" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all duration-300 @error('Harga_Jual') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
+                    <input type="number" name="Harga_Jual" value="{{ old('Harga_Jual') }}" placeholder="0" min="0" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#ca5b33]/10 focus:border-[#ca5b33] transition-all duration-300 @error('Harga_Jual') border-[#B04025]/40 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
                     @error('Harga_Jual')
-                        <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
+                        <p class="text-[#B04025] text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
                     @enderror
                 </div>
 
                 <!-- Stok Awal -->
                 <div class="md:col-span-2 space-y-2">
                     <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Saldo Awal Stok <span class="text-[#B04025]">*</span></label>
-                    <input type="number" name="Stok_Awal" value="{{ old('Stok_Awal', '0') }}" min="0" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#3B8A7F]/10 focus:border-[#3B8A7F] transition-all duration-300 @error('Stok_Awal') border-rose-300 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
+                    <input type="number" name="Stok_Awal" value="{{ old('Stok_Awal', '0') }}" min="0" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-[#ca5b33]/10 focus:border-[#ca5b33] transition-all duration-300 @error('Stok_Awal') border-[#B04025]/40 focus:ring-rose-500/10 focus:border-rose-500 @enderror" required>
                     @error('Stok_Awal')
-                        <p class="text-rose-500 text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
+                        <p class="text-[#B04025] text-[10px] font-bold mt-1.5 ml-1 flex items-center"><i class="fas fa-circle-exclamation mr-1.5"></i>{{ $message }}</p>
                     @enderror
                     <p class="text-xs text-slate-400 mt-1 italic">Kuantitas ini akan langsung tercatat sebagai stok tersedia di sistem.</p>
                 </div>
@@ -186,7 +186,7 @@
                 <button type="submit" 
                     :disabled="isSubmitting" 
                     :class="isSubmitting ? 'opacity-70 cursor-not-allowed scale-[0.98]' : ''"
-                    class="bg-[#3B8A7F] text-white font-black rounded-xl px-10 py-3 text-sm hover:bg-white shadow-lg shadow-[#3B8A7F]/25 hover:-translate-y-0.5 active:scale-95 transition-all duration-300">
+                    class="bg-[#ca5b33] text-white font-black rounded-xl px-10 py-3 text-sm hover:bg-[#B04025] shadow-lg shadow-[#ca5b33]/20 hover:-translate-y-0.5 active:scale-95 transition-all duration-300">
                     <span x-show="!isSubmitting">Simpan Data</span>
                     <span x-show="isSubmitting" x-cloak class="flex items-center justify-center">
                         Mohon Tunggu... <i class="fas fa-circle-notch fa-spin ml-2"></i>
