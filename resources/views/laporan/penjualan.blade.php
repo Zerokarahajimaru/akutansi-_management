@@ -7,7 +7,7 @@
     <!-- Analytics Summary -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <!-- Total Pendapatan -->
-        <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 flex items-center justify-between group hover:border-[#3B8A7F]/30 transition-all duration-300">
+        <div class="bg-white p-6 rounded-3xl shadow-[0_8px_30px_rgba(169,141,102,0.08)] border border-slate-100 flex items-center justify-between group hover:border-[#3B8A7F]/30 transition-all duration-300">
             <div>
                 <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">Total Pendapatan</p>
                 <h3 class="text-2xl font-black text-slate-800">Rp {{ number_format($summary['total_pendapatan'] ?? 0, 0, ',', '.') }}</h3>
@@ -18,7 +18,7 @@
         </div>
 
         <!-- Total Transaksi -->
-        <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 flex items-center justify-between group hover:border-[#3B8A7F]/30 transition-all duration-300">
+        <div class="bg-white p-6 rounded-3xl shadow-[0_8px_30px_rgba(169,141,102,0.08)] border border-slate-100 flex items-center justify-between group hover:border-[#3B8A7F]/30 transition-all duration-300">
             <div>
                 <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">Total Transaksi</p>
                 <h3 class="text-2xl font-black text-slate-800">{{ number_format($summary['total_transaksi'] ?? 0, 0, ',', '.') }} <span class="text-xs text-slate-400 font-bold ml-1 uppercase">Nota</span></h3>
@@ -29,7 +29,7 @@
         </div>
 
         <!-- Produk Best Seller -->
-        <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 flex items-center justify-between group hover:border-[#CA5B33]/30 transition-all duration-300">
+        <div class="bg-white p-6 rounded-3xl shadow-[0_8px_30px_rgba(169,141,102,0.08)] border border-slate-100 flex items-center justify-between group hover:border-[#CA5B33]/30 transition-all duration-300">
             <div class="min-w-0 flex-1 mr-4">
                 <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">Produk Terlaris</p>
                 <h3 class="text-lg font-black text-slate-800 truncate" title="{{ $summary['best_seller'] ?? '-' }}">{{ $summary['best_seller'] ?? '-' }}</h3>
@@ -41,7 +41,7 @@
     </div>
 
     <!-- Universal Filter & Action Bar -->
-    <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100">
+    <div class="bg-white p-6 rounded-3xl shadow-[0_8px_30px_rgba(169,141,102,0.08)] border border-slate-100">
         <!-- TOP DECK (Filters) -->
         <form action="{{ route('laporan.penjualan') }}" method="GET" class="w-full flex flex-col xl:flex-row justify-between items-start xl:items-end gap-6 w-full">
             <div class="relative flex-1 w-full min-w-[250px]">
@@ -84,23 +84,23 @@
     </div>
 
     <!-- Data Table -->
-    <div class="bg-white rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgba(13,148,136,0.05)] overflow-hidden">
-        <div class="overflow-x-auto custom-scrollbar relative rounded-xl border border-slate-100 m-4">
-            <table class="w-full text-left">
+    <div class="bg-white rounded-3xl border border-slate-100 shadow-[0_8px_30px_rgba(169,141,102,0.08)] overflow-hidden">
+        <div class="overflow-x-auto custom-scrollbar relative">
+            <table class="w-full text-left border-separate border-spacing-0">
                 <thead>
-                    <tr class="bg-white text-slate-800 text-[10px] font-black uppercase tracking-widest border-b-2 border-[#8E734B]">
-                        <th class="py-5 px-8 whitespace-nowrap sticky left-0 bg-white z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">Tanggal</th>
-                        <th class="py-5 px-8 whitespace-nowrap">Produk / Barang</th>
-                        <th class="py-5 px-8 whitespace-nowrap text-center">Qty</th>
-                        <th class="py-5 px-8 whitespace-nowrap">Nama Pelanggan</th>
-                        <th class="py-5 px-8 whitespace-nowrap">Pembayaran</th>
-                        <th class="py-5 px-8 whitespace-nowrap text-right">Total Harga</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-50">
-                    @forelse($penjualans as $p)
-                    <tr class="bg-white even:bg-white even:text-white hover:bg-[#A98D66]/20 transition-all group">
-                        <td class="py-5 px-8 text-sm text-slate-800 font-medium whitespace-nowrap sticky left-0 bg-white even:bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-[#F6F4F0]">{{ $p->Tanggal_Penjualan ? date('d/m/Y', strtotime($p->Tanggal_Penjualan)) : '-' }}</td>
+                    <tr class="bg-[#B04025] text-white text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap">
+                        <th class="py-6 px-8 whitespace-nowrap sticky left-0 bg-[#B04025] z-20 shadow-[4px_0_10px_-3px_rgba(0,0,0,0.2)]">Tanggal</th>
+                            <th class="py-6 px-8 whitespace-nowrap">Produk / Barang</th>
+                            <th class="py-6 px-8 whitespace-nowrap text-center">Qty</th>
+                            <th class="py-6 px-8 whitespace-nowrap">Nama Pelanggan</th>
+                            <th class="py-6 px-8 whitespace-nowrap">Pembayaran</th>
+                            <th class="py-6 px-8 whitespace-nowrap text-right">Total Harga</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-50">
+                        @forelse($penjualans as $p)
+                        <tr class="hover:bg-[#A98D66]/10 transition-all group">
+                            <td class="py-5 px-8 text-sm text-slate-800 font-medium whitespace-nowrap sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-[#F6F4F0] transition-colors">{{ $p->Tanggal_Penjualan ? date('d/m/Y', strtotime($p->Tanggal_Penjualan)) : '-' }}</td>
                         <td class="py-5 px-8 whitespace-nowrap">
                             <div class="flex flex-col min-w-[150px]">
                                 <span class="text-sm font-bold text-slate-800 group-hover:text-slate-800 transition-colors max-w-xs truncate" title="{{ $p->dataBarang->Nama_Barang ?? '' }}">{{ $p->dataBarang->Nama_Barang ?? '-' }}</span>

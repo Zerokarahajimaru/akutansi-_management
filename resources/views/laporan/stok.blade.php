@@ -7,7 +7,7 @@
     <!-- Analytics Summary -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <!-- Estimasi Valuasi Aset -->
-        <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 flex items-center justify-between group hover:border-[#3B8A7F]/30 transition-all duration-300">
+        <div class="bg-white p-6 rounded-3xl shadow-[0_8px_30px_rgba(169,141,102,0.08)] border border-slate-100 flex items-center justify-between group hover:border-[#3B8A7F]/30 transition-all duration-300">
             <div>
                 <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">Estimasi Valuasi Aset</p>
                 <h3 class="text-2xl font-black text-slate-800">Rp {{ number_format($summary['valuasi_aset'] ?? 0, 0, ',', '.') }}</h3>
@@ -18,7 +18,7 @@
         </div>
 
         <!-- Stok Aman -->
-        <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 flex items-center justify-between group hover:border-[#3B8A7F]/30 transition-all duration-300">
+        <div class="bg-white p-6 rounded-3xl shadow-[0_8px_30px_rgba(169,141,102,0.08)] border border-slate-100 flex items-center justify-between group hover:border-[#3B8A7F]/30 transition-all duration-300">
             <div>
                 <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">Stok Aman (>= 10)</p>
                 <h3 class="text-2xl font-black text-slate-800">{{ number_format($summary['stok_aman'] ?? 0, 0, ',', '.') }} <span class="text-xs text-slate-400 font-bold ml-1 uppercase">Item</span></h3>
@@ -29,7 +29,7 @@
         </div>
 
         <!-- Stok Kritis -->
-        <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 flex items-center justify-between group hover:border-[#CA5B33]/30 transition-all duration-300">
+        <div class="bg-white p-6 rounded-3xl shadow-[0_8px_30px_rgba(169,141,102,0.08)] border border-slate-100 flex items-center justify-between group hover:border-[#CA5B33]/30 transition-all duration-300">
             <div>
                 <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1.5">Stok Kritis (< 10)</p>
                 <h3 class="text-2xl font-black text-slate-800">{{ number_format($summary['stok_kritis'] ?? 0, 0, ',', '.') }} <span class="text-xs text-slate-400 font-bold ml-1 uppercase">Item</span></h3>
@@ -41,7 +41,7 @@
     </div>
 
     <!-- Action Bar -->
-    <div class="bg-white p-6 rounded-2xl shadow-[0_8px_30px_rgba(13,148,136,0.05)] border border-slate-100 flex flex-col md:flex-row justify-between items-center gap-6">
+    <div class="bg-white p-6 rounded-3xl shadow-[0_8px_30px_rgba(169,141,102,0.08)] border border-slate-100 flex flex-col md:flex-row justify-between items-center gap-6">
         <!-- Left Side (Form/Search) -->
         <form action="{{ route('laporan.stok') }}" method="GET" class="relative w-full md:w-96 flex-shrink-0">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -64,23 +64,23 @@
     </div>
 
     <!-- Inventory Table -->
-    <div class="bg-white rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgba(13,148,136,0.05)] overflow-hidden">
-        <div class="overflow-x-auto custom-scrollbar relative rounded-xl border border-slate-100 m-4">
-            <table class="w-full text-left">
+    <div class="bg-white rounded-3xl border border-slate-100 shadow-[0_8px_30px_rgba(169,141,102,0.08)] overflow-hidden">
+        <div class="overflow-x-auto custom-scrollbar relative">
+            <table class="w-full text-left border-separate border-spacing-0">
                 <thead>
-                    <tr class="bg-white text-slate-800 text-[10px] font-black uppercase tracking-widest border-b-2 border-[#8E734B]">
-                        <th class="py-5 px-8 whitespace-nowrap sticky left-0 bg-white z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">ID Produk</th>
-                        <th class="py-5 px-8 whitespace-nowrap">Nama Produk</th>
-                        <th class="py-5 px-8 whitespace-nowrap">Kategori</th>
-                        <th class="py-5 px-8 whitespace-nowrap text-center">Stok Awal</th>
-                        <th class="py-5 px-8 whitespace-nowrap text-center">Stok Akhir</th>
-                        <th class="py-5 px-8 whitespace-nowrap">Status</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-50">
-                    @forelse($stoks as $s)
-                    <tr class="bg-white even:bg-white even:text-white hover:bg-[#A98D66]/20 transition-all group">
-                        <td class="py-5 px-8 whitespace-nowrap sticky left-0 bg-white even:bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-[#F6F4F0]">
+                    <tr class="bg-[#B04025] text-white text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap">
+                        <th class="py-6 px-8 whitespace-nowrap sticky left-0 bg-[#B04025] z-20 shadow-[4px_0_10px_-3px_rgba(0,0,0,0.2)]">ID Produk</th>
+                            <th class="py-6 px-8 whitespace-nowrap">Nama Produk</th>
+                            <th class="py-6 px-8 whitespace-nowrap">Kategori</th>
+                            <th class="py-6 px-8 whitespace-nowrap text-center">Stok Awal</th>
+                            <th class="py-6 px-8 whitespace-nowrap text-center">Stok Akhir</th>
+                            <th class="py-6 px-8 whitespace-nowrap">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-50">
+                        @forelse($stoks as $s)
+                        <tr class="hover:bg-[#A98D66]/10 transition-all group">
+                            <td class="py-5 px-8 whitespace-nowrap sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-[#F6F4F0]">
                             <span class="text-[11px] font-black font-mono text-slate-800 bg-[#3B8A7F]/10 px-2 py-1 rounded-lg">{{ $s->ID_Barang ?? '-' }}</span>
                         </td>
                         <td class="py-5 px-8 whitespace-nowrap">

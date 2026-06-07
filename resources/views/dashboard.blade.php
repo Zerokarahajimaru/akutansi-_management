@@ -52,17 +52,18 @@
                     <i class="fas fa-history mr-2 text-[#A98D66]"></i> Transaksi Terkini
                 </h2>
             </div>
-            <div class="overflow-x-auto custom-scrollbar relative">
-                <table class="w-full text-left">
-                    <thead>
-                        <tr class="bg-white text-[#A98D66] text-[10px] font-black uppercase tracking-widest whitespace-nowrap border-b-2 border-[#B04025]">
-                            <th class="py-5 px-8 sticky left-0 bg-white z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">Tanggal</th>
-                            <th class="py-5 px-8">Tipe</th>
-                            <th class="py-5 px-8">Produk</th>
-                            <th class="py-5 px-8 text-right">Nominal</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-50">
+            <div class="p-6">
+                <div class="overflow-x-auto custom-scrollbar relative rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                    <table class="w-full text-left border-separate border-spacing-0">
+                        <thead>
+                            <tr class="bg-[#B04025] text-white text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap">
+                                <th class="py-6 px-8 sticky left-0 bg-[#B04025] z-20 shadow-[4px_0_10px_-3px_rgba(0,0,0,0.2)] first:rounded-tl-2xl">Tanggal</th>
+                                <th class="py-6 px-8">Tipe</th>
+                                <th class="py-6 px-8">Produk</th>
+                                <th class="py-6 px-8 text-right last:rounded-tr-2xl">Nominal</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
                         @forelse($activities as $act)
                         <tr class="bg-white hover:bg-[#A98D66]/10 transition-all group">
                             <td class="py-5 px-8 text-xs text-slate-500 font-medium whitespace-nowrap sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-[#F6F4F0] transition-colors">{{ $act['date'] }}</td>
@@ -88,8 +89,9 @@
                 </table>
             </div>
         </div>
+    </div>
 
-        <!-- Critical Stocks -->
+    <!-- Critical Stocks -->
         <div class="bg-white rounded-3xl shadow-[0_8px_30px_rgba(169,141,102,0.08)] border border-slate-100 overflow-hidden flex flex-col self-start">
             <div class="p-6 border-b border-slate-50 bg-slate-50/30">
                 <h2 class="text-[#A98D66] font-black tracking-tightest uppercase text-[11px] flex items-center">

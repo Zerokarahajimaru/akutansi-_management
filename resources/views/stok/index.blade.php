@@ -3,7 +3,7 @@
 @section('title', 'Master Stok Barang')
 
 @section('content')
-<div class="bg-white rounded-3xl border border-slate-100 shadow-[0_8px_30px_rgba(169,141,102,0.08)]">
+<div class="bg-white rounded-3xl border border-slate-100 shadow-[0_8px_30px_rgba(169,141,102,0.08)] overflow-hidden">
     <!-- Action Bar -->
     <div class="p-6 border-b border-slate-50">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
@@ -123,21 +123,22 @@
             </div>
         </div>
     </div>
+    </div>
 
-    <!-- Table -->
-    <div class="overflow-x-auto custom-scrollbar relative rounded-3xl border border-slate-100">
-        <table class="w-full text-left">
-            <thead>
-                <tr class="bg-white text-[#A98D66] text-[10px] font-black uppercase tracking-tightest whitespace-nowrap border-b-2 border-[#B04025]">
-                    <th class="py-5 px-8 sticky left-0 bg-white z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">ID Stok</th>
-                    <th class="py-5 px-8">Produk</th>
-                    <th class="py-5 px-8">Kategori</th>
-                    <th class="py-5 px-8 text-center">Stok Awal</th>
-                    <th class="py-5 px-8 text-center">Sisa Stok</th>
-                    <th class="py-5 px-8">Status</th>
-                    <th class="py-5 px-8 text-center">Aksi</th>
-                </tr>
-            </thead>
+    <!-- Table Section -->
+    <div class="overflow-x-auto custom-scrollbar relative">
+        <table id="stok-table" class="w-full text-left border-separate border-spacing-0">
+        <thead>
+            <tr class="bg-[#B04025] text-white text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap">
+                <th class="py-6 px-8 sticky left-0 bg-[#B04025] z-20 shadow-[4px_0_10px_-3px_rgba(0,0,0,0.2)]">ID Stok</th>
+                   <th class="py-6 px-8">Produk</th>
+                   <th class="py-6 px-8">Kategori</th>
+                   <th class="py-6 px-8 text-center">Stok Awal</th>
+                   <th class="py-6 px-8 text-center">Sisa Stok</th>
+                   <th class="py-6 px-8">Status</th>
+                   <th class="py-6 px-8 text-center">Aksi</th>
+               </tr>
+           </thead>
             <tbody class="divide-y divide-slate-50">
                 @forelse($stokMaster as $stok)
                 <tr class="group bg-white hover:bg-[#A98D66]/10 transition-all duration-200">
@@ -213,17 +214,9 @@
                 </tr>
                 @endforelse
             </tbody>
-        </table>
-    </div>
-    
-    <div class="px-6 py-4 border-t border-slate-50">
-        {{ $stokMaster->links() }}
-    </div>
-</div>
-@endsection
-
-    
-    <div class="px-6 py-4 border-t border-slate-50">
+            </table>
+            </div>
+            <div class="px-6 py-4 border-t border-slate-50">
         {{ $stokMaster->links() }}
     </div>
 </div>

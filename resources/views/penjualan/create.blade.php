@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="max-w-4xl mx-auto">
-    <div class="bg-white rounded-2xl border border-slate-100 shadow-[0_20px_50px_rgba(13,148,136,0.05)] overflow-hidden">
+    <div class="bg-white rounded-3xl border border-slate-100 shadow-[0_8px_30px_rgba(169,141,102,0.08)] overflow-hidden">
         <div class="p-8 border-b border-slate-50">
             <h2 class="text-xl font-black text-[#ca5b33] tracking-tight">Catat Penjualan Baru</h2>
             <p class="text-slate-500 text-sm mt-1 font-medium">Gunakan formulir ini untuk mencatat transaksi penjualan ke pelanggan.</p>

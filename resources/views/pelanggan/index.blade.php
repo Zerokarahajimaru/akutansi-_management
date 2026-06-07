@@ -3,7 +3,7 @@
 @section('title', 'Daftar Pelanggan')
 
 @section('content')
-<div class="bg-white rounded-3xl border border-slate-100 shadow-[0_8px_30px_rgba(169,141,102,0.08)]">
+<div class="bg-white rounded-3xl border border-slate-100 shadow-[0_8px_30px_rgba(169,141,102,0.08)] overflow-hidden">
  <!-- Action Bar -->
  <div class="p-6 border-b border-slate-50">
  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
@@ -122,29 +122,29 @@
  </div>
  </div>
 
- <!-- Table -->
- <div class="overflow-x-auto custom-scrollbar relative rounded-3xl border border-slate-100">
- <table id="pelanggan-table" class="w-full text-left">
- <thead>
- @php
-    $currentSortBy = request('sort_by', 'Nama_Pelanggan');
-    $currentSortDir = request('sort_dir', 'asc');
- @endphp
- <tr class="bg-white border-b-2 border-[#B04025] text-[#A98D66] text-[10px] font-black uppercase tracking-widest whitespace-nowrap">
- <th class="py-5 px-8 sticky left-0 bg-white z-20 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] whitespace-nowrap">ID Pelanggan</th>
- @php $newDir = ($currentSortBy === 'Nama_Pelanggan' && $currentSortDir === 'asc') ? 'desc' : 'asc'; @endphp
- <th class="py-5 px-8 cursor-pointer group whitespace-nowrap" onclick="window.location.href='{{ request()->fullUrlWithQuery(['sort_by' => 'Nama_Pelanggan', 'sort_dir' => $newDir, 'page' => 1]) }}'">
-    <div class="flex items-center">
-        Nama Lengkap
-        <i class="fas {{ $currentSortBy === 'Nama_Pelanggan' ? ($currentSortDir === 'asc' ? 'fa-sort-up text-[#ca5b33]' : 'fa-sort-down text-[#ca5b33]') : 'fa-sort text-slate-300' }} text-[10px] ml-auto group-hover:text-[#ca5b33] transition-colors"></i>
-    </div>
- </th>
- <th class="py-5 px-8 text-center whitespace-nowrap">Nomor Telepon</th>
- <th class="py-5 px-8 whitespace-nowrap">Alamat Pelanggan</th>
- <th class="py-5 px-8 text-center whitespace-nowrap">Aksi</th>
- </tr>
- </thead>
- <tbody class="divide-y divide-slate-50">
+ <!-- Table Section -->
+ <div class="overflow-x-auto custom-scrollbar relative">
+    <table id="pelanggan-table" class="w-full text-left border-separate border-spacing-0">
+    <thead>
+    @php
+        $currentSortBy = request('sort_by', 'Nama_Pelanggan');
+        $currentSortDir = request('sort_dir', 'asc');
+    @endphp
+    <tr class="bg-[#B04025] text-white text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap">
+    <th class="py-6 px-8 sticky left-0 bg-[#B04025] z-20 shadow-[4px_0_10px_-3px_rgba(0,0,0,0.2)] whitespace-nowrap">ID Pelanggan</th>
+    @php $newDir = ($currentSortBy === 'Nama_Pelanggan' && $currentSortDir === 'asc') ? 'desc' : 'asc'; @endphp
+    <th class="py-6 px-8 cursor-pointer group whitespace-nowrap" onclick="window.location.href='{{ request()->fullUrlWithQuery(['sort_by' => 'Nama_Pelanggan', 'sort_dir' => $newDir, 'page' => 1]) }}'">
+        <div class="flex items-center">
+            Nama Lengkap
+            <i class="fas {{ $currentSortBy === 'Nama_Pelanggan' ? ($currentSortDir === 'asc' ? 'fa-sort-up text-white' : 'fa-sort-down text-white') : 'fa-sort text-white/30' }} text-[10px] ml-auto group-hover:text-white transition-colors"></i>
+        </div>
+    </th>
+    <th class="py-6 px-8 text-center whitespace-nowrap">Nomor Telepon</th>
+    <th class="py-6 px-8 whitespace-nowrap">Alamat Pelanggan</th>
+    <th class="py-6 px-8 text-center whitespace-nowrap">Aksi</th>
+    </tr>
+    </thead>
+    <tbody class="divide-y divide-slate-50">
  @forelse($pelanggans as $p)
  <tr class="group bg-white hover:bg-[#A98D66]/10 transition-all duration-200">
  <td class="py-5 px-8 text-sm text-[#000000] font-black uppercase sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-[#F6F4F0] transition-colors whitespace-nowrap">{{ $p->ID_Pelanggan ?? '-' }}</td>
