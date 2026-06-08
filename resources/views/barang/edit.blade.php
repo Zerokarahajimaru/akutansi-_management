@@ -40,7 +40,7 @@
                 <div class="space-y-2" x-data="{ 
                     open: false, 
                     selected: '{{ old('Jenis_Barang', $barang->Jenis_Barang) }}',
-                    options: ['Baju', 'Celana', 'Gamis', 'Aksesoris']
+                    options: ['Baju', 'Celana', 'Gamis', 'Aksesoris', 'Kerudung', 'Rok', 'Gamis Anak', 'Kemeja Lengan Pendek', 'Kemeja Lengan Panjang']
                 }">
                     <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">Jenis / Kategori <span class="text-[#B04025]">*</span></label>
                     <div class="relative">
