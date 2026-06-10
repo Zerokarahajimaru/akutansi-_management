@@ -9,6 +9,7 @@ use App\Models\Penjualan;
 use App\Models\Pembelian;
 use App\Models\StokBarang;
 use App\Models\User;
+use App\Models\StokAdjustment;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\DataExport;
@@ -53,6 +54,24 @@ class ExportImportController extends Controller
                         ];
                     });
                     $headings = ['ID Stok', 'ID Barang', 'Nama Produk', 'Stok Awal', 'Sisa Stok'];
+                    break;
+                case 'stok_history':
+                    $stokId = request('stok_id');
+                    $stok = StokBarang::with('dataBarang')->findOrFail($stokId);
+                    $data = StokAdjustment::with('user')
+                        ->where('ID_Stok', $stokId)
+                        ->get()
+                        ->map(function($item) {
+                            return [
+                                'Waktu' => $item->created_at->format('d/m/Y H:i'),
+                                'Tipe' => 'Stok ' . $item->Tipe,
+                                'Qty' => ($item->Tipe === 'Masuk' ? '+' : '-') . $item->Kuantitas,
+                                'Keterangan' => $item->Keterangan,
+                                'Petugas' => ($item->user->name ?? 'Sistem') . ' (' . $item->user_id . ')'
+                            ];
+                        });
+                    $headings = ['Waktu', 'Tipe Penyesuaian', 'Perubahan Qty', 'Keterangan/Alasan', 'Admin Pencatat'];
+                    $filename = "History_Stok_" . Str::slug($stok->dataBarang->Nama_Barang) . "_" . date('Ymd_His') . ".xlsx";
                     break;
                 case 'user':
                     $data = User::all()->map(function($user) {

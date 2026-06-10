@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DataBarang;
 use App\Models\StokBarang;
 use App\Models\Pemasok;
+use App\Models\StokAdjustment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
@@ -112,6 +113,11 @@ class StockController extends Controller
 
     public function edit($id)
     {
+        if (str_starts_with($id, 'STK-')) {
+            $stok = StokBarang::with('dataBarang')->findOrFail($id);
+            return view('stok.edit', compact('stok'));
+        }
+
         $barang = DataBarang::findOrFail($id);
         $pemasoks = Pemasok::all();
         return view('barang.edit', compact('barang', 'pemasoks'));
@@ -119,6 +125,40 @@ class StockController extends Controller
 
     public function update(Request $request, $id)
     {
+        if (str_starts_with($id, 'STK-')) {
+            $request->validate([
+                'Tipe' => 'required|in:Masuk,Keluar',
+                'Kuantitas' => 'required|integer|min:1',
+                'Keterangan' => 'required|string|max:255',
+            ]);
+
+            $stok = StokBarang::findOrFail($id);
+
+            DB::beginTransaction();
+            try {
+                $multiplier = ($request->Tipe === 'Masuk') ? 1 : -1;
+                $qty_change = $request->Kuantitas * $multiplier;
+                
+                $stok->increment('Stok_Akhir', $qty_change);
+
+                StokAdjustment::create([
+                    'ID_Adjustment' => StokAdjustment::generateId('ADJ'),
+                    'ID_Stok' => $id,
+                    'user_id' => auth()->id(),
+                    'Tipe' => $request->Tipe,
+                    'Kuantitas' => $request->Kuantitas,
+                    'Keterangan' => $request->Keterangan,
+                ]);
+
+                DB::commit();
+                return redirect()->route('data.stok')->with('success', 'Penyesuaian stok berhasil dicatat.');
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return back()->with('error', 'Gagal mencatat penyesuaian: ' . $e->getMessage())->withInput();
+            }
+        }
+
+        // Standard Catalog Update
         $request->validate([
             'Nama_Barang' => 'required|string|max:255',
             'Jenis_Barang' => 'required|string',
@@ -148,15 +188,37 @@ class StockController extends Controller
         }
     }
 
+    public function history(Request $request, $id)
+    {
+        $stok = StokBarang::with('dataBarang')->findOrFail($id);
+        $search = $request->input('search');
+        
+        $history = StokAdjustment::with('user')
+            ->where('ID_Stok', $id)
+            ->when($search, function($q) use ($search) {
+                $q->where('Keterangan', 'ilike', "%{$search}%")
+                  ->orWhere('ID_Adjustment', 'ilike', "%{$search}%");
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(25)
+            ->withQueryString();
+
+        return view('stok.history', compact('stok', 'history'));
+    }
+
     public function destroy($id)
     {
-        $barang = DataBarang::findOrFail($id);
-
         DB::beginTransaction();
         try {
+            $barang = DataBarang::findOrFail($id);
+            
+            // Delete related stocks first
+            StokBarang::where('ID_Barang', $id)->delete();
+            
             $barang->delete();
+            
             DB::commit();
-            return redirect()->route('data.barang.list')->with('success', 'Produk berhasil dihapus dari katalog.');
+            return redirect()->route('data.barang.list')->with('success', 'Produk dan stok terkait berhasil dihapus.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Gagal menghapus produk: ' . $e->getMessage());

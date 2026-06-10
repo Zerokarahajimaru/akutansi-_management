@@ -7,56 +7,22 @@
     <!-- Action Bar Card -->
     <div class="bg-white rounded-3xl border border-slate-100 shadow-[0_8px_30px_rgba(169,141,102,0.08)] overflow-hidden">
         <div class="p-6">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 class="text-[#A98D66] font-black tracking-tightest uppercase text-lg">Master Stok Barang</h2>
-                    <p class="text-slate-500 text-xs font-medium">Kelola kuantitas dan ketersediaan inventaris produk</p>
+                    <h2 class="text-[#A98D66] font-black tracking-tightest uppercase text-lg">Manajemen Stok Gudang</h2>
+                    <p class="text-slate-500 text-xs font-medium">Lakukan penyesuaian stok masuk/keluar secara manual dengan audit trail</p>
                 </div>
-            </div>
 
-            <div class="flex flex-col xl:flex-row justify-between items-center gap-4 mb-6 w-full">
-                <!-- Search -->
-                <form method="GET" action="{{ route('data.stok') }}" class="w-full sm:w-[320px] lg:w-[400px] flex-shrink-0 relative">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fas fa-magnifying-glass text-slate-400"></i>
-                    </div>
-                    <input type="text" name="search" value="{{ request('search') }}" 
-                        class="w-full bg-white border border-slate-200 text-slate-800 text-sm rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:ring-4 focus:ring-[#ca5b33]/15 focus:border-[#ca5b33] transition-all shadow-sm placeholder:text-slate-400" 
-                        placeholder="Cari ID Stok, Nama Produk, atau Kategori...">
-                    @if(request('search'))
-                        <a href="{{ route('data.stok') }}" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-[#B04025] transition-colors">
-                            <i class="fas fa-circle-xmark"></i>
-                        </a>
-                    @endif
-                </form>
-
-                <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
-                    <!-- Per Page Selector -->
-                    <div x-data="{ open: false }" class="relative inline-block text-left z-[30] w-full sm:w-auto" x-cloak>
-                        <button @click="open = !open" @click.outside="open = false" type="button" class="inline-flex items-center justify-between w-full sm:min-w-[140px] px-4 py-2.5 text-sm font-semibold text-slate-800 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:text-slate-800 focus:outline-none focus:ring-4 focus:ring-[#ca5b33]/15 transition-all shadow-sm group">
-                            <span class="truncate">Tampilkan: <span class="text-slate-800">{{ request('per_page', 50) === 'all' ? 'Semua' : request('per_page', 50) }}</span></span>
-                            <i class="fas fa-chevron-down ml-2 text-xs transition-transform duration-300" :class="open ? 'rotate-180 text-slate-800' : 'text-slate-400 group-hover:text-slate-800'"></i>
-                        </button>
-                        <div x-show="open" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 scale-95 translate-y-1" x-transition:enter-end="opacity-100 scale-100 translate-y-0" class="absolute left-0 mt-2 w-full min-w-[140px] bg-white border border-slate-100 rounded-xl shadow-xl z-[100] py-1 overflow-hidden" style="display: none; top: 100%;">
-                            @foreach([10, 25, 50, 100, 'all'] as $size)
-                                <a href="{{ request()->fullUrlWithQuery(['per_page' => $size, 'page' => 1]) }}" wire:navigate class="block px-4 py-2 text-sm transition-all duration-200 {{ request('per_page', 50) == $size ? 'bg-slate-50 text-slate-800 font-bold border-l-2 border-[#3B8A7F]' : 'text-slate-800 hover:bg-slate-50 hover:text-slate-800 border-l-2 border-transparent' }}">
-                                    {{ $size === 'all' ? 'Semua Data' : $size . ' Baris' }}
-                                </a>
-                            @endforeach
+                <div class="flex items-center gap-3">
+                    <!-- Search -->
+                    <form method="GET" action="{{ route('data.stok') }}" class="relative group">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#ca5b33]">
+                            <i class="fas fa-magnifying-glass text-xs"></i>
                         </div>
-                    </div>
-
-                    <!-- Utility Toolbar -->
-                    <div class="flex items-center bg-slate-100 border border-slate-200 rounded-xl shadow-sm w-full sm:w-auto divide-x divide-slate-200 overflow-hidden">
-                        <!-- Ekspor Excel -->
-                        <a href="{{ route('util.export', 'stok') }}" class="flex-1 lg:flex-none flex items-center justify-center px-3 py-2 text-[9px] font-black uppercase tracking-widest text-slate-500 hover:bg-white hover:text-emerald-600 transition-all" title="Ekspor Data Excel">
-                            <i class="fas fa-file-export mr-2 text-emerald-500"></i> <span>Ekspor</span>
-                        </a>
-                    </div>
-
-                    <a href="{{ route('input.barang') }}" wire:navigate.hover class="w-full sm:w-auto bg-[#ca5b33] text-white font-black rounded-2xl shadow-xl shadow-[#ca5b33]/25 hover:bg-[#B04025] hover:-translate-y-1 active:scale-95 transition-all duration-300 px-6 py-3 text-[10px] uppercase tracking-widest flex items-center justify-center">
-                        <i class="fas fa-plus-circle mr-2"></i> Tambah Stok
-                    </a>
+                        <input type="text" name="search" value="{{ request('search') }}" 
+                            class="bg-slate-50 border border-slate-200 text-slate-800 text-xs rounded-xl pl-9 pr-4 py-2.5 focus:outline-none focus:ring-4 focus:ring-[#ca5b33]/10 focus:border-[#ca5b33] transition-all w-full sm:w-[260px]" 
+                            placeholder="Cari ID atau nama produk...">
+                    </form>
                 </div>
             </div>
         </div>
@@ -70,35 +36,31 @@
                     <tr class="bg-[#B04025] text-white text-[10px] font-black uppercase tracking-[0.2em] whitespace-nowrap">
                         <th class="py-6 px-8 sticky left-0 bg-[#B04025] z-20 shadow-[4px_0_10px_-3px_rgba(0,0,0,0.2)]">ID Stok</th>
                         <th class="py-6 px-8">Produk</th>
-                        <th class="py-6 px-8">Kategori</th>
-                        <th class="py-6 px-8 text-center">Stok Awal</th>
-                        <th class="py-6 px-8 text-center">Sisa Stok</th>
+                        <th class="py-6 px-8 text-center">Saldo Stok</th>
                         <th class="py-6 px-8">Status</th>
+                        <th class="py-6 px-8 text-center">Riwayat</th>
                         <th class="py-6 px-8 text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-50">
                     @forelse($stokMaster as $stok)
                         <tr class="group bg-white hover:bg-[#A98D66]/10 transition-all duration-200">
-                            <td class="py-5 px-8 text-xs font-black text-slate-400 uppercase tracking-widest sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-[#F6F4F0] transition-colors">
+                            <td class="py-5 px-8 text-xs font-black text-slate-400 uppercase tracking-widest sticky left-0 bg-white z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-[#F6F4F0] transition-colors whitespace-nowrap">
                                 {{ $stok->ID_Stok }}
                             </td>
                             <td class="py-5 px-8">
-                                <div class="flex flex-col">
+                                <div class="flex flex-col min-w-[200px]">
                                     <span class="text-sm font-bold text-slate-800 leading-tight">{{ $stok->dataBarang->Nama_Barang ?? '-' }}</span>
-                                    <span class="text-[10px] font-medium text-slate-400 mt-0.5 tracking-tight uppercase">{{ $stok->ID_Barang }}</span>
+                                    <div class="flex items-center gap-2 mt-1">
+                                        <span class="px-1.5 py-0.5 bg-slate-100 rounded text-[9px] font-bold text-slate-500 uppercase tracking-tighter">{{ $stok->dataBarang->Jenis_Barang ?? '-' }}</span>
+                                        <span class="text-[9px] font-medium text-slate-400 uppercase tracking-tighter">{{ $stok->dataBarang->Warna_Barang }} / {{ $stok->dataBarang->Ukuran_Barang }}</span>
+                                    </div>
                                 </div>
-                            </td>
-                            <td class="py-5 px-8">
-                                <span class="px-2.5 py-1 bg-slate-100 rounded-lg text-[10px] font-black uppercase tracking-wider text-slate-500">{{ $stok->dataBarang->Jenis_Barang ?? '-' }}</span>
-                            </td>
-                            <td class="py-5 px-8 text-center text-sm font-bold text-slate-400">
-                                {{ number_format($stok->Stok_Awal, 0, ',', '.') }}
                             </td>
                             <td class="py-5 px-8 text-center whitespace-nowrap">
                                 @php $qty_akhir = $stok->Stok_Akhir ?? 0; @endphp
-                                <span class="px-2.5 py-1 rounded-xl text-xs font-bold {{ $qty_akhir < 10 ? 'bg-[#3B8A7F]/10 text-[#CA5B33] border border-[#CA5B33]/20' : 'bg-[#3B8A7F]/10 text-slate-800 border border-[#3B8A7F]/20' }}">
-                                {{ $qty_akhir }}
+                                <span class="text-base font-black {{ $qty_akhir < 10 ? 'text-[#ca5b33]' : 'text-slate-800' }}">
+                                    {{ number_format($qty_akhir, 0, ',', '.') }}
                                 </span>
                             </td>
                             <td class="py-5 px-8">
@@ -109,32 +71,30 @@
                                         $statusLabel = 'Tersedia';
                                         $dotClass = 'bg-emerald-500';
                                     } elseif ($qty > 0) {
-                                        $badgeClass = 'bg-[#3B8A7F]/10 text-[#CA5B33] border-[#CA5B33]/20';
+                                        $badgeClass = 'bg-[#ca5b33]/5 text-[#ca5b33] border-[#ca5b33]/10';
                                         $statusLabel = 'Menipis';
-                                        $dotClass = 'bg-[#3B8A7F]';
+                                        $dotClass = 'bg-[#ca5b33]';
                                     } else {
-                                        $badgeClass = 'bg-white/10 text-[#B04025] border-[#B04025]/20';
+                                        $badgeClass = 'bg-rose-50 text-rose-600 border-rose-100';
                                         $statusLabel = 'Habis';
-                                        $dotClass = 'bg-white';
+                                        $dotClass = 'bg-rose-500';
                                     }
                                 @endphp
-                                <div class="inline-flex items-center px-3 py-1.5 {{ $badgeClass }} border rounded-xl gap-2">
+                                <div class="inline-flex items-center px-2.5 py-1 {{ $badgeClass }} border rounded-lg gap-2">
                                     <span class="w-1.5 h-1.5 rounded-full {{ $dotClass }} animate-pulse"></span>
-                                    <span class="text-[10px] font-black uppercase tracking-widest">{{ $statusLabel }}</span>
+                                    <span class="text-[9px] font-black uppercase tracking-widest">{{ $statusLabel }}</span>
                                 </div>
+                            </td>
+                            <td class="py-5 px-8 text-center">
+                                <a href="{{ route('data.stok.history', $stok->ID_Stok) }}" class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-slate-50 text-slate-400 hover:bg-[#A98D66] hover:text-white transition-all shadow-sm" title="Lihat History Stok">
+                                    <i class="fas fa-clock-rotate-left text-xs"></i>
+                                </a>
                             </td>
                             <td class="py-5 px-8">
                                 <div class="flex justify-center items-center gap-2">
-                                    <a href="{{ route('data.barang.edit', $stok->ID_Barang) }}" wire:navigate.hover class="flex items-center justify-center w-8 h-8 rounded-xl bg-slate-50 text-slate-800 hover:bg-[#3B8A7F] hover:text-white shadow-sm transition-all" title="Edit Stok">
-                                        <i class="fas fa-edit text-xs"></i>
+                                    <a href="{{ route('data.barang.edit', $stok->ID_Stok) }}" wire:navigate.hover class="flex items-center justify-center w-8 h-8 rounded-xl bg-slate-50 text-slate-800 hover:bg-[#3B8A7F] hover:text-white shadow-sm transition-all" title="Penyesuaian Stok (Update)">
+                                        <i class="fas fa-sliders text-xs"></i>
                                     </a>
-                                    <form action="{{ route('data.barang.destroy', $stok->ID_Barang) }}" method="POST" class="inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="w-8 h-8 rounded-xl bg-white text-[#B04025] border border-slate-100 hover:bg-[#B04025] hover:text-white shadow-sm transition-all" title="Hapus Stok">
-                                            <i class="fas fa-trash-can text-xs"></i>
-                                        </button>
-                                    </form>
                                 </div>
                             </td>
                         </tr>

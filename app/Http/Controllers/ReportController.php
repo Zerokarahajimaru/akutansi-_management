@@ -333,6 +333,35 @@ class ReportController extends Controller
                         $item->Stok_Akhir < 10 ? 'Kritis' : 'Aman'
                     ];
                 }
+            } elseif ($type === 'stok_history') {
+                $stokId = $request->input('stok_id');
+                $stok = StokBarang::with('dataBarang')->findOrFail($stokId);
+                $title = "Kartu Riwayat Stok";
+                $period = "Produk: " . $stok->dataBarang->Nama_Barang . " (" . $stok->ID_Stok . ")";
+                
+                $query = StokAdjustment::with('user')->where('ID_Stok', $stokId);
+                if ($search) {
+                    $query->where('Keterangan', 'ilike', "%{$search}%");
+                }
+                
+                $results = $query->orderBy('created_at', 'desc')->get();
+                $summary = [
+                    'Total_Penyesuaian' => $results->count(),
+                    'Stok_Masuk' => $results->where('Tipe', 'Masuk')->sum('Kuantitas'),
+                    'Stok_Keluar' => $results->where('Tipe', 'Keluar')->sum('Kuantitas'),
+                    'Saldo_Saat_Ini' => $stok->Stok_Akhir
+                ];
+                
+                $headers = ['Waktu', 'Tipe', 'Qty', 'Keterangan', 'Petugas'];
+                foreach ($results as $item) {
+                    $data[] = [
+                        $item->created_at->format('d/m/Y H:i'),
+                        $item->Tipe,
+                        ($item->Tipe === 'Masuk' ? '+' : '-') . $item->Kuantitas,
+                        $item->Keterangan,
+                        ($item->user->name ?? 'Sistem') . ' (' . $item->user_id . ')'
+                    ];
+                }
             } else {
                 return back()->with('error', 'Tipe laporan tidak didukung.');
             }

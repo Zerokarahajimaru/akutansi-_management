@@ -43,6 +43,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/barang/{id}/edit', [StockController::class, 'edit'])->name('data.barang.edit');
         Route::put('/barang/{id}', [StockController::class, 'update'])->name('data.barang.update');
         Route::delete('/barang/{id}', [StockController::class, 'destroy'])->name('data.barang.destroy');
+        Route::get('/stok/{id}/history', [StockController::class, 'history'])->name('data.stok.history');
 
         Route::get('/pembelian/{id}/edit', [PembelianController::class, 'edit'])->name('data.pembelian.edit');
         Route::put('/pembelian/{id}', [PembelianController::class, 'update'])->name('data.pembelian.update');
