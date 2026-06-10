@@ -21,7 +21,7 @@ class ReportController extends Controller
         $end_date = $request->input('end_date', Carbon::now()->toDateString());
         $search = $request->input('search');
 
-        $query = Pembelian::with(['dataBarang', 'pemasok'])
+        $query = Pembelian::with(['dataBarang', 'pemasok', 'user'])
             ->whereBetween('Tgl_Pembelian', [$start_date, $end_date]);
 
         if ($search) {
@@ -58,7 +58,7 @@ class ReportController extends Controller
         $end_date = $request->input('end_date', Carbon::now()->toDateString());
         $search = $request->input('search');
 
-        $query = Penjualan::with(['dataBarang', 'pelanggan'])
+        $query = Penjualan::with(['dataBarang', 'pelanggan', 'user'])
             ->whereBetween('Tanggal_Penjualan', [$start_date, $end_date]);
 
         if ($search) {
@@ -131,7 +131,7 @@ class ReportController extends Controller
 
         try {
             if ($type === 'pembelian') {
-                $query = Pembelian::with(['dataBarang', 'pemasok'])
+                $query = Pembelian::with(['dataBarang', 'pemasok', 'user'])
                     ->whereBetween('Tgl_Pembelian', [$start_date, $end_date]);
                 if ($search) {
                     $query->where(function($q) use ($search) {
@@ -154,12 +154,13 @@ class ReportController extends Controller
                         'Pemasok' => $item->pemasok->Nama_Pemasok ?? '-',
                         'Kuantitas' => $item->Kuantitas,
                         'Pembayaran' => $item->jenis_pembayaran,
-                        'Total Biaya' => $item->Total_Harga
+                        'Total Biaya' => $item->Total_Harga,
+                        'Pencatat' => ($item->user->name ?? 'Sistem') . ' (' . ($item->user_id ?? '-') . ')'
                     ];
                 });
-                $headings = ['ID Transaksi', 'Tanggal', 'Produk', 'Pemasok', 'Kuantitas', 'Pembayaran', 'Total Biaya'];
+                $headings = ['ID Transaksi', 'Tanggal', 'Produk', 'Pemasok', 'Kuantitas', 'Pembayaran', 'Total Biaya', 'Pencatat'];
             } elseif ($type === 'penjualan') {
-                $query = Penjualan::with(['dataBarang', 'pelanggan'])
+                $query = Penjualan::with(['dataBarang', 'pelanggan', 'user'])
                     ->whereBetween('Tanggal_Penjualan', [$start_date, $end_date]);
                 if ($search) {
                     $query->where(function($q) use ($search) {
@@ -182,10 +183,11 @@ class ReportController extends Controller
                         'Pelanggan' => $item->pelanggan->Nama_Pelanggan ?? 'Umum',
                         'Kuantitas' => $item->Kuantitas,
                         'Pembayaran' => $item->jenis_pembayaran,
-                        'Total Harga' => $item->Total_Harga
+                        'Total Harga' => $item->Total_Harga,
+                        'Pencatat' => ($item->user->name ?? 'Sistem') . ' (' . ($item->user_id ?? '-') . ')'
                     ];
                 });
-                $headings = ['ID Transaksi', 'Tanggal', 'Produk', 'Nama Pelanggan', 'Kuantitas', 'Pembayaran', 'Total Harga'];
+                $headings = ['ID Transaksi', 'Tanggal', 'Produk', 'Nama Pelanggan', 'Kuantitas', 'Pembayaran', 'Total Harga', 'Pencatat'];
             } elseif ($type === 'stok') {
                 $query = StokBarang::with('dataBarang');
                 if ($search) {
@@ -233,7 +235,7 @@ class ReportController extends Controller
 
         try {
             if ($type === 'pembelian') {
-                $query = Pembelian::with(['dataBarang', 'pemasok'])
+                $query = Pembelian::with(['dataBarang', 'pemasok', 'user'])
                     ->whereBetween('Tgl_Pembelian', [$start_date, $end_date]);
                 if ($search) {
                     $query->where(function($q) use ($search) {
@@ -256,18 +258,19 @@ class ReportController extends Controller
                         ? (\App\Models\Pemasok::find($results->groupBy('ID_Pemasok')->map->count()->sortDesc()->keys()->first())->Nama_Pemasok ?? '-') 
                         : '-'
                 ];
-                $headers = ['Tanggal', 'Produk', 'Pemasok', 'Qty', 'Total Biaya'];
+                $headers = ['Tanggal', 'Produk', 'Pemasok', 'Qty', 'Total Biaya', 'Pencatat'];
                 foreach ($results as $item) {
                     $data[] = [
                         $item->Tgl_Pembelian ? date('d/m/Y', strtotime($item->Tgl_Pembelian)) : '-',
                         $item->dataBarang->Nama_Barang ?? '-',
                         $item->pemasok->Nama_Pemasok ?? '-',
                         $item->Kuantitas,
-                        'Rp ' . number_format($item->Total_Harga, 0, ',', '.')
+                        'Rp ' . number_format($item->Total_Harga, 0, ',', '.'),
+                        ($item->user->name ?? 'Sistem') . ' (' . ($item->user_id ?? '-') . ')'
                     ];
                 }
             } elseif ($type === 'penjualan') {
-                $query = Penjualan::with(['dataBarang', 'pelanggan'])
+                $query = Penjualan::with(['dataBarang', 'pelanggan', 'user'])
                     ->whereBetween('Tanggal_Penjualan', [$start_date, $end_date]);
                 if ($search) {
                     $query->where(function($q) use ($search) {
@@ -290,14 +293,15 @@ class ReportController extends Controller
                         ? (\App\Models\DataBarang::find($results->groupBy('ID_Barang')->map->sum('Kuantitas')->sortDesc()->keys()->first())->Nama_Barang ?? '-')
                         : '-'
                 ];
-                $headers = ['Tanggal', 'Produk', 'Pelanggan', 'Qty', 'Total Harga'];
+                $headers = ['Tanggal', 'Produk', 'Pelanggan', 'Qty', 'Total Harga', 'Pencatat'];
                 foreach ($results as $item) {
                     $data[] = [
                         $item->Tanggal_Penjualan ? date('d/m/Y', strtotime($item->Tanggal_Penjualan)) : '-',
                         $item->dataBarang->Nama_Barang ?? '-',
                         $item->pelanggan->Nama_Pelanggan ?? 'Umum',
                         $item->Kuantitas,
-                        'Rp ' . number_format($item->Total_Harga, 0, ',', '.')
+                        'Rp ' . number_format($item->Total_Harga, 0, ',', '.'),
+                        ($item->user->name ?? 'Sistem') . ' (' . ($item->user_id ?? '-') . ')'
                     ];
                 }
             } elseif ($type === 'stok') {

@@ -94,6 +94,7 @@
                             <th class="py-6 px-8 whitespace-nowrap text-center">Qty</th>
                             <th class="py-6 px-8 whitespace-nowrap">Pemasok</th>
                             <th class="py-6 px-8 whitespace-nowrap">Pembayaran</th>
+                            <th class="py-6 px-8 whitespace-nowrap">Pencatat</th>
                             <th class="py-6 px-8 whitespace-nowrap text-right">Total Biaya</th>
                         </tr>
                     </thead>
@@ -118,6 +119,12 @@
                         </td>
                         <td class="py-5 px-8 whitespace-nowrap">
                             <span class="text-[10px] font-black uppercase tracking-widest text-slate-400 border border-slate-200 px-2 py-0.5 rounded-xl">{{ $p->jenis_pembayaran ?? '-' }}</span>
+                        </td>
+                        <td class="py-5 px-8 whitespace-nowrap">
+                            <div class="flex flex-col">
+                                <span class="text-xs font-bold text-slate-800">{{ $p->user->name ?? 'Sistem' }}</span>
+                                <span class="text-[10px] text-slate-400 font-mono italic">{{ $p->user_id ?? '-' }}</span>
+                            </div>
                         </td>
                         <td class="py-5 px-8 text-right whitespace-nowrap">
                             <span class="text-sm font-black text-slate-800">Rp {{ number_format($p->Total_Harga ?? 0, 0, ',', '.') }}</span>
