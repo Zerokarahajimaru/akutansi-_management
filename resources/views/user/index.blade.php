@@ -100,11 +100,18 @@
                             <td class="py-5 px-8 text-sm text-slate-800 text-center italic whitespace-nowrap">{{ $user->NoTelp_User ?? '-' }}</td>
                             <td class="py-5 px-8 text-sm text-slate-500 leading-relaxed max-w-sm truncate" title="{{ $user->Alamat_User ?? '' }}">{{ $user->Alamat_User ?? '-' }}</td>
                             <td class="py-5 px-8 text-center whitespace-nowrap">
-                                <div class="flex justify-center items-center whitespace-nowrap">
+                                <div class="flex justify-center items-center gap-2 whitespace-nowrap">
                                     @if(auth()->id() === $user->id)
                                         <a href="{{ route('data.user.edit', $user->id) }}" wire:navigate class="flex items-center justify-center w-8 h-8 rounded-xl bg-slate-50 text-slate-800 hover:bg-[#3B8A7F] hover:text-white shadow-sm transition-all" title="Ubah Data">
                                             <i class="fas fa-edit text-xs"></i>
                                         </a>
+                                        <form action="{{ route('data.user.destroy', $user->id) }}" method="POST" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="flex items-center justify-center w-8 h-8 rounded-xl bg-white text-[#B04025] border border-slate-100 hover:bg-[#B04025] hover:text-white shadow-sm transition-all" title="Hapus Akun Mandiri">
+                                                <i class="fas fa-trash-can text-xs"></i>
+                                            </button>
+                                        </form>
                                     @else
                                         <span class="text-[10px] text-slate-400 font-medium italic">-</span>
                                     @endif

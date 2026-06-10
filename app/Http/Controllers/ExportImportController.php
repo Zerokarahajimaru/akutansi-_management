@@ -68,7 +68,7 @@ class ExportImportController extends Controller
                     $headings = ['ID Pengguna', 'Username', 'Nama Lengkap', 'Hak Akses', 'No. Telepon', 'Alamat'];
                     break;
                 case 'pembelian':
-                    $data = Pembelian::with(['pemasok', 'dataBarang'])->get()->map(function($item) {
+                    $data = Pembelian::with(['pemasok', 'dataBarang', 'user'])->get()->map(function($item) {
                         return [
                             'ID' => $item->ID_Pembelian,
                             'Tgl' => $item->Tgl_Pembelian,
@@ -77,13 +77,14 @@ class ExportImportController extends Controller
                             'ID_PMS' => $item->ID_Pemasok,
                             'Qty' => $item->Kuantitas,
                             'Payment' => $item->jenis_pembayaran,
-                            'Total' => $item->Total_Harga
+                            'Total' => $item->Total_Harga,
+                            'Pencatat' => ($item->user->name ?? 'Sistem') . ' (' . ($item->user_id ?? '-') . ')'
                         ];
                     });
-                    $headings = ['ID Transaksi', 'Tanggal', 'Produk', 'Pemasok', 'ID Pemasok', 'Kuantitas', 'Metode Pembayaran', 'Total Harga'];
+                    $headings = ['ID Transaksi', 'Tanggal', 'Produk', 'Pemasok', 'ID Pemasok', 'Kuantitas', 'Metode Pembayaran', 'Total Harga', 'Pencatat'];
                     break;
                 case 'penjualan':
-                    $data = Penjualan::with(['pelanggan', 'dataBarang'])->get()->map(function($item) {
+                    $data = Penjualan::with(['pelanggan', 'dataBarang', 'user'])->get()->map(function($item) {
                         return [
                             'ID' => $item->ID_Penjualan,
                             'Tgl' => $item->Tanggal_Penjualan,
@@ -92,10 +93,11 @@ class ExportImportController extends Controller
                             'ID_PLG' => $item->ID_Pelanggan,
                             'Qty' => $item->Kuantitas,
                             'Payment' => $item->jenis_pembayaran,
-                            'Total' => $item->Total_Harga
+                            'Total' => $item->Total_Harga,
+                            'Pencatat' => ($item->user->name ?? 'Sistem') . ' (' . ($item->user_id ?? '-') . ')'
                         ];
                     });
-                    $headings = ['ID Transaksi', 'Tanggal', 'Produk', 'Pelanggan', 'ID Pelanggan', 'Kuantitas', 'Metode Pembayaran', 'Total Harga'];
+                    $headings = ['ID Transaksi', 'Tanggal', 'Produk', 'Pelanggan', 'ID Pelanggan', 'Kuantitas', 'Metode Pembayaran', 'Total Harga', 'Pencatat'];
                     break;
                 default:
                     return back()->with('error', 'Format ekspor tidak didukung.');

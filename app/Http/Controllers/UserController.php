@@ -109,6 +109,25 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        return back()->with('error', 'Penghapusan akun tidak diizinkan dalam sistem ini demi keamanan data.');
+        // Safety: Only allow deleting own account
+        if (auth()->id() !== $id) {
+            return back()->with('error', 'Keamanan: Anda hanya diizinkan untuk menghapus akun Anda sendiri.');
+        }
+
+        try {
+            $user = User::findOrFail($id);
+            
+            // Soft delete will happen automatically due to trait
+            $user->delete();
+
+            // Logout user since account is deleted
+            auth()->logout();
+            request()->session()->invalidate();
+            request()->session()->regenerateToken();
+
+            return redirect()->route('login')->with('success', 'Akun Anda telah dinonaktifkan secara permanen dari sistem.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menonaktifkan akun: ' . $e->getMessage());
+        }
     }
 }
