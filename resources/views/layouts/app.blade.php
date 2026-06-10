@@ -101,9 +101,9 @@
             </div>
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
-                <button type="submit" class="flex items-center justify-center w-full py-3 px-4 rounded-xl bg-[#2F5C53] border border-white/10 text-white text-xs font-black uppercase tracking-widest hover:bg-white hover:text-white hover:border-[#B04025] transition-all duration-300 group shadow-sm" title="Keluar Akun">
+                <button type="submit" class="flex items-center justify-center w-full py-3 px-4 rounded-xl bg-[#2F5C53] border border-white/10 text-white text-xs font-black uppercase tracking-widest hover:bg-[#ca5b33] hover:border-[#ca5b33] transition-all duration-300 group shadow-sm" title="Keluar Akun">
                     <i class="fas fa-arrow-right-from-bracket flex-shrink-0 group-hover:translate-x-0.5 transition-transform" :class="sidebarOpen ? 'mr-3' : ''"></i>
-                    <span x-show="sidebarOpen" x-transition.opacity.duration.300>Keluar</span>
+                    <span x-show="sidebarOpen" x-transition:opacity.duration.300>Keluar</span>
                 </button>
             </form>
         </div>
